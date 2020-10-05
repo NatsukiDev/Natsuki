@@ -9,7 +9,7 @@ module.exports = {
         let botData = await require('../models/bot').findOne({finder: 'lel'});
 
         return message.channel.send(new Discord.MessageEmbed()
-            .setAuthor("About Me!", client.users.cache.get(["330547934951112705", "673477059904929802"][Math.floor(Math.random() * 2)]).avatarURL())
+            .setAuthor("About Me!", client.users.cache.get(client.developers[Math.floor(Math.random() * client.developers.length)]).avatarURL())
             .setThumbnail(client.user.avatarURL({size: 1024}))
             .setDescription(`I am created by WubzyGD#8766 and Slushie#1234 - a pair conveniently known as NatsukiDev - in JavaScript/Discord.js!\n\nI'm a powerful all-purpose bot with everything you could want or need, and I have my own set of unique skills that you won't find anywhere else ^^`)
             .addField("Presence", `I'm currently in **${client.guilds.cache.size}** servers, and I'm watching over approximately **${client.users.cache.size}** people!`)
