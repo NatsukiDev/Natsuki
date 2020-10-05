@@ -9,8 +9,8 @@ module.exports = async client => {
 	const config = client.config;
 	try {
 		await mongoose.connect(`mongodb+srv://${config.database.user}:${config.database.password}@${config.database.cluster}.3jpp4.mongodb.net/test`, {
-			useFindAndModify: false, useNewUrlParser: true, dbName: 'Natsuki-Main', useUnifiedTopology: true
-		});
+			useFindAndModify: false, useNewUrlParser: true, dbName: 'Natsuki-Main', useUnifiedTopology: true, useCreateIndex: true
+		}); 
 	} catch (e) {
 		let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
 		console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to connect to Mongo Cluster`)}`, e);

@@ -2,17 +2,18 @@ const mongoose = require('mongoose');
 
 const guildSchema = new mongoose.Schema({
     gid: {type: String, unique: true},
-    staffrole: String,
-    vip: Boolean,
-    wch: String,
-    lch: String,
-    logch: String,
-    chests: String,
-    autoquote: String,
-    welcomeroll: String,
-    joinrole: String,
-    cooldowns: Boolean,
-    levelmessage: String
+    staffrole: {type: String, default: ''},
+    vip: {type: Boolean, default: false},
+    wch: {type: String, default: ''},
+    lch: {type: String, default: ''},
+    logch: {type: String, default: ''},
+    chests: {type: Boolean, default: false},
+    autoquote: {type: Boolean, default: true},
+    welcomerole: {type: String, default: ''},
+    joinrole: {type: String, default: ''},
+    cooldowns: {type: Boolean, default: false},
+    levelmessage: {type: String, default: '**{{u}}** has reached level **{{l}}**! :tada:'},
+    levelmessages: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model("guild", guildSchema);
