@@ -5,7 +5,7 @@ module.exports = {
     aliases: ["premium"],
     help: new Discord.MessageEmbed()
     .setTitle("Help -> VIP")
-    .setDescription("Toggle a server as VIP. This allows ")
+    .setDescription("Toggle a server as VIP. This grants a few small bonuses to your server that you can't get anywhere else!\n\nWant to become a VIP? Support the bot by [joining the support server](), donating to the bot's creators, or promoting/spreading the bot to other servers.")
     .addField("Syntax", "`vip <add|remove|check>`")
     .addField("Notice", "This command is **developer-only**."),
     async execute(message, msg, args, cmd, prefix, mention, client) {

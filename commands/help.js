@@ -6,7 +6,7 @@ module.exports = {
     help: 'you silly! What did you expect me to respond with?',
     execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {
-            // !!! this is where the base help command goes, like n?help without specifying a command.
+            
         } else {
             var command;
             if (client.commands.has(args[0])) {command = client.commands.get(args[0]);}

@@ -1,0 +1,28 @@
+const mongoose = require('mongoose');
+
+const logSchema = new mongoose.Schema({
+    gid: {type: String, unique: true},
+    mdelete: {type: Boolean, default: true},
+    medit: {type: Boolean, default: true},
+    chnew: {type: Boolean, default: true},
+    chedit: {type: Boolean, default: true},
+    chdelete: {type: Boolean, default: true},
+    vcjoin: {type: Boolean, default: false},
+    vcleave: {type: Boolean, default: false},
+    servervcmute: {type: Boolean, default: true},
+    servervcdeafen: {type: Boolean, default: true},
+    kick: {type: Boolean, default: true},
+    ban: {type: Boolean, default: true},
+    mute: {type: Boolean, default: true},
+    warn: {type: Boolean, default: true},
+    giverole: {type: Boolean, default: true},
+    takerole: {type: Boolean, default: true},
+    addrole: {type: Boolean, default: true},
+    editrole: {type: Boolean, default: true},
+    deleterole: {type: Boolean, default: true},
+    serverjoin: {type: Boolean, default: false},
+    serverleave: {type: Boolean, default: false},
+    nickname: {type: Boolean, default: true},
+    username: {type: Boolean, default: false},
+    avatar: {type: Boolean, default: false},
+});
