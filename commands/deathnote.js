@@ -7,6 +7,12 @@ const deaths = [
     "Despacito"
 ]; // a list of preset death methods that can occur
 
+const before = [
+    "A name is being written...", "Someone will perish soon...", "A body is *about* to be discovered...",
+    "{p} is scribbling something in their notebook...", "\*Manical laughter echoes around you*...",
+    "{p} laughs maniacally..."
+]; // things it says before the response is sent
+
 const responses = {
     /*an obj controlling the possible formats for the death note report*/
     news: {
@@ -51,13 +57,27 @@ module.exports = {
         if (args[0] == "kill" || args[0] == "k") {args.shift();} // if someone adds in 'kill' it'll remove it and act like it wasn't there, proceeding as normal.
         if (!mention) {return message.reply("You have to write their name down in order to kill them! (In other words, please mention the user whose name you wish to write.)");}
         if (!args[0].trim().match(/^<@(?:\!?)\d+>$/)) {return message.reply("You have to mention someone!");}
+        if (mention.id == message.author.id) {return message.reply("Hehe I won't let you write your own name in the notebook! Just leave it somewhere for a few days and someone else will take it. Maybe they'll write your name...");} // users can't mention themselves
+        if (mention.id == client.user.id) {return message.reply("You can't kill me! Little did you know, I'm actually a death god!");}
+        //TODO if bot is mentioned maybe
 
         let death = deaths[Math.floor(Math.random() * deaths.length)]; //kill method
         let reptype = responses[Object.keys(responses)[Math.floor(Math.random() * Object.keys(responses).length)]]; // report type
         let title = reptype.titles[Math.floor(Math.random() * reptype.titles.length)];
+        let pretext = before[Math.floor(Math.random() * before.length)];
 
         let victim = message.mentions.members.first();
         let killer = message.member;
+
+        let note = await message.channel.send(new Discord.MessageEmbed()
+            .setDescription(pretext)
+            .setColor('c375f0')
+            .setFooter("Natsuki", client.user.avatarURL())
+            .setTimestamp()
+        );
+
+        await require('../util/wait')(2500);
+
         let text = reptype.texts[Math.floor(Math.random() * reptype.texts.length)]
         .replace(/{p}/g, victim.displayName) //{p} = victim
         .replace(/{pa}/g, victim.displayName.toLowerCase().endsWith('s') ? `${victim.displayName}'` : `${victim.displayName}'s`) //{pa} = victim but with a formatted apostrophe like "WubzyGD's"
@@ -66,7 +86,9 @@ module.exports = {
         .replace(/{ds}/g, moment().format("h:mm a")); // {ds} = date small, basically just the time.
         // Create and format the kill text
 
-        return message.channel.send(new Discord.MessageEmbed()
+        //TODO message before sending then edit that message i.e. "A name is being written..." then wait 5s
+
+        return note.edit(new Discord.MessageEmbed()
             .setAuthor(title, message.author.avatarURL())
             .setThumbnail(mention.avatarURL({size: 1024}))
             .setDescription(text)
