@@ -1,4 +1,4 @@
-title {Rewrite} Valkyrie
+title Natsuki
 node bot.js
-title !!CRASH {Rewrite} Valkyrie
+title !!CRASH Natsuki
 pause
