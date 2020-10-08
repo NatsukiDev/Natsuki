@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const moment = require('moment');
+const {Tag} = require('../util/tag');
+const {TagFilter} = require('../util/tagfilter');
 
 const deaths = [
     "watching too much anime", "an overdose of waifus", "Hypotakunemia", "trying to self-isekai",
@@ -65,6 +67,9 @@ module.exports = {
         let reptype = responses[Object.keys(responses)[Math.floor(Math.random() * Object.keys(responses).length)]]; // report type
         let title = reptype.titles[Math.floor(Math.random() * reptype.titles.length)];
         let pretext = before[Math.floor(Math.random() * before.length)];
+
+        let options = new TagFilter([new Tag(['method', '-m', 'cause', '-c'], 'method', 'append')]).test(args.splice(0, 1).join(" "));
+        if (options.method.length) {death = options.method;}
 
         let victim = message.mentions.members.first();
         let killer = message.member;
