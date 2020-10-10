@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
+const mongoose = require('mongoose');
 const chalk = require('chalk');
 const wait = require('../util/wait');
+const UserData = require('../models/user');
 
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
@@ -23,6 +25,13 @@ module.exports = async (client, message) => {
 	var cmd = args.shift().toLowerCase().trim();
 
 	if (mention && message.guild) {require('../util/mention')(message, msg, args, cmd, prefix, mention, client);}
+    let tu = await UserData.findOne({uid: message.author.id});
+	if (tu && tu.statusmsg.length && tu.statusclearmode === 'auto') {
+        tu.statusmsg = '';
+        tu.statustype = '';
+        tu.save();
+        message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.');
+	}
 
     try {
         if (msg.startsWith(prefix) || msg.startsWith(`<@${client.user.id}>`) || msg.startsWith(`<@!${client.user.id}>`)) {

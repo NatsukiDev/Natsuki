@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const chalk = require('chalk');
+const UserData = require('../models/user');
 
 module.exports = async (message, msg, args, cmd, prefix, mention, client) => {
     /*const config = client.config;
@@ -15,6 +16,10 @@ module.exports = async (message, msg, args, cmd, prefix, mention, client) => {
 
     let botData = await require('../models/bot').findOne({finder: 'lel'});
     botData.commands = botData.commands + 1;
-
     botData.save();
+    let tu = await UserData.findOne({uid: message.author.id})
+        ? await UserData.findOne({uid: message.author.id})
+        : new UserData({uid: message.author.id});
+    tu.commands = tu.commands + 1;
+    tu.save();
 };
