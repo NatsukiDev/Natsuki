@@ -13,7 +13,8 @@ const guildSchema = new mongoose.Schema({
     joinrole: {type: String, default: ''},
     cooldowns: {type: Boolean, default: false},
     levelmessage: {type: String, default: '**{{u}}** has reached level **{{l}}**! :tada:'},
-    levelmessages: {type: Boolean, default: false}
+    levelmessages: {type: Boolean, default: false},
+    prefix: {type: String, default: ''}
 });
 
 module.exports = mongoose.model("guild", guildSchema);

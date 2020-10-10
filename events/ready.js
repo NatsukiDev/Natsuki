@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const chalk = require('chalk');
 const moment = require('moment');
 const mongoose = require('mongoose');
+const GuildSettings = require('../models/guild');
 
 var prefix = 'n?';
 
@@ -16,13 +17,16 @@ module.exports = async client => {
 		console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to connect to Mongo Cluster`)}`, e);
 	}
 
+	/*let db = mongoose.connection;
+	await db.guild.update({}, {"$set": {'prefix': ''}}, false, true);*/
+
     console.log(`\n${chalk.green('[BOOT]')} >> [${moment().format('L LTS')}] -> ${chalk.greenBright("Connected to Discord")}.`);
     let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
     console.log(`\n${chalk.gray('[INFO]')} >> ${chalk.white(`Logged in at ${date}.`)}`);
     console.log(`\n${chalk.gray('[INFO]')} >> ${chalk.white(`Logged in as ${client.user.username}!`)}`);
     console.log(`${chalk.gray('[INFO]')} >> ${chalk.white(`Client ID: ${client.user.id}`)}`);
     console.log(`${chalk.gray('[INFO]')} >> ${chalk.white(`Running on ${client.guilds.cache.size} servers!`)}`);
-    console.log(`${chalk.gray('[INFO]')} >> ${chalk.white(`Serving ${client.users.cache.size} users!`)}`);
+	console.log(`${chalk.gray('[INFO]')} >> ${chalk.white(`Serving ${client.users.cache.size} users!`)}`);
 
 	let responses = {
 		"PLAYING": [
@@ -40,6 +44,13 @@ module.exports = async client => {
 	setInterval(setR, 14400000);
 	
 	const BotDataSchema = require('../models/bot');
+
+	const setP = async () => {let tg; for (tg of Array.from(client.guilds.cache.values)) {
+		let tguild = await GuildSettings.findOne({gid: tg.id});
+		if (tguild && tguild.prefix && tguild.prefix.length) {client.guildconfig.prefixes.set(tg.id, tguild.prefix);}
+	}};
+	setP();
+	setInterval(setP, 120000);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

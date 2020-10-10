@@ -32,7 +32,7 @@ module.exports = {
         } else {
             tguild.staffrole = role.id;
             tguild.save();
-            let upm = message.reply("sure thing!");
+            let upm = await message.reply("sure thing!");
             await require('../util/wait')(1750);
             return upm.edit(new Discord.MessageEmbed()
                 .setAuthor('Staff role updated!', message.author.avatarURL())
