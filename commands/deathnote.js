@@ -4,7 +4,10 @@ const moment = require('moment');
 const deaths = [
     "watching too much anime", "an overdose of waifus", "Hypotakunemia", "trying to self-isekai",
     "Bass:tm:", "cranking the music just a little too loud", "trying to swim in lava", "an unknown cause",
-    "Despacito"
+    "Despacito", "something really cliche and unoriginal", "'shrooms", 
+    "clicking 'I agree' without reading the Terms of Service", "alchemy", "rusty spoons",
+    "picking the wrong waifu", "body pillows", "fur-con", "something to do with lamb sauce",
+    "grandma's cookies"
 ]; // a list of preset death methods that can occur
 
 const before = [
@@ -64,7 +67,7 @@ module.exports = {
         let death = deaths[Math.floor(Math.random() * deaths.length)]; //kill method
         let reptype = responses[Object.keys(responses)[Math.floor(Math.random() * Object.keys(responses).length)]]; // report type
         let title = reptype.titles[Math.floor(Math.random() * reptype.titles.length)];
-        let pretext = before[Math.floor(Math.random() * before.length)];
+        let pretext = before[Math.floor(Math.random() * before.length)].replace(/{p}/g, message.member.displayName);
 
         let victim = message.mentions.members.first();
         let killer = message.member;
