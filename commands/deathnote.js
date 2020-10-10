@@ -6,7 +6,10 @@ const {TagFilter} = require('../util/tagfilter');
 const deaths = [
     "watching too much anime", "an overdose of waifus", "Hypotakunemia", "trying to self-isekai",
     "Bass:tm:", "cranking the music just a little too loud", "trying to swim in lava", "an unknown cause",
-    "Despacito"
+    "Despacito", "something really cliche and unoriginal", "'shrooms", 
+    "clicking 'I agree' without reading the Terms of Service", "alchemy", "rusty spoons",
+    "picking the wrong waifu", "body pillows", "fur-con", "something to do with lamb sauce",
+    "grandma's cookies"
 ]; // a list of preset death methods that can occur
 
 const before = [
