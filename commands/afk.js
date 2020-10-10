@@ -18,7 +18,8 @@ module.exports = {
         if (['m', 'manual', 'a', 'auto'].includes(args[0])) {
             tu.statusclearmode = ['m', 'manual'].includes(args[0]) ? 'manual' : 'auto';
             args.shift();
-        } else {tu.statusclearmode = 'manual';}
+        } else {tu.statusclearmode = 'auto';}
+        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}afk [clearMode] <reason>\``);}
         let reason = args.join(" ");
         if (reason.length > 150) {return message.reply("That status a bit long; keep it under 150 characters.");}
         tu.statustype = 'afk';
