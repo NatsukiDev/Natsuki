@@ -22,6 +22,8 @@ module.exports = async (client, message) => {
             : message.content.slice(3 + client.user.id.length).trim().split(/\s+/g);
 	var cmd = args.shift().toLowerCase().trim();
 
+	if (mention && message.guild) {require('../util/mention')(message, msg, args, cmd, prefix, mention, client);}
+
     try {
         if (msg.startsWith(prefix) || msg.startsWith(`<@${client.user.id}>`) || msg.startsWith(`<@!${client.user.id}>`)) {
             let command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));

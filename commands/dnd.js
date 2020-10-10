@@ -24,6 +24,6 @@ module.exports = {
         tu.statustype = 'dnd';
         tu.statusmsg = reason.trim();
         tu.save();
-        return message.reply(`I set your Do not Disturb message to: ${reason.trim()}`);
+        return message.reply(`I set your ${tu.statusclearmode === 'auto' ? 'automatically' : 'manually'}-clearing Do not Disturb message to: ${reason.trim()}`);
     }
 };
