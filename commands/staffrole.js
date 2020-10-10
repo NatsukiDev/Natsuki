@@ -17,7 +17,7 @@ module.exports = {
         if (['view', 'v'].includes(args[0].trim().toLocaleLowerCase())) {return message.reply(
             tguild.staffrole.length
                 ? message.guild.roles.cache.has(tguild.staffrole)
-                    ? `\`People with the ${message.guild.roles.cache.get(tguild.staffrole).name}\` role can edit my setting here.`
+                    ? `People with the \`${message.guild.roles.cache.get(tguild.staffrole).name}\` role can edit my setting here.`
                     : `I have a role stored for this server, but it doesn't seem to exist anymore, so only admins can edit my settings right now.`
                 : 'Only admins may edit settings in this server.'
         );}
@@ -32,13 +32,13 @@ module.exports = {
         } else {
             tguild.staffrole = role.id;
             tguild.save();
-            let upm = message.reply("Sure thing!");
+            let upm = await message.reply("Sure thing!");
             await require('../util/wait')(1750);
             return upm.edit(new Discord.MessageEmbed()
                 .setAuthor('Staff role updated!', message.author.avatarURL())
-                .setDescription(`<@${tguild.staffrole}> can now edit my settings in this server.`)
+                .setDescription(`<@&${tguild.staffrole}> can now edit my settings in this server.`)
                 .addField('Auditing Admin', message.member.displayName, true)
-                .addField('Role-Holders', `${message.guild.members.cache.filter(m => m.roles.cache.has(tguild.staffrole) && !client.users.cache.get(m.id).bot)}+ members have this role`)
+                .addField('Role-Holders', `${message.guild.members.cache.filter(m => m.roles.cache.has(tguild.staffrole) && !client.users.cache.get(m.id).bot).size}+ members have this role`)
                 .setColor('c375f0')
                 .setFooter('Natsuki', client.user.avatarURL())
                 .setTimestamp()
