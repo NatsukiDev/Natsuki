@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const mongoose = require('mongoose');
 const GuildSettings = require('../models/guild');
 
 module.exports = {
@@ -14,7 +15,6 @@ module.exports = {
         let tguild = await GuildSettings.findOne({gid: message.guild.id})
             ? await GuildSettings.findOne({gid: message.guild.id})
             : new GuildSettings({gid: message.guild.id});
-        if (!tguild.prefix) {tguild.prefix = '';}
         if (!message.member.permissions.has("ADMINISTRATOR") && (!tguild.staffrole.length || !message.guild.roles.cache.has(tguild.staffrole) || !message.member.roles.cache.has(tguild.staffrole))) {return message.reply("You don't have the permissions to use this command here.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix} <newPrefix|clear>\`. My current prefix in this server is \`${tguild.prefix.length ? tguild.prefix : 'n?'}\``);}
         let np = args[0];
