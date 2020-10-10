@@ -16,7 +16,7 @@ module.exports = async (client, message) => {
 	var msg = message.content.toLowerCase();
 	var mention = message.mentions.users.first();
     var args = msg.startsWith(prefix) 
-        ? message.content.slice(prefix.length).trim().split(/\s+/g) 
+        ? message.content.slice(prefix.length).trim().split(/\s+/g)
         : msg.startsWith('<@!') 
             ? message.content.slice(4 + client.user.id.length).trim().split(/\s+/g)
             : message.content.slice(3 + client.user.id.length).trim().split(/\s+/g);
