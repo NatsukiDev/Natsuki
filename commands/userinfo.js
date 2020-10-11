@@ -23,7 +23,7 @@ module.exports = {
 
         if (message.guild) {
             infoembed.addField('In Server Since', moment(person.joinedAt).fromNow(), true)
-                .addField('Highest Role in Server', person.roles.highest.name, true)
+                .addField('Highest Role in Server', `<@&${person.roles.highest.id}>`, true)
         }
 
         if (tu) {
