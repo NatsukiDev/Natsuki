@@ -37,8 +37,8 @@ module.exports = {
             await require('../util/wait')(1750);
             return upm.edit(new Discord.MessageEmbed()
                 .setAuthor('Staff role updated!', message.author.avatarURL())
-                .setDescription(`<@${tguild.staffrole}> can now edit my settings in this server.`)
-                .addField('Auditing Admin', `<@&${message.member.id}>`, true)
+                .setDescription(`<@&${tguild.staffrole}> can now edit my settings in this server.`)
+                .addField('Auditing Admin', `<@${message.member.id}>`, true)
                 .addField('Role-Holders', `${message.guild.members.cache.filter(m => m.roles.cache.has(tguild.staffrole) && !client.users.cache.get(m.id).bot).size}+ members have this role`, true)
                 .setColor('c375f0')
                 .setFooter('Natsuki', client.user.avatarURL())
