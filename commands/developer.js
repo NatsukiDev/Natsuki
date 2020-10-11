@@ -19,5 +19,17 @@ module.exports = {
         let tu = await UserData.findOne({uid: person.id}) ? await UserData.findOne({uid: person.id}) : new UserData({uid: person.id});
         let atu = await UserData.findOne({uid: message.author.id});
         if (!atu && !atu.developer && !client.developers.includes(message.author.id)) {return message.reply('You must be a developer in order to add or remove someone else as a developer.');}
+        tu.developer = ['a', 'add'].includes(args[0]);
+        const logemb = (act) => new Discord.MessageEmbed()
+            .setAuthor(`Developer ${act}`, message.author.avatarURL())
+            .setDescription("A user's Developer status was updated.")
+            .setThumbnail(message.guild.iconURL({size: 1024}))
+            .addField("Name", person.username, true)
+            .addField("Admin", message.author.username, true)
+            .setColor("e8da3a")
+            .setFooter("Natsuki")
+            .setTimestamp();
+        logemb(['a', 'add'].includes(args[0]) ? 'Added' : 'Removed');
+        return message.reply(`<@${person.id}> is now a developer!`);
     }
 };
