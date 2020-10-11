@@ -13,7 +13,7 @@ module.exports = {
         let tu = await UserData.findOne({uid: person.id});
         let infoembed= new Discord.MessageEmbed()
             .setTitle(`User Info for ${name}`)
-            .setDescription(`Requested by ${name}`)
+            .setDescription(`Requested by ${message.guild ? message.member.displayName : message.author.username}`)
             .setThumbnail(client.users.cache.get(person.id).avatarURL({size: 2048}))
             .addField("Account Created", moment(client.users.cache.get(person.id).createdAt).fromNow(), true)
             .addField("Bot User?", client.users.cache.get(person.id).bot ? "Is a bot" : "Is not a bot", true)
