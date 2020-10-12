@@ -29,7 +29,7 @@ module.exports = {
             .setColor("e8da3a")
             .setFooter("Natsuki")
             .setTimestamp();
-        logemb(['a', 'add'].includes(args[0]) ? 'Added' : 'Removed');
+            client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send(logemb(['a', 'add'].includes(args[0]) ? 'Added' : 'Removed'));
         return message.reply(`<@${person.id}> is now a developer!`);
     }
 };
