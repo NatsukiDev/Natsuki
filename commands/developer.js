@@ -14,13 +14,14 @@ module.exports = {
         if (!message.guild) {return message.reply("This is a guild-only command!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}developer <add|remove> <@user|userID>\``);}
         let person = mention ? mention : args[1] ? client.users.cache.has(args[1]) ? client.users.cache.get(args[1]) : null : null;
-        let tu = await UserData.findOne({uid: person.id}) ? await UserData.findOne({uid: person.id}) : new UserData({uid: person.id});
+        let tu = await UserData.findOne({uid: person ? person.id : message.author.id}) ? await UserData.findOne({uid: person ? person.id : message.author.id}) : new UserData({uid: person ? person.id : message.author.id});
         if (['c', 'check'].includes(args[0])) {return message.reply(`${person ? person : message.member.displayName} ${tu.developer ? 'is' : 'is not'} a Natsuki developer.`);}
         if (!['a', 'add', 'r', 'remove'].includes(args[0])) {return message.reply("You must specify whether to `add` or `remove` someone as a developer.");}
         if (!person) {return message.reply("You must mention someone to add as a developer, or use their ID.");}
         let atu = await UserData.findOne({uid: message.author.id});
         if (!atu && !atu.developer && !client.developers.includes(message.author.id)) {return message.reply('You must be a developer in order to add or remove someone else as a developer.');}
         tu.developer = ['a', 'add'].includes(args[0]);
+        tu.save();
         const logemb = (act) => new Discord.MessageEmbed()
             .setAuthor(`Developer ${act}`, message.author.avatarURL())
             .setDescription("A user's Developer status was updated.")
@@ -31,6 +32,6 @@ module.exports = {
             .setFooter("Natsuki")
             .setTimestamp();
         client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send(logemb(['a', 'add'].includes(args[0]) ? 'Added' : 'Removed'));
-        return message.reply(`<@${person.id}> is now a developer!`);
+        return message.reply(`${message.guild.members.cache.get(person.id).displayName} is now a developer!`);
     }
 };
