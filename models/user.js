@@ -6,6 +6,8 @@ const UserSchema = new mongoose.Schema({
     statusmsg: {type: String, default: ''},
     statustype: {type: String, default: ''},
     statusclearmode: {type: String, default: 'auto'},
+    statusclearat: {type: Date, default: null},
+    statussetat: {type: Date, default: null},
     support: {type: Boolean, default: false},
     staff: {type: Boolean, default: false},
     admin: {type: Boolean, default: false},

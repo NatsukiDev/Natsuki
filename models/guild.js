@@ -14,7 +14,8 @@ const guildSchema = new mongoose.Schema({
     cooldowns: {type: Boolean, default: false},
     levelmessage: {type: String, default: '**{{u}}** has reached level **{{l}}**! :tada:'},
     levelmessages: {type: Boolean, default: false},
-    prefix: {type: String, default: ''}
+    prefix: {type: String, default: ''},
+    nostatus: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model("guild", guildSchema);

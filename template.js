@@ -6,7 +6,7 @@ module.exports = {
     help: new Discord.MessageEmbed()
     .setTitle("Help -> ")
     .setDescription("")
-    .addField("Syntax", ""),
+    .addField("Syntax", "``"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}\``);}
     }
