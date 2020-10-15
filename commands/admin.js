@@ -31,6 +31,6 @@ module.exports = {
             .setFooter("Natsuki")
             .setTimestamp();
         client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send(logemb(['a', 'add'].includes(args[0]) ? 'Added' : 'Removed'));
-        return message.reply(`${message.guild.members.cache.get(person.id).displayName} is now an admin!`);
+        return message.reply(`${message.guild.members.cache.get(person.id).displayName} is no${['a', 'add'].includes(args[0]) ? 'w' : ' longer'} an admin!`);
     }
 };
