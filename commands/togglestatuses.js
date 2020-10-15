@@ -12,7 +12,7 @@ module.exports = {
         if (!message.guild) {return message.reply('You must be in a server to use this command.');}
         let tg = await GuildSettings.findOne({gid: message.guild.id});
         if (!message.member.permissions.has('ADMINISTRATOR') && (tg && tg.staffrole.length && !message.member.roles.cache.has(tg.staffrole))) {return message.reply("You don't have permissions to use this command in your server.");}
-        if (['c', 'check', 'v', 'view'].includes(args[0].toLowerCase())) {return message.channel.send(`I ${tg && !tg.nostatus ? 'will' : 'will not'} send a warning when pinging a member with a status.`);}
+        if (args[0] && ['c', 'check', 'v', 'view'].includes(args[0].toLowerCase())) {return message.channel.send(`I ${tg && !tg.nostatus ? 'will' : 'will not'} send a warning when pinging a member with a status.`);}
         if (!tg) {tg = new GuildSettings({gid: message.guild.id});}
         tg.nostatus = !tg.nostatus;
         tg.save();
