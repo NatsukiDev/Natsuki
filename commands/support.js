@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const UserData = require('../models/user');
 
 module.exports = {
-    name: "admin",
+    name: "support",
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Support")
         .setDescription("Make a user a Natsuki Support Team member")
