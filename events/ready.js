@@ -63,8 +63,6 @@ module.exports = async client => {
 			lastRestart: new Date(),
 			errors_all: 0,
 		});
-    botData.servers = client.guilds.cache.size;
-    botData.servers_all = botData.servers_all + 1;
     botData.restarts = botData.restarts + 1;
     botData.lastRestart = new Date();
 

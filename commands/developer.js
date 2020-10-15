@@ -20,14 +20,15 @@ module.exports = {
         if (!person) {return message.reply("You must mention someone to add as a developer, or use their ID.");}
         let atu = await UserData.findOne({uid: message.author.id});
         if (!atu && !atu.developer && !client.developers.includes(message.author.id)) {return message.reply('You must be a developer in order to add or remove someone else as a developer.');}
-        tu.developer = ['a', 'add'].includes(args[0]);
+        if (['a', 'add'].includes(args[0])) {tu.support = true; tu.staff = true; tu.admin = true; tu.developer = true;}
+        else {tu.developer = false;}
         tu.save();
         const logemb = (act) => new Discord.MessageEmbed()
             .setAuthor(`Developer ${act}`, message.author.avatarURL())
             .setDescription("A user's Developer status was updated.")
-            .setThumbnail(message.guild.iconURL({size: 1024}))
+            .setThumbnail(person.avatarURL({size: 1024}))
             .addField("Name", person.username, true)
-            .addField("Admin", message.author.username, true)
+            .addField("Developer", message.author.username, true)
             .setColor("e8da3a")
             .setFooter("Natsuki")
             .setTimestamp();
