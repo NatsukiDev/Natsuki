@@ -6,14 +6,14 @@ module.exports = {
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Staff")
         .setDescription("Make a user a Natsuki staff member")
-        .addField("Syntax", "`admin <add|remove|check> <@user|userID>`")
+        .addField("Syntax", "`staff <add|remove|check> <@user|userID>`")
         .addField("Notice", "This command is only available to Natsuki developers."),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This is a guild-only command.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}\``);}
         let person = mention ? mention : args[1] ? client.users.cache.has(args[1]) ? client.users.cache.get(args[1]) : null : null;
         let tu = await UserData.findOne({uid: person ? person.id : message.author.id}) ? await UserData.findOne({uid: person ? person.id : message.author.id}) : new UserData({uid: person ? person.id : message.author.id});
-        if (['c', 'check'].includes(args[0])) {return message.reply(`${person ? person : message.member.displayName} ${tu.admin ? 'is' : 'is not'} a part of Natsuki Staff.`);}
+        if (['c', 'check'].includes(args[0])) {return message.reply(`${person ? person : message.member.displayName} ${tu.staff ? 'is' : 'is not'} a part of Natsuki Staff.`);}
         if (!['a', 'add', 'r', 'remove'].includes(args[0])) {return message.reply("You must specify whether to `add` or `remove` someone as a Staff Member.");}
         if (!person) {return message.reply("You must mention someone to add as a staff member, or use their ID.");}
         let atu = await UserData.findOne({uid: message.author.id});
