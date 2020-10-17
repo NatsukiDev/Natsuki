@@ -8,6 +8,8 @@ const UserSchema = new mongoose.Schema({
     statusclearmode: {type: String, default: 'auto'},
     statusclearat: {type: Date, default: null},
     statussetat: {type: Date, default: null},
+    statusshowcleartime: {type: Boolean, default: true},
+    statusshowsettime: {type: Boolean, default: true},
     support: {type: Boolean, default: false},
     staff: {type: Boolean, default: false},
     admin: {type: Boolean, default: false},
