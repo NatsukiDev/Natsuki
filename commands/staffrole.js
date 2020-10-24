@@ -18,7 +18,7 @@ module.exports = {
         if (['view', 'v'].includes(args[0].trim().toLocaleLowerCase())) {return message.reply(
             tguild.staffrole.length
                 ? message.guild.roles.cache.has(tguild.staffrole)
-                    ? `\`people with the ${message.guild.roles.cache.get(tguild.staffrole).name}\` role can edit my setting here.`
+                    ? `people with the \`${message.guild.roles.cache.get(tguild.staffrole).name}\` role can edit my setting here.`
                     : `I have a role stored for this server, but it doesn't seem to exist anymore, so only admins can edit my settings right now.`
                 : 'only admins may edit settings in this server.'
         );}
