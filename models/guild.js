@@ -15,7 +15,10 @@ const guildSchema = new mongoose.Schema({
     levelmessage: {type: String, default: '**{{u}}** has reached level **{{l}}**! :tada:'},
     levelmessages: {type: Boolean, default: false},
     prefix: {type: String, default: ''},
-    nostatus: {type: Boolean, default: false}
+    nostatus: {type: Boolean, default: false},
+    starchannel: {type: String, default: ''},
+    starreq: {type: Number, default: 5},
+    starsenabled: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model("guild", guildSchema);
