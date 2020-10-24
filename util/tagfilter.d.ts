@@ -6,5 +6,5 @@ export declare class TagFilter {
     constructor(tags: Tag[]);
     test(text: string): object;
 }
-declare type TagFilterType = "append" | "toggle";
+declare type TagFilterType = "append" | "toggle" | "listAppend";
 export {};

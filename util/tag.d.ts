@@ -5,5 +5,5 @@ export declare class Tag {
     constructor(triggers: string[], tagName: string, filterType: TagFilterType);
     addTrigger(trigger: string): Tag;
 }
-declare type TagFilterType = "append" | "toggle";
+declare type TagFilterType = "append" | "toggle" | "listAppend";
 export {};

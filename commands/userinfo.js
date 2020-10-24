@@ -11,6 +11,7 @@ module.exports = {
         let person = message.guild ? mention ? message.guild.members.cache.get(mention.id) : args[0] ? message.guild.members.cache.has(args[0]) ? message.guild.members.cache.get(args[0]) : message.member : message.member : message.author;
         let name = message.guild ? person.displayName : person.username;
         let tu = await UserData.findOne({uid: person.id});
+        if (!tu) {return message.channel.send("I don't have any data on that user yet.");}
         let infoembed= new Discord.MessageEmbed()
             .setTitle(`User Info for ${name}`)
             .setDescription(`Requested by ${message.guild ? message.member.displayName : message.author.username}`)

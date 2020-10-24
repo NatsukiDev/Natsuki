@@ -22,4 +22,4 @@ export class Tag {
     };
 }
 
-type TagFilterType = "append" | "toggle";
+type TagFilterType = "append" | "toggle" | "listAppend";
