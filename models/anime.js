@@ -6,7 +6,7 @@ const AniSchema = new mongoose.Schema({
     japname: String,
     plot: String,
     publishers: [String],
-    studio: [String],
+    studios: [String],
     airStartDate: Date,
     airEndDate: Date,
     isComplete: Boolean,
@@ -19,7 +19,8 @@ const AniSchema = new mongoose.Schema({
     watchers: Number,
     listed: Number,
     liked: Number,
-    rating: Number
+    rating: Number,
+    lastUpdate: Date
 });
 
 module.exports = mongoose.model('anime', AniSchema);
