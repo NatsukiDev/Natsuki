@@ -18,7 +18,7 @@ module.exports = async (client, guild) => {
         .setAuthor('New Guild Added', guild.owner.avatarURL())
         .setTitle(guild.name)
         .setThumbnail(guild.iconURL({size: 2048}))
-        .addField('Owner', guild.owner.tag, true)
+        .addField('Owner', client.users.cache.get(guild.owner.id).tag, true)
         .addField('Members', guild.members.cache.size)
         .addField('Position', `Server #${client.guilds.cache.size}`)
         .setColor('55ff7f')

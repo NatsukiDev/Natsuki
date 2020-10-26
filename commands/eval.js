@@ -1,17 +1,12 @@
 const Discord = require('discord.js');
-const util = require('util');
-const moment = require('moment');
-const chalk = require('chalk');
 
 module.exports = {
     name: 'eval',
-    aliases: ['ev', ':'],
+    aliases: ['ev', ':', 'e'],
     help: "Evaluates raw JavaScript code. *This is a __developer-only__ command.* Usage: `{{p}}eval <code>`",
     execute(message, msg, args, cmd, prefix, mention, client) {
         try {
             if (!client.developers.includes(message.author.id)) return;
-
-            let kieran = client.users.cache.get('673477059904929802').tag
 
             if (!args.length) return message.channel.send(`Syntax: \`${prefix}eval <code>\``);
             const result = new Promise((resolve) => resolve(eval(args.join(' '))));
