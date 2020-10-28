@@ -1,5 +1,5 @@
-const {Tag} = require('./tag');
-const {TagFilter} = require('./tagfilter');
+const {Tag} = require('../tag');
+const {TagFilter} = require('../tagfilter');
 
 module.exports = async (message, client, args) => {
     let options = new TagFilter([
@@ -50,6 +50,12 @@ module.exports = async (message, client, args) => {
     } else {message.reply("You must specify either '-message' or '-embed' for the format of your response."); return null;}
 
     if (options.channel && options.channel.length) {if (!options.channel.match(/^<#(?:\d+)>$/) && !message.guild.channels.cache.has(options.channel.slice(options.channel.search(/\d/), options.channel.search(">")))) {message.reply("You must use a valid channel in this server."); return null;}}
+
+    if (options.name && options.name.length) {
+        options.name = options.name.toLowerCase();
+        if (options.name.length > 10) {message.reply("The option name must be less than 10 characters."); return null;}
+        if (!options.name.match(/^[a-z0-9-_]+$/)) {message.reply("You can only use a-z, numbers, hyphens, and underscores."); return null;}
+    }
 
     return options;
 };

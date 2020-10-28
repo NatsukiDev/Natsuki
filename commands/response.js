@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
 const GuildData = require('../models/guild');
 
-const sendResponse = require('../util/sendresponse');
-const parseResponse = require('../util/parseresponse');
+const sendResponse = require('../util/response/sendresponse');
+const parseResponse = require('../util/response/parseresponse');
+const saveResponse = require('../util/response/saveresponse');
+const getResponse = require('../util/response/getresponse');
 
 module.exports = {
     name: "response",
@@ -18,6 +20,10 @@ module.exports = {
         if (!tg && !['q', 'quick'].includes(args[0].toLowerCase()) && (tg.staffrole.length && !message.member.roles.cache.has(tg.staffrole)) && message.member.permissions.has("ADMINISTRATOR")) {return message.reply("you need to be staff or admin in this server in order to edit those settings.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}response <new|edit|view|list|delete|test|quick>\``);}
 
-        if (['q', 'quick'].includes(args[0].toLowerCase())) {return sendResponse(message.channel, 'quick', client, await parseResponse(message, client, args));}
+        if (args.length < 1) {return message.reply("You have to tell me what I'm supposed to find or save!");}
+
+        if (['q', 'quick'].includes(args[0].toLowerCase())) {return await sendResponse(message.channel, 'quick', client, await parseResponse(message, client, args));}
+        if (['n', 'new', 's', 'save'].includes(args[0].toLowerCase())) {return await saveResponse(await parseResponse(message, client, args), message);}
+        if (['t', 'test', 'send'].includes(args[0].toLowerCase())) {return await sendResponse(message.channel, 'quick', client, await getResponse(message, args[1]));}
     }
 };
