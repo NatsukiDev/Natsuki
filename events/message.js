@@ -6,7 +6,6 @@ const UserData = require('../models/user');
 
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
-	if (message.channel.type === 'dm') /*{var dmch = true;} else {var dmch = false};*/ {return undefined;}
 	if (message.channel.type !== 'text' && message.channel.type !== 'dm') {return undefined;}
 
 	//if (message.channel.type == "text") {if (settings[message.guild.id]) {prefix = settings[message.guild.id].prefix;};};

@@ -22,8 +22,8 @@ module.exports = {
 
         if (args.length < 1) {return message.reply("You have to tell me what I'm supposed to find or save!");}
 
-        if (['q', 'quick'].includes(args[0].toLowerCase())) {return await sendResponse(message.channel, 'quick', client, await parseResponse(message, client, args));}
+        if (['q', 'quick'].includes(args[0].toLowerCase())) {return await sendResponse(message, message.channel, 'quick', client, await parseResponse(message, client, args));}
         if (['n', 'new', 's', 'save'].includes(args[0].toLowerCase())) {return await saveResponse(await parseResponse(message, client, args), message);}
-        if (['t', 'test', 'send'].includes(args[0].toLowerCase())) {return await sendResponse(message.channel, 'quick', client, await getResponse(message, args[1]));}
+        if (['t', 'test', 'send'].includes(args[0].toLowerCase())) {return await sendResponse(message, message.channel, 'quick', client, await getResponse(message, args[1]));}
     }
 };
