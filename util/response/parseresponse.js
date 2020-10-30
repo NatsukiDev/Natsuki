@@ -47,6 +47,7 @@ module.exports = async (message, client, args) => {
         if (options.guildimage) {options.image = message.guild.iconURL({size: 2048});}
     } else if (options.message) {
         if (options.text && options.text.length > 750) {message.reply("Please keep your message text under 750 characters!"); return null;}
+        if (!options.text || !options.text.length) {return message.reply("You must specify -text for your message.");}
     } else {message.reply("You must specify either '-message' or '-embed' for the format of your response."); return null;}
 
     if (options.channel && options.channel.length) {if (!options.channel.match(/^<#(?:\d+)>$/) && !message.guild.channels.cache.has(options.channel.slice(options.channel.search(/\d/), options.channel.search(">")))) {message.reply("You must use a valid channel in this server."); return null;}}
