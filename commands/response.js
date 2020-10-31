@@ -41,6 +41,32 @@ module.exports = {
             tr.save();
             return message.channel.send(`I removed the response \`${args[1].toLowerCase()}\`.${hadBinding ? `\n\n${bm}` : ''}`);
         }
+        if (['list', 'l'].includes(args[0].toLowerCase())) {
+            let tr = await Responses.findOne({gid: message.guild.id});
+            if (!tr && !tr.responses.size) {return message.reply("This server has no responses for me to show you.");}
+            let s = "This server's response names: "; let resps = Array.from(tr.responses.keys());
+            let resp; for (resp of resps) {s += `\`${resp}\`${resps.indexOf(resp) !== resps.length - 1 ? ', ' : ''}`;}
+            return message.channel.send(s);
+        }
+        if (['view', 'v'].includes(args[0].toLowerCase())) {
+            let tr = await Responses.findOne({gid: message.guild.id});
+            if (!tr) {return message.reply("I'd give you information on a response, but this server doesn't have any.");}
+            if (!tr.responses.has(args[1].toLowerCase())) {return message.reply("I can't find that response.");}
+            let hasBinding = false;
+            let bm = '';
+            tr.bindings.forEach((v, k) => {if (v === args[1].toLowerCase()) {hasBinding = true; bm += !bm.length ? `\`${k}\`` : `, \`${k}\``}});
+            let infoEmbed = new Discord.MessageEmbed()
+                .setTitle("Response Info")
+                .setDescription(`Requested by ${message.member.displayName}`)
+                .addField("Name/ID", args[1].toLowerCase(), true)
+                .addField("Type", tr.responses.get(args[1].toLowerCase()).embed ? "Embed" : "Message", true)
+                .setColor('c375f0')
+                .setFooter("Natsuki", client.user.avatarURL())
+                .setTimestamp();
+            if (hasBinding) {infoEmbed.addField("Server Bindings", bm);}
+            return message.channel.send(infoEmbed);
+        }
+
 
         return message.channel.send(`Syntax: \`${prefix}response <new|edit|view|list|delete|test|quick>\``);
     }

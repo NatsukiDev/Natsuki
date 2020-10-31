@@ -18,7 +18,12 @@ export class Pagination {
 
     constructor (title: string, pages: Page[], zeroPage: Page | MessageEmbed, client: Client, message: Message, activationMessage: Message, timeout: number, description?: string, pageTemplate?: MessageEmbed) {
         this.title = title;
-        this.pages = pages;
+
+        let tpages = [];
+        tpages.push(zeroPage);
+        let tpage: Page; for (tpage of pages) {tpages.push(tpage);}
+        this.pages = tpages;
+
         this.zeroPage = zeroPage;
         this.message = message;
         this.timeout = timeout;
@@ -77,6 +82,8 @@ export class Pagination {
     };
 
     public init(): Pagination {
+
+
         return this;
     };
 
