@@ -27,8 +27,15 @@ module.exports = {
             let end = await ask(mesg, "When will you end the secret santa? (You'll also end it manually.)", 60000); if (!start) {return;}
             if (end.length > 150) {return dmch.send("Heya there, just a few words, please! I don't wanna have to read out an essay about when it's ending to all the people that want to hear about your secret santa!");}
 
-            let spend = await ask(mesg, "What is your maximum and minimum spending? This is useful so that everyone gets an equal gift or gifts. This will be shown to the people that buy their gifts.", 360000); if (!join) {return;}
-            
+            let spend = await ask(mesg, "What is your maximum and minimum spending? This is useful so that everyone gets an equal gift or gifts. This will be shown to the people that buy their gifts.", 360000); if (!spend) {return;}
+            if (spend.length > 500) {return dmch.send("Mate, this is not a dissertation! Let's keep it under 500 characters, please!");}
+
+            let anon = await ask(mesg, "Will you be keeping this secret santa totally anonymous, or will you let the gift recipients know who their gifters are when they are opened?", 360000); if (!anon) {return;}
+            if (['n', 'no'].includes(anon.trim().toLowerCase())) {anon = false;}
+            else if (['yes', 'ye', 'y', 'sure'].includes(anon.trim().toLowerCase())) {anon = true;}
+            else {return dmch.send("Please specify yes or no you weeb!");}
+
+
         }
     }
 };
