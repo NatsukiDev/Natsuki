@@ -45,5 +45,22 @@ module.exports = {
             if (!tr || !tr.bindings.has('welcome') || !tr.responses.has(tr.bindings.get('welcome'))) {return message.reply("I can't test your welcome message because the response doesn't exist, a welcome response isn't set, or you haven't made any responses in this server.");}
             await sendResponse(message.member, message.channel, 'this shit aint matter anymore lol', client, tr.responses.get(tr.bindings.get('welcome')));
         }
+
+        if (['clear'].includes(args[0].toLowerCase())) {
+            tg.wch = '';
+            tg.save();
+            let tr = await Responses.findOne({gid: message.guild.id}) ? await Responses.findOne({gid: message.guild.id}) : new Responses({gid: message.guild.id});
+            if (tr) {
+                tr.bindings.delete('welcome');
+                tr.save();
+            }
+            return message.channel.send(new Discord.MessageEmbed()
+                .setTitle("Welcome Channel/Message Updated")
+                .setDescription(`This server's member-welcoming settings have been altered by ${message.author.tag}.\n\n**Channel**: None`)
+                .setColor('c375f0')
+                .setFooter("Natsuki", client.user.avatarURL())
+                .setTimestamp()
+            );
+        }
     }
 };

@@ -12,7 +12,8 @@ module.exports = async (client, member) => {
         tr && tr.bindings.has('welcome') && tr.responses.has(tr.bindings.get('welcome'))
         && tg.wch.length && member.guild.channels.cache.has(tg.wch)
         && member.guild.channels.cache.get(tg.wch).permissionsFor(client.user.id).has("SEND_MESSAGES")
+        && !client.users.cache.get(member.id).bot
     ) {
-        member.guild.channels.cache.get(tg.wch).send(await sendResponse(member, member.guild.channels.cache.get(tg.wch), 'xdlol', client, tr.responses.get(tr.bindings.get('welcome'))));
+        try {member.guild.channels.cache.get(tg.wch).send(await sendResponse(member, member.guild.channels.cache.get(tg.wch), 'xdlol', client, tr.responses.get(tr.bindings.get('welcome'))));} catch {}
     }
 };

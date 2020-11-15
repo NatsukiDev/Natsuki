@@ -45,5 +45,22 @@ module.exports = {
             if (!tr || !tr.bindings.has('leave') || !tr.responses.has(tr.bindings.get('leave'))) {return message.reply("I can't test your leave message because the response doesn't exist, a leave response isn't set, or you haven't made any responses in this server.");}
             await sendResponse(message.member, message.channel, 'this shit aint matter anymore lol', client, tr.responses.get(tr.bindings.get('leave')));
         }
+
+        if (['clear'].includes(args[0].toLowerCase())) {
+            tg.lch = '';
+            tg.save();
+            let tr = await Responses.findOne({gid: message.guild.id}) ? await Responses.findOne({gid: message.guild.id}) : new Responses({gid: message.guild.id});
+            if (tr) {
+                tr.bindings.delete('leave');
+                tr.save();
+            }
+            return message.channel.send(new Discord.MessageEmbed()
+                .setTitle("Leave Channel/Message Updated")
+                .setDescription(`This server's leave-notifying settings have been altered by ${message.author.tag}.\n\n**Channel**: None`)
+                .setColor('c375f0')
+                .setFooter("Natsuki", client.user.avatarURL())
+                .setTimestamp()
+            );
+        }
     }
 };

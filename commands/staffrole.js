@@ -10,7 +10,7 @@ module.exports = {
         if (!message.guild) {return message.reply("This is a guild-only command!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}staffrole <@role|roleID|clear|view>\``);}
         if (!message.member.permissions.has("ADMINISTRATOR")) {return message.reply("You must be an admin in this server in order to change this setting!");}
-
+        
         let tguild = await GuildSettings.findOne({gid: message.guild.id})
             ? await GuildSettings.findOne({gid: message.guild.id})
             : new GuildSettings({gid: message.guild.id});

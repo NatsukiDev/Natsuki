@@ -66,6 +66,11 @@ module.exports = {
             if (hasBinding) {infoEmbed.addField("Server Bindings", bm);}
             return message.channel.send(infoEmbed);
         }
+        if (['edit', 'e', 'm', 'modify'].includes(args[0].toLowerCase())) {
+            let options = await getResponse(message, args[1]);
+            if (!options) {return;}
+
+        }
 
 
         return message.channel.send(`Syntax: \`${prefix}response <new|edit|view|list|delete|test|quick>\``);
