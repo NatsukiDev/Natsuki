@@ -59,21 +59,24 @@ module.exports = {
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("Unfortunately, this is a **guild-only** command!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}deathnote <@member> [method of death]\``);}
-        if (args[0] == "kill" || args[0] == "k") {args.shift();} // if someone adds in 'kill' it'll remove it and act like it wasn't there, proceeding as normal.
+        if (args[0] === "kill" || args[0] === "k") {args.shift();} // if someone adds in 'kill' it'll remove it and act like it wasn't there, proceeding as normal.
         //if (!args[0].trim().match(/^<@(?:\!?)\d+>$/)) {return message.reply("You have to mention someone!");}
-        if (mention && mention.id == message.author.id) {return message.reply("Hehe I won't let you write your own name in the notebook! Just leave it somewhere for a few days and someone else will take it. Maybe they'll write your name...");} // users can't mention themselves
-        if (mention && mention.id == client.user.id) {return message.reply("You can't kill me! Little did you know, I'm actually a death god!");}
+        if (mention && mention.id === message.author.id) {return message.reply("Hehe I won't let you write your own name in the notebook! Just leave it somewhere for a few days and someone else will take it. Maybe they'll write your name...");} // users can't mention themselves
+        if (mention && mention.id === client.user.id) {return message.reply("You can't kill me! Little did you know, I'm actually a death god!");}
         //TODO if bot is mentioned maybe
 
-        let death = deaths[Math.floor(Math.random() * deaths.length)]; //kill method
         let reptype = responses[Object.keys(responses)[Math.floor(Math.random() * Object.keys(responses).length)]]; // report type
         let title = reptype.titles[Math.floor(Math.random() * reptype.titles.length)];
-
         let options = new TagFilter([
             new Tag(['method', '-m', 'cause', '-c'], 'method', 'append'),
             new Tag(['victim', 'v', 'against', 'a', 'name', 'n'], 'victim', 'append')
         ]).test(args.join(" "));
+
+        let death = (!options.victim || (options.victim && !options.victim.length)) && (!options.method || (options.method && !options.method.length)) && args.length > 1
+            ? args.join(" ").slice(args[0].length + 1)
+            : deaths[Math.floor(Math.random() * deaths.length)]; //kill method
         if (options.method && options.method.length) {death = options.method;}
+        if (death.length > 750) {return message.channel.send("I'd rather you didn't try to fill the death note with a 7-page double-spaced essay in Times New Roman containing an advanced trajectory theorem on the death of your poor target.");}
 
         if (!mention && (!options.victim || !options.victim.length)) {return message.reply("You have to write their name down in order to kill them! (In other words, please mention the user whose name you wish to write.)");}
 
@@ -81,7 +84,7 @@ module.exports = {
             let vargs = options.victim.trim().split(/\s+/g);
             let nvargs = [];
             let varg; for (varg of vargs) {
-                if (varg.match(/^<@(?:\!?)\d+>$/)) {
+                if (varg.match(/^<@(?:!?)\d+>$/)) {
                     nvargs.push(message.guild.members.cache.has(varg.slice(varg.search(/\d/), varg.search('>'))) ? message.guild.members.cache.get(varg.slice(varg.search(/\d/), varg.search('>'))).displayName : varg);
                 } else {nvargs.push(varg);}
             }
