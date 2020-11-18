@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const chalk = require('chalk');
 
 module.exports = {
     name: 'eval',
@@ -24,11 +25,11 @@ module.exports = {
             .setColor('c375f0')
             .setFooter(`Natsuki`, client.user.avatarURL())
             .setTimestamp())
-        });
+        }).catch(error => {return message.channel.send(`Error: \`${error}\`.`);});
         } catch (error) {
-            //let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
-            //console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to run n?eval`)}`, error);
+            let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
+            console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to run n?eval`)}`, error);
             return message.channel.send(`Error: \`${error}\`.`);
-        };
+        }
     },
 };
