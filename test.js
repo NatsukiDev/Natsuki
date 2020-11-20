@@ -34,9 +34,16 @@ let tss = {
     assignments: []
 }
 
-let dm = []; let cm; let rm; let rm2;
-
-let mg; let asg = []; for (mg of dm) {asg.push({name: mg[0].id, assignedTo: mg[1].id});}
-tss.assignments = asg;
+let dm = []; let rm;
+let m; for (m of tss.members) {dm.push({name: m.id, assignedTo: null});}
+for (m of dm) {
+    while (true) {
+        let rm = tss.members[Math.floor(Math.random() * tss.members.length)];
+        let exists = false;
+        let cdm; for (cdm of dm) {if (!exists) {exists = cdm.assignedTo === rm.id;}}
+        if (!exists && rm.id !== m.name) {dm[dm.indexOf(m)] = {name: m.name, assignedTo: rm.id}; break;}
+    }
+}
+tss.assignments = dm;
 
 console.log(tss);

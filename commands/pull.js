@@ -24,6 +24,7 @@ module.exports = {
             } else {
                 console.log(`\n${chalk.gray('[INFO]')} >> ${chalk.hex('ff4fd0')(`VCS Pull successful`)}\n`);
             }
+            return message.channel.send(`Done with ${stderr || error ? 'an error' : 'no errors'}!`);
         });
     }
 };

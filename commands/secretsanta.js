@@ -145,25 +145,32 @@ module.exports = {
             if (tss.started) {return message.channel.send("Your Secret Santa is already started!");}
             if (tss.members.length < 3) {return message.channel.send("You need to have at least 3 members in order to start.");}
 
-            let dm = []; let cm; let rm; let rm2;
-            while (true) {
-                rm = tss.members[Math.floor(Math.random() * tss.members.length)];
-                rm2 = tss.members[Math.floor(Math.random() * tss.members.length)];
-                if (rm.id !== rm2.id) {
-                    dm.push([rm, rm2]);
-                    break;
+            let dm = []; let rm;
+            let m; for (m of tss.members) {dm.push({name: m.id, assignedTo: null});}
+            for (m of dm) {
+                while (true) {
+                    let rm = tss.members[Math.floor(Math.random() * tss.members.length)];
+                    let exists = false;
+                    let cdm; for (cdm of dm) {if (!exists) {exists = cdm.assignedTo === rm.id;}}
+                    if (!exists && rm.id !== m.name) {dm[dm.indexOf(m)] = {name: m.name, assignedTo: rm.id}; break;}
                 }
             }
-            let i; for (i=0;i<tss.members.length;i++) {
-                cm = tss.members[i];
-                let c = false;
-                let t; for (t of dm) {if (t[0].id === cm.id) {c = true;}}
-                if (!c) {
-                    dm.push([dm[dm.length - 1], cm]);
-                }
+            tss.assignments = dm;
+            tss.started = true;
+            tss.save();
+
+            for (m of tss.members) {
+                let mem = await client.users.fetch(m.id);
+                let assignmentt; let a; for (a of tss.assignments) {if (a.name === m.id) {assignmentt = a.assignedTo; break;}}
+                let assignment; let tm; for (tm of tss.members) {if (tm.id === assignmentt) {assignment = tm; break;}}
+
+                await mem.send(`The secret santa has been started!\nYou've been assigned to **${assignment.name}**. They've written the following about what they want:\n\`${assignment.info}\`\n\nThe host has said this about when you should when you should have your gifts purchased and when you'll do gift exchange:\n\`${tss.end}\`\n\nThe following info is written on how much to spend on gifts: \n\`${tss.spend}\``)
+                .catch(async () => {
+                    let host = await client.users.fetch(tss.owner);
+                    await host.send(`There was a problem sending ${mem.name} their info. Please tell that member that they have been assigned to \`${assignment.name}\` and that they want \`${assignment.info}\`.`);
+                });
             }
-            let mg; let asg = []; for (mg of dm) {asg.push({name: mg[0].id, assignedTo: mg[1].id});}
-            tss.assignments = asg;
+            message.channel.send("**The secret santa has been started!** Everyone should have their assignments.");
         }
     }
 };
