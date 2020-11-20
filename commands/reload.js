@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const chalk = require('chalk');
+const UserData = require("../models/user");
 
 module.exports = {
     name: "reload",
@@ -12,6 +13,9 @@ module.exports = {
         .addField("Notice", "This command is only available to Natsuki developers."),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {
+            const tu = await UserData.findOne({uid: message.author.id});
+            if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do this!");}
+
             var commands = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
             console.log(`\n${chalk.yellow('[WARN]')} >> ${chalk.gray('Reload:')} ${chalk.white('All commands and events are being reloaded!')}`);
             console.log(`${chalk.gray('[INFO]')} >> ${chalk.hex('ff4fd0')(`Developer ${message.author.username} initiated the system refresh`)}\n`);
