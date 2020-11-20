@@ -18,7 +18,8 @@ const guildSchema = new mongoose.Schema({
     nostatus: {type: Boolean, default: false},
     starchannel: {type: String, default: ''},
     starreq: {type: Number, default: 5},
-    starsenabled: {type: Boolean, default: false}
+    starsenabled: {type: Boolean, default: false},
+    blacklisted: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model("guild", guildSchema);
