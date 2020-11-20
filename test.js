@@ -1,10 +1,42 @@
-const {TagFilter} = require("./util/tagfilter");
-const {Tag} = require("./util/tag");
+let tss = {
+    members: [
+        {
+            name: "wubzy",
+            id: "4545",
+            info: "stuff"
+        },
+        {
+            name: "slushie",
+            id: "3434",
+            info: "wow"
+        },
+        {
+            name: "kyusa",
+            id: "6767",
+            info: "e"
+        },
+        {
+            name: "swag",
+            id: "8989",
+            info: "xd"
+        },
+        {
+            name: "doge",
+            id: "0101",
+            info: "homks"
+        },
+        {
+            name: "vincent",
+            id: "6666",
+            info: "shrekt"
+        }
+    ],
+    assignments: []
+}
 
-console.log(new TagFilter([
-    new Tag(['n', 'name'], 'name', 'append'),
-    new Tag(['desc', 'd'], 'description', 'append'),
-    new Tag(['f', 'force'], 'force', 'toggle'),
-    new Tag(['option', 'o'], 'options', 'listAppend'),
-    new Tag(['test', 't'], 'test', 'listAppend')
-]).test('blah blah blah -n bonk -d stonks very stonks -f -t some stuff -o an option -test blah blah blah -o another optionl -o hecc -o hecc 2 -test such wow, very flex -t homks.exe has stopped working'));
+let dm = []; let cm; let rm; let rm2;
+
+let mg; let asg = []; for (mg of dm) {asg.push({name: mg[0].id, assignedTo: mg[1].id});}
+tss.assignments = asg;
+
+console.log(tss);

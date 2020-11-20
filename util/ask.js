@@ -1,8 +1,8 @@
-module.exports = async (message, toAsk, time) => {
+module.exports = async (message, toAsk, time, nf) => {
     let msg = await message.channel.send(toAsk);
-    let filter = m => m.author.id === message.author.id;
+    let filter = nf ? () => true : m => m.author.id === message.author.id;
     try {
-        let collected = await message.channel.awaitMessages(filter, {max: 1, errors: ['time'], time: time});
+        let collected = await msg.channel.awaitMessages(filter, {max: 1, errors: ['time'], time: time});
         collected = collected.first().content;
         return collected;
     } catch {
