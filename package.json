@@ -14,7 +14,6 @@
         "ffmpeg-static": "^4.2.7",
         "gblapi.js": "^2.0.5",
         "heroku": "^7.42.1",
-        "lavaclient": "^3.1.2",
         "lavaqueue": "^3.1.6",
         "manyitems": "^1.0.2",
         "moment": "^2.28.0",

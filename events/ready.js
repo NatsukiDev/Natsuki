@@ -2,7 +2,11 @@ const Discord = require('discord.js');
 const chalk = require('chalk');
 const moment = require('moment');
 const mongoose = require('mongoose');
+
 const GuildSettings = require('../models/guild');
+const BotDataSchema = require('../models/bot');
+
+const siftStatuses = require('../util/siftstatuses');
 
 var prefix = 'n?';
 
@@ -11,7 +15,7 @@ module.exports = async client => {
 	try {
 		await mongoose.connect(`mongodb+srv://${config.database.user}:${config.database.password}@${config.database.cluster}.3jpp4.mongodb.net/test`, {
 			useFindAndModify: false, useNewUrlParser: true, dbName: 'Natsuki-Main', useUnifiedTopology: true, useCreateIndex: true
-		}); 
+		});
 	} catch (e) {
 		let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
 		console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to connect to Mongo Cluster`)}`, e);
@@ -30,27 +34,36 @@ module.exports = async client => {
 
 	let responses = {
 		"PLAYING": [
-			`in ${client.guilds.cache.size} servers`
+			`with my darling`, 'RAIN: Shadow Lords'
+			,`in ${client.guilds.cache.size} servers`
 		],
 		"WATCHING": [
-			`for ${client.commands.size} commands`
+			`for ${client.commands.size} commands`,
+			"I'm not a bad slime, slurp!", "Lelouch rule the world!",
+			"a slime somehow start an empire", "a fox-maid get her tail fluffed",
+			"a raccoon-girl and some guy with a shield", "some chick with unusually red hair",
+			"Mob hit 100", "a really bad harem anime", "The Black Swordsman",
+			"The Misfit of Demon King Academy"
 			,`over ${client.guilds.cache.size} servers`
 		]
 	};
 	const setR = () => {
 		let type = Object.keys(responses)[Math.floor(Math.random() * Object.keys(responses).length)];
-		client.user.setActivity(responses[type][Math.floor(Math.random() * responses[type].length)] + " | " + prefix + "help", {type: type});};
+		if (type === "PLAYING") {client.user.setActivity(responses[type][Math.floor(Math.random() * responses[type].length)] + " | " + prefix + "help");}
+		else {client.user.setActivity(responses[type][Math.floor(Math.random() * responses[type].length)] + " | " + prefix + "help", {type: type});}
+	}
 	setR();
+
 	setInterval(setR, 14400000);
-	
-	const BotDataSchema = require('../models/bot');
 
 	const setP = async () => {let tg; for (tg of Array.from(client.guilds.cache.values)) {
 		let tguild = await GuildSettings.findOne({gid: tg.id});
 		if (tguild && tguild.prefix && tguild.prefix.length) {client.guildconfig.prefixes.set(tg.id, tguild.prefix);}
 	}};
 	setP();
-	setInterval(setP, 120000);
+	siftStatuses();
+
+	setInterval(() => {setP(); siftStatuses(client, null);}, 120000);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

@@ -60,7 +60,7 @@ module.exports = {
                 if (!blacklistUser) {return message.reply("You must specify a user to blacklist!");}
                 let usersData = await UserData.findOne( { uid: blacklistUser } ) || new UserData({uid: blacklistUser});
 
-                if (!checkPerms(tu, usersData);) {return;}
+                if (!checkPerms(tu, usersData)) {return;}
                 
                 if (usersData.blacklisted === true) {return message.reply('they\'re already blacklisted :eyes:');}
                 
@@ -73,7 +73,7 @@ module.exports = {
                 if (!blacklistedUser) { return message.reply("You need to specify who you're letting free..." );}
                 let userData = await UserData.findOne( { uid: blacklistedUser } ) || new UserData({uid: blacklistedUser});
 
-                if (!checkPerms(tu, userData);) {return;}
+                if (!checkPerms(tu, userData)) {return;}
 
                 if(userData.blacklisted === false) {return message.reply('hate to break it you... they\'re not even blacklisted!');}
 

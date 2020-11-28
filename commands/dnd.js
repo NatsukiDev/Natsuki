@@ -24,7 +24,11 @@ module.exports = {
         if (reason.length > 150) {return message.reply("That status a bit long; keep it under 150 characters.");}
         tu.statustype = 'dnd';
         tu.statusmsg = reason.trim();
+        tu.statussetat = new Date();
+        let tempDate = new Date();
+        tu.statusclearat = tempDate.setHours(tempDate.getHours() + 12);
         tu.save();
+        require('../util/cachestatus')(message.author.id, tempDate.setHours(tempDate.getHours() + 12));
         return message.reply(`I set your ${tu.statusclearmode === 'auto' ? 'automatically' : 'manually'}-clearing Do not Disturb message to: ${reason.trim()}`);
     }
 };

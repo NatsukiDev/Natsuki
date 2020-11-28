@@ -1,8 +1,10 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const chalk = require('chalk');
+
 const wait = require('../util/wait');
+
 const UserData = require('../models/user');
+const StatusCache = require('../models/statuses');
 
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
@@ -36,6 +38,11 @@ module.exports = async (client, message) => {
         tu.statusmsg = '';
         tu.statustype = '';
         tu.save();
+        const statuses = await StatusCache.findOne({f: 'lol'});
+        let status; for (status of statuses.statuses) {
+            if (status.id === message.author.id) {delete statuses.statuses.indexOf(status);}
+        }
+        statuses.save();
         message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.');
 	}
 
