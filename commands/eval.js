@@ -13,18 +13,18 @@ module.exports = {
             const result = new Promise((resolve) => resolve(eval(args.join(' '))));
             return result.then((output) => {
             if (typeof output !== 'string') {
-                output = require('util').inspect(output, { depth: 0 });
+                output = require('util').inspect(output, {depth: 0});
             }
             output = output.replace(client.config.token, 'Client Token')
             .replace(client.config.database.password, 'Database Password')
-            .replace(client.config.database.cluster, 'Database Cluster')
+            .replace(client.config.database.cluster, 'Database Cluster');
 
             return message.channel.send(new Discord.MessageEmbed()
             .setTitle('Client Evaluation')
             .setDescription(`\`\`\`js\n${output}\n\`\`\``)
             .setColor('c375f0')
             .setFooter(`Natsuki`, client.user.avatarURL())
-            .setTimestamp())
+            .setTimestamp());
         }).catch(error => {return message.channel.send(`Error: \`${error}\`.`);});
         } catch (error) {
             let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);

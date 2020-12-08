@@ -39,13 +39,24 @@ module.exports = {
             }
             console.log(`${chalk.gray('[LOG]')}  >> ${chalk.blue('Loaded all Events')}`);
 
+            var responses = fs.readdirSync('./responses').filter(file => file.endsWith('.js'));
+            client.responses.triggers = [];
+            for (let responsef of responses) {
+                if (Object.keys(require.cache).includes(require.resolve(`../responses/${responsef}`))) {delete require.cache[require.resolve(`../responses/${responsef}`)];}
+                var response = require(`../responses/${responsef}`);
+                client.responses.triggers.push([response.name, response.condition]);
+                client.responses.commands.set(response.name, response);
+            }
+            console.log(`${chalk.gray('[LOG]')}  >> ${chalk.blue('Loaded all Responses')}`);
+
             console.log(`\n${chalk.gray('[INFO]')} >> ${chalk.hex('ff4fd0')(`Client refresh successful`)}\n`);
 
             return message.channel.send("Done!")
         }
         if (['l', 'log', 'ns', 'nosilent', 'notsilent'].includes(args[0].toLowerCase())) {
             ['commands', 'aliases'].forEach(x => client[x] = new Discord.Collection());
-            ['command', 'event'].forEach(x => require(`../handle/${x}`)(client));
+            client.responses = {triggers: [], commands: new Discord.Collection()};
+            ['command', 'event', 'response'].forEach(x => require(`./${x}`)(client));
             return message.channel.send("Done!");
         }
         else {return message.channel.send("Oi! 'log' is the only valid arg to use. Use no args if you want a cleaner console output instead.");}

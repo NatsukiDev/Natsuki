@@ -49,13 +49,14 @@ module.exports = async (client, message) => {
     try {
         if (msg.startsWith(prefix) || msg.startsWith(`<@${client.user.id}>`) || msg.startsWith(`<@!${client.user.id}>`)) {
             let command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
-            if (!command) {return;}
+            if (!command) {let trigger; for (trigger of client.responses.triggers) {if (await trigger[1](message, msg, args, cmd, prefix, mention, client)) {await client.responses.commands.get(trigger[0]).execute(message, msg, args, cmd, prefix, mention, client); break;}} return;}
             message.channel.startTyping();
             await wait(800);
             message.channel.stopTyping();
             require('../util/oncommand')(message, msg, args, cmd, prefix, mention, client);
-            command.execute(message, msg, args, cmd, prefix, mention, client);
+            return command.execute(message, msg, args, cmd, prefix, mention, client);
         }
+        let trigger; for (trigger of client.responses.triggers) {if (await trigger[1](message, msg, args, cmd, prefix, mention, client)) {await client.responses.commands.get(trigger[0]).execute(message, msg, args, cmd, prefix, mention, client); break;}}
     } catch (e) {
         var date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
         console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | In ${message.guild.name}\n`)}`, e);

@@ -10,7 +10,8 @@ async function init() {
     client.config = auth;
 
     ['commands', 'aliases'].forEach(x => client[x] = new Discord.Collection());
-    ['command', 'event'].forEach(x => require(`./handle/${x}`)(client));
+    client.responses = {triggers: [], commands: new Discord.Collection()};
+    ['command', 'event', 'response'].forEach(x => require(`./handle/${x}`)(client));
 
     client.developers = ["330547934951112705", "673477059904929802"];
     

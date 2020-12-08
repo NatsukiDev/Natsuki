@@ -24,21 +24,20 @@ module.exports = {
         if (['check', 'c', 'list', 'l'].includes(args[0].toLowerCase())) {
             user = user ? user : message.member;
             let mh = await Mod.findOne({gid: message.guild.id});
-            if (!mh || !mh.warnings.size) {return message.reply("There are no warnings available in this server.");}
+            if (!mh || !Object.keys(mh.warnings).length) {return message.reply("There are no warnings available in this server.");}
 
-            if (!mh.warnings.has(user.id) || !mh.warnings.get(user.id).length) {return message.reply(`${user.id === message.author.id ? 'You have' : 'That user has'} never been warned in this server.`);}
-            console.log(mh.cases, mh.warnings);
+            if (!mh.warnings[user.id] || !mh.warnings[user.id].length) {return message.reply(`${user.id === message.author.id ? 'You have' : 'That user has'} never been warned in this server.`);}
+            //console.log(mh.cases, mh.warnings);
             let ws = '';
             let cwc = 0;
-            let warning; for (warning of mh.warnings.get(user.id)) {
-                let tcase = mh.cases.get(`${warning}`);
-                console.log(tcase.status, warning);
+            let warning; for (warning of mh.warnings[user.id]) {
+                let tcase = mh.cases[warning - 1];
                 if (tcase.status !== "Cleared") {
                     ws += `\`Case #${warning}\` - Issued by <@${tcase.moderators[0]}>\n${tcase.reason}\n\n`;
                 } else {cwc++;}
             }
             if (cwc > 0) {ws += '*Plus ' + cwc + ' other warnings that have been cleared.*';}
-            if (cwc === mh.warnings.get(user.id).length) {return message.reply("That user has no uncleared warnings.");}
+            if (cwc === mh.warnings[user.id].length) {return message.reply("That user has no uncleared warnings.");}
             return message.channel.send(new Discord.MessageEmbed()
                 .setTitle("User Warnings")
                 .setThumbnail(client.users.cache.get(user.id).avatarURL({size: 1024}))
@@ -97,7 +96,7 @@ module.exports = {
             let mh = await Mod.findOne({gid: message.guild.id}) || new Mod({gid: message.guild.id});
 
             let mhcases = mh.cases;
-            mhcases.set(`${mh.cases.size + 1}`, {
+            mhcases.push({
                 members: [user.id],
                 punishment: "Warned",
                 reason: reason,
@@ -109,14 +108,20 @@ module.exports = {
             });
 
             let mhwarnings = mh.warnings;
+            let mhwarningsk = Object.keys(mhwarnings);
+
             console.log(mhwarnings);
-            console.log(mhcases.size);
-            if (mhwarnings.has(user.id)) {var uw = mhwarnings.get(user.id); uw[mhcases.size - 1] = mhcases.size;}
-            mhwarnings.set(user.id, mhwarnings.has(user.id) ? uw : [mhcases.size]);
+
+            if (mhwarningsk.includes(user.id)) {let tw = mhwarnings[user.id]; tw.push(mhcases.length); mhwarnings[user.id] = tw;}
+            else {mhwarnings[user.id] = [mhcases.length];}
+
+            console.log(mhwarnings);
+
             mh.warnings = mhwarnings;
+            mh.warnings[user.id] = mhwarnings[user.id];
             mh.cases = mhcases;
 
-            if (!options.silent) {message.channel.send(`Case ${mh.cases.size} - Member has been warned. Reason: \`${reason}\``);}
+            if (!options.silent) {message.channel.send(`Case ${mh.cases.length} - Member has been warned. Reason: \`${reason}\``);}
             if (!options.silent && !options.nodm) {client.users.cache.get(user.id).send(`\`${message.author.username}\` has warned you in \`${message.guild.name}\`. Reason: **${reason}**`);}
 
             mh.save();
