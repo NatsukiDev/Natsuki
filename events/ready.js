@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const GuildSettings = require('../models/guild');
 const BotDataSchema = require('../models/bot');
+const LogData = require('../models/log');
 
 const siftStatuses = require('../util/siftstatuses');
 
@@ -56,14 +57,22 @@ module.exports = async client => {
 
 	setInterval(setR, 14400000);
 
-	const setP = async () => {let tg; for (tg of Array.from(client.guilds.cache.values)) {
+	const setPL = async () => {let tg; for (tg of Array.from(client.guilds.cache.values)) {
 		let tguild = await GuildSettings.findOne({gid: tg.id});
 		if (tguild && tguild.prefix && tguild.prefix.length) {client.guildconfig.prefixes.set(tg.id, tguild.prefix);}
+		let tl = await LogData.findOne({gid: tg.id});
+		if (tl) {
+			let keys = Object.keys(tl);
+			let k; for (k of keys) {if (typeof tl[k] === "string" && tl[k].length) {
+				if (!client.guildconfig.logs.has(tg.id)) {client.guildconfig.logs.set(tg.id, new Map());}
+				client.guildconfig.logs.get(tg.id).set(k, tl[k]);
+			}}
+		}
 	}};
-	setP();
+	setPL();
 	siftStatuses();
 
-	setInterval(() => {setP(); siftStatuses(client, null);}, 120000);
+	setInterval(() => {setPL(); siftStatuses(client, null);}, 120000);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

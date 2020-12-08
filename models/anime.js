@@ -20,7 +20,8 @@ const AniSchema = new mongoose.Schema({
     listed: Number,
     liked: Number,
     rating: Number,
-    lastUpdate: Date
+    lastUpdate: Date,
+    thumbnail: String
 });
 
 module.exports = mongoose.model('anime', AniSchema);

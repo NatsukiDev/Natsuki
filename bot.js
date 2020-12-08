@@ -26,5 +26,6 @@ async function init() {
 
     client.guildconfig = {};
     client.guildconfig.prefixes = new Map();
+    client.guildconfig.logs = new Map();
 }
 init();

@@ -36,20 +36,30 @@ module.exports = {
                 new Tag(['genres', 'g'], 'genres', 'listAppend'),
                 new Tag(['tags', 'ta', 'tgs', 'tg', 'tag'], 'tags', 'listAppend'),
                 new Tag(['cs', 'characters', 'chars', 'chs'], 'characters', 'listAppend'),
-                new Tag(['streams', 'streamat', 'sa'], 'streamAt', 'listAppend')
+                new Tag(['streams', 'streamat', 'sa'], 'streamAt', 'listAppend'),
+                new Tag(['img', 'thumb', 'thumbnail', 'image'])
             ]).test(args.join(' '));
-
-            var foptions = {};
-            let option; for (option of Object.keys(options)) {
-                if (Array.isArray(options[option])) {
-                    let s = '';
-                    let data;
-                    for (data of options[option]) {
-                        s += data;
-                        s += options[option].indexOf(data) < (options[option].length - 1) ? ', ' : '';
+            
+            if (Object.keys(options).length) {
+                var foptions = {};
+                let option; for (option of Object.keys(options)) {
+                    if (Array.isArray(options[option])) {
+                        let s = '';
+                        let data;
+                        for (data of options[option]) {
+                            s += data;
+                            s += options[option].indexOf(data) < (options[option].length - 1) ? ', ' : '';
+                        }
+                        foptions[option] = s;
                     }
-                    foptions[option] = s;
                 }
+            } else {
+                if (client.misc.activeDMs.has(message.author.id)) {return message.channel.send("I'm already asking you questions in a DM! Finish that first, then try this command again.");}
+                client.misc.activeDMs.set(message.author.id, 'anime-add');
+
+                await message.author.send("I'm going to ask you some questions about the anime's info. Just reply with the answer and use good grammar and spelling and be as accurate as possible. To cancel the process, just leave the question unanswered for a few minutes and I'll let you know that the question timed out and is not longer answerable.")
+                .catch(() => {return message.reply("Something went wrong there! Most likely, your DMs are closed.");});
+                
             }
 
             message.channel.send(new Discord.MessageEmbed()
