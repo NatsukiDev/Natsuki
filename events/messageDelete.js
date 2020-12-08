@@ -22,6 +22,6 @@ module.exports = async (client, message) => {
 			}
 			if (as.length) {mde.addField('Attachments', as);}
 		}
-		message.guild.channels.cache.get(ts).send(mde);
+		message.guild.channels.cache.get(ts).send(mde).catch(() => {});
 	}}
 }
