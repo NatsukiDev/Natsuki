@@ -5,8 +5,8 @@ const LogData = require('../models/log');
 
 
 const ObjLogTypes = {
-    mdelete: ['md', 'messagedelete', 'deletemessage', 'deletemsg', 'msgdelete'],
-    medit: ['me', 'messageedit', 'editmessage', 'msgedit', 'editmsg'],
+    mdelete: ['md', 'mdelete', 'messagedelete', 'deletemessage', 'deletemsg', 'msgdelete'],
+    medit: ['me', 'medit', 'messageedit', 'editmessage', 'msgedit', 'editmsg'],
     chnew: ['chn', 'chc', 'newch', 'newchannel', 'chcreate', 'channelcreate'],
     //chedit: ['channeledit'],
     chdelete: ['chd', 'channeldelete', 'deletechannel', 'deletech', 'chdelete'],
@@ -63,10 +63,17 @@ module.exports = {
             return message.channel.send("Log settings updated!");
         }
 
-        if (['l', 'list'].includes(args[0].toLowerCase())) {}
+        if (['l', 'list'].includes(args[0].toLowerCase())) {
+            return message.channel.send("Valid log types:\n\n-`msgdelete` - Shows the content of a message that was deleted, in any channel.\n-`msgedit` - Shows both the old and new versions of a message when it is edited.");
+        }
 
-        if (['v', 'view'].includes(args[0].toLowerCase())) {}
+        if (['v', 'view'].includes(args[0].toLowerCase())) {
+            if (client.guildconfig.logs.has(message.guild.id) && client.guildconfig.logs.get(message.guild.id).size) {return message.channel.send(`This server's logs: \n\n${function bonk(){let s = ''; Array.from(client.guildconfig.logs.get(message.guild.id).keys()).forEach(v => s+=`\`${v}\`: <#${client.guildconfig.logs.get(message.guild.id).get(v)}>, `); return s;}().slice(0, -2)}`);}
+            else {return message.channel.send("Your server doesn't have any logs set up at the moment, or they aren't cached. If you keep seeing this issue even after setting logs, please contact my developers!");}
+        }
 
-        if (['c', 'clear'].includes(args[0].toLowerCase())) {}
+        if (['c', 'clear'].includes(args[0].toLowerCase())) {
+            
+        }
     }
 };
