@@ -10,7 +10,7 @@ module.exports = {
         if (!message.guild) {return message.reply("This is a guild-only command!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}staffrole <@role|roleID|clear|view>\``);}
         if (!message.member.permissions.has("ADMINISTRATOR")) {return message.reply("You must be an admin in this server in order to change this setting!");}
-
+        
         let tguild = await GuildSettings.findOne({gid: message.guild.id})
             ? await GuildSettings.findOne({gid: message.guild.id})
             : new GuildSettings({gid: message.guild.id});
@@ -18,7 +18,7 @@ module.exports = {
         if (['view', 'v'].includes(args[0].trim().toLocaleLowerCase())) {return message.reply(
             tguild.staffrole.length
                 ? message.guild.roles.cache.has(tguild.staffrole)
-                    ? `\`people with the ${message.guild.roles.cache.get(tguild.staffrole).name}\` role can edit my setting here.`
+                    ? `people with the \`${message.guild.roles.cache.get(tguild.staffrole).name}\` role can edit my setting here.`
                     : `I have a role stored for this server, but it doesn't seem to exist anymore, so only admins can edit my settings right now.`
                 : 'only admins may edit settings in this server.'
         );}

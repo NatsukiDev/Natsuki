@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongooes = require('mongoose');
+
 const UserData = require('../models/user');
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
         tu.statusmsg = '';
         tu.statustype = '';
         tu.save();
+        require('../util/siftstatuses')(client, message.author.id);
         return message.reply("welcome back! I cleared your status.");
     }
 };

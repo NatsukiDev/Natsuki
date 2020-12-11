@@ -8,12 +8,16 @@ const UserSchema = new mongoose.Schema({
     statusclearmode: {type: String, default: 'auto'},
     statusclearat: {type: Date, default: null},
     statussetat: {type: Date, default: null},
+    statusshowcleartime: {type: Boolean, default: true},
+    statusshowsettime: {type: Boolean, default: true},
     support: {type: Boolean, default: false},
     staff: {type: Boolean, default: false},
     admin: {type: Boolean, default: false},
     developer: {type: Boolean, default: false},
     blacklisted: {type: Boolean, default: false},
-    donator: {type: Boolean, default: false}
+    donator: {type: Boolean, default: false},
+    bio: {type: String, default: ''},
+    color: {type: String, default: ''}
 });
 
 module.exports = mongoose.model("user", UserSchema);
