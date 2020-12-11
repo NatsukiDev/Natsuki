@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+
 const Mod = require('../models/mod');
 
 const {TagFilter} = require('../util/tagfilter');
@@ -52,23 +53,27 @@ module.exports = {
         else if (['clear', 'e', 'empty'].includes(args[0].toLowerCase())) {
             user = user ? user : message.member;
             let mh = await Mod.findOne({gid: message.guild.id});
-            if (!mh || !mh.warnings.size) {return message.reply("There are no warnings available in this server.");}
+            if (!mh || !Object.keys(mh.warnings).length) {return message.reply("There are no warnings available in this server.");}
 
-            if (!mh.warnings.has(user.id) || !mh.warnings.get(user.id).length) {return message.reply(`${user.id === message.author.id ? 'You have' : 'That user has'} never been warned in this server.`);}
+            if (!Object.keys(mh.warnings).includes(user.id) || !mh.warnings[user.id].length) {return message.reply(`${user.id === message.author.id ? 'You have' : 'That user has'} never been warned in this server.`);}
 
             let mhcases = mh.cases;
+            let moddedcases = [];
             let cwc = 0; var wc = 0;
-            let warning; for (warning of mh.warnings.get(user.id)) {
-                if (mhcases.get(`${warning}`).status !== "Cleared") {
-                    let tcase = mhcases.get(`${warning}`);
+            let warning; for (warning of mh.warnings[user.id]) {
+                if (mhcases[`${warning - 1}`].status !== "Cleared") {
+                    let tcase = mhcases[`${warning - 1}`];
                     tcase.status = "Cleared";
                     tcase.history.push(`${new Date().toISOString()} - ${message.author.username} - Cleared the warning.`);
+                    moddedcases.push(`${warning - 1}`);
                     wc++;
                     if (!tcase.moderators.includes(message.author.id)) {tcase.moderators.push(message.author.id);}
-                    mhcases.set(`${warning}`, tcase);
+                    mhcases[`${warning - 1}`] = tcase;
                 } else {cwc++;}
             }
-            if (cwc === mh.warnings.get(user.id).length) {return message.reply("That user has no uncleared warnings.");}
+            if (cwc === mh.warnings[user.id].length) {return message.reply("That user has no uncleared warnings.");}
+
+            if (moddedcases.length) {let c; for (c of moddedcases) {mh.markModified(`cases.${c}.history`);}}
 
             mh.cases = mhcases;
             mh.save();
@@ -110,12 +115,8 @@ module.exports = {
             let mhwarnings = mh.warnings;
             let mhwarningsk = Object.keys(mhwarnings);
 
-            console.log(mhwarnings);
-
             if (mhwarningsk.includes(user.id)) {let tw = mhwarnings[user.id]; tw.push(mhcases.length); mhwarnings[user.id] = tw;}
             else {mhwarnings[user.id] = [mhcases.length];}
-
-            console.log(mhwarnings);
 
             mh.warnings = mhwarnings;
             mh.warnings[user.id] = mhwarnings[user.id];
@@ -123,6 +124,8 @@ module.exports = {
 
             if (!options.silent) {message.channel.send(`Case ${mh.cases.length} - Member has been warned. Reason: \`${reason}\``);}
             if (!options.silent && !options.nodm) {client.users.cache.get(user.id).send(`\`${message.author.username}\` has warned you in \`${message.guild.name}\`. Reason: **${reason}**`);}
+            
+            mh.markModified(`warnings.${user.id}`);
 
             mh.save();
             return null;
