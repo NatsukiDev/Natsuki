@@ -1,33 +1,15 @@
-import { MessageEmbed, Message, Client } from 'discord.js';
+import { TextChannel, Message, MessageEmbed, Client } from 'discord.js';
 export declare class Pagination {
-    title: string;
-    pages: Page[];
-    zeroPage: Page | MessageEmbed;
-    pageTemplate: MessageEmbed;
+    channel: TextChannel;
     message: Message;
-    timeout: Number;
-    description: string;
-    activationMessage: Message;
+    pages: MessageEmbed[];
+    originalMessage: Message;
+    currentPage: number;
     client: Client;
-    currentpos: number;
-    constructor(title: string, pages: Page[], zeroPage: Page | MessageEmbed, client: Client, message: Message, activationMessage: Message, timeout: number, description?: string, pageTemplate?: MessageEmbed);
-    addPage(page: Page): Pagination;
-    render(pos: number): Pagination;
-    nextPage(): Pagination;
-    prevPage(): Pagination;
-    destroy(delmsg?: boolean, fmsg?: Message): Pagination;
-    resetTimeout(newTimeout?: number): Pagination;
-    init(): Pagination;
+    constructor(channel: TextChannel, pages: MessageEmbed[], originalMessage: Message, client: Client, message?: Message);
+    setPage(page: number): Promise<Pagination>;
+    nextPage(): Promise<Pagination>;
+    prevPage(): Promise<Pagination>;
+    addPage(page: MessageEmbed): Pagination;
+    replacePage(index: number, page: MessageEmbed): Pagination;
 }
-export declare class Page {
-    items: PageItem[];
-    title: string;
-    description: string;
-    constructor(title: string, items: PageItem[], description?: string);
-    addItem(item: PageItem): Page;
-}
-interface PageItem {
-    title: string;
-    text: string;
-}
-export {};

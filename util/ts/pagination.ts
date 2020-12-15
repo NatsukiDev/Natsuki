@@ -1,119 +1,66 @@
-import {MessageEmbed, Message, Client} from 'discord.js';
-
-import wait = require('../../util/wait');
+import {TextChannel, Message, MessageEmbed, Client} from 'discord.js';
 
 export class Pagination {
-    title: string;
-    pages: Page[];
-    zeroPage: Page | MessageEmbed;
-    pageTemplate: MessageEmbed;
+    channel: TextChannel;
     message: Message;
-    timeout: Number;
-    description: string;
-    activationMessage: Message;
+    pages: MessageEmbed[];
+    originalMessage: Message;
+    currentPage: number;
     client: Client;
-    currentpos: number = 0;
 
 
 
-    constructor (title: string, pages: Page[], zeroPage: Page | MessageEmbed, client: Client, message: Message, activationMessage: Message, timeout: number, description?: string, pageTemplate?: MessageEmbed) {
-        this.title = title;
-
-        let tpages = [];
-        tpages.push(zeroPage);
-        let tpage: Page; for (tpage of pages) {tpages.push(tpage);}
-        this.pages = tpages;
-
-        this.zeroPage = zeroPage;
-        this.message = message;
-        this.timeout = timeout;
-        this.activationMessage = activationMessage;
+    constructor (channel: TextChannel, pages: MessageEmbed[], originalMessage: Message, client: Client, message?: Message) {
+        this.channel = channel;
+        this.pages = pages;
+        this.originalMessage = message;
         this.client = client;
+        this.currentPage = 0;
 
-        this.description = description ? description : `Requested by ${activationMessage.guild ? activationMessage.member.displayName : activationMessage.author.username}.`;
-
-        this.pageTemplate = pageTemplate
-            ? pageTemplate
-            : new MessageEmbed()
-            .setDescription(this.description)
-            .addField('Navigation', `Click or tap the arrows below this message to navigate through the pages!\n\n*This menu will timeout in ${this.timeout}ms.`)
-            .setColor('c375f0')
-            .setFooter('Natsuki', this.client.user.avatarURL())
-            .setTimestamp();
+        if (message) {this.message = message;}
     };
 
-    
 
-    public addPage(page: Page): Pagination {
+
+    public async setPage(page: number): Promise<Pagination> {
+        if (this.pages.length < page + 1) {}
+
+        if (!this.message) {
+            let tempm = await this.channel.send("One moment...")
+            .catch(() => {this.originalMessage.reply("There seemed to be a problem doing that..."); return this;});
+            if (tempm instanceof Pagination) {return this;}
+            else {this.message = tempm;}
+        }
+
+        await this.message.edit(this.pages[page]
+            .setFooter(`Natsuki | Page ${page + 1} of ${this.pages.length}`, this.client.user.avatarURL())
+            .setTimestamp()
+        );
+        this.currentPage = page;
+
+        return this;
+    };
+
+    public async nextPage(): Promise<Pagination> {
+        await this.setPage(typeof this.currentPage === "number" ? this.currentPage + 1 == this.pages.length ? this.currentPage : this.currentPage + 1 : 0);
+        return this;
+    };
+
+    public async prevPage(): Promise<Pagination> {
+        await this.setPage(typeof this.currentPage === "number" ? this.currentPage === 0 ? 0 : this.currentPage - 1 : this.pages.length - 1);
+        return this;
+    };
+
+    public addPage(page: MessageEmbed): Pagination {
         this.pages.push(page);
         return this;
-    };
+    }
 
-    public render(pos: number): Pagination {
-        let page = this.pages[this.currentpos];
-        let pageEmbed: MessageEmbed = new MessageEmbed()
-            .setTitle(`${this.title} -> ${page.title}`)
-            .setDescription(`${this.pageTemplate.description ? this.pageTemplate.description : this.description}\n\n${page.description}`)
-            .setColor(this.pageTemplate.hexColor ? this.pageTemplate.hexColor : 'c375f0')
-            .setFooter(this.pageTemplate.footer ? `${this.pageTemplate.footer.text} | Page ${this.currentpos + 1} of ${this.pages.length}` : `Natsuki | Page ${this.currentpos + 1} of ${this.pages.length}`)
-            .setTimestamp();
-        let item: PageItem; for (item of page.items) {pageEmbed.addField(item.title, item.text);}
-        if (this.pageTemplate.thumbnail) {pageEmbed.setThumbnail(this.pageTemplate.thumbnail.url);}
-        
-        this.message.edit(pageEmbed);
+    public replacePage(index: number, page: MessageEmbed): Pagination {
+        if (index < 0) {throw new RangeError("replacePage() param 'index' must be a value greater than 0");}
+        if (index > this.pages.length - 1) {throw new RangeError("replacePage() param 'index' must be a value corresponding to an index that already exists in this instance's pages.");}
 
+        this.pages[index] = page;
         return this;
-    };
-
-    public nextPage(): Pagination {
-        return this.render(this.currentpos < (this.pages.length - 1) ? this.currentpos + 1 : this.currentpos);
-    };
-
-    public prevPage(): Pagination {
-        return this.render(this.currentpos > 0 ? this.currentpos - 1 : this.currentpos);
-    };
-
-    public destroy(delmsg?: boolean, fmsg?: Message): Pagination {
-        return this;
-    };
-
-    public resetTimeout(newTimeout?: number): Pagination {
-        return this;
-    };
-
-    public init(): Pagination {
-
-
-        return this;
-    };
-
-}
-
-
-
-export class Page {
-    items: PageItem[] = [];
-    title: string;
-    description: string;
-
-
-
-    constructor(title: string, items: PageItem[], description?: string) {
-        this.title = title;
-        this.items = items;
-        this.description = description;
-    };
-
-
-
-    public addItem(item: PageItem): Page {
-        this.items.push(item);
-        return this;
-    };
-
-}
-
-interface PageItem {
-    title: string,
-    text: string
+    }
 }

@@ -60,7 +60,7 @@ module.exports = {
             tl.save();
             if (!client.guildconfig.logs.has(message.guild.id)) {client.guildconfig.logs.set(message.guild.id, new Map());}
             client.guildconfig.logs.get(message.guild.id).set(lt, ch.id);
-            return message.channel.send("Log settings updated!");
+            return message.channel.send("Log settings updated!")
         }
 
         if (['l', 'list'].includes(args[0].toLowerCase())) {

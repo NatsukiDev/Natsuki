@@ -1,86 +1,60 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Page = exports.Pagination = void 0;
-const discord_js_1 = require("discord.js");
+exports.Pagination = void 0;
 class Pagination {
-    constructor(title, pages, zeroPage, client, message, activationMessage, timeout, description, pageTemplate) {
-        this.currentpos = 0;
-        this.title = title;
+    constructor(channel, pages, originalMessage, client, message) {
+        this.channel = channel;
         this.pages = pages;
-        this.zeroPage = zeroPage;
-        this.message = message;
-        this.timeout = timeout;
-        this.activationMessage = activationMessage;
+        this.originalMessage = message;
         this.client = client;
-        this.description = description ? description : `Requested by ${activationMessage.guild ? activationMessage.member.displayName : activationMessage.author.username}.`;
-        this.pageTemplate = pageTemplate
-            ? pageTemplate
-            : new discord_js_1.MessageEmbed()
-                .setDescription(this.description)
-                .addField('Navigation', `Click or tap the arrows below this message to navigate through the pages!\n\n*This menu will timeout in ${this.timeout}ms.`)
-                .setColor('c375f0')
-                .setFooter('Natsuki', this.client.user.avatarURL())
-                .setTimestamp();
+        this.currentPage = 0;
+        if (message) {
+            this.message = message;
+        }
+    }
+    ;
+    async setPage(page) {
+        if (this.pages.length < page + 1) { }
+        if (!this.message) {
+            let tempm = await this.channel.send("One moment...")
+                .catch(() => { this.originalMessage.reply("There seemed to be a problem doing that..."); return this; });
+            if (tempm instanceof Pagination) {
+                return this;
+            }
+            else {
+                this.message = tempm;
+            }
+        }
+        await this.message.edit(this.pages[page]
+            .setFooter(`Natsuki | Page ${page + 1} of ${this.pages.length}`, this.client.user.avatarURL())
+            .setTimestamp());
+        this.currentPage = page;
+        return this;
+    }
+    ;
+    async nextPage() {
+        await this.setPage(typeof this.currentPage === "number" ? this.currentPage + 1 == this.pages.length ? this.currentPage : this.currentPage + 1 : 0);
+        return this;
+    }
+    ;
+    async prevPage() {
+        await this.setPage(typeof this.currentPage === "number" ? this.currentPage === 0 ? 0 : this.currentPage - 1 : this.pages.length - 1);
+        return this;
     }
     ;
     addPage(page) {
         this.pages.push(page);
         return this;
     }
-    ;
-    render(pos) {
-        let page = this.pages[this.currentpos];
-        let pageEmbed = new discord_js_1.MessageEmbed()
-            .setTitle(`${this.title} -> ${page.title}`)
-            .setDescription(`${this.pageTemplate.description ? this.pageTemplate.description : this.description}\n\n${page.description}`)
-            .setColor(this.pageTemplate.hexColor ? this.pageTemplate.hexColor : 'c375f0')
-            .setFooter(this.pageTemplate.footer ? `${this.pageTemplate.footer.text} | Page ${this.currentpos + 1} of ${this.pages.length}` : `Natsuki | Page ${this.currentpos + 1} of ${this.pages.length}`)
-            .setTimestamp();
-        let item;
-        for (item of page.items) {
-            pageEmbed.addField(item.title, item.text);
+    replacePage(index, page) {
+        if (index < 0) {
+            throw new RangeError("replacePage() param 'index' must be a value greater than 0");
         }
-        if (this.pageTemplate.thumbnail) {
-            pageEmbed.setThumbnail(this.pageTemplate.thumbnail.url);
+        if (index > this.pages.length - 1) {
+            throw new RangeError("replacePage() param 'index' must be a value corresponding to an index that already exists in this instance's pages.");
         }
-        this.message.edit(pageEmbed);
+        this.pages[index] = page;
         return this;
     }
-    ;
-    nextPage() {
-        return this.render(this.currentpos < (this.pages.length - 1) ? this.currentpos + 1 : this.currentpos);
-    }
-    ;
-    prevPage() {
-        return this.render(this.currentpos > 0 ? this.currentpos - 1 : this.currentpos);
-    }
-    ;
-    destroy(delmsg, fmsg) {
-        return this;
-    }
-    ;
-    resetTimeout(newTimeout) {
-        return this;
-    }
-    ;
-    init() {
-        return this;
-    }
-    ;
 }
 exports.Pagination = Pagination;
-class Page {
-    constructor(title, items, description) {
-        this.items = [];
-        this.title = title;
-        this.items = items;
-        this.description = description;
-    }
-    ;
-    addItem(item) {
-        this.items.push(item);
-        return this;
-    }
-    ;
-}
-exports.Page = Page;
