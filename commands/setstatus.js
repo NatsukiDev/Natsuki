@@ -2,6 +2,9 @@ const Discord = require('discord.js');
 
 const UserData = require('../models/user');
 
+const {TagFilter} = require('../util/tagfilter');
+const {Tag} = require('../util/tag');
+
 module.exports = {
     name: "setstatus",
     aliases: ['sst'],
@@ -24,11 +27,18 @@ module.exports = {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}setstatus <status> [type]\``);}
         let tu = await UserData.findOne({uid: message.author.id});
         if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do that!");}
-        if (args[0].length > 30) {return message.reply("That status is a bit too long.");}
-        if (args[1]) {if (!['playing', 'watching', 'listening'].includes(args[0].toLowerCase())) {return message.channel.send("That's not a valid type!");}}
+
+        let options = new TagFilter([
+            new Tag(['s', 'status', 'm', 'msg', 'message'], 'status', 'append'),
+            new Tag(['t', 'type'], 'type', 'append')
+        ]).test(args.join(" "));
+        if ((!options.status || !options.status.length) || (!options.type || !options.type.length)) {return message.channel.send("You must use -status and -type tags!");}
+
+        if (options.status.length > 30) {return message.reply("That status is a bit too long.");}
+        if (options.type) {if (!['playing', 'watching', 'listening'].includes(options.status.toLowerCase())) {return message.channel.send("That's not a valid type!");}}
         
-        if (args[1]) {client.user.setActivity(args[0], {type: args[1].toUpperCase()});}
-        else {client.user.setActivity(args[0]);}
-        return message.channel.send(`Status set to: \`${args[1] ? `${args[1].slice(0, 1).toUpperCase()}${args[1].slice(1).toLowerCase()}${args[1] && args[1].toLowerCase() == 'listening'} ` ? 'to ' : '' : ''}${args[0]}\`.`);
+        if (options.type) {client.user.setActivity(options.status, {type: options.type.toUpperCase()});}
+        else {client.user.setActivity(options.status);}
+        return message.channel.send(`Status set to: \`${options.type ? `${options.type.slice(0, 1).toUpperCase()}${options.type.slice(1).toLowerCase()}${options.type && options.type.toLowerCase() == 'listening'} ` ? 'to ' : '' : ''}${options.status}\`.`);
     }
 };
