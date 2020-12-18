@@ -32,10 +32,10 @@ module.exports = {
             new Tag(['s', 'status', 'm', 'msg', 'message'], 'status', 'append'),
             new Tag(['t', 'type'], 'type', 'append')
         ]).test(args.join(" "));
-        if ((!options.status || !options.status.length) || (!options.type || !options.type.length)) {return message.channel.send("You must use -status and -type tags!");}
+        if (!options.status || !options.status.length) {return message.channel.send("You must use the -status tag (and -type if you want a custom type)!");}
 
         if (options.status.length > 30) {return message.reply("That status is a bit too long.");}
-        if (options.type) {if (!['playing', 'watching', 'listening'].includes(options.status.toLowerCase())) {return message.channel.send("That's not a valid type!");}}
+        if (options.type) {if (!['playing', 'watching', 'listening'].includes(options.type.toLowerCase())) {return message.channel.send("That's not a valid type!");}}
         
         if (options.type) {client.user.setActivity(options.status, {type: options.type.toUpperCase()});}
         else {client.user.setActivity(options.status);}
