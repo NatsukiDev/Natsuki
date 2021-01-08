@@ -21,6 +21,7 @@
         "node-fetch": "^2.6.1",
         "sequelize": "^5.22.3",
         "sqlite3": "^4.2.0",
+        "swwrap": "^1.0.0",
         "winston": "^3.3.3",
         "ytdl-core": "^3.2.2",
         "ytdl-core-discord": "^1.2.1"
