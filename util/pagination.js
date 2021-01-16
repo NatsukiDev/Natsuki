@@ -100,8 +100,8 @@ class Pagination {
         this.controllers.enabled = true;
         this.controllers.endTime = endTime;
         this.controllers.lastInteraction = new Date();
-        setInterval(() => {
-            if (new Date().getTime() - this.controllers.lastInteraction.getTime() > this.controllers.endTime) {
+        this.timeoutInterval = setInterval(() => {
+            if (new Date().getTime() - this.controllers.lastInteraction.getTime() > this.controllers.endTime && this.controllers.enabled) {
                 return this.endControllers();
             }
         }, this.controllers.endTime);
@@ -117,6 +117,7 @@ class Pagination {
         fe.setDescription(`${fe.description}\n\n*This menu has ended, start a new one to interact with it!*`);
         fe.setFooter(`${fe.footer.text} | Menu ended`, this.client.user.avatarURL());
         await this.message.edit(fe);
+        clearInterval(this.timeoutInterval);
         return this;
     }
     ;

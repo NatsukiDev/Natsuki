@@ -8,6 +8,7 @@ export declare class Pagination {
     client: Client;
     loopPages: boolean;
     controllers: ControllerData;
+    timeoutInterval: any;
     constructor(channel: TextChannel, pages: MessageEmbed[], originalMessage: Message, client: Client, loopPages?: boolean, message?: Message);
     setPage(page: number): Promise<Pagination>;
     nextPage(): Promise<Pagination>;

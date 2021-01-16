@@ -23,6 +23,7 @@
         "sqlite3": "^4.2.0",
         "swwrap": "^1.0.0",
         "winston": "^3.3.3",
+        "ws": "^7.4.2",
         "ytdl-core": "^3.2.2",
         "ytdl-core-discord": "^1.2.1"
     },
