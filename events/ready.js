@@ -90,5 +90,8 @@ module.exports = async client => {
 
 	console.log(`${chalk.gray('\n[INFO]')} >> ${chalk.white(`This is restart #${botData.restarts}.`)}`);
 
+	let cms = new Date().getTime();
+	console.log(`${chalk.gray('\n[INFO]')} >> ${chalk.white(`Startup completed in ${cms - client.misc.startup.getTime()}ms (${cms - client.misc.startupNoConnect.getTime()}ms post-connect).`)}`);
+
     await botData.save();
 };

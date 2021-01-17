@@ -1,5 +1,14 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+
+client.misc = {
+    savers: ['497598953206841375'],
+    activeDMs: new Discord.Collection(),
+    statusPings: new Discord.Collection(),
+    startup: new Date(),
+    startupNoConnect: null
+};
+
 //const config = require('./config.js');
 const auth = require('./auth.json');
 
@@ -7,6 +16,7 @@ const auth = require('./auth.json');
 
 async function init() {
     await client.login(auth.token);
+    client.misc.startupNoConnect = new Date();
     client.config = auth;
 
     ['commands', 'aliases'].forEach(x => client[x] = new Discord.Collection());
@@ -14,12 +24,6 @@ async function init() {
     ['command', 'event', 'response'].forEach(x => require(`./handle/${x}`)(client));
 
     client.developers = ["330547934951112705", "673477059904929802"];
-    
-    client.misc = {
-        savers: ['497598953206841375'],
-        activeDMs: new Discord.Collection(),
-        statusPings: new Discord.Collection()
-    };
 
     client.utils = {};
     client.utils.logch = async () => {return client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915');};
