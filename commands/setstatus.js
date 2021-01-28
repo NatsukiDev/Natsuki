@@ -9,22 +9,19 @@ module.exports = {
     name: "setstatus",
     aliases: ['sst'],
     meta: {
-        category: "",
-        perms: "",
-        staff: false,
-        vip: "",
-        serverPerms: [],
-        writtenBy: "",
-        serverOnly: false
+        category: 'Developer',
+        description: "Set my public status. Don't make me say something weird! (Also only available to devs, of course.)",
+        syntax: '`setstatus <-s status> <-t type>`',
+        extra: "You can check if a user is an admin without being a developer."
     },
     tags: [],
     help: new Discord.MessageEmbed()
     .setTitle("Help -> Status-Setting")
     .setDescription("Sets the bot's status")
-    .addField("Syntax", "`setstatus <status> [type]`")
+    .addField("Syntax", "`setstatus <-s status> <-t type>`")
     .addField('Notice', "This command is **developer-only**"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}setstatus <status> [type]\``);}
+        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}setstatus <-s status> <-t type>\``);}
         let tu = await UserData.findOne({uid: message.author.id});
         if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do that!");}
 

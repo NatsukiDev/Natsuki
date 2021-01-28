@@ -7,6 +7,12 @@ module.exports = {
     name: "clearstatus",
     aliases: ['statusclear', 'cs'],
     help: "Clears your status, if you have one set. Does not take any arguments.",
+    meta: {
+        category: 'Social',
+        description: "Clear your status, if you have one set.",
+        syntax: '`clearstatus`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let tu = await UserData.findOne({uid: message.author.id});
         if (!tu && !tu.statusmsg.length) {

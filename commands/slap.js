@@ -5,7 +5,14 @@ const makeId = require('../util/makeid');
 
 module.exports = {
     name: "slap",
+    aliases: ['hit'],
     help: "Use `{{p}}slap @person` to have me personally deliver your anger to them with a nice s l a p.",
+    meta: {
+        category: 'Fun',
+        description: "Slap another user! Virtually, of course.",
+        syntax: '`slap <@user>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let savess = await Saves.findOne({name: 'slap'}) ? await Saves.findOne({name: 'slap'}) : new Saves({name: 'slap'});
         let saves = savess.saves;

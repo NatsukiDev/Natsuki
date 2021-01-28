@@ -38,10 +38,16 @@ module.exports = {
     name: "logs",
     aliases: ["log", "l", "modlog", "modlogs"],
     help: new Discord.MessageEmbed()
-    .setTitle("Help -> Server Logs")
-    .setDescription("Configure your server's log settings.\n\nLogs will update you on events in your server that have the potential to require moderator intervention, like someone deleting a hateful message before you can see it or a misbehaving moderator kicking/banning a member when they aren't supposed to.")
-    .addField("Syntax", "`log <set|list|view|clear> [logType] [#channel]`")
-    .addField("Notice", "You must be an admin or have the specified staff role in order to use this command."),
+        .setTitle("Help -> Server Logs")
+        .setDescription("Configure your server's log settings.\n\nLogs will update you on events in your server that have the potential to require moderator intervention, like someone deleting a hateful message before you can see it or a misbehaving moderator kicking/banning a member when they aren't supposed to.")
+        .addField("Syntax", "`log <set|list|view|clear> [logType] [#channel]`")
+        .addField("Notice", "You must be an admin or have the specified staff role in order to use this command."),
+    meta: {
+        category: 'Moderation',
+        description: "Configure your server's log settings, which allow mods to see potentially suspicious activity in the server.",
+        syntax: '`log <set|list|view|clear> [logType] [#channel]`',
+        extra: "**Please note** that this command is still in the works, and that not all log types are available. The currently existing ones have been thoroughly tested, though."
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This command is server-only!");}
         let tg = await GuildData.findOne({gid: message.guild.id});

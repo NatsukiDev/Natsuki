@@ -12,6 +12,12 @@ module.exports = {
         .addField("Syntax", "`welcome <set|clear|view|test>`")
         .addField("Notice", "You must be a staff or admin in your server to edit these settings.")
         .addField("Responses", "Your welcome message should be generated through a response using my `response` command, and then bound to the welcome message by providing your response's name."),
+    meta: {
+        category: 'Moderation',
+        description: "Set the channel and message to be sent when a user joins the server.",
+        syntax: '`welcome <set|clear|view|test>`',
+        extra: "You'll need to use `response` to configure the message that you want sent with this command. The name you give the response is what you'll give to this command"
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This command is server-only.");}
         let tg = await GuildData.findOne({gid: message.guild.id}) ? await GuildData.findOne({gid: message.guild.id}) : new GuildData({gid: message.guild.id});

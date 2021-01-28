@@ -10,6 +10,12 @@ module.exports = {
         .setDescription("Add or remove users as Natsuki developers.")
         .addField("Syntax", "`developer <add|remove> <@user|userID>`")
         .addField("Notice", "You must already be a developer of Natsuki in order to use this command."),
+    meta: {
+        category: 'Developer',
+        description: "Add or remove users as Natsuki developers",
+        syntax: '`developer <add|remove|check> <@user|userID>`',
+        extra: "You can check if a user is a developer without being a developer."
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This is a guild-only command!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}developer <add|remove> <@user|userID>\``);}

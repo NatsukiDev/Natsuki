@@ -8,6 +8,12 @@ module.exports = {
         .setTitle("Help -> Server Status-Toggling")
         .setDescription("Disables or enables the warning that appears when you ping someone that has a status set.")
         .addField("Syntax", "`togglestatuses [c]` (add `c` to the end of the message if you want to check if they're enabled or not.)"),
+    meta: {
+        category: 'Moderation',
+        description: "Toggle the warning I give members when they ping someone with a status. Some people find it annoying, but here's my mute button!",
+        syntax: '`togglestatuses [-c]`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply('You must be in a server to use this command.');}
         let tg = await GuildSettings.findOne({gid: message.guild.id});

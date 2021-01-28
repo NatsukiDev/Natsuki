@@ -8,6 +8,12 @@ module.exports = {
     name: 'eval',
     aliases: ['ev', ':', 'e'],
     help: "Evaluates raw JavaScript code. *This is a __developer-only__ command.* Usage: `{{p}}eval <code>`",
+    meta: {
+        category: 'Developer',
+        description: "Evaluates raw JavaScript code. Nerd access only.",
+        syntax: '`eval <code>`',
+        extra: null
+    },
     execute(message, msg, args, cmd, prefix, mention, client) {
         try {
             if (!client.developers.includes(message.author.id)) {return message.channel.send("Sorry, but I've got trust issues, so only me devs can go commanding me around like that.");};

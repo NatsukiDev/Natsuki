@@ -7,6 +7,12 @@ module.exports = {
         .setTitle("Help -> Bio")
         .setDescription("Set and view user bios, which are fun ways to express yourself!")
         .addField("Syntax", "`bio <set|view|clear>`"),
+    meta: {
+        category: 'Social',
+        description: "Set your own user bio, which can be seen by everyone!",
+        syntax: '`bio <set|view|clear>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}bio <set|view|clear>\``);}
         let tu = await UserData.findOne({uid: message.author.id}) ? await UserData.findOne({uid: message.author.id}) : new UserData({uid: message.author.id});

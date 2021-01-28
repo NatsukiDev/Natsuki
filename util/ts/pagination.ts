@@ -31,7 +31,7 @@ export class Pagination {
 
         if (!this.message) {
             let tempm = await this.channel.send("One moment...")
-            .catch(() => {this.originalMessage.reply("There seemed to be a problem doing that..."); return this;});
+                .catch(() => {this.originalMessage.reply("There seemed to be a problem doing that..."); return this;});
             if (tempm instanceof Pagination) {return this;}
             else {this.message = tempm;}
         }
@@ -98,7 +98,6 @@ export class Pagination {
         this.controllers.collector = this.message.createReactionCollector(filter, {time: 450000});
 
         this.controllers.collector.on('collect', async (r: MessageReaction) => {
-            console.log(r);
             let functions = {
                 '⬅': () => {return this.prevPage();},
                 '➡': () => {return this.nextPage();},

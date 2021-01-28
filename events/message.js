@@ -14,16 +14,16 @@ module.exports = async (client, message) => {
 
     if (message.guild && !message.member.permissions.has("SEND_MESSAGES")) {return undefined;}
 	
-    var prefix = message.guild ? client.guildconfig.prefixes.has(message.guild.id) ? client.guildconfig.prefixes.get(message.guild.id) !== null ? client.guildconfig.prefixes.get(message.guild.id) : 'n?' : 'n?' : 'n?';
+    let prefix = message.guild ? client.guildconfig.prefixes.has(message.guild.id) ? client.guildconfig.prefixes.get(message.guild.id) !== null ? client.guildconfig.prefixes.get(message.guild.id) : 'n?' : 'n?' : 'n?';
 
-	var msg = message.content.toLowerCase();
-	var mention = message.mentions.users.first();
-    var args = msg.startsWith(prefix) 
+	let msg = message.content.toLowerCase();
+	let mention = message.mentions.users.first();
+    let args = msg.startsWith(prefix)
         ? message.content.slice(prefix.length).trim().split(/\s+/g)
         : msg.startsWith('<@!') 
             ? message.content.slice(4 + client.user.id.length).trim().split(/\s+/g)
             : message.content.slice(3 + client.user.id.length).trim().split(/\s+/g);
-	var cmd = args.shift().toLowerCase().trim();
+	let cmd = args.shift().toLowerCase().trim();
 
 	if ([`<@${client.user.id}>`, `<@!${client.user.id}>`].includes(msg)) {
 	    return message.channel.send(new Discord.MessageEmbed()
@@ -58,7 +58,7 @@ module.exports = async (client, message) => {
         }
         let trigger; for (trigger of client.responses.triggers) {if (await trigger[1](message, msg, args, cmd, prefix, mention, client)) {await client.responses.commands.get(trigger[0]).execute(message, msg, args, cmd, prefix, mention, client); break;}}
     } catch (e) {
-        var date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
+        let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
         console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | In ${message.guild.name}\n`)}`, e);
     }
 };

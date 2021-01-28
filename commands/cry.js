@@ -7,6 +7,12 @@ module.exports = {
     name: "cry",
     aliases: ['sob'],
     help: "Tell others that you're crying with `{{p}}cry`. We're here for you!",
+    meta: {
+        category: 'Social',
+        description: "Tell others that you're not feeling so well using this command.",
+        syntax: '`cry`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let savess = await Saves.findOne({name: 'cry'}) ? await Saves.findOne({name: 'cry'}) : new Saves({name: 'cry'});
         let saves = savess.saves;

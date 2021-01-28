@@ -6,6 +6,12 @@ module.exports = {
     name: "staffrole",
     aliases: ['sr', 'setstaffrole'],
     help: "Set your server's staff role, which allows users with that role to modify my settings in this server. You must be an admin in the server to change this setting.",
+    meta: {
+        category: 'Moderation',
+        description: "Set the role that can edit my settings for the server",
+        syntax: '`staffrole <@role|roleID|clear|view>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This is a guild-only command!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}staffrole <@role|roleID|clear|view>\``);}

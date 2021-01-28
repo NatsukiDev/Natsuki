@@ -9,9 +9,15 @@ module.exports = {
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Secret Santa")
         .setDescription("Create a secret santa for all of your friends or for your server! Whether you celebrate the holidays or not, this can still be loads of fun!")
-        .addField("Syntax", "``"),
+        .addField("Syntax", "`secretsanta <create|join|start|end|kick>`"),
+    meta: {
+        category: 'Fun',
+        description: "Create and join fully-functioning secret santas. I even randomize the assignments for you, how neat!",
+        syntax: '`secretsanta <create|join|start|end|kick>`',
+        extra: "It's not Christmas anymore, but you know what, who cares. Some features of this command, such as `end` and `kick` are not available/not working."
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}\``);}
+        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}secretsanta <create|join|start|end|kick>\``);}
         if (['create', 'new', 'c', 'n', 's'].includes(args[0].toLowerCase())) {
             function clearDM() {client.misc.activeDMs.delete(message.author.id);}
             if (client.misc.activeDMs.has(message.author.id)) {return message.reply("I'm already asking you questions in DM for a separate command! Finish that command before using this one.");}

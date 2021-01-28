@@ -12,6 +12,12 @@ module.exports = {
         .addField("Syntax", "`leave <set|clear|view|test>`")
         .addField("Notice", "You must be a staff or admin in your server to edit these settings.")
         .addField("Responses", "Your leave message should be generated through a response using my `response` command, and then bound to the leave message by providing your response's name."),
+    meta: {
+        category: 'Moderation',
+        description: "Set the channel and message to be sent when a user leaves the server.",
+        syntax: '`leave <set|clear|view|test>`',
+        extra: "You must use the `response` command to create a response. The response's name is what will be given in this command."
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This command is server-only.");}
         let tg = await GuildData.findOne({gid: message.guild.id}) ? await GuildData.findOne({gid: message.guild.id}) : new GuildData({gid: message.guild.id});

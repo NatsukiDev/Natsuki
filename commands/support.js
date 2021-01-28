@@ -8,6 +8,12 @@ module.exports = {
         .setDescription("Make a user a Natsuki Support Team member")
         .addField("Syntax", "`support <add|remove|check> <@user|userID>`")
         .addField("Notice", "This command is only available to Natsuki admin."),
+    meta: {
+        category: 'Developer',
+        description: "Add or remove users as Natsuki support",
+        syntax: '`support <add|remove|check> <@user|userID>`',
+        extra: "You can check if a user is a support member without being a developer."
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This is a guild-only command.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}\``);}

@@ -10,6 +10,12 @@ module.exports = {
         .setDescription("Setup and view information on this server's starboard! This allows messages to be sent to a dedicated channel when they receive a set number of star messages.")
         .addField("Syntax", "`starboard <setup|view|enable|disable|toggle>`")
         .addField("Notice", "You must have the staff-role or be an admin in order to set up or toggle the starboard"),
+    meta: {
+        category: 'Social',
+        description: "Set up a star board to feature users' messages in",
+        syntax: '`starboard <setup|view|enable|disable|toggle>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("You must be in a server in order to use this command.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}starboard <setup|view|enable|disable|toggle>\``);}

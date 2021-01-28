@@ -56,6 +56,12 @@ module.exports = {
     .setTitle("Help -> Death Note")
     .setDescription("Congratulations! You've picked up a death note. Write someone's name in it, and see for yourself if it's the real deal...")
     .addField("Syntax", "\`deathnote <@member> [method of death]\`"),
+    meta: {
+        category: 'Fun',
+        description: "Write someone's name in your deathnote. I'm not legally responsible for anything that happens after that.",
+        syntax: '`deathnote <@member> [method of death]`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("Unfortunately, this is a **guild-only** command!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}deathnote <@member> [method of death]\``);}
