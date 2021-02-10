@@ -19,6 +19,7 @@
         "moment": "^2.28.0",
         "mongoose": "^5.10.3",
         "node-fetch": "^2.6.1",
+        "ora": "^5.3.0",
         "sequelize": "^5.22.3",
         "sqlite3": "^4.2.0",
         "swwrap": "^1.0.0",
