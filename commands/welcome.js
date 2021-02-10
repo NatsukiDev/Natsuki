@@ -23,7 +23,7 @@ module.exports = {
         let tg = await GuildData.findOne({gid: message.guild.id}) ? await GuildData.findOne({gid: message.guild.id}) : new GuildData({gid: message.guild.id});
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}welcome <set|clear|view|test>\``);}
         if (['v', 'view', 'c', 'check'].includes(args[0].toLowerCase())) {}
-        if ((!tg.staffrole.length || !message.member.roles.cache.has(tg.staffrole)) && !message.member.permissions.has("ADMINISTRATOR")) {return message.reply("You can't do that without staff or admin permissions, silly!");}
+        if ((!tg || !tg.staffrole.length || !message.member.roles.cache.has(tg.staffrole)) && !message.member.permissions.has("ADMINISTRATOR")) {return message.reply("You can't do that without staff or admin permissions, silly!");}
 
         if (['s', 'set'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.reply("You need to specify a channel for your welcome messages to be sent in!");}

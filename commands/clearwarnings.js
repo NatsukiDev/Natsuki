@@ -13,7 +13,7 @@ module.exports = {
     },
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Warn Clearing")
-        .setDescription("Clears the warnigns of a user")
+        .setDescription("Clears the warnings of a user")
         .addField("Syntax", "`clearwarnings <@user|userID>`")
         .addField("Notice", "You must be a server administrator in order to use this command."),
     async execute(message, msg, args, cmd, prefix, mention, client) {

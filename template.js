@@ -4,15 +4,11 @@ module.exports = {
     name: "",
     aliases: [],
     meta: {
-        category: "",
-        perms: "",
-        staff: false,
-        vip: "",
-        serverPerms: [],
-        writtenBy: "",
-        serverOnly: false
+        category: '',
+        description: "",
+        syntax: '` <>`',
+        extra: null
     },
-    tags: [],
     help: new Discord.MessageEmbed()
     .setTitle("Help -> ")
     .setDescription("")
@@ -30,15 +26,11 @@ module.exports = {
     name: "",
     aliases: [],
     meta: {
-        category: "",
-        perms: "",
-        staff: false,
-        vip: "",
-        serverPerms: [],
-        writtenBy: "",
-        serverOnly: false
+        category: '',
+        description: "",
+        syntax: '` <>`',
+        extra: null
     },
-    tags: [],
     help: "",
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}\``);}
