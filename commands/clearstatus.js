@@ -15,14 +15,12 @@ module.exports = {
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let tu = await UserData.findOne({uid: message.author.id});
-        if (!tu && !tu.statusmsg.length) {
-            return message.reply("you have no status for me to clear");
-        }
+        if (!tu && !tu.statusmsg.length) {return message.reply("you have no status for me to clear");}
         if (tu.statusclearmode === "auto") {return;}
         tu.statusmsg = '';
         tu.statustype = '';
         tu.save();
-        require('../util/siftstatuses')(client, message.author.id);
-        return message.reply("welcome back! I cleared your status.");
+        require('../util/siftstatuses')(client, message.author.id, true);
+        return message.reply("welcome back! I cleared your status.").then(m => {m.delete({timeout: 5000}).then(() => {message.delete().catch(() => {});})});
     }
 };

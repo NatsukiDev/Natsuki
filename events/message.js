@@ -33,18 +33,14 @@ module.exports = async (client, message) => {
     }
 
 	if (mention && message.guild) {require('../util/mention')(message, msg, args, cmd, prefix, mention, client);}
-    let tu = await UserData.findOne({uid: message.author.id});
+    UserData.findOne({uid: message.author.id}).then(async (tu) => {
 	if (tu && tu.statusmsg.length && tu.statusclearmode === 'auto') {
         tu.statusmsg = '';
         tu.statustype = '';
         tu.save();
-        const statuses = await StatusCache.findOne({f: 'lol'});
-        let status; for (status of statuses.statuses) {
-            if (status.id === message.author.id) {delete statuses.statuses.indexOf(status);}
-        }
-        statuses.save();
-        message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.');
-	}
+        require('../util/siftstatuses')(client, message.author.id, true);
+        message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {m.delete({timeout: 5000});});
+	}});
 
     try {
         if (msg.startsWith(prefix) || msg.startsWith(`<@${client.user.id}>`) || msg.startsWith(`<@!${client.user.id}>`)) {
