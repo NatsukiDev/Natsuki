@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="977e7f53-d837-472d-98d5-0d19ca269f67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Natsuki.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Natsuki.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.js" beforeDir="false" afterPath="$PROJECT_DIR$/bot.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/events/ready.js" beforeDir="false" afterPath="$PROJECT_DIR$/events/ready.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +62,7 @@
       <workItem from="1610796007081" duration="78000" />
       <workItem from="1610796096772" duration="93000" />
       <workItem from="1610796205825" duration="1950000" />
-      <workItem from="1610841807978" duration="1127000" />
+      <workItem from="1610841807978" duration="1714000" />
     </task>
     <servers />
   </component>
