@@ -88,7 +88,6 @@ class Pagination {
             : (r) => { return emoji.includes(r.emoji.name); };
         this.controllers.collector = this.message.createReactionCollector(filter, { time: 450000 });
         this.controllers.collector.on('collect', async (r) => {
-            console.log(r);
             let functions = {
                 '⬅': () => { return this.prevPage(); },
                 '➡': () => { return this.nextPage(); },

@@ -8,6 +8,12 @@ module.exports = {
     .setDescription("Toggle a server as VIP. This grants a few small bonuses to your server that you can't get anywhere else!\n\nWant to become a VIP? Support the bot by [joining the support server](), donating to the bot's creators, or promoting/spreading the bot to other servers.")
     .addField("Syntax", "`vip <add|remove|check>`")
     .addField("Notice", "This command is **developer-only**."),
+    meta: {
+        category: 'Developer',
+        description: "Set server VIP status",
+        syntax: '`vip <add|remove|check>`',
+        extra: "This command is mostly cosmetic as there are no real perks *yet*"
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This command is server-only!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}vip <add|remove|check>\``);}

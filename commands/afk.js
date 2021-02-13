@@ -10,6 +10,12 @@ module.exports = {
         .setDescription("Set your status within the bot as AFK and specify a reason. Then, when other people ping you, I can let them know that you're not available!")
         .addField("Syntax", "`afk [clearMode] <reason>`")
         .addField("Notice","Your status clear mode can be set to either 'auto' or 'manual'. If not specified, it will clear next time you send a message (auto)."),
+    meta: {
+        category: 'Social',
+        description: "Tell others that you're AFK so that they'll be notified when you ping them.",
+        syntax: '`afk [clearMode] <reason>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}afk [clearMode] <reason>\``);}
         let tu = await UserData.findOne({uid: message.author.id})

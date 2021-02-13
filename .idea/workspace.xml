@@ -3,6 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="977e7f53-d837-472d-98d5-0d19ca269f67" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/commands/clearwarnings.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/clearwarnings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/response.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/response.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/welcome.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/welcome.js" afterDir="false" />
+>>>>>>> 36ede9d7de87f20d905c506a6f9eb8a6f9d2816d
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +34,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="javascript.nodejs.core.library.configured.version" value="14.15.4" />
-    <property name="javascript.nodejs.core.library.typings.version" value="14.14.21" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.18.3" />
+    <property name="javascript.nodejs.core.library.typings.version" value="12.19.15" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -62,7 +68,14 @@
       <workItem from="1610796007081" duration="78000" />
       <workItem from="1610796096772" duration="93000" />
       <workItem from="1610796205825" duration="1950000" />
+<<<<<<< HEAD
       <workItem from="1610841807978" duration="1714000" />
+=======
+      <workItem from="1610841807978" duration="1127000" />
+      <workItem from="1611872285922" duration="326000" />
+      <workItem from="1611931047924" duration="34000" />
+      <workItem from="1612003645899" duration="25000" />
+>>>>>>> 36ede9d7de87f20d905c506a6f9eb8a6f9d2816d
     </task>
     <servers />
   </component>

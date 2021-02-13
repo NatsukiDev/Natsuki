@@ -6,6 +6,12 @@ const makeId = require('../util/makeid');
 module.exports = {
     name: "kiss",
     help: "Ask for a kiss with `{{p}}kiss`, or give one by mentioning someone!",
+    meta: {
+        category: 'Fun',
+        description: "Give someone a kiss, or show that you're looking for one. Best of luck pal!",
+        syntax: '`kiss <@user>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let savess = await Saves.findOne({name: 'kiss'}) ? await Saves.findOne({name: 'kiss'}) : new Saves({name: 'kiss'});
         let saves = savess.saves;

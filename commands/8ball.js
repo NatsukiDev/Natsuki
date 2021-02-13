@@ -7,6 +7,12 @@ module.exports = {
         .setTitle("Help -> 8ball")
         .setDescription("Gives you moral support, decides if you really do want that third taco, or helps you decide on your existential crisis. Answers come with an accuracy guarantee of 0%!")
         .addField("Syntax", "`8ball <question>`"),
+    meta: {
+        category: 'Fun',
+        description: "Gives you moral support, decides if you really do want that third taco, or helps you decide on your existential crisis. Answers come with an accuracy guarantee of 0%!",
+        syntax: '`8ball <question>`',
+        extra: null
+    },
     execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}8ball <question>\``);}
         let question = args.join(" ");

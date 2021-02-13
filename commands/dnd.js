@@ -10,6 +10,12 @@ module.exports = {
         .setDescription("Set your status within the bot as DnD and specify a reason. Then, when other people ping you, I can let them know that you don't want to be disturbed!")
         .addField("Syntax", "`dnd [clearMode] <reason>`")
         .addField("Notice","Your status clear mode can be set to either 'auto' or 'manual'. If not specified, it will clear when you use `n?clearstatus`."),
+    meta: {
+        category: 'Social',
+        description: "Tell others not to disturb you so that they'll know not to ping you.",
+        syntax: '`dnd [clearMode] <reason>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}dnd [clearMode] <reason>\``);}
         let tu = await UserData.findOne({uid: message.author.id})

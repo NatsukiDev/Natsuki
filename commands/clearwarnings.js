@@ -6,18 +6,14 @@ module.exports = {
     name: "clearwarnings",
     aliases: ['clearwarn', 'cw', 'warnclear', 'wc', 'clearwarning'],
     meta: {
-        category: "",
-        perms: "",
-        staff: false,
-        vip: "",
-        serverPerms: [],
-        writtenBy: "",
-        serverOnly: false
+        category: 'Moderation',
+        description: "Clear a user's warnings in your server.",
+        syntax: '`clearwarnings <@user|userID>`',
+        extra: null
     },
-    tags: [],
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Warn Clearing")
-        .setDescription("Clears the warnigns of a user")
+        .setDescription("Clears the warnings of a user")
         .addField("Syntax", "`clearwarnings <@user|userID>`")
         .addField("Notice", "You must be a server administrator in order to use this command."),
     async execute(message, msg, args, cmd, prefix, mention, client) {

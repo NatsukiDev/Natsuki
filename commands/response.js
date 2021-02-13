@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+
 const GuildData = require('../models/guild');
 const Responses = require('../models/responses');
 
@@ -15,10 +16,16 @@ module.exports = {
         .setDescription("Configure your server's saved responses. These are reusable and editable, and can be placed in things like welcome messages and used for announcements.")
         .addField("Syntax", "`response <new|edit|view|list|delete|test|quick>`")
         .addField("Notice", "You must have your server's staff role or be an admin to use this command."),
+    meta: {
+        category: 'Moderation',
+        description: "Set responses that can be used for various purposes in your server, namely welcome and leave messages.",
+        syntax: '`response <new|edit|view|list|delete|test|quick>`',
+        extra: "Response editing is currently not available and will be Soon:tm:"
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("You must be in a server to use this command.");}
         let tg = await GuildData.findOne({gid: message.guild.id});
-        if (!tg && !['q', 'quick'].includes(args[0].toLowerCase()) && (tg.staffrole.length && !message.member.roles.cache.has(tg.staffrole)) && message.member.permissions.has("ADMINISTRATOR")) {return message.reply("you need to be staff or admin in this server in order to edit those settings.");}
+        if (!['q', 'quick'].includes(args[0].toLowerCase()) && ((tg && tg.staffrole.length && !message.member.roles.cache.has(tg.staffrole))) && !message.member.permissions.has("ADMINISTRATOR")) {return message.reply("you need to be staff or admin in this server in order to edit those settings.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}response <new|edit|view|list|delete|test|quick>\``);}
 
         if (args.length < 1) {return message.reply("You have to tell me what I'm supposed to find or save!");}

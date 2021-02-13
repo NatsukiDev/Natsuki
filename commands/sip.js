@@ -6,6 +6,12 @@ const makeId = require('../util/makeid');
 module.exports = {
     name: "sip",
     help: "Take a sip and watch the shenanigans unfold using `{{p}}sip`.",
+    meta: {
+        category: 'Social',
+        description: "Take a sip and watch the shenanigans unfold. Slurp if you're feeling... risqué.",
+        syntax: '`sip`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let savess = await Saves.findOne({name: 'sip'}) ? await Saves.findOne({name: 'sip'}) : new Saves({name: 'sip'});
         let saves = savess.saves;

@@ -9,9 +9,15 @@ module.exports = {
     name: "warn",
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Warnings")
-        .setDescription("")
+        .setDescription("Warn misbehaving members that what they are doing is wrong, and have it stored in a database in order to see a list of all their past warnings")
         .addField("Syntax", "`warn <@member> <warningMessage|check|clear>`")
         .addField("Notice", "You must be a server administrator in order to use this command."),
+    meta: {
+        category: 'Moderation',
+        description: "Warn misbehaving members that what they are doing is wrong, and have it stored in a database in order to see a list of all their past warnings",
+        syntax: '`warn <@member> <warningMessage|check|clear>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.channel.send("This is a server-only command.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}warn <@member> <warningMessage|check|clear>\``);}

@@ -7,6 +7,12 @@ module.exports = {
     name: "userinfo",
     aliases: ['ui', 'memberinfo', 'user'],
     help: "Shows your info, or shows the info of a user you ping.",
+    meta: {
+        category: 'Misc',
+        description: "See some info about a user",
+        syntax: '`userinfo [@user]`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let person = message.guild ? mention ? message.guild.members.cache.get(mention.id) : args[0] ? message.guild.members.cache.has(args[0]) ? message.guild.members.cache.get(args[0]) : message.member : message.member : message.author;
         let name = message.guild ? person.displayName : person.username;

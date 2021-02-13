@@ -10,6 +10,12 @@ module.exports = {
         .addField("Syntax", "`prefix <newPrefix|clear>`")
         .addField("Staff Command", "This command requires you to either be admin, or to have the designated staff role.")
         .addField("Notice", "Prefixes are cached, and may take up to a minute to update."),
+    meta: {
+        category: 'Misc',
+        description: "Change my prefix in your server.",
+        syntax: '`prefix <newPrefix|clear>`',
+        extra: "You can always mention me and then type your command in place of a prefix in case you forget it."
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This is a guild-only command!");}
         let tguild = await GuildSettings.findOne({gid: message.guild.id})

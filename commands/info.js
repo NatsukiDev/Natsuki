@@ -5,6 +5,12 @@ module.exports = {
     name: "info",
     aliases: ["i", "botinfo", "bot"],
     help: "There's not really anything to help with here! Just use `{{p}}info` to learn more about me!",
+    meta: {
+        category: 'Misc',
+        description: "Get info about me, my creators, and my status.",
+        syntax: '`info`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let botData = await require('../models/bot').findOne({finder: 'lel'});
 

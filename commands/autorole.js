@@ -9,6 +9,12 @@ module.exports = {
         .setDescription("Set a role to be automatically added to users when they join the server.")
         .addField("Syntax", "`autorole <set|clear|view>`")
         .addField('Notice', "This command can only be used by server staff members and admins."),
+    meta: {
+        category: 'Moderation',
+        description: "Set a role to be automatically added when a member joins the server.",
+        syntax: '`autorole <set|clear|view>`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply("This command is only available in servers.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}autorole <set|clear|view>\``);}

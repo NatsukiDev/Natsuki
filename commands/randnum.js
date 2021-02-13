@@ -17,6 +17,12 @@ module.exports = {
     .setTitle("Help -> Random Numbers")
     .setDescription("Generates a Random Number in the specified range.")
     .addField("Syntax", "`randnum <min> <max> [count]`"),
+    meta: {
+        category: 'Utility',
+        description: "Generate a random number... or a lot of them. It's up to you, really.",
+        syntax: '`randnum <min> <max> [count]`',
+        extra: null
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}randnum <min> <max> [count]\``);}
         if (args.length < 2) {return message.channel.send("You have to specify two numbers");}

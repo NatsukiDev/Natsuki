@@ -9,8 +9,14 @@ module.exports = {
     help: new Discord.MessageEmbed()
         .setTitle("Help -> VCS Pull")
         .setDescription("Pulls new commits from VCS")
-        .addField("Syntax", "`refresh`")
+        .addField("Syntax", "`pull`")
         .addField("Notice", "This command is only available to Natsuki developers."),
+    meta: {
+        category: 'Developer',
+        description: "Pull new commits from VSC and update the bot. Otaku zone, non-otakus not allowed.",
+        syntax: '`pull`',
+        extra: "You'll still need to use `reload` afterwards"
+    },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         const tu = await UserData.findOne({uid: message.author.id});
         if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do this!");}
