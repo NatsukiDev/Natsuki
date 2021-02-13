@@ -15,6 +15,6 @@ module.exports = async(message, msg, args, cmd, prefix, mention, client) => {
         let m = await message.channel.send(`That user ${tu.statustype === 'dnd' ? 'wishes not to be disturbed' : 'is AFK'}. Reason: ${tu.statusmsg}.${tu.statssetat ? ` \`(This status was set ${moment(tu.statussetat.getTime()).fromNow()})\`` : ''}`);
         await require('../util/wait')(10000);
         m.delete().catch((e) => {console.log(e);});
-        console.log(m);
+        //console.log(m);
     }
 };
