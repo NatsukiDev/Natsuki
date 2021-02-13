@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const wait = require('../util/wait');
 
 const UserData = require('../models/user');
-const StatusCache = require('../models/statuses');
+const AR = require('../models/ar');
 
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
@@ -41,6 +41,12 @@ module.exports = async (client, message) => {
         require('../util/siftstatuses')(client, message.author.id, true);
         message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {m.delete({timeout: 5000});});
 	}});
+
+	if (client.misc.cache.ar.has(message.guild.id) && client.misc.cache.ar.get(message.guild.id).includes(msg.trim())) {
+	    AR.findOne({gid: message.guild.id}).then(ar => {
+	        if (ar && ar.triggers.length && ar.triggers.includes(msg.trim()) && Object.keys(ar.ars).includes(msg.trim())) {return message.channel.send(ar.ars[msg.trim()]);}
+	    });
+	}
 
     try {
         if (msg.startsWith(prefix) || msg.startsWith(`<@${client.user.id}>`) || msg.startsWith(`<@!${client.user.id}>`)) {

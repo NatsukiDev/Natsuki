@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const chalk = require('chalk');
 const moment = require('moment');
 const mongoose = require('mongoose');
+const ora = require('ora');
 
 const GuildSettings = require('../models/guild');
 const BotDataSchema = require('../models/bot');
@@ -27,7 +28,11 @@ module.exports = async client => {
 
 	let responses = {
 		"PLAYING": [
-			`with my darling`, 'RAIN: Shadow Lords'
+			`with my darling`, 'RAIN: Shadow Lords', "with my waifu", "with the neko formula",
+			"with magic", "terrible anime games", "anime OSTs at max volume",
+			`${Math.ceil(Math.random() * 100)} days of trying to become a samurai`,
+			"with the sauce", "witch hats are >", "explosion magic is the best magic",
+			"with Kazuma's sanity"
 			,`in ${client.guilds.cache.size} servers`
 		],
 		"WATCHING": [
@@ -36,7 +41,7 @@ module.exports = async client => {
 			"a slime somehow start an empire", "a fox-maid get her tail fluffed",
 			"a raccoon-girl and some guy with a shield", "some chick with unusually red hair",
 			"Mob hit 100", "a really bad harem anime", "The Black Swordsman",
-			"The Misfit of Demon King Academy"
+			"The Misfit of Demon King Academy", "Akame ga Kill"
 			,`over ${client.guilds.cache.size} servers`
 		]
 	};
@@ -65,6 +70,12 @@ module.exports = async client => {
 	siftStatuses();
 
 	setInterval(() => {setPL(); siftStatuses(client, null);}, 120000);
+
+	console.log('');
+	let ora_arCache = ora("Caching ARs...").start();
+	await require('../util/cache/ar')(client);
+	ora_arCache.stop(); ora_arCache.clear();
+	console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.ar.size}`)} ${chalk.blueBright(`guilds with auto responses.`)}`);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

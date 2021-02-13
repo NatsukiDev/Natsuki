@@ -10,7 +10,10 @@ client.misc = {
     activeDMs: new Discord.Collection(),
     statusPings: new Discord.Collection(),
     startup: new Date(),
-    startupNoConnect: null
+    startupNoConnect: null,
+    cache: {
+        ar: new Map()
+    }
 };
 
 //const config = require('./config.js');

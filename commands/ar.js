@@ -43,6 +43,7 @@ module.exports = {
             if (tar.triggers.length === 20) {return message.channel.send("Because of data storage concerns, your ARs are capped at 20 per server. You can join the official support server and talk to the devs if you have a legitimate reason for raising this limit and they can see about raising it for you!");}
             let h = false; let ar; for (ar of tar.triggers) {if (ar.toLowerCase() === `${trigger}`.toLowerCase()) {h = true;}}
             if (!h) {tar.triggers.push(trigger);}
+            client.misc.cache.ar.set(message.guild.id, tar.triggers);
             tar.ars[`${trigger}`.trim().toLowerCase()] = `${response}`.trim();
             tar.markModified('tar.ars');
             tar.save();
