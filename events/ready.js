@@ -71,11 +71,7 @@ module.exports = async client => {
 
 	setInterval(() => {setPL(); siftStatuses(client, null);}, 120000);
 
-	console.log('');
-	let ora_arCache = ora("Caching ARs...").start();
-	await require('../util/cache/ar')(client);
-	ora_arCache.stop(); ora_arCache.clear();
-	console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.ar.size}`)} ${chalk.blueBright(`guilds with auto responses.`)}`);
+	await require('../util/cache')(client);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

@@ -12,7 +12,11 @@ client.misc = {
     startup: new Date(),
     startupNoConnect: null,
     cache: {
-        ar: new Map()
+        ar: new Map(),
+        bl: {
+            guild: [],
+            user: []
+        }
     }
 };
 
