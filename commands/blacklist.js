@@ -5,8 +5,16 @@ const GuildData = require('../models/guild')
 module.exports = {
     name: "blacklist",
     aliases: ['bl'],
-    help: "Disables a user from using Natsuki ( Usage: {{p}}blacklist <user_id> <add || del> )",
+    meta: {
+        category: 'Developer',
+        description: "Completely blocks a user or server from using Natsuki!",
+        syntax: '`blacklist <user|guild> <add|delete> [@mention|ID]`',
+        extra: null
+    },
+    help: "Disables a user from using Natsuki (Usage: `{{p}}blacklist <user|guild> <add|delete> [@mention|ID])`",
     async execute(message, msg, args, cmd, prefix, mention, client) {
+        if (!args.length) {return message.channel.send("Syntax: `blacklist <user|guild> <add|delete> [@mention|ID]`");}
+
         let tu = await UserData.findOne({uid: message.author.id});
 
         if (['g', 'guild'].includes(args[0].toLowerCase())) {
@@ -84,4 +92,6 @@ module.exports = {
 
             return message.channel.send("Valid args: `<userID|@user> <add|del>`");
         }
+
+        return message.channel.send("Valid args: `<user|guild>`");
     }};
