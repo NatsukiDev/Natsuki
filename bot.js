@@ -13,6 +13,7 @@ client.misc = {
     startupNoConnect: null,
     cache: {
         ar: new Map(),
+        arIgnore: new Map(),
         bl: {
             guild: [],
             user: []

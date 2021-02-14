@@ -42,9 +42,9 @@ module.exports = async (client, message) => {
         message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {m.delete({timeout: 5000});});
 	}});
 
-	if (client.misc.cache.ar.has(message.guild.id) && client.misc.cache.ar.get(message.guild.id).includes(msg.trim())) {
+	if (message.guild && client.misc.cache.ar.has(message.guild.id) && client.misc.cache.ar.get(message.guild.id).includes(msg.trim()) && !(client.misc.cache.arIgnore.has(message.guild.id) && client.misc.cache.arIgnore.get(message.guild.id).includes(message.channel.id))) {
 	    AR.findOne({gid: message.guild.id}).then(ar => {
-	        if (ar && ar.triggers.length && ar.triggers.includes(msg.trim()) && Object.keys(ar.ars).includes(msg.trim())) {return message.channel.send(ar.ars[msg.trim()]);}
+	        if (ar && ar.triggers.length && ar.triggers.includes(msg.trim())) {return message.channel.send(ar.ars[ar.triggers.indexOf(msg.trim())]);}
 	    });
 	}
 

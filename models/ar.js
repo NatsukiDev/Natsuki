@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const AR = new mongoose.Schema({
     gid: {type: String, unique: true},
-    ars: {type: Object, default: {}},
+    ars: {type: [String], default: []},
     triggers: {type: [String], default: []},
     ignoreChs: {type: [String], default: []}
 });
