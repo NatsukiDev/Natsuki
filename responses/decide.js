@@ -2,16 +2,6 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: "decide",
-    meta: {
-        category: "",
-        perms: "",
-        staff: false,
-        vip: "",
-        serverPerms: [],
-        writtenBy: "",
-        serverOnly: false
-    },
-    tags: [],
     help: new Discord.MessageEmbed()
     .setTitle("Help -> ")
     .setDescription("")
