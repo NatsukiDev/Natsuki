@@ -22,7 +22,7 @@ module.exports = {
     .addField("Permissions", "You'll want to have the `ban members` permission in your server or be an administrator to do this!"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}ban <@member|memberID> [reason]\``);}
-        
+
         if (!message.member.permissions.has("BAN_MEMBERS")) {return message.channel.send("You don't have permissions to do that!");}
         if (!message.guild.me.permissions.has("BAN_MEMBERS")) {return message.channel.send("I don't have permissions to ban members in your server.");}
         let user = message.guild.members.cache.get(args[0]) || message.mentions.members.first();
@@ -47,7 +47,7 @@ module.exports = {
         else {if (args[1] && !options.days /*&& (!options.notes || !options.notes.length)*/ && (!options.reason || !options.reason.length)) {args.shift(); reason = args.join(" ");}}
         if (reason && reason.length > 250) {return message.channel.send("I mean I get it, they pissed you off, but do you really need to give me that much info on why you're banning them? I can't keep track of all that!");}
 
-        return user.ban({reason: reason})
+        return user.ban({reason: reason, days: typeof days === "number" ? days : 0})
             .then(async () => {
                 /*let mh = await Mod.findOne({gid: message.guild.id}) || new Mod({gid: message.guild.id});
                 let mhcases = mh.cases;

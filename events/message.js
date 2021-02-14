@@ -53,7 +53,7 @@ module.exports = async (client, message) => {
             let command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
 
             if (command && command.name !== "blacklist") {
-                if (client.misc.cache.bl.guild.includes(message.guild.id)) {return message.channel.send("Your server has been blacklisted from using my commands! Shame, tsk tsk");}
+                if (message.guild && client.misc.cache.bl.guild.includes(message.guild.id)) {return message.channel.send("Your server has been blacklisted from using my commands! Shame, tsk tsk");}
                 if (client.misc.cache.bl.user.includes(message.author.id)) {return message.channel.send("You've been blacklisted from using my commands! Now what'd ya do to deserve that??");}
             }
 
@@ -68,6 +68,6 @@ module.exports = async (client, message) => {
         let trigger; for (trigger of client.responses.triggers) {if (await trigger[1](message, msg, args, cmd, prefix, mention, client)) {await client.responses.commands.get(trigger[0]).execute(message, msg, args, cmd, prefix, mention, client); break;}}
     } catch (e) {
         let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
-        console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | In ${message.guild.name}\n`)}`, e);
+        console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | In ${message.guild ? message.guild.name : `a DM with ${message.author.username}`}\n`)}`, e);
     }
 };
