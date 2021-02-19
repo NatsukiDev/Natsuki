@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
 const moment = require('moment');
+
+const VC = require('../models/vscount');
+
 const {Tag} = require('../util/tag');
 const {TagFilter} = require('../util/tagfilter');
 
@@ -69,7 +72,7 @@ module.exports = {
         //if (!args[0].trim().match(/^<@(?:\!?)\d+>$/)) {return message.reply("You have to mention someone!");}
         if (mention && mention.id === message.author.id) {return message.reply("Hehe I won't let you write your own name in the notebook! Just leave it somewhere for a few days and someone else will take it. Maybe they'll write your name...");} // users can't mention themselves
         if (mention && mention.id === client.user.id) {return message.reply("You can't kill me! Little did you know, I'm actually a death god!");}
-        //TODO if bot is mentioned maybe
+        if (mention && mention.bot) {return message.reply("As a bot, I simply cannot let you attempt to kill another fellow bot!");}
 
         let reptype = responses[Object.keys(responses)[Math.floor(Math.random() * Object.keys(responses).length)]]; // report type
         let title = reptype.titles[Math.floor(Math.random() * reptype.titles.length)];
@@ -118,11 +121,20 @@ module.exports = {
         .replace(/{ds}/g, moment().format("h:mm a")); // {ds} = date small, basically just the time.
         // Create and format the kill text
 
+        let dns;
+        if (mention && mention.id) {
+            dns = await VC.findOne({uid: message.author.id, countOf: 'dn'}) || new VC({uid: message.author.id, countOf: 'dn'});
+            dns.against[mention.id] = dns.against[mention.id] ? dns.against[mention.id] + 1 : 1;
+            dns.total++;
+            dns.markModified(`against.${mention.id}`);
+            dns.save();
+        }
+
         let finalEmbed = new Discord.MessageEmbed()
         .setAuthor(title, message.author.avatarURL())
-        .setDescription(text)
+        .setDescription(`${text}${dns ? `\n\n_Their name is in your deathnote **${dns.total === 1 ? 'once' : `${dns.total} times`}.**_` : ''}`)
         .setColor('c375f0')
-        .setFooter("Natsuki")
+        .setFooter(`Natsuki${dns ? ` | ${dns.total} name${dns.total === 1 ? ' has been' : 's'} written in your deathnote!` : ''}`)
         .setTimestamp();
 
         if (mention) {finalEmbed.setThumbnail(mention.avatarURL({size: 1024}));}
