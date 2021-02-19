@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
+
 const Saves = require('../models/saves');
 const UserData = require('../models/user');
+const VC = require('../models/vscount');
+
 const makeId = require('../util/makeid');
 
 module.exports = {
@@ -29,10 +32,17 @@ module.exports = {
             if (!message.guild) {return message.reply("Please make sure you're in a server so you can mention someone other than me to hug!");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("Sorry if you're that lonely, but you can't hug yourself!");}
+            let hugs = await VC.findOne({uid: message.author.id, countOf: 'hug'}) || new VC({uid: message.author.id, countOf: 'hug'});
+            hugs.against[mention.id] = hugs.against[mention.id] ? hugs.against[mention.id] + 1 : 1;
+            hugs.total++;
+            hugs.markModified(`against.${mention.id}`);
+            hugs.save();
             return message.channel.send(new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a hug!`, message.author.avatarURL())
+                .setDescription(`You've hugged them **${hugs.total === 1 ? 'once' : `${hugs.total} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')
+                .setFooter(`${hugs.total} hug${hugs.total === 1 ? '' : 's'} total`)
             );
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
