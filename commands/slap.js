@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
+
 const Saves = require('../models/saves');
 const UserData = require('../models/user');
+const VC = require('../models/vscount');
+
 const makeId = require('../util/makeid');
 
 module.exports = {
@@ -19,13 +22,20 @@ module.exports = {
         if (!args.length) {
             return message.channel.send(message.guild ? "Please mention someone to slap!" : "Oi! You don't get to waltz into my DM just to slap me!");}
         if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
-            if (!message.guild) {return message.reply("Please make sure you're in a server so you can mention someone other than me to slap!");}
+            if (!message.guild) {return message.reply("Oi! You don't get to waltz into my DM just to slap me!");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("Wait wouldn't slapping yourself be a form of self-harm? ToS is that you??");}
+            let slaps = await VC.findOne({uid: message.author.id, countOf: 'slap'}) || new VC({uid: message.author.id, countOf: 'slap'});
+            slaps.against[mention.id] = slaps.against[mention.id] ? slaps.against[mention.id] + 1 : 1;
+            slaps.total++;
+            slaps.markModified(`against.${mention.id}`);
+            slaps.save();
             return message.channel.send(new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} slaps ${message.guild.members.cache.get(mention.id).displayName}`, message.author.avatarURL())
+                .setDescription(`That makes slap **#${slaps.against[mention.id]}** from you to them!`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d93846')
+                .setFooter(`${slaps.total} slap${slaps.total === 1 ? '' : 's'} total`)
             );
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
