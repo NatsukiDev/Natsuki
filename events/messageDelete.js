@@ -16,7 +16,7 @@ module.exports = async (client, message) => {
 		if (message.attachments.size) {
 			if (message.attachments.first().url.includes(".png") || message.attachments.first().url.includes(".jpg") || message.attachments.first().url.includes(".gif")) {/*console.log('e');*/ try {mde.setImage(message.attachments.first().url);} catch {}}
 			let av = Array.from(message.attachments.values());
-			as = ''; for (let a of av) {
+			let as = ''; for (let a of av) {
 				as += `[Att. ${av.indexOf(a) + 1}](${a.url})`;
 				if (av.indexOf(a) + 1 < av.length) {as += ' | ';}
 			}
