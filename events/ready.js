@@ -9,8 +9,9 @@ const BotDataSchema = require('../models/bot');
 const LogData = require('../models/log');
 
 const siftStatuses = require('../util/siftstatuses');
+const localXPCacheClean = require('../util/lxp/cacheloop');
 
-var prefix = 'n?';
+let prefix = 'n?';
 
 module.exports = async client => {
 	const config = client.config;
@@ -51,7 +52,6 @@ module.exports = async client => {
 		else {client.user.setActivity(responses[type][Math.floor(Math.random() * responses[type].length)] + " | " + prefix + "help", {type: type});}
 	}
 	setR();
-
 	setInterval(setR, 14400000);
 
 	const setPL = async () => {let tg; for (tg of Array.from(client.guilds.cache.values)) {
@@ -67,11 +67,13 @@ module.exports = async client => {
 		}
 	}};
 	setPL();
-	siftStatuses();
 
+	siftStatuses();
 	setInterval(() => {setPL(); siftStatuses(client, null);}, 120000);
 
 	await require('../util/cache')(client);
+
+	setInterval(() => localXPCacheClean(client), 150000);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

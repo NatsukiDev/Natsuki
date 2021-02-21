@@ -31,6 +31,8 @@ module.exports = {
             rc.on("collect", async r => {
                 let xp = new LXP({gid: message.guild.id});
                 xp.msg = r.emoji.name === "👍";
+                xp.save();
+                client.misc.cache.lxp.enabled.push(message.guild.id);
                 return message.channel.send(new Discord.MessageEmbed()
                     .setTitle("XP System Enabled!")
                     .setThumbnail(message.guild.iconURL({size: 2048}))
