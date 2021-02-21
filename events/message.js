@@ -5,6 +5,7 @@ const wait = require('../util/wait');
 
 const UserData = require('../models/user');
 const AR = require('../models/ar');
+const LXP = require('../models/localxp');
 
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
@@ -47,6 +48,22 @@ module.exports = async (client, message) => {
 	        if (ar && ar.triggers.length && ar.triggers.includes(msg.trim())) {return message.channel.send(ar.ars[ar.triggers.indexOf(msg.trim())]);}
 	    });
 	}
+
+	if (message.guild && client.misc.cache.lxp.enabled.includes(message.guild.id)) {
+	    LXP.findOne({gid: message.guild.id}).then(xp => {
+            if (!client.misc.cache.lxp.xp[message.guild.id]) {client.misc.cache.lxp.xp[message.guild.id] = {};}
+            if (!client.misc.cache.lxp.xp[message.guild.id][message.author.id]) {client.misc.cache.lxp.xp[message.guild.id][message.author.id] = {
+                xp: xp.xp[message.author.id] ? xp.xp[message.author.id][0] : 0,
+                level: xp.xp[message.author.id] ? xp.xp[message.author.id][1] : 1,
+                lastXP: new Date().getTime() - 60000
+            };}
+            if (new Date().getTime() - client.misc.cache.lxp.xp[message.guild.id][message.author.id].lastXP > 60000) {
+                require('../util/lxp/gainxp')(client, message.member.id, message.channel);
+            }
+        });
+    }
+
+
 
     try {
         if (msg.startsWith(prefix) || msg.startsWith(`<@${client.user.id}>`) || msg.startsWith(`<@!${client.user.id}>`)) {
