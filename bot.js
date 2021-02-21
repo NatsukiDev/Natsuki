@@ -17,6 +17,10 @@ client.misc = {
         bl: {
             guild: [],
             user: []
+        },
+        lxp: {
+            enabled: [],
+            xp: {}
         }
     }
 };

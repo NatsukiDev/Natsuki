@@ -13,4 +13,9 @@ module.exports = async (client) => {
     ora_blCache.stop(); ora_blCache.clear();
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.bl.guild.length}`)} ${chalk.blueBright(`guild blacklists`)}`);
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.bl.user.length}`)} ${chalk.blueBright(`user blacklists`)}`);
+
+    let ora_lxpCache = ora("Caching Local XPs...").start();
+    await require('./cache/lxp')(client);
+    ora_lxpCache.stop(); ora_lxpCache.clear();
+    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.lxp.enabled.length}`)} ${chalk.blueBright(`guilds with XP enabled.`)}`);
 };
