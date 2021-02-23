@@ -29,7 +29,7 @@ module.exports = async (client, message) => {
 	if ([`<@${client.user.id}>`, `<@!${client.user.id}>`].includes(msg)) {
 	    return message.channel.send(new Discord.MessageEmbed()
         .setTitle(["Yep, that's me!", "^^ Hiya!", "Oh, hi there!", "Sure, what's up?", "How can I help!", "Natsuki is busy, but I can take a message for you!", "Teehee that's me!", "You were looking for Natsuki Tivastl, right?", "Sure! What's up?", "Pong!"][Math.floor(Math.random() * 10)])
-        .setDescription("My prefix here is `" + prefix + "`. Use `" + prefix + "help` to see what commands you can use.")
+        .setDescription(`My prefix here is \`${prefix}\`. Use \`${prefix}help\` to see what commands you can use.`)
         .setColor('c375f0'));
     }
 
