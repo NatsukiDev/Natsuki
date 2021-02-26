@@ -21,6 +21,6 @@ module.exports = {
         tu.statustype = '';
         tu.save();
         require('../util/siftstatuses')(client, message.author.id, true);
-        return message.reply("welcome back! I cleared your status.").then(m => {m.delete({timeout: 5000}).then(() => {message.delete().catch(() => {});})});
+        return message.reply("welcome back! I cleared your status.").then(m => {m.delete({timeout: 5000}).then(() => {if (message.guild && message.guild.me.permissions.has("DELETE_MESSAGES")) {message.delete().catch(() => {});}})});
     }
 };

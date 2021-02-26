@@ -18,7 +18,7 @@ module.exports = async function (client, lookFor, forceClear) {
                 tu.statustype = '';
                 tu.save();
                 let u = await client.users.fetch(status.id);
-                if (u) {u.send("Heya! Your status has been set for 12 hours, so I've cleared it for you.").catch(() => {});}
+                if (u && !forceClear) {u.send("Heya! Your status has been set for 12 hours, so I've cleared it for you.").catch(() => {});}
             }
         } else {ns.push(status);}
     }

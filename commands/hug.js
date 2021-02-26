@@ -39,7 +39,7 @@ module.exports = {
             hugs.save();
             return message.channel.send(new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a hug!`, message.author.avatarURL())
-                .setDescription(`You've hugged them **${hugs.total === 1 ? 'once' : `${hugs.total} times!`}**`)
+                .setDescription(`You've hugged them **${hugs.against[mention.id] === 1 ? 'once' : `${hugs.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')
                 .setFooter(`${hugs.total} hug${hugs.total === 1 ? '' : 's'} total`)

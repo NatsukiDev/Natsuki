@@ -132,7 +132,7 @@ module.exports = {
 
         let finalEmbed = new Discord.MessageEmbed()
         .setAuthor(title, message.author.avatarURL())
-        .setDescription(`${text}${dns ? `\n\n_Their name is in your deathnote **${dns.total === 1 ? 'once' : `${dns.total} times`}.**_` : ''}`)
+        .setDescription(`${text}${dns ? `\n\n_Their name is in your deathnote **${dns.against[mention.id] === 1 ? 'once' : `${dns.against[mention.id]} times`}.**_` : ''}`)
         .setColor('c375f0')
         .setFooter(`Natsuki${dns ? ` | ${dns.total} name${dns.total === 1 ? ' has been' : 's'} written in your deathnote!` : ''}`)
         .setTimestamp();

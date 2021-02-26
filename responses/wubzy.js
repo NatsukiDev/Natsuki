@@ -91,5 +91,8 @@ module.exports = {
                 return;
             } else {return message.channel.send("Watching anime in incognito are we? I gotcha :p");}
         }
+        if (['hey natsuki', 'hey natsuki?', 'yo natsuki'].includes(msg.trim())) {
+            let r = ["What's up?", "Hm?", "How can I help?", "Heya ^^", "Hey there Wubbo", "What's up Wubzy?", "Soup", "hehe sup"];
+        }
     }
 };
