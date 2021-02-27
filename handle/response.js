@@ -10,7 +10,7 @@ module.exports = client => {
         var response = require(`../responses/${responsef}`);
         client.responses.triggers.push([response.name, response.condition]);
         client.responses.commands.set(response.name, response);
-        console.log(`${chalk.gray('[LOG] ')} >> ${chalk.blueBright('Loaded Response')} ${chalk.white(response.name)}`);
+        console.log(`${chalk.gray('[LOAD]')} >> ${chalk.blueBright('Loaded Response')} ${chalk.white(response.name)}`);
     }
     console.log(`\n${chalk.gray('[BOOT]')} >> ${chalk.blue('Loaded all Responses')}`);
 };

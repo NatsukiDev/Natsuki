@@ -11,7 +11,7 @@ module.exports = client => {
         let evt = require('../events/' + file);
         client.removeAllListeners(evtName);
         client.on(evtName, evt.bind(null, client));
-        console.log(`${chalk.gray('[LOG] ')} >> ${chalk.blueBright('Loaded Event')} ${chalk.white(evtName)}`);
+        console.log(`${chalk.gray('[LOAD]')} >> ${chalk.blueBright('Loaded Event')} ${chalk.white(evtName)}`);
     }
     console.log(`\n${chalk.gray('[BOOT]')} >> ${chalk.blue('Loaded all Events')}`);
 };
