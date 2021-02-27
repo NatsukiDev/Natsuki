@@ -20,7 +20,8 @@ client.misc = {
         },
         lxp: {
             enabled: [],
-            xp: {}
+            xp: {},
+            hasLevelRoles: []
         }
     }
 };

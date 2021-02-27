@@ -18,4 +18,9 @@ module.exports = async (client) => {
     await require('./cache/lxp')(client);
     ora_lxpCache.stop(); ora_lxpCache.clear();
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.lxp.enabled.length}`)} ${chalk.blueBright(`guilds with XP enabled.`)}`);
+
+    let ora_lrCache = ora("Caching Level Roles...").start();
+    await require('./cache/lr')(client);
+    ora_lrCache.stop(); ora_lrCache.clear();
+    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.lxp.enabled.length}`)} ${chalk.blueBright(`guilds with Level Roles enabled.`)}`);
 };
