@@ -31,7 +31,7 @@ module.exports = {
             .setTitle(`${u.displayName}${u.displayName.toLowerCase().endsWith('s') ? "'" : "'s"} Stats`)
             .setDescription("Local leveling stats")
             .addField("Level", xp.level, true)
-            .addField("XP", `**${xp.xp}** of **${Math.ceil(100 + (((xp.level / 3) ** 1.4) * 1.4))}** needed to level up`, true)
+            .addField("XP", `**${xp.xp}** of **${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))}** needed to level up`, true)
             .setThumbnail(client.users.cache.get(u.id).avatarURL({size: 2048}))
             .setColor("c375f0")
             .setFooter("Natsuki")

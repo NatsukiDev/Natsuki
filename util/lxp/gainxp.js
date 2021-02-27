@@ -6,7 +6,7 @@ module.exports = async (client, member, channel) => {
     client.misc.cache.lxp.xp[channel.guild.id][member].xp += 10;
 
     let x = client.misc.cache.lxp.xp[channel.guild.id][member].level;
-    let max = Math.ceil(100 + (((x / 3) ** 1.4) * 1.4));
+    let max = Math.ceil(100 + (((x / 3) ** 2) * 2));
 
     if (client.misc.cache.lxp.xp[channel.guild.id][member].xp > max) {
         client.misc.cache.lxp.xp[channel.guild.id][member].xp -= max;
