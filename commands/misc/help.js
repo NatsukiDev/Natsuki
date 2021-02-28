@@ -36,12 +36,11 @@ module.exports = {
                 helpSorted[category] = categorySorted;
             }
 
-            let cat = await ask(message, "What would you like help with? (`Fun`|`Roleplay`|`Utility`|`Misc`|`Moderation`|`Social`|`Leveling`) or `all` if you'd like to browse all commands", 60000); if (!cat) {return;}
-            if (!['f', 'fun', 'rp', 'roleplay', 'dnd', 'role play', 'rpg', 'dice', 'u', 'util', 'utility', 'utilities', 'm', 'misc', 'miscellaneous', 'mod', 'moderation', 's', 'social', 'leveling', 'l', 'level', 'a', 'all'].includes(`${cat}`.trim().toLowerCase())) {return message.channel.send("That wasn't a valid response! Try again?");}
+            let cat = await ask(message, "What would you like help with? (`Fun`|`Utility`|`Misc`|`Moderation`|`Social`|`Leveling`) or `all` if you'd like to browse all commands", 60000); if (!cat) {return;}
+            if (!['f', 'fun', 'u', 'util', 'utility', 'utilities', 'm', 'misc', 'miscellaneous', 'mod', 'moderation', 's', 'social', 'leveling', 'l', 'level', 'a', 'all'].includes(`${cat}`.trim().toLowerCase())) {return message.channel.send("That wasn't a valid response! Try again?");}
 
             let pages;
             if (['f', 'fun'].includes(`${cat}`.trim().toLowerCase())) {pages = helpSorted['Fun'];}
-            if (['roleplay', 'dnd', 'role play', 'rpg', 'dice'].includes(`${cat}`.trim().toLowerCase())) {pages = helpSorted['RP'];}
             if (['u', 'util', 'utility', 'utilities'].includes(`${cat}`.trim().toLowerCase())) {pages = helpSorted['Utility'];}
             if (['m', 'misc', 'miscellaneous'].includes(`${cat}`.trim().toLowerCase())) {pages = helpSorted['Misc'];}
             if (['d', 'dev', 'developer'].includes(`${cat}`.trim().toLowerCase())) {pages = helpSorted['Developer'];}

@@ -43,7 +43,7 @@ module.exports = {
             let eventFilter = fs.readdirSync('./events/').filter(x => x.endsWith('.js'));
             for (let file of eventFilter) {
                 let evtName = file.split('.')[0];
-                if (Object.keys(require.cache).includes(require.resolve('../events/' + file))) {delete require.cache[require.resolve('../events/' + file)];}
+                if (Object.keys(require.cache).includes(require.resolve('../../events/' + file))) {delete require.cache[require.resolve('../../events/' + file)];}
                 let evt = require('../events/' + file);
                 client.removeAllListeners(evtName);
                 client.on(evtName, evt.bind(null, client));
@@ -55,7 +55,7 @@ module.exports = {
             let responses = fs.readdirSync('./responses').filter(file => file.endsWith('.js'));
             client.responses.triggers = [];
             for (let responsef of responses) {
-                if (Object.keys(require.cache).includes(require.resolve(`../responses/${responsef}`))) {delete require.cache[require.resolve(`../responses/${responsef}`)];}
+                if (Object.keys(require.cache).includes(require.resolve(`../responses/${responsef}`))) {delete require.cache[require.resolve(`../../responses/${responsef}`)];}
                 let response = require(`../responses/${responsef}`);
                 client.responses.triggers.push([response.name, response.condition]);
                 client.responses.commands.set(response.name, response);

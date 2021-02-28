@@ -21,7 +21,7 @@ module.exports = {
         .addField("Notice", "This command is server-only, and requires you to be an administrator or have the staff role."),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.channel.send("You must be in a server in order to use this command.");}
-        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}<add|edit|delete|settings|list>\``);}
+        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}ar <add|edit|delete|settings|list>\``);}
         const tg = await GuildData.findOne({gid: message.guild.id});
         if (['a', 'add', 'e', 'edit', 'delete', 'd', 's', 'settings'].includes(args[0].toLowerCase()) && ((!tg || !tg.staffrole || !tg.staffrole.length || !message.member.roles.cache.has(tg.staffrole)) && !message.member.permissions.has("ADMINISTRATOR"))) {return message.channel.send("You must have the staff role or be an administrator in this server in order to edit AR settings.");}
 

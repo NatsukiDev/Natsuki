@@ -6,7 +6,7 @@ const ora = require('ora');
 const mongoose = require('mongoose');
 
 client.misc = {
-    savers: ['497598953206841375'],
+    savers: ['497598953206841375', '480535078150340609'],
     activeDMs: new Discord.Collection(),
     statusPings: new Discord.Collection(),
     startup: new Date(),
