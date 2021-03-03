@@ -25,14 +25,16 @@ module.exports = {
             if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do this!");}
 
             let commands = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+            let dirSet = new Map();
+            fs.readdirSync('./commands').filter(file => !file.includes('.')).forEach(dir => fs.readdirSync(`./commands/${dir}`).filter(file => file.endsWith('.js')).forEach(x => {commands.push(x); dirSet.set(x, dir)}));
             console.log(`\n${chalk.yellow('[WARN]')} >> ${chalk.gray('Reload:')} ${chalk.white('All commands and events are being reloaded!')}`);
             console.log(`${chalk.gray('[INFO]')} >> ${chalk.hex('ff4fd0')(`Developer ${message.author.username} initiated the system refresh`)}\n`);
 
             let cmdspinner = ora(chalk.blue('Loading Commands')).start();
             ['commands', 'aliases'].forEach(x => client[x] = new Discord.Collection());
             for (let commandf of commands) {
-                if (Object.keys(require.cache).includes(require.resolve(`./${commandf}`))) {delete require.cache[require.resolve(`./${commandf}`)];}
-                let command = require(`./${commandf}`);
+                if (Object.keys(require.cache).includes(require.resolve(`../../commands/${dirSet.has(commandf) ? `${dirSet.get(commandf)}/`: ''}${commandf}`))) {delete require.cache[require.resolve(`../../commands/${dirSet.has(commandf) ? `${dirSet.get(commandf)}/`: ''}${commandf}`)];}
+                let command = require(`../../commands/${dirSet.has(commandf) ? `${dirSet.get(commandf)}/`: ''}${commandf}`);
                 client.commands.set(command.name, command);
                 if (command.aliases) {command.aliases.forEach(a => client.aliases.set(a, command.name));}
             }
@@ -44,7 +46,7 @@ module.exports = {
             for (let file of eventFilter) {
                 let evtName = file.split('.')[0];
                 if (Object.keys(require.cache).includes(require.resolve('../../events/' + file))) {delete require.cache[require.resolve('../../events/' + file)];}
-                let evt = require('../events/' + file);
+                let evt = require('../../events/' + file);
                 client.removeAllListeners(evtName);
                 client.on(evtName, evt.bind(null, client));
             }
@@ -55,8 +57,8 @@ module.exports = {
             let responses = fs.readdirSync('./responses').filter(file => file.endsWith('.js'));
             client.responses.triggers = [];
             for (let responsef of responses) {
-                if (Object.keys(require.cache).includes(require.resolve(`../responses/${responsef}`))) {delete require.cache[require.resolve(`../../responses/${responsef}`)];}
-                let response = require(`../responses/${responsef}`);
+                if (Object.keys(require.cache).includes(require.resolve(`../../responses/${responsef}`))) {delete require.cache[require.resolve(`../../responses/${responsef}`)];}
+                let response = require(`../../responses/${responsef}`);
                 client.responses.triggers.push([response.name, response.condition]);
                 client.responses.commands.set(response.name, response);
             }
