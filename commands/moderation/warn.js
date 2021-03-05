@@ -21,7 +21,7 @@ module.exports = {
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.channel.send("This is a server-only command.");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}warn <@member> <warningMessage|check|clear>\``);}
-        if (!message.member.permissions.has("ADMINISTRATOR")) {return message.reply("You must be a server administrator to use this command.");}
+        if (!message.member.permissions.has("MANAGE_MESSAGES") && !message.member.permissions.has("MANAGE_GUILD")) {return message.reply("You must be a server moderator (manage messages or manage server permissions) to use this command.");}
         if (args.length < 2 && !['check', 'c', 'list', 'l', 'clear', 'e', 'empty'].includes(args[0].toLowerCase())) {return message.channel.send("You must provide a reason for warning the user, or `check` or `clear`.");}
 
         let user = message.mentions.members.first() && args[0].match(/^<@(?:!)(?:\d+)>$/) ? message.mentions.members.first() : message.guild.members.cache.has(args[0]) ? message.guild.members.cache.get(args[0]) : null;

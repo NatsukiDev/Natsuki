@@ -9,17 +9,17 @@ module.exports = {
         category: 'Moderation',
         description: "Clear a user's warnings in your server.",
         syntax: '`clearwarnings <@user|userID>`',
-        extra: null
+        extra: null,
+        guildOnly: true
     },
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Warn Clearing")
         .setDescription("Clears the warnings of a user")
         .addField("Syntax", "`clearwarnings <@user|userID>`")
-        .addField("Notice", "You must be a server administrator in order to use this command."),
+        .addField("Notice", "You must be a server moderator in order to use this command."),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}clearwarnings <@user|userID>\``);}
-        if (!message.guild) {return message.channel.send("This is a server-only command.");}
-        if (!message.member.permissions.has("ADMINISTRATOR")) {return message.reply("You must be a server administrator to use this command.");}
+        if (!message.member.permissions.has("MANAGE_MESSAGES") && !message.member.permissions.has("MANAGE_GUILD")) {return message.reply("You must be a server moderator (manage messages or manage server permissions) to use this command.");}
 
         let user = message.mentions.members.first() && args[0].match(/^<@(?:!)(?:\d+)>$/) ? message.mentions.members.first() : message.guild.members.cache.has(args[0]) ? message.guild.members.cache.get(args[0]) : null;
         if (!user) {return message.channel.send("Either you didn't mention a user, or I can't find that user!");}
