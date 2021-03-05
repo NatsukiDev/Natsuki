@@ -45,4 +45,33 @@ Pass in your `message` object, the question to ask, the time - in ms - the user 
 let name = await ask(message, "What is your name?", 30000);
 if (!name) {return;} // Function already sends a timeout message, just return here to stop the command from continuing.
 return message.channel.send(`Hiya there, ${name}!`);
+
+new Pagination()
 ```
+
+### Pagination
+> util/pagination.ts
+
+Create a pagination based on a list of Discord MessageEmbeds.
+
+Paginations work based off of reactions, and the pages are cycled with the click of the reaction. Pass in the message channel object, a list of embeds, the original message, and your Discord.Client object.
+
+```js
+let pages = [/*List of Discord.MessageEmbeds*/];
+let help = new Pagination(message.channel, pages, message, client);
+
+await help.setPage(1); //Pages start at 1
+await help.setControllers(); //Set the reaction controllers
+
+// OR you can call .start() to do all of this for you.
+
+await help.start({
+    endTime: 60000 /*Time in ms before the pagination times out to save memory*/, 
+    startPage: 3 /*Page num to start on*/,
+    user: 'discord_member_id' /*ID of a member that the Pagination will only listen to*/
+}); //All of these are optional.
+```
+
+_Please note that the Pagination class is still in the works. Only one bug is currently known, and it's that the Pagination will error when a user tries to end the pagination in a DM channel, but this error is not extremely high-level and shouldn't have any major effects on your node process._
+
+_Another note: you'll want to go into the pagination.js file and search for .setFooter() and change the name Natsuki to whatever name your bot is_
