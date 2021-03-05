@@ -1,9 +1,11 @@
-const {TagFilter} = require("../../util/tagfilter");
-const {Tag} = require ("../../util/tag");
-
 const Discord = require('discord.js');
+
 const UserData = require('../../models/user');
 const AniData = require('../../models/anime');
+
+const {TagFilter} = require("../../util/tagfilter");
+const {Tag} = require ("../../util/tag");
+const ask = require('../../util/ask');
 
 module.exports = {
     name: "anime",
@@ -57,9 +59,15 @@ module.exports = {
                 if (client.misc.activeDMs.has(message.author.id)) {return message.channel.send("I'm already asking you questions in a DM! Finish that first, then try this command again.");}
                 client.misc.activeDMs.set(message.author.id, 'anime-add');
 
-                await message.author.send("I'm going to ask you some questions about the anime's info. Just reply with the answer and use good grammar and spelling and be as accurate as possible. To cancel the process, just leave the question unanswered for a few minutes and I'll let you know that the question timed out and is not longer answerable.")
+                let mesg = await message.author.send("I'm going to ask you some questions about the anime's info. Just reply with the answer and use good grammar and spelling and be as accurate as possible. To cancel the process, just leave the question unanswered for a few minutes and I'll let you know that the question timed out and is not longer answerable.")
                 .catch(() => {return message.reply("Something went wrong there! Most likely, your DMs are closed.");});
+                await mesg.channel.send("Check your DMs!");
                 
+                let options = {};
+
+                function clearDM() {client.misc.activeDMs.delete(message.author.id);}
+                client.misc.activeDMs.set(message.author.id, 'anime-make');
+                let dmch = mesg.channel;
             }
 
             message.channel.send(new Discord.MessageEmbed()

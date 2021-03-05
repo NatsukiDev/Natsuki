@@ -25,7 +25,7 @@ module.exports = {
             let td = await TD.findOne({uid: message.author.id});
             if (td && td.lists.quick.length > 20) {return message.channel.send("Sorry, but your list can only have 20 items or less.");}
             let item;
-            if (!args[1]) {item = await ask(message, "What would you like to your quick list?", 90000); if (!item) {return;}}
+            if (!args[1]) {item = await ask(message, "What would you like to add to your quick list?", 90000); if (!item) {return;}}
             else {args.shift(); item = args.join(" ");}
             if (item.length > 100) {return message.channel.send("ToDo items can only be less than 100 characters.");}
             td = td || new TD({uid: message.author.id});
@@ -56,5 +56,11 @@ module.exports = {
                 .setTimestamp()
             );
         }
+
+        else if (['d', 'delete', 'r', 'remove'].includes(args[0].toLowerCase())) {
+
+        }
+
+        else {return message.channel.send("Invalid arg! Use `<add|list|delete|edit|view|complete|uncomplete>`");}
     }
 };

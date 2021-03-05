@@ -52,7 +52,7 @@ module.exports = {
         if (['u', 'user'].includes(args[0].toLowerCase())) {
             args.shift();
 
-            if (!args[1]) {return message.channel.send("You must specify whether to `add` or `del` a user's blacklist!");}
+            if (!args[0]) {return message.channel.send("You must specify whether to `add` or `del` a user's blacklist!");}
 
             function checkPerms(tu, bu) {
                 if (!tu.developer && bu.support) {message.channel.send("You can't blacklist any member of staff unless you're a developer!"); return null;}
@@ -60,8 +60,8 @@ module.exports = {
                 if (bu.developer) {message.channel.send("Developers cannot be blacklisted!"); return null;}
             }
 
-            if (['a', 'add'].includes(args[1].toLowerCase())) {
-                let blacklistUser = args[0].match(/^<@(?:!?)(?:\d+)>$/) && mention && client.users.cache.has(mention.id) ? mention.id : client.users.cache.has(args[0]) ? client.users.cache.get(args[0]).id : null;
+            if (['a', 'add'].includes(args[0].toLowerCase())) {
+                let blacklistUser = args[1].match(/^<@(?:!?)(?:\d+)>$/) && mention && client.users.cache.has(mention.id) ? mention.id : client.users.cache.has(args[1]) ? client.users.cache.get(args[1]).id : null;
                 if (!blacklistUser) {return message.reply("You must specify a user to blacklist!");}
                 let usersData = await UserData.findOne( { uid: blacklistUser } ) || new UserData({uid: blacklistUser});
 
@@ -75,8 +75,8 @@ module.exports = {
                 return message.channel.send(`Another one bites the dust! **${blacklistUser.user.tag}** has been blacklisted!`)
             }
 
-            if (['r', 'rem', 'remove', 'd', 'del', 'delete'].includes(args[1].toLowerCase())) {
-                let blacklistedUser = args[0].match(/^<@(?:!?)(?:\d+)>$/) && mention && client.users.cache.has(mention.id) ? mention.id : client.users.cache.has(args[0]) ? client.users.cache.get(args[0]).id : null;
+            if (['r', 'rem', 'remove', 'd', 'del', 'delete'].includes(args[0].toLowerCase())) {
+                let blacklistedUser = args[1].match(/^<@(?:!?)(?:\d+)>$/) && mention && client.users.cache.has(mention.id) ? mention.id : client.users.cache.has(args[1]) ? client.users.cache.get(args[1]).id : null;
                 if (!blacklistedUser) { return message.reply("You need to specify who you're letting free..." );}
                 let userData = await UserData.findOne( { uid: blacklistedUser } ) || new UserData({uid: blacklistedUser});
 
