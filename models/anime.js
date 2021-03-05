@@ -7,8 +7,8 @@ const AniSchema = new mongoose.Schema({
     plot: String,
     publishers: [String],
     studios: [String],
-    airStartDate: Date,
-    airEndDate: Date,
+    airStartDate: String,
+    airEndDate: String,
     isComplete: Boolean,
     seasons: Number,
     episodes: Number,
@@ -16,11 +16,11 @@ const AniSchema = new mongoose.Schema({
     tags: [String],
     characters: [String],
     streamAt: [String],
-    watchers: Number,
-    listed: Number,
-    liked: Number,
-    rating: Number,
-    lastUpdate: Date,
+    watchers: {type: Number, default: 0},
+    listed: {type: Number, default: 0},
+    liked: {type: Number, default: 0},
+    rating: {type: Number, default: 0},
+    lastUpdate: String,
     thumbnail: String
 });
 
