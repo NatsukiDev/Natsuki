@@ -58,7 +58,41 @@ module.exports = {
         }
 
         else if (['d', 'delete', 'r', 'remove'].includes(args[0].toLowerCase())) {
-
+            let list = 'quick';
+            let td = await TD.findOne({uid: message.author.id});
+            if (!td) {return message.channel.send("You don't have any todo lists!");}
+            if (!td.lists[list]) {return message.channel.send("That list doesn't exist!");}
+            if (!td.lists[list].length) {return message.channel.send("That list is empty!");}
+            let collected;
+            if (!args[1]) {
+                let s = '';
+                let n = 0; let i; for (i of td.lists[list]) {n++; s += `**${n}.** ${i}\n`;}
+                await message.channel.send(new Discord.MessageEmbed()
+                    .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
+                    .setTitle(list === "quick" ? "Personal Quick List" : `List "${list}"`)
+                    .setDescription(s)
+                    .addField("Deletion", "To remove an item from your list, please reply with the number of the item you no longer want on your list.")
+                    .setColor("c375f0")
+                    .setFooter("Natsuki")
+                    .setTimestamp()
+                );
+                try {collected = await message.channel.awaitMessages(m => m.author.id === message.author.id, {errors: ['time'], time: 60000, max: 1});}
+                catch {return message.channel.send("This question has timed out. Please try again!");}
+                collected = collected.first().content.trim();
+            } else {collected = args[1];}
+            if (isNaN(Number(collected))) {return message.channel.send("You didn't give me a number!");}
+            let id = Number(collected);
+            if (id < 1 || id > td.lists[list].length) {return message.channel.send("Your number was either below 1 or doesn't have a trigger to match it.");}
+            try {
+                let templists = td.lists;
+                let temptt = templists[list];
+                temptt.splice(id-1, 1);
+                templists[list] = temptt;
+                td.lists = templists;
+                td.markModified(`lists.${list}`);
+                td.save();
+                return message.channel.send(["That's one item off the list for ya!", "And another one bites the dust! I've removed that item from your todo list.", "And thus the list grows one item smaller!"][Math.floor(Math.random()*3)]);
+            } catch {return message.channel.send("There seemed to have been a problem deleting that list item. Contact my devs if the problem persists.");}
         }
 
         else {return message.channel.send("Invalid arg! Use `<add|list|delete|edit|view|complete|uncomplete>`");}
