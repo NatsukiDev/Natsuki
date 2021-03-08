@@ -5,7 +5,7 @@ const ask = require('../../util/ask');
 
 module.exports = {
     name: "help",
-    aliases: ["h", "commands", "cmds"],
+    aliases: ["h", "commands"],
     help: 'you silly! What did you expect me to respond with?',
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {

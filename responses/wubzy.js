@@ -5,7 +5,7 @@ const UserData = require('../models/user');
 const ask = require('../util/ask');
 
 module.exports = {
-    name: "decide",
+    name: "wubzy",
     help: new Discord.MessageEmbed()
         .setTitle("Help -> ")
         .setDescription("")

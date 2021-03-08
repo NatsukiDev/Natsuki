@@ -28,6 +28,7 @@ module.exports = async (message, client, args) => {
         }
     }
     if (options.embed) {
+        if (options.text && options.text.length && (options.text.includes(`@everyone`) || options.text.includes('@here')) && !message.member.permissions.has("MENTION_EVERYONE")) {message.reply("You don't have permissions to mention everyone!"); return null;}
         if (options.fieldnames && options.fieldnames.length > 10) {message.reply("You can't have more than 10 fields!"); return null;}
         if (options.color && options.color.length && (![3, 6].includes(options.color.length))) {message.reply("Your color must be a hex value 3 or 6 digits long."); return null;}
         if (options.title && options.title.length > 65) {message.reply("Your title should be less than 65 characters, please :)"); return null;}
