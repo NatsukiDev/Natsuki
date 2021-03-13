@@ -19,7 +19,6 @@ module.exports = {
         const bot = await Bot.findOne({finder: 'lel'});
         return message.channel.send(new Discord.MessageEmbed()
             .setTitle("Uptime")
-            .setThumbnail(client.user.avatarURL({size: 2048}))
             .setDescription(moment.preciseDiff(moment(bot.lastRestart), moment()))
             .setColor('c375f0')
             .setFooter("Natsuki")
