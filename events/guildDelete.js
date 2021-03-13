@@ -11,7 +11,6 @@ module.exports = async (client, guild) => {
 
     let botData = await BotDataSchema.findOne({finder: 'lel'});
     botData.servers = client.guilds.cache.size;
-    botData.servers_all += 1;
     botData.save();
 
     client.guilds.cache.get('762707532417335296').channels.cache.get('766031709866557471').send(new Discord.MessageEmbed()
