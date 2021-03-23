@@ -23,7 +23,7 @@ module.exports = {
         if (!['a', 'add', 'r', 'remove'].includes(args[0])) {return message.reply("You must specify whether to `add` or `remove` someone as a Support Team Member.");}
         if (!person) {return message.reply("You must mention someone to add as a support member, or use their ID.");}
         let atu = await UserData.findOne({uid: message.author.id});
-        if (!atu && !atu.admin) {return message.reply('You must be an admin in order to add set support team member statuses.');}
+        if (!atu || !atu.admin) {return message.reply('You must be an admin in order to add set support team member statuses.');}
         if (['a', 'add'].includes(args[0])) {tu.support = true;}
         else {tu.support = false; tu.staff = false; tu.admin = false; tu.developer = false;}
         tu.save();

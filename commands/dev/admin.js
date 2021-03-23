@@ -23,7 +23,7 @@ module.exports = {
         if (!['a', 'add', 'r', 'remove'].includes(args[0])) {return message.reply("You must specify whether to `add` or `remove` someone as an admin.");}
         if (!person) {return message.reply("You must mention someone to add as an admin, or use their ID.");}
         let atu = await UserData.findOne({uid: message.author.id});
-        if (!atu && !atu.developer && !client.developers.includes(message.author.id)) {return message.reply('You must be a developer in order to add set admin statuses.');}
+        if ((!atu || !atu.developer) && !client.developers.includes(message.author.id)) {return message.reply('You must be a developer in order to add set admin statuses.');}
         if (['a', 'add'].includes(args[0])) {tu.support = true; tu.staff = true; tu.admin = true;}
         else {tu.admin = false; tu.developer = false;}
         tu.save();
