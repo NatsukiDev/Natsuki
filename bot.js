@@ -65,7 +65,7 @@ async function init() {
 
     ['command', 'event', 'response'].forEach(x => require(`./handle/${x}`)(client));
 
-    client.developers = ["330547934951112705", "673477059904929802"];
+    client.developers = ["330547934951112705", "673477059904929802", "468903364533420074"];
     client.utils = {};
 
     client.utils.logch = async () => {return client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915');};
