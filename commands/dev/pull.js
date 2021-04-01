@@ -24,13 +24,13 @@ module.exports = {
         console.log(`\n${chalk.yellow('[WARN]')} >> ${chalk.gray('VCS:')} ${chalk.white('Initiating remote->local VCS sync/refresh!')}`);
 
         cp.exec("git pull origin master", function(error, stdout, stderr) {
-            if (stderr || error) {
+            if (error) {
                 let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
                 console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to pull from VCS`)}`, stderr || error);
             } else {
                 console.log(`\n${chalk.gray('[INFO]')} >> ${chalk.hex('ff4fd0')(`VCS Pull successful`)}\n`);
             }
-            return message.channel.send(`Done with ${stderr || error ? 'an error' : 'no errors'}!`);
+            return message.channel.send(`Done with ${error ? 'an error' : 'no errors'}!`);
         });
     }
 };
