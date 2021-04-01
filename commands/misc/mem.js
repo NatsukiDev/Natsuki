@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const os = require('os');
 
 module.exports = {
     name: "mem",
