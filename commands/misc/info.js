@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const moment = require('moment');
+const os = require('os');
 
 const UserData = require('../../models/user');
 
@@ -26,6 +27,7 @@ module.exports = {
             .addField("Restarts", botData.restarts, true)
             .addField("Commands Executed", `${botData.commands}${user ? `\nYou: **${user.commands}**|**${Math.floor((user.commands / botData.commands) * 100)}%**` : ''}`, true)
             .addField("Last Restart", moment(botData.lastRestart).fromNow(), true)
+            .addField("Mem", `\`${process.memoryUsage().heapUsed / 1024 / 1024}MB\` heap of \`${process.memoryUsage().heapTotal / 1024 / 1024}MB\` allocated. | **${Math.floor((process.memoryUsage().heapTotal / process.memoryUsage().heapUsed) * 100)}%**\nTotal RAM: \`${os.totalmem() / 1024 / 1024 / 1024}GB\` | Free RAM: \`${os.freemem() / 1024 / 1024 / 1024}GB\``, true)
             .setColor("c375f0")
             .setFooter("Natsuki")
             .setTimestamp());
