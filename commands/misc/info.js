@@ -16,7 +16,6 @@ module.exports = {
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let botData = await require('../../models/bot').findOne({finder: 'lel'});
-
         let user = await UserData.findOne({uid: message.author.id});
 
         return message.channel.send(new Discord.MessageEmbed()
@@ -27,7 +26,7 @@ module.exports = {
             .addField("Restarts", botData.restarts, true)
             .addField("Commands Executed", `${botData.commands}${user ? `\nYou: **${user.commands}**|**${Math.floor((user.commands / botData.commands) * 100)}%**` : ''}`, true)
             .addField("Last Restart", moment(botData.lastRestart).fromNow(), true)
-            .addField("Mem", `\`${process.memoryUsage().heapUsed / 1024 / 1024}MB\` heap of \`${process.memoryUsage().heapTotal / 1024 / 1024}MB\` allocated. | **${Math.floor((process.memoryUsage().heapTotal / process.memoryUsage().heapUsed) * 100)}%**\nTotal RAM: \`${os.totalmem() / 1024 / 1024 / 1024}GB\` | Free RAM: \`${os.freemem() / 1024 / 1024 / 1024}GB\``, true)
+            .addField("Mem", `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB\` heap of \`${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)}MB\` allocated. | **${Math.floor((process.memoryUsage().heapUsed / process.memoryUsage().heapTotal) * 100)}%**\nTotal RAM: \`${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)}GB\` | Free RAM: \`${(os.freemem() / 1024 / 1024 / 1024).toFixed(2)}GB\``, true)
             .setColor("c375f0")
             .setFooter("Natsuki")
             .setTimestamp());
