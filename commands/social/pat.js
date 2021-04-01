@@ -39,7 +39,7 @@ module.exports = {
             pats.markModified(`against.${mention.id}`);
             pats.save();
             return message.channel.send(new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a hug!`, message.author.avatarURL())
+                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} pats ${message.guild.members.cache.get(mention.id).displayName}!`, message.author.avatarURL())
                 .setDescription(`You've given them **${pats.against[mention.id]}** pat${pats.against[mention.id] === 1 ? '' : 's'}!`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')
