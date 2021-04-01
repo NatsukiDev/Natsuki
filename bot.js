@@ -23,7 +23,8 @@ client.misc = {
             xp: {},
             hasLevelRoles: []
         }
-    }
+    },
+    loggers: {}
 };
 
 //const config = require('./config.js');
