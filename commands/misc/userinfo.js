@@ -31,7 +31,7 @@ module.exports = {
         if (message.guild) {
             infoembed.addField('In Server Since', `${moment(person.joinedAt).fromNow()}${!moment(person.joinedAt).fromNow().includes('days') ? ` | ${Math.floor((new Date().getTime() - person.joinedAt.getTime()) / (60 * 60 * 24 * 1000))} days` : ''}\nMember for **${Math.round(((now.getTime() - new Date(message.member.joinedAt.getTime()).getTime()) / (new Date(message.guild.createdAt).getTime() - now.getTime())) * -100)}%** of server lifetime`, false)
                 .addField('Roles', `**${person.roles.cache.size}** roles | [${person.roles.cache.size}/${message.guild.roles.cache.size}] - ${Math.round((person.roles.cache.size / message.guild.roles.cache.size) * 100)}%\nHighest: ${person.roles.highest ? `<@&${person.roles.highest.id}>` : 'No roles!'}`, true)
-            if (message.guild.ownerId === person.id) {infoembed.addField("Extra", "User is the server's owner!");}
+            if (message.guild.owner.id === person.id) {infoembed.addField("Extra", "User is the server's owner!");}
             else if (person.permissions.has("ADMINISTRATOR")) {infoembed.addField("Extra", "User is an admin! Watch out :eyes:");}
         }
 

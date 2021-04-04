@@ -21,9 +21,10 @@ module.exports = {
     .addField("Syntax", "`setstatus <-s status> <-t type>`")
     .addField('Notice', "This command is **developer-only**"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}setstatus <-s status> <-t type>\``);}
+        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}setstatus <status> [type]\``);}
+
         let tu = await UserData.findOne({uid: message.author.id});
-        if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do that!");}
+        if ((!tu || !tu.developer) && !client.developers.includes(message.author.id)) {return message.channel.send("You must be my developer in order to do that!");}
 
         let options = new TagFilter([
             new Tag(['s', 'status', 'm', 'msg', 'message'], 'status', 'append'),
@@ -36,6 +37,6 @@ module.exports = {
         
         if (options.type) {client.user.setActivity(options.status, {type: options.type.toUpperCase()});}
         else {client.user.setActivity(options.status);}
-        return message.channel.send(`Status set to: \`${options.type ? `${options.type.slice(0, 1).toUpperCase()}${options.type.slice(1).toLowerCase()}${options.type && options.type.toLowerCase() == 'listening'} ` ? 'to ' : '' : ''}${options.status}\`.`);
+        return message.channel.send(`Status set to: \`${options.type ? `${options.type.slice(0, 1).toUpperCase()}${options.type.slice(1).toLowerCase()}` : "Playing"} ${options.status}\``);
     }
 };
