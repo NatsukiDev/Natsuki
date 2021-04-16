@@ -26,7 +26,7 @@ module.exports = {
             if (!txp) {return message.channel.send("Your server doesn't have leveling enabled!");}
             if (!txp.xp[u.id]) {return message.channel.send(`${u.id === message.author.id ? "You" : "That user"} doesn't have any leveling info available!`);}
             xp = {xp: txp.xp[u.id][0], level: txp.xp[u.id][1]};
-        } else {xp = client.misc.cache.lxp.xp[message.guild.id][message.author.id];}
+        } else {xp = client.misc.cache.lxp.xp[message.guild.id][u.id];}
         return message.channel.send(new Discord.MessageEmbed()
             .setTitle(`${u.displayName}${u.displayName.toLowerCase().endsWith('s') ? "'" : "'s"} Stats`)
             .setDescription("Local leveling stats")
