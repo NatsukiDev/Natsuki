@@ -24,7 +24,7 @@ module.exports = {
         if (!message.member.permissions.has("MANAGE_MESSAGES") && !message.member.permissions.has("MANAGE_GUILD")) {return message.reply("You must be a server moderator (manage messages or manage server permissions) to use this command.");}
         if (args.length < 2 && !['check', 'c', 'list', 'l', 'clear', 'e', 'empty'].includes(args[0].toLowerCase())) {return message.channel.send("You must provide a reason for warning the user, or `check` or `clear`.");}
 
-        let user = message.mentions.members.first() && args[0].match(/^<@(?:!)(?:\d+)>$/) ? message.mentions.members.first() : message.guild.members.cache.has(args[0]) ? message.guild.members.cache.get(args[0]) : null;
+        let user = message.mentions.members.first() && args[0].match(/^<@(?:!?)(?:\d+)>$/) ? message.mentions.members.first() : message.guild.members.cache.has(args[0]) ? message.guild.members.cache.get(args[0]) : null;
         if (!user && args.length > 1) {return message.channel.send("Either you didn't mention a user, or I can't find that user!");}
         if (args.length > 1) {args.shift();}
 
