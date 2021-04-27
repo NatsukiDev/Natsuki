@@ -33,6 +33,8 @@ module.exports = {
         tu.statussetat = new Date();
         let tempDate = new Date();
         tu.statusclearat = tempDate.setHours(tempDate.getHours() + 12);
+        tu.markModified("statussetat");
+        tu.markModified("statusclearat");
         tu.save();
         require('../../util/cachestatus')(message.author.id, tempDate.setHours(tempDate.getHours() + 12));
         return message.reply(`I set your ${tu.statusclearmode === 'auto' ? 'automatically' : 'manually'}-clearing Do not Disturb message to: ${reason.trim()}`);
