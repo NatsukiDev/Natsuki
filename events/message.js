@@ -6,6 +6,7 @@ const wait = require('../util/wait');
 const UserData = require('../models/user');
 const AR = require('../models/ar');
 const LXP = require('../models/localxp');
+const Monitors = require('../models/monitor');
 
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
@@ -63,6 +64,23 @@ module.exports = async (client, message) => {
                 require('../util/lxp/gainxp')(client, message.member.id, message.channel);
             }
         });
+    }
+
+    if (message.guild && client.misc.cache.monitEnabled.includes(message.guild.id)) {
+        if (!client.misc.cache.monit[message.guild.id]) {
+            let tm = await Monitors.findOne({gid: message.guild.id});
+            client.misc.cache.monit[tm.gid] = {
+                messages: tm.messages,
+                voice: tm.voice,
+                expiry: new Date()
+            };
+        }
+        if (!client.misc.cache.monit[message.guild.id].messages.channels[message.channel.id]) {client.misc.cache.monit[message.guild.id].messages.channels[message.channel.id] = 0;}
+        if (!client.misc.cache.monit[message.guild.id].messages.members[message.author.id]) {client.misc.cache.monit[message.guild.id].messages.members[message.author.id] = 0;}
+        client.misc.cache.monit[message.guild.id].messages.channels[message.channel.id] += 1;
+        client.misc.cache.monit[message.guild.id].messages.members[message.author.id] += 1;
+        client.misc.cache.monit[message.guild.id].messages.total += 1;
+        client.misc.cache.monit[message.guild.id].expiry.setTime(Date.now());
     }
 
 

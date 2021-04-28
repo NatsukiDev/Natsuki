@@ -23,7 +23,8 @@ client.misc = {
             xp: {},
             hasLevelRoles: []
         },
-        monit: {}
+        monit: {},
+        monitEnabled: []
     },
     loggers: {}
 };

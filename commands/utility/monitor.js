@@ -30,7 +30,8 @@ module.exports = {
             if (tm) {return message.channel.send("You already have an activity monitor set up!");}
             tm = new Monitors({gid: message.guild.id});
             tm.save();
-            client.misc.cache.monit[message.guild.id] = {messages: {channels: {}, members: {}}, voice: {channels: {}, members: {}}};
+            client.misc.cache.monit[message.guild.id] = {messages: {channels: {}, members: {}, total: 0}, voice: {channels: {}, members: {}, total: 0}, expiry: new Date()};
+            client.misc.cache.monitEnabled.push(message.guild.id);
             return message.channel.send("Your server activity monitor has been set up successfully!");
         }
 

@@ -6,7 +6,9 @@ module.exports = async client => {
     for await (const tm of Monitor.find()) {
         client.misc.cache.monit[tm.gid] = {
             messages: tm.messages,
-            voice: tm.voice
+            voice: tm.voice,
+            expiry: new Date()
         };
+        client.misc.cache.monitEnabled.push(tm.gid);
     }
 }
