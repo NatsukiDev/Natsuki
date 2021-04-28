@@ -22,7 +22,8 @@ client.misc = {
             enabled: [],
             xp: {},
             hasLevelRoles: []
-        }
+        },
+        monit: {}
     },
     loggers: {}
 };
