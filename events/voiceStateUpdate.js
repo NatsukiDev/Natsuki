@@ -1,6 +1,6 @@
 const Monitor = require('../models/monitor');
 
-export default async (client, oldState, voice) => {
+module.exports = async (client, oldState, voice) => {
     if (client.users.cache.get(voice.member.id).bot) {return;}
     if (voice.guild && client.misc.cache.monitEnabled.includes(voice.guild.id)) {
         if (voice.channelID) {
