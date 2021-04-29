@@ -25,11 +25,11 @@ module.exports = {
         if (!args.length || (args.length && ['v', 'view', 'stats'].includes(args[0].toLowerCase()))) {
             if (!tm) {return message.channel.send("Your server doesn't have monitoring enabled. If it's something you actually think you'll use, feel free to run `setup` on this command to enable it!");}
             
-            let ch = Object.keys(tm.messages.channels).sort((a, b) => {tm.messages.channels[a] - tm.messages.channels[b];}).slice(0, Object.keys(tm.messages.channels).length >= 5 ? 5 : Object.keys(tm.messages.channels).length);
+            let ch = Object.keys(tm.messages.channels).sort((a, b) => {return tm.messages.channels[a] - tm.messages.channels[b];}).reverse().slice(0, Object.keys(tm.messages.channels).length >= 5 ? 5 : Object.keys(tm.messages.channels).length);
             let chs = ``;
             let i; for (i=0; i<ch.length; i++) {chs += `${i+1}. <#${ch[i]}> -> **${tm.messages.channels[ch[i]]} Messages**\n`;}
 
-            let u = Object.keys(tm.messages.members).sort((a, b) => {tm.messages.members[a] - tm.messages.members[b];}).slice(0, Object.keys(tm.messages.members).length >= 5 ? 5 : Object.keys(tm.messages.members).length);
+            let u = Object.keys(tm.messages.members).sort((a, b) => {return tm.messages.members[a] - tm.messages.members[b];}).reverse().slice(0, Object.keys(tm.messages.members).length >= 5 ? 5 : Object.keys(tm.messages.members).length);
             let us = ``;
             let i2; for (i2=0; i2<u.length; i2++) {us += `${i2+1}. <@${u[i2]}> -> **${tm.messages.members[u[i2]]} Messages**\n`;}
 
@@ -58,6 +58,8 @@ module.exports = {
         }
 
         if (['d', 'disable'].includes(args[0].toLowerCase())) {
+            let tg = await GuildData.findOne({gid: message.guild.id});
+            if ((tg && tg.staffrole && tg.staffrole.length && !message.member.roles.cache.has(tg.staffrole)) && !message.member.permissions.has("ADMINISTRATOR")) {return message.channel.send("You must be an administrator or have the staff role in your server in order to use this command!");}
             let conf = await ask(message, "Are you sure you want to disable monitors for this server? This will delete all monitoring data.", 60000);
             if (!conf || !['yes', 'y'].includes(conf.toLowerCase().trim())) {return message.channel.send("Okay. I won't delete or disable anything.");}
             delete client.misc.cache.monit[message.guild.id];

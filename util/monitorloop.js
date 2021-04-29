@@ -14,7 +14,7 @@ module.exports = async (client) => {
             Object.keys(client.misc.cache.monit[cache].voice.members).forEach(m => tm.markModified(`voice.members.${m}`));
             Object.keys(client.misc.cache.monit[cache].voice.channels).forEach(c => tm.markModified(`voice.channels.${c}`));
             tm.save();
-            if (cd > client.misc.cache.monit[cache].expiry.getTime()) {delete client.misc.cache.monit[cache];}
+            if (cd - client.misc.cache.monit[cache].expiry.getTime() > 600000) {delete client.misc.cache.monit[cache];}
         });
     });
 };
