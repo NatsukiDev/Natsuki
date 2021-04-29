@@ -1,7 +1,7 @@
 const Monitors = require('../models/monitor');
 
 module.exports = async client => {
-    client.misc.cache.inVC.forEach(m => {
+    client.misc.cache.inVC.forEach(async m => {
         if (client.misc.cache.monitEnabled.includes(client.misc.cache.VCG[m])) {
             if (!client.misc.cache.monit[client.misc.cache.VCG[m]]) {
                 let tm = await Monitors.findOne({gid: client.misc.cache.VCG[m]});
@@ -23,7 +23,7 @@ module.exports = async client => {
         }
     });
 
-    client.misc.cache.activeVC.forEach(vc => {
+    client.misc.cache.activeVC.forEach(async vc => {
         let g = client.guilds.cache.filter(g => g.channels.cache.has(vc)).first();
         if (!g) {return;}
         g = g.id;
