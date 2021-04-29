@@ -1,4 +1,6 @@
-module.exports = client => {
+const Monitors = require('../models/monitor');
+
+module.exports = async client => {
     client.misc.cache.inVC.forEach(m => {
         if (client.misc.cache.monitEnabled.includes(client.misc.cache.VCG[m])) {
             if (!client.misc.cache.monit[client.misc.cache.VCG[m]]) {
