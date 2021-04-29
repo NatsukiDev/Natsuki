@@ -24,7 +24,10 @@ client.misc = {
             hasLevelRoles: []
         },
         monit: {},
-        monitEnabled: []
+        monitEnabled: [],
+        inVC: [],
+        VCG: {},
+        activeVC: []
     },
     loggers: {}
 };

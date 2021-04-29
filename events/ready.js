@@ -7,10 +7,12 @@ const ora = require('ora');
 const GuildSettings = require('../models/guild');
 const BotDataSchema = require('../models/bot');
 const LogData = require('../models/log');
+const Monitors = require('../models/monitor');
 
 const siftStatuses = require('../util/siftstatuses');
 const localXPCacheClean = require('../util/lxp/cacheloop');
 const monitorCacheClean = require('../util/monitorloop');
+const vcloop = require('../util/vcloop');
 
 let prefix = 'n?';
 
@@ -76,6 +78,8 @@ module.exports = async client => {
 
 	setInterval(() => localXPCacheClean(client), 150000);
 	setInterval(() => monitorCacheClean(client), 150000);
+
+	setInterval(() => vcloop(client), 60000);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})
