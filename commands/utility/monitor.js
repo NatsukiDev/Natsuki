@@ -25,11 +25,11 @@ module.exports = {
         if (!args.length || (args.length && ['v', 'view', 'stats'].includes(args[0].toLowerCase()))) {
             if (!tm) {return message.channel.send("Your server doesn't have monitoring enabled. If it's something you actually think you'll use, feel free to run `setup` on this command to enable it!");}
             
-            let ch = Object.keys(tm.messages.channels).sort((b, a) => {tm.messages.channels[a] - tm.messages.channels[b];}).slice(0, Object.keys(tm.messages.channels).length >= 5 ? 5 : Object.keys(tm.messages.channels).length);
+            let ch = Object.keys(tm.messages.channels).sort((a, b) => {tm.messages.channels[a] - tm.messages.channels[b];}).slice(0, Object.keys(tm.messages.channels).length >= 5 ? 5 : Object.keys(tm.messages.channels).length);
             let chs = ``;
             let i; for (i=0; i<ch.length; i++) {chs += `${i+1}. <#${ch[i]}> -> **${tm.messages.channels[ch[i]]} Messages**\n`;}
 
-            let u = Object.keys(tm.messages.members).sort((b, a) => {tm.messages.members[a] - tm.messages.members[b];}).slice(0, Object.keys(tm.messages.members).length >= 5 ? 5 : Object.keys(tm.messages.members).length);
+            let u = Object.keys(tm.messages.members).sort((a, b) => {tm.messages.members[a] - tm.messages.members[b];}).slice(0, Object.keys(tm.messages.members).length >= 5 ? 5 : Object.keys(tm.messages.members).length);
             let us = ``;
             let i2; for (i2=0; i2<u.length; i2++) {us += `${i2+1}. <@${u[i2]}> -> **${tm.messages.members[u[i2]]} Messages**\n`;}
 
