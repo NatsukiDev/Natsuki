@@ -10,6 +10,7 @@ const LogData = require('../models/log');
 
 const siftStatuses = require('../util/siftstatuses');
 const localXPCacheClean = require('../util/lxp/cacheloop');
+const monitorCacheClean = require('../util/monitorloop');
 
 let prefix = 'n?';
 
@@ -74,6 +75,7 @@ module.exports = async client => {
 	await require('../util/cache')(client);
 
 	setInterval(() => localXPCacheClean(client), 150000);
+	setInterval(() => monitorCacheClean(client), 150000);
 
 	let botData = await BotDataSchema.findOne({finder: 'lel'})
 		? await BotDataSchema.findOne({finder: 'lel'})

@@ -75,6 +75,7 @@ module.exports = async (client, message) => {
                 expiry: new Date()
             };
         }
+        if (!client.misc.cache.monit) {client.misc.cache.monit = {};}
         if (!client.misc.cache.monit[message.guild.id].messages.channels[message.channel.id]) {client.misc.cache.monit[message.guild.id].messages.channels[message.channel.id] = 0;}
         if (!client.misc.cache.monit[message.guild.id].messages.members[message.author.id]) {client.misc.cache.monit[message.guild.id].messages.members[message.author.id] = 0;}
         client.misc.cache.monit[message.guild.id].messages.channels[message.channel.id] += 1;

@@ -24,7 +24,7 @@ module.exports = async (client) => {
     ora_lrCache.stop(); ora_lrCache.clear();
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.lxp.hasLevelRoles.length}`)} ${chalk.blueBright(`guilds with Level Roles enabled.`)}`);
 
-    let ora_lrCache = ora("Caching Monitors...").start();
+    let ora_moCache = ora("Caching Monitors...").start();
     await require('./cache/monit')(client);
     ora_moCache.stop(); ora_moCache.clear();
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${Object.keys(client.misc.cache.monit).length}`)} ${chalk.blueBright(`guilds with Monitors enabled.`)}`);

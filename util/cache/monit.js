@@ -2,6 +2,7 @@ const Monitor = require('../../models/monitor');
 
 module.exports = async client => {
     client.misc.cache.monit = {};
+    client.misc.cache.monitEnabled = [];
 
     for await (const tm of Monitor.find()) {
         client.misc.cache.monit[tm.gid] = {
