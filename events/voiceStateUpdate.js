@@ -10,7 +10,7 @@ module.exports = async (client, oldState, voice) => {
         } else {
             if (!client.misc.cache.inVC.includes(voice.member.id)) {return;}
             client.misc.cache.inVC.splice(client.misc.cache.inVC.indexOf(voice.member.id), 1);
-            if (!voice.channel.members.size && client.misc.cache.activeVC.includes(voice.channelID)) {client.misc.cache.activeVC.splice(client.misc.cache.activeVC.indexOf(voice.channelID), 1);}
+            if (oldState.channel && !oldState.channel.members.size && client.misc.cache.activeVC.includes(oldState.channelID)) {client.misc.cache.activeVC.splice(client.misc.cache.activeVC.indexOf(oldState.channelID), 1);}
             if (Object.keys(client.misc.cache.VCG).includes(voice.member.id)) {delete client.misc.cache.VCG[voice.member.id];}
         }
     }
