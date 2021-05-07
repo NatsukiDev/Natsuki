@@ -20,45 +20,143 @@ module.exports = {
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}todo <add|list|delete|edit|view|complete|uncomplete>\``);}
 
-        if (['add', 'a'].includes(args[0].toLowerCase())) {
-            let list = 'quick';
+        let list = 'quick';
+
+        if (['l', 'list', 'lists'].includes(args[0].toLowerCase())) {
+            args.shift();
+            if (!args.length) {return message.channel.send(`List syntax: \`${prefix}todo list <create|delete|list|listName>\`. Use your list's name and then \`<add|list|delete|edit|view|complete|uncomplete>\` to manage the list's items.`);}
+            if (args[0].toLowerCase() === 'quick') {return message.channel.send(`To manage your personal quick list, please use the list syntax without \`list quick\` added. (Use \`${prefix}help todo\` for help.)`);}
+
             let td = await TD.findOne({uid: message.author.id});
-            if (td && td.lists.quick.length > 20) {return message.channel.send("Sorry, but your list can only have 20 items or less.");}
+
+            if (['create', 'c', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
+                if (td && Object.keys(td.lists).length === 10) {return message.channel.send("Sorry, but you've reached the maximum list count of 10. Delete some lists you've completed... or get off your bum and maybe start checking off some items? :eyes:");}
+                let ln;
+                if (!args[1]) {
+                    ln = await ask(message, "What would you like your list's name to be? This question will time out in 30s", 60000);
+                    if (!ln) {return message.channel.send("This question has timed out.");}
+                } else {ln = args[1].trim().toLowerCase();}
+                if (ln.length > 15) {return message.channel.send("List names must be 15 characters or less.");}
+                if (!ln.match(/^[a-z-]+$/gm)) {return message.channel.send("List names must contain only letters and hyphens.");}
+                if (['create', 'c', 'n', 'new', 'a', 'add', 'd', 'delete', 'r', 'remove', 'l', 'list', 'e', 'edit', 'v', 'view', 'comp', 'complete', 'uc', 'uncomp', 'uncomplete'].includes(ln)) {return message.channel.send("That list name is invalid as it is used for the functionality of this command.");}
+                if (ln === 'quick') {return message.channel.send("You cannot use that name as it is used for your personal list.");}
+                if (td && td.lists[ln]) {return message.channel.send("You already have a list with that name.");}
+                td = td || new TD({uid: message.author.id});
+                td.lists[ln] = [];
+                td.markModified(`lists.${ln}`);
+                await td.save();
+                let totalItems = 0;
+                Object.keys(td.lists).forEach(l => totalItems += td.lists[l].length);
+                return message.channel.send(`Your list was successfully created!`, new Discord.MessageEmbed()
+                    .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
+                    .setTitle(`List Created: ${ln}`)
+                    .setDescription(`You now have **${Object.keys(td.lists).length}** lists (including your personal list) with a total of **${totalItems} items**.`)
+                    .addField("Managing", `-To add to your new list, use \`${prefix}todo list ${ln} add\`.\n-To view its items, use \`${prefix}todo list ${ln} view\`.\n-To delete this list, use \`${prefix}todo list delete ${ln}\`.`)
+                    .setColor("c375f0")
+                    .setFooter("Natsuki")
+                    .setTimestamp()
+                );
+            } else if (['d', 'delete', 'r', 'remove'].includes(args[0].toLowerCase())) {
+                if (!td || td.lists.length === 1) {return message.channel.send("You don't have any lists made, or you only have a quick list.");}
+                let ln;
+                if (!args[1]) {
+                    let s = ``; let lists = Object.keys(td.lists);
+                    let i; for (i = 0; i < lists.length; i++) {if (lists[i] === 'quick') {continue;} s += `**${i}**. \`${lists[i]}\` - ${td.lists[lists[i]].length} ${td.lists[lists[i]].length === 1 ? 'item' : 'items'}\n`;}
+                    message.channel.send(new Discord.MessageEmbed()
+                        .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
+                        .setTitle(`Your ToDo lists`)
+                        .setDescription(s)
+                        .addField("Deletion", "To delete a list, please reply with the **name** of the list you'd like to delete.")
+                        .setColor("c375f0")
+                        .setFooter("Natsuki")
+                        .setTimestamp()
+                    );
+                    let collected;
+                    try {collected = await message.channel.awaitMessages(m => m.author.id === message.author.id, {errors: ['time'], time: 60000, max: 1});}
+                    catch {return message.channel.send("This question has timed out. Please try again!");}
+                    ln = collected.first().content.trim();
+                } else {ln = args[1].trim().toLowerCase();}
+                if (!td.lists[ln]) {return message.channel.send("You don't have a list that matches that name!");}
+                delete td.lists[ln];
+                td.markModified(`lists.${ln}`);
+                await td.save();
+                let num = Math.ceil(Math.random() * 10);
+                return message.channel.send(num === 5
+                    ? "I've successfully yeeted that list off the face of the planet for you!"
+                    : ["Good riddance! I've removed that list for you.", "Spring cleanup! That list is gone.", "That's a whole chunk of stuff you don't gotta worry about anymore. I've made sure of that.", "Fear not, I've made sure that list won't bug you anymore."][Math.floor(Math.random() * 4)]
+                );
+            } else if (['l', 'list'].includes(args[0].toLowerCase())) {
+                if (!td || td.lists.length === 1) {return message.channel.send("You don't have any lists made, or you only have a quick list.");}
+                let s = ``; let lists = Object.keys(td.lists);
+                let i; for (i = 0; i < lists.length; i++) {if (lists[i] === 'quick') {continue;} s += `**${i}**. \`${lists[i]}\` - ${td.lists[lists[i]].length} ${td.lists[lists[i]].length === 1 ? 'item' : 'items'}\n`;}
+                s += `\nPlus ${td.lists.quick.length} items in your quick list.`;
+                return message.channel.send(new Discord.MessageEmbed()
+                    .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
+                    .setTitle(`Your ToDo lists`)
+                    .setDescription(s)
+                    .setColor("c375f0")
+                    .setFooter("Natsuki")
+                    .setTimestamp()
+                );
+            } else if (td && Object.keys(td.lists).includes(args[0].trim().toLowerCase())) {
+                list = args[0].trim().toLowerCase();
+                args.shift();
+            } else {return message.channel.send("Valid `list` args: `<create|delete|list|listName>`. If you tried to specify a list name, it may not exist or you don't have any lists.");}
+        }
+
+        if (['add', 'a'].includes(args[0].toLowerCase())) {
+            let td = await TD.findOne({uid: message.author.id});
+            if (td && td.lists[list].length === 25) {return message.channel.send("Sorry, but your list can only have 25 items or less.");}
             let item;
             if (!args[1]) {item = await ask(message, "What would you like to add to your quick list?", 90000); if (!item) {return;}}
             else {args.shift(); item = args.join(" ");}
             if (item.length > 100) {return message.channel.send("ToDo items can only be less than 100 characters.");}
             td = td || new TD({uid: message.author.id});
-            td.lists.quick.push(item);
+            td.lists[list].push(item);
             td.markModified(`lists.${list}`);
             td.save();
             return message.channel.send(new Discord.MessageEmbed()
                 .setAuthor("To-Do Added!", message.author.avatarURL())
-                .setDescription(`${item}\n\`->\` In list '${list}'`)
+                .setDescription(`${item}\n\`->\` In ${list === 'quick' ? "your personal quick list" : `list \`${list}\``}`)
                 .setColor('c375f0')
             );
         }
 
         else if (['v', 'view'].includes(args[0].toLowerCase())) {
-            let list = 'quick';
             let td = await TD.findOne({uid: message.author.id});
             if (!td) {return message.channel.send("You don't have any todo lists!");}
             if (!td.lists[list]) {return message.channel.send("That list doesn't exist!");}
             if (!td.lists[list].length) {return message.channel.send("That list is empty!");}
-            let s = '';
-            let n = 0; let i; for (i of td.lists[list]) {n++; s += `**${n}.** ${i}\n`;}
-            return message.channel.send(new Discord.MessageEmbed()
-                .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
-                .setTitle(list === "quick" ? "Personal Quick List" : `List "${list}"`)
-                .setDescription(s)
-                .setColor("c375f0")
-                .setFooter("Natsuki")
-                .setTimestamp()
-            );
+            if (!args[1]) {
+                let s = '';
+                let n = 0; let i;
+                for (i of td.lists[list]) {n++; s += `**${n}.** ${i}\n`;}
+                return message.channel.send(new Discord.MessageEmbed()
+                    .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
+                    .setTitle(list === "quick" ? "Personal Quick List" : `List: "${list}"`)
+                    .setDescription(s)
+                    .setColor("c375f0")
+                    .setFooter("Natsuki")
+                    .setTimestamp()
+                ).catch(() => {
+                    client.users.fetch(client.developers[0]).then(wubzy => wubzy.send("Hey stupid, someone got the todo length bug. Fix it."));
+                    return message.channel.send("There was an error displaying your list. It might have too many characters. This bug has been reported to the developers and will be fixed soon! Join the support server for updates.");});
+            } else {
+                if (isNaN(Number(args[1])) && !['last', 'l'].includes(args[1].toLowerCase().trim())) {return message.channel.send("You didn't give me a number!");}
+                let id = ['last', 'l'].includes(args[1].toLowerCase().trim()) ? td.lists[list].length : Number(args[1]);
+                if (id < 1 || id > td.lists[list].length) {return message.channel.send("Your number was either below 1 or doesn't have a list item to match it.");}
+                return message.channel.send(new Discord.MessageEmbed()
+                    .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
+                    .setTitle(list === "quick" ? "Personal Quick List" : `List "${list}"`)
+                    .setDescription(`List item **#${id}**\n\`->\` ${td.lists[list][id-1]}`)
+                    .setColor("c375f0")
+                    .setFooter("Natsuki")
+                    .setTimestamp()
+                );
+            }
         }
 
         else if (['d', 'delete', 'r', 'remove'].includes(args[0].toLowerCase())) {
-            let list = 'quick';
             let td = await TD.findOne({uid: message.author.id});
             if (!td) {return message.channel.send("You don't have any todo lists!");}
             if (!td.lists[list]) {return message.channel.send("That list doesn't exist!");}
@@ -80,9 +178,9 @@ module.exports = {
                 catch {return message.channel.send("This question has timed out. Please try again!");}
                 collected = collected.first().content.trim();
             } else {collected = args[1];}
-            if (isNaN(Number(collected))) {return message.channel.send("You didn't give me a number!");}
-            let id = Number(collected);
-            if (id < 1 || id > td.lists[list].length) {return message.channel.send("Your number was either below 1 or doesn't have a trigger to match it.");}
+            if (isNaN(Number(collected)) && !['last', 'l'].includes(collected.toLowerCase().trim())) {return message.channel.send("You didn't give me a number!");}
+            let id = ['last', 'l'].includes(collected.toLowerCase().trim()) ? td.lists[list].length : Number(collected);
+            if (id < 1 || id > td.lists[list].length) {return message.channel.send("Your number was either below 1 or doesn't have a list item to match it.");}
             try {
                 let templists = td.lists;
                 let temptt = templists[list];
