@@ -140,7 +140,8 @@ module.exports = {
                     .setTimestamp()
                 ).catch(() => {
                     client.users.fetch(client.developers[0]).then(wubzy => wubzy.send("Hey stupid, someone got the todo length bug. Fix it."));
-                    return message.channel.send("There was an error displaying your list. It might have too many characters. This bug has been reported to the developers and will be fixed soon! Join the support server for updates.");});
+                    return message.channel.send("There was an error displaying your list. It might have too many characters. This bug has been reported to the developers and will be fixed soon! Join the support server for updates.");
+                });
             } else {
                 if (isNaN(Number(args[1])) && !['last', 'l'].includes(args[1].toLowerCase().trim())) {return message.channel.send("You didn't give me a number!");}
                 let id = ['last', 'l'].includes(args[1].toLowerCase().trim()) ? td.lists[list].length : Number(args[1]);
