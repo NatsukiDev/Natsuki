@@ -7,6 +7,7 @@
     "dependencies": {
         "canvas": "^2.6.1",
         "chalk": "^4.1.0",
+        "cron": "^1.8.2",
         "dblapi.js": "^2.4.1",
         "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
         "discord.js": "^12.2.0",
