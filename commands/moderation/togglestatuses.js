@@ -11,13 +11,13 @@ module.exports = {
     meta: {
         category: 'Moderation',
         description: "Toggle the warning I give members when they ping someone with a status. Some people find it annoying, but here's my mute button!",
-        syntax: '`togglestatuses [-c]`',
+        syntax: '`togglestatuses [c]`',
         extra: null
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.guild) {return message.reply('You must be in a server to use this command.');}
         let tg = await GuildSettings.findOne({gid: message.guild.id});
-        if (!message.member.permissions.has('ADMINISTRATOR') && (tg && tg.staffrole.length && !message.member.roles.cache.has(tg.staffrole))) {return message.reply("You don't have permissions to use this command in your server.");}
+        if ((!tg || !tg.staffrole || !tg.staffrole.length || !message.member.roles.cache.has(tg.staffrole)) && !message.member.permissions.has("ADMINISTRATOR")) {return message.channel.send("You must be a staff member of the server or have Administrator permissions in order to use this command.");}
         if (args[0] && ['c', 'check', 'v', 'view'].includes(args[0].toLowerCase())) {return message.channel.send(`I ${tg && !tg.nostatus ? 'will' : 'will not'} send a warning when pinging a member with a status.`);}
         if (!tg) {tg = new GuildSettings({gid: message.guild.id});}
         tg.nostatus = !tg.nostatus;
