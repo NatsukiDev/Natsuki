@@ -16,6 +16,8 @@ module.exports = {
     },
     execute(message, msg, args, cmd, prefix, mention, client) {
         try {
+            let timer = new Date().getTime();
+
             if (!client.developers.includes(message.author.id)) {return message.channel.send("Sorry, but I've got trust issues, so only me devs can go commanding me around like that.");};
             if (!args.length) return message.channel.send(`Syntax: \`${prefix}eval <code>\``);            
 
@@ -36,7 +38,7 @@ module.exports = {
             .setTitle('Client Evaluation')
             .setDescription(`\`\`\`js\n${output}\n\`\`\``)
             .setColor('c375f0')
-            .setFooter(`Natsuki`, client.user.avatarURL())
+            .setFooter(`Natsuki | Evaluated in ${new Date().getTime() - timer}ms`, client.user.avatarURL())
             .setTimestamp());
         }).catch(error => {return message.channel.send(`Error: \`${error}\`.`);});
         } catch (error) {
