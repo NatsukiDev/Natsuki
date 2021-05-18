@@ -34,6 +34,8 @@ module.exports = async (client, reaction, user) => {
                 sd.stars[reaction.message.id] = starEmbedMessage.id;
                 sd.starCount[reaction.message.author.id] = sd.starCount[reaction.message.author.id] ? sd.starCount[reaction.message.author.id] + 1 : 1;
                 sd.serverStarCount += 1;
+                sd.markModified(`starCount.${reaction.message.author.id}`);
+                sd.markModified(`stars.${reaction.message.id}`);
                 sd.save();
             }
         }
