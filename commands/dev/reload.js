@@ -20,6 +20,8 @@ module.exports = {
         extra: null
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
+        let timer = new Date().getTime();
+
         if (!args.length) {
             const tu = await UserData.findOne({uid: message.author.id});
             if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do this!");}
@@ -39,7 +41,7 @@ module.exports = {
                 if (command.aliases) {command.aliases.forEach(a => client.aliases.set(a, command.name));}
             }
             cmdspinner.stop(); cmdspinner.clear();
-            console.log(`${chalk.gray('[LOG]')}  >> ${chalk.blue('Loaded all Commands')}`);
+            console.log(`${chalk.gray('[PROC]')} >> ${chalk.blue('Loaded all Commands')}`);
 
             let eventspinner = ora(chalk.blue('Loading Events')).start();
             let eventFilter = fs.readdirSync('./events/').filter(x => x.endsWith('.js'));
@@ -51,7 +53,7 @@ module.exports = {
                 client.on(evtName, evt.bind(null, client));
             }
             eventspinner.stop(); eventspinner.clear();
-            console.log(`${chalk.gray('[LOG]')}  >> ${chalk.blue('Loaded all Events')}`);
+            console.log(`${chalk.gray('[PROC]')} >> ${chalk.blue('Loaded all Events')}`);
 
             let rspspinner = ora(chalk.blue('Loading Commands')).start();
             let responses = fs.readdirSync('./responses').filter(file => file.endsWith('.js'));
@@ -63,18 +65,37 @@ module.exports = {
                 client.responses.commands.set(response.name, response);
             }
             rspspinner.stop(); rspspinner.clear();
-            console.log(`${chalk.gray('[LOG]')}  >> ${chalk.blue('Loaded all Responses')}`);
+            console.log(`${chalk.gray('[PROC]')} >> ${chalk.blue('Loaded all Responses')}`);
 
             console.log(`\n${chalk.gray('[INFO]')} >> ${chalk.hex('ff4fd0')(`Client refresh successful`)}\n`);
 
-            return message.channel.send("Done!")
+            return message.channel.send(`Done! Reloaded ${commands.length} commands, ${eventFilter.length} events, and ${responses.length} responses in ${new Date().getTime() - timer}ms.`);
         }
+
         if (['l', 'log', 'ns', 'nosilent', 'notsilent'].includes(args[0].toLowerCase())) {
             ['commands', 'aliases'].forEach(x => client[x] = new Discord.Collection());
             client.responses = {triggers: [], commands: new Discord.Collection()};
             ['command', 'event', 'response'].forEach(x => require(`./${x}`)(client));
             return message.channel.send("Done!");
         }
+
+        if (['c', 'cmd', 'command'].includes(args[0].toLowerCase())) {
+            let timer = new Date().getTime();
+            if (!args[1]) {return message.channel.send("Oi there you headass! You have to actually tell me what command to reload!");}
+            let tc = args[1].toLowerCase();
+            let lf = client.commands.get(tc) || client.commands.get(client.aliases.get(tc));
+            lf = lf ? lf.name : tc;
+            let res;
+            fs.readdirSync(`./commands`).forEach(x => {
+                if (!x.includes('.')) {fs.readdirSync(`./commands/${x}`).forEach(y => {if (`${lf}.js` === y) {res = `../../commands/${x}/${y}`;}});}
+                else {if (x === `${lf}.js`) {res = `../../commands/${x}`;}}
+            });
+            if (!res) {return message.channel.send("I can't reload that command as I can't find file!");}
+            if (require.resolve(res) in require.cache) {delete require.cache[require.resolve(res)];}
+            client.commands.set(lf, require(res));
+            return message.channel.send(`Reloaded command \`${lf}\` in ${new Date().getTime() - timer}ms`);
+        }
+
         else {return message.channel.send("Oi! 'log' is the only valid arg to use. Use no args if you want a cleaner console output instead.");}
     }
 };
