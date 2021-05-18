@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 
+const {Pagination} = require('../../util/pagination');
+
 module.exports = {
     name: "emoji",
     aliases: ['emote', 'emojiinfo', 'emoteinfo', 'ei'],
@@ -14,7 +16,32 @@ module.exports = {
     .setDescription("Get info on an emoji, such as its ID, name, and a link to the source image. You can also use this for the `robemoji` command to add an emoji by its ID.")
     .addField("Syntax", "`emoji <:emoji:|emojiID>`"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!args.length) {}
+        if (!args.length) {
+            if (!message.guild.id) {return message.channel.send(`Syntax: \`${prefix}emoji <:emoji:|emojiID>\``);}
+            let emotes = [];
+            Array.from(message.channel.messages.cache.values()).forEach(m => {
+                let margs = m.content.split(/\s+/gm);
+                margs.forEach(marg => {if (marg.match(/^<a?:.+:\d+>$/) && !emotes.includes(marg)) {emotes.push(marg);}});
+                if (m.reactions.cache.size) {Array.from(m.reactions.cache.values()).forEach(r => {if (r.emoji.id && !emotes.includes(`<${r.emoji.animated ? 'a' : ''}:${r.emoji.name}:${r.emoji.id}>`)) {emotes.push(`<${r.emoji.animated ? 'a' : ''}:${r.emoji.name}:${r.emoji.id}>`);}});}
+            });
+            if (!emotes.length) {return message.channel.send("It doesn't look like anyone has sent any emoji recently. Try using the command again but adding an emoji to the message to get info on it.");}
+            let emoteEmbeds = [];
+            emotes.forEach(emote => {
+                let spl = emote.split(':');
+                let finEm = new Discord.MessageEmbed()
+                    .setTitle("Emoji Info")
+                    .setDescription(`Name: ${spl[1] ? `\`:${spl[1]}:\`` : "Not Found"}\nID: ${spl[2].slice(0, spl[2].length - 1)}\nURL: [Here](${`https://cdn.discordapp.com/emojis/${spl[2].slice(0, spl[2].length - 1)}${spl[0].includes('a') ? '.gif' : ""}`})\nAnimated: ${spl[0].includes('a') === true}\n\nI have access: ${client.emojis.cache.has(spl[2].slice(0, spl[2].length - 1))}`)
+                    .setColor('c375f0')
+                    .setImage(`https://cdn.discordapp.com/emojis/${spl[2].slice(0, spl[2].length - 1)}${spl[0].includes('a') ? '.gif' : ""}`)
+                    .setFooter("Natsuki", client.user.avatarURL())
+                    .setTimestamp();
+                if (client.emojis.cache.has(spl[2].slice(0, spl[2].length - 1))) {finEm.setThumbnail(client.emojis.cache.get(spl[2].slice(0, spl[2].length - 1)).guild.iconURL({size: 1024}));}
+                if (client.emojis.cache.has(spl[2].slice(0, spl[2].length - 1)) && client.emojis.cache.get(spl[2].slice(0, spl[2].length - 1)).guild.members.cache.has(message.author.id) && client.emojis.cache.get(spl[2].slice(0, spl[2].length - 1)).guild.id !== (message.guild ? message.guild.id : 1)) {finEm.addField("Server", `You're in the server this emoji is from: **${client.emojis.cache.get(spl[2].slice(0, spl[2].length - 1)).guild.name}**`);}
+                emoteEmbeds.push(finEm);
+            });
+            let emojiList = new Pagination(message.channel, emoteEmbeds, message, client, true);
+            return emojiList.start({user: message.author.id, endTime: 60000});
+        }
         if (!args[0].match(/^<a?:.+:\d+>$|^\d+$/gm)) {return message.channel.send("That doesn't seem to be a valid emoji! (Standard Discord emojis don't count :p )");}
         let name; let id; let animated; let url;
         let access = false;
@@ -46,7 +73,7 @@ module.exports = {
                 .setFooter("Natsuki", client.user.avatarURL())
                 .setTimestamp();
             if (access) {finEm.setThumbnail(client.emojis.cache.get(id).guild.iconURL({size: 1024}));}
-            if (access && client.emojis.cache.get(id).guild.members.cache.has(message.author.id) && client.emojis.cache.get(id).guild.id !== message.guild ? message.guild.id : 1) {finEm.addField("Server", `You're in the server this emoji is from: **${client.emojis.cache.get(id).guild.name}**`);}
+            if (access && client.emojis.cache.get(id).guild.members.cache.has(message.author.id) && client.emojis.cache.get(id).guild.id !== (message.guild ? message.guild.id : 1)) {finEm.addField("Server", `You're in the server this emoji is from: **${client.emojis.cache.get(id).guild.name}**`);}
             return message.channel.send(finEm);
         } catch {
             return message.channel.send("There was an error getting info for that emoji. You may not have given a valid emoji, or the ID you gave doesn't lead to a real emoji.");
