@@ -62,17 +62,17 @@ module.exports = async client => {
 		if (tguild && tguild.prefix && tguild.prefix.length) {client.guildconfig.prefixes.set(tg.id, tguild.prefix);}
 		let tl = await LogData.findOne({gid: tg.id});
 		if (tl) {
-			let keys = Object.keys(tl);
-			let k; for (k of keys) {if (typeof tl[k] === "string" && tl[k].length) {
+			let keys = Object.keys(tl.logs);
+			let k; for (k of keys) {if (typeof tl.logs[k] === "string" && tl.logs[k].length) {
 				if (!client.guildconfig.logs.has(tg.id)) {client.guildconfig.logs.set(tg.id, new Map());}
-				client.guildconfig.logs.get(tg.id).set(k, tl[k]);
+				client.guildconfig.logs.get(tg.id).set(k, tl.logs[k]);
 			}}
 		}
 	}};
 	setPL();
 
 	siftStatuses();
-	setInterval(() => {setPL(); siftStatuses(client, null);}, 120000);
+	setInterval(() => {siftStatuses(client, null);}, 120000);
 
 	await require('../util/cache')(client);
 

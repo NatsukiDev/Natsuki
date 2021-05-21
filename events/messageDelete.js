@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 
 module.exports = async (client, message) => {
-	if (message.channel.type != "text") {return;};
+	if (message.channel.type !== "text") {return;}
 	//if (!Object.keys(snipe.delete).includes(message.guild.id)) {snipe.delete[message.guild.id] = {};};
 	//snipe.delete[message.guild.id][message.channel.id] = message;
 
