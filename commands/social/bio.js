@@ -33,7 +33,13 @@ module.exports = {
         if (['s', 'set'].includes(args[0].toLowerCase())) {
             args.shift();
             if (!args.length) {return message.reply("Please specify a bio!");}
-            let bio = args.join(" ");
+            let args2 = msg.startsWith(prefix)
+                ? message.content.slice(prefix.length).trim().split(/ +/g)
+                : msg.startsWith('<@!')
+                    ? message.content.slice(4 + client.user.id.length).trim().split(/ +/g)
+                    : message.content.slice(3 + client.user.id.length).trim().split(/ +/g);
+            args2.shift(); args2.shift();
+            let bio = args2.join(" ");
             if (bio.length > 200) {return message.reply("Please keep your bio under 200 characters!");}
             tu.bio = bio;
             tu.save();
