@@ -43,7 +43,46 @@ module.exports = {
             let emojiList = new Pagination(message.channel, emoteEmbeds, message, client, true);
             return emojiList.start({user: message.author.id, endTime: 60000});
         }
-        if (!args[0].match(/^<a?:.+:\d+>$|^\d+$/gm)) {return message.channel.send("That doesn't seem to be a valid emoji! (Standard Discord emojis don't count :p )");}
+        if (!args[0].match(/^<a?:.+:\d+>$|^\d+$/gm)) {
+            if (args[0].length > 25) {return message.channel.send("That doesn't seem to be a valid emoji! (Standard Discord emojis don't count :p )");}
+            let lookup = client.emojis.cache.filter(e => (args[0].length > 4 && e.name.toLowerCase().includes(args[0].toLowerCase())) || e.name.toLowerCase() === args[0].toLowerCase());
+            if (!lookup.size) {return message.channel.send("I tried to find some emojis that matched that name, but couldn't find anything. Maybe you didn't give an emoji to begin with?");}
+            let emotes = Array.from(lookup.values());
+            if (lookup.size > 20) {
+                let pages = [];
+                let x = 0;
+                while (true) {
+                    let cond = false;
+                    let page = '';
+                    for (let i = 0; i < 20; i++) {
+                        if (emotes[(x * 20) + i] === undefined) {cond = true; break;}
+                        page += `<${emotes[(x * 20) + i].animated ? 'a' : ''}:${emotes[(x * 20) + i].name}:${emotes[(x * 20) + i].id}> \`:${emotes[(x * 20) + i].name}:\` -> ${emotes[(x * 20) + i].id}\n`;
+                        if ((x * 20) + i >= emotes.length) {cond = true; break;}
+                    }
+                    pages.push(new Discord.MessageEmbed()
+                        .setTitle(`Emoji Lookup Results [${(x * 20) + 1}-${(x * 20) + 20} of ${lookup.size}]`)
+                        .setDescription(page)
+                        .setColor('c375f0')
+                        .setFooter("Natsuki", client.user.avatarURL())
+                        .setTimestamp()
+                    );
+                    if (cond) {break;}
+                    x++;
+                }
+                let emojiList = new Pagination(message.channel, pages, message, client, true);
+                return emojiList.start({user: message.author.id, endTime: 60000});
+            } else {
+                let page = '';
+                for (let i = 0; i < lookup.size; i++) {page += `<${emotes[i].animated ? 'a' : ''}:${emotes[i].name}:${emotes[i].id}> \`:${emotes[i].name}:\` -> ${emotes[i].id}\n`;}
+                return message.channel.send(new Discord.MessageEmbed()
+                    .setTitle(`Emoji Lookup Results - ${lookup.size}`)
+                    .setDescription(page)
+                    .setColor('c375f0')
+                    .setFooter("Natsuki", client.user.avatarURL())
+                    .setTimestamp()
+                );
+            }
+        }
         let name; let id; let animated; let url;
         let access = false;
         if (args[0].match(/^<a?:.+:\d+>$/)) {
