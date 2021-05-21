@@ -1,6 +1,27 @@
+const Discord = require("discord.js");
+
 const Monitor = require('../models/monitor');
 
 module.exports = async (client, oldState, voice) => {
+    let ts = client.guildconfig.logs.has(voice.guild.id) && client.guildconfig.logs.get(voice.guild.id).has('vc') ? client.guildconfig.logs.get(voice.guild.id).get('vc') : null;
+    if (ts) {if (voice.guild.channels.cache.has(ts) && voice.guild.channels.cache.get(ts).permissionsFor(client.user.id).has("SEND_MESSAGES")) {
+        if (oldState.channelID && voice.channelID) {
+            voice.guild.channels.cache.get(ts).send(new Discord.MessageEmbed()
+                .setTitle(`Member Switched VCs`)
+                .setThumbnail(client.users.cache.get(oldState.member.id).avatarURL({size: 2048, dynamic: true}))
+                .setDescription(`Old Channel: **${oldState.channel.name}**\nNew Channel: **${voice.channel.name}**`)
+                .setColor('e86b8f').setFooter("Natsuki", client.user.avatarURL()).setTimestamp()
+            ).catch(() => {});
+        } else {
+            voice.guild.channels.cache.get(ts).send(new Discord.MessageEmbed()
+                .setTitle(`Member ${voice.channelID ? 'Joined' : 'Left'} VC`)
+                .setThumbnail(client.users.cache.get(oldState.member.id).avatarURL({size: 2048, dynamic: true}))
+                .setDescription(`Channel: **${voice.channelID ? voice.channel.name : oldState.channel.name}**`)
+                .setColor('e86b8f').setFooter("Natsuki", client.user.avatarURL()).setTimestamp()
+            ).catch(() => {});
+        }
+    }}
+
     if (client.users.cache.get(voice.member.id).bot) {return;}
     if (voice.guild && client.misc.cache.monitEnabled.includes(voice.guild.id)) {
         if (voice.channelID) {

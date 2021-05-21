@@ -10,8 +10,7 @@ const ObjLogTypes = {
     chnew: ['chn', 'chc', 'newch', 'newchannel', 'chcreate', 'channelcreate'],
     //chedit: ['channeledit'],
     chdelete: ['chd', 'channeldelete', 'deletechannel', 'deletech', 'chdelete'],
-    //vcjoin: [],
-    //vcleave: [],
+    vc: ['voice', 'vc'],
     //servervcmute: [],
     //servervcdeafen: [],
     //kick: [],
@@ -62,15 +61,16 @@ module.exports = {
             if (!ch) {return message.channel.send("I can't find that channel! Make sure that you've mentioned one, or that the ID you provided is correct, and that I can see it.");}
             if (!ch.permissionsFor(client.user.id).has("SEND_MESSAGES")) {return message.reply("I don't have permissions to send messages in that channel. Please give me access and try again.");}
             let tl = await LogData.findOne({gid: message.guild.id}) || new LogData({gid: message.guild.id});
-            tl[lt] = ch.id;
+            tl.logs[lt] = ch.id;
+            tl.markModified(`logs.${lt}`);
             tl.save();
             if (!client.guildconfig.logs.has(message.guild.id)) {client.guildconfig.logs.set(message.guild.id, new Map());}
             client.guildconfig.logs.get(message.guild.id).set(lt, ch.id);
-            return message.channel.send("Log settings updated!")
+            return message.channel.send("Log settings updated!");
         }
 
         if (['l', 'list'].includes(args[0].toLowerCase())) {
-            return message.channel.send("Valid log types:\n\n-`msgdelete` - Shows the content of a message that was deleted, in any channel.\n-`msgedit` - Shows both the old and new versions of a message when it is edited.");
+            return message.channel.send("Valid log types:\n\n-`msgdelete` - Shows the content of a message that was deleted, in any channel.\n-`msgedit` - Shows both the old and new versions of a message when it is edited.\n-`vc` - Logs when members join and leave VCs.");
         }
 
         if (['v', 'view'].includes(args[0].toLowerCase())) {
@@ -79,7 +79,17 @@ module.exports = {
         }
 
         if (['c', 'clear'].includes(args[0].toLowerCase())) {
-            
+            let tl = await LogData.findOne({gid: message.guild.id});
+            if (!tl) {return message.channel.send("Your server doesn't have any logs set up!");}
+            const conf = await require('../../util/ask')(message, "Are you sure you want to clear all your server's logs settings? This cannot be undone.", 60000);
+            if (!conf) {return;}
+            if (!['y', 'yes', 'sure'].includes(`${conf}`.toLowerCase())) {return message.channel.send("Okay, I won't clear your logs settings.");}
+            return LogData.deleteOne({gid: message.guild.id})
+                .then(() => {
+                    client.guildconfig.logs.delete(message.guild.id);
+                    return message.channel.send("Logs settings wiped!")
+                })
+                .catch(() => message.channel.send("An error occurred, and your logs data wasn't deleted. Please contact my devs if the problem persists."));
         }
     }
 };
