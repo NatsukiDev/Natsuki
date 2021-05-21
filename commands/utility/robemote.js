@@ -15,8 +15,8 @@ module.exports = {
     .setDescription("Takes an emoji and adds it to this server, if you have the permissions.")
     .addField("Syntax", "`robemote [emoji] [name]`"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!message.member.permissions.has("MANAGE_EMOJI")) {return message.channel.send("You must have permissions to manage emoji in this server.");}
-        if (!message.guild.me.permissions.has("MANAGE_EMOJI")) {return message.channel.send("I don't have permissions to manage emoji in this server, so I can't add any emotes.");}
+        if (!message.member.permissions.has("MANAGE_EMOJIS")) {return message.channel.send("You must have permissions to manage emoji in this server.");}
+        if (!message.guild.me.permissions.has("MANAGE_EMOJIS")) {return message.channel.send("I don't have permissions to manage emoji in this server, so I can't add any emotes.");}
         if (!args.length) {
             return message.channel.send(new Discord.MessageEmbed()
                 .setTitle("Add Emoji")

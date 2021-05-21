@@ -22,7 +22,7 @@ module.exports = {
         try {
             let avem = new Discord.MessageEmbed()
             .setTitle(`${name.endsWith('s') ? `${name}'` : `${name}'s`} Avatar`)
-            .setImage(member.avatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true}))
+            .setImage(member.avatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}))
             .setColor('c375f0')
             .setFooter("Natsuki", client.user.avatarURL())
             if (!options.vsmall) {avem.setTimestamp();}

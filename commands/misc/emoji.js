@@ -25,6 +25,7 @@ module.exports = {
                 if (m.reactions.cache.size) {Array.from(m.reactions.cache.values()).forEach(r => {if (r.emoji.id && !emotes.includes(`<${r.emoji.animated ? 'a' : ''}:${r.emoji.name}:${r.emoji.id}>`)) {emotes.push(`<${r.emoji.animated ? 'a' : ''}:${r.emoji.name}:${r.emoji.id}>`);}});}
             });
             if (!emotes.length) {return message.channel.send("It doesn't look like anyone has sent any emoji recently. Try using the command again but adding an emoji to the message to get info on it.");}
+            emotes.reverse();
             let emoteEmbeds = [];
             emotes.forEach(emote => {
                 let spl = emote.split(':');
