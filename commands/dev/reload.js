@@ -20,12 +20,11 @@ module.exports = {
         extra: null
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        let timer = new Date().getTime();
+        const tu = await UserData.findOne({uid: message.author.id});
+        if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do this!");}
 
         if (!args.length) {
-            const tu = await UserData.findOne({uid: message.author.id});
-            if (!tu || !tu.developer) {return message.channel.send("You must be a Natsuki developer in order to do this!");}
-
+            let timer = new Date().getTime();
             let commands = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
             let dirSet = new Map();
             fs.readdirSync('./commands').filter(file => !file.includes('.')).forEach(dir => fs.readdirSync(`./commands/${dir}`).filter(file => file.endsWith('.js')).forEach(x => {commands.push(x); dirSet.set(x, dir)}));
