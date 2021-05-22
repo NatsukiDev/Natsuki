@@ -7,9 +7,8 @@ const LogData = require('../../models/log');
 const ObjLogTypes = {
     mdelete: ['md', 'mdelete', 'messagedelete', 'deletemessage', 'deletemsg', 'msgdelete'],
     medit: ['me', 'medit', 'messageedit', 'editmessage', 'msgedit', 'editmsg'],
-    chnew: ['chn', 'chc', 'newch', 'newchannel', 'chcreate', 'channelcreate'],
+    ch: ['channel', 'ch'],
     //chedit: ['channeledit'],
-    chdelete: ['chd', 'channeldelete', 'deletechannel', 'deletech', 'chdelete'],
     vc: ['voice', 'vc'],
     //servervcmute: [],
     //servervcdeafen: [],
@@ -70,7 +69,7 @@ module.exports = {
         }
 
         if (['l', 'list'].includes(args[0].toLowerCase())) {
-            return message.channel.send("Valid log types:\n\n-`msgdelete` - Shows the content of a message that was deleted, in any channel.\n-`msgedit` - Shows both the old and new versions of a message when it is edited.\n-`vc` - Logs when members join and leave VCs.");
+            return message.channel.send("Valid log types:\n\n-`msgdelete` - Shows the content of a message that was deleted, in any channel.\n-`msgedit` - Shows both the old and new versions of a message when it is edited.\n-`vc` - Logs when members join and leave VCs.\n-`ch` - Logs channel creations and deletions.");
         }
 
         if (['v', 'view'].includes(args[0].toLowerCase())) {
