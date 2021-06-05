@@ -45,7 +45,7 @@ module.exports = {
         }
         if (!args[0].match(/^<a?:.+:\d+>$|^\d+$/gm)) {
             if (args[0].length > 25) {return message.channel.send("That doesn't seem to be a valid emoji! (Standard Discord emojis don't count :p )");}
-            let lookup = client.emojis.cache.filter(e => (args[0].length > 4 && e.name.toLowerCase().includes(args[0].toLowerCase())) || e.name.toLowerCase() === args[0].toLowerCase());
+            let lookup = client.emojis.cache.filter(e => (args[0].length > 2 && e.name.toLowerCase().includes(args[0].toLowerCase())) || e.name.toLowerCase() === args[0].toLowerCase());
             if (!lookup.size) {return message.channel.send("I tried to find some emojis that matched that name, but couldn't find anything. Maybe you didn't give an emoji to begin with?");}
             let emotes = Array.from(lookup.values());
             if (lookup.size > 20) {
