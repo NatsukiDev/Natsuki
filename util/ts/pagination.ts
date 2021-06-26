@@ -37,7 +37,7 @@ export class Pagination {
         }
 
         await this.message.edit('', this.pages[page]
-            .setFooter(`Natsuki | Page ${page + 1} of ${this.pages.length}`, this.client.user.avatarURL())
+            .setFooter(`${this.client.user.username} | Page ${page + 1} of ${this.pages.length}`, this.client.user.avatarURL())
             .setTimestamp()
         );
         this.currentPage = page;
