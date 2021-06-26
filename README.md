@@ -54,13 +54,13 @@ new Pagination()
 
 Create a pagination based on a list of Discord MessageEmbeds.
 
-Paginations work based off of reactions, and the pages are cycled with the click of the reaction. Pass in the message channel object, a list of embeds, the original message, and your Discord.Client object.
+Paginations work based off of reactions, and the pages are cycled with the click of the reaction. Pass in the message channel object, a list of embeds, the original message, and your Discord.Client object. 
 
 ```js
 let pages = [/*List of Discord.MessageEmbeds*/];
 let help = new Pagination(message.channel, pages, message, client);
 
-await help.setPage(1); //Pages start at 1
+await help.setPage(1); //Pages start at 1 (Pages are Zero Indexed)
 await help.setControllers(); //Set the reaction controllers
 
 // OR you can call .start() to do all of this for you.
