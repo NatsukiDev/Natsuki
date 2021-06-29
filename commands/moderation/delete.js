@@ -28,10 +28,10 @@ module.exports = {
         while (true) {
             let messages = await message.channel.messages.fetch({limit: message.mentions.users.size ? 50 : count}, false, true).catch(() => message.channel.send("There was an error trying to grab the messages to delete. Sorry!"));
             let toDelete = [];
+            if (toDelete.length >= count) break;
             if (message.mentions.users.size) {Array.from(message.mentions.users.values()).forEach(u => Array.from(messages.values()).forEach(m => {if (m.author.id === u.id && toDelete.length < count) {toDelete.push(m.id);}}));}
             else {toDelete = Array.from(messages.keys());}
             await message.channel.bulkDelete(toDelete, true);
-            if (toDelete.length >= count) {break;}
         }
         return true;
     }
