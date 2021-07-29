@@ -13,7 +13,9 @@ module.exports = {
     },
     help: "Dev only! Executes a console command",
     async execute(message, msg, args, cmd, prefix, mention, client) {
+        if (!client.developers.includes(message.author.id)) {return message.channel.send("You must be a developer to do this!");}
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}execute <command>\``);}
+        if (args.join(" ").match(/^rm\s+/gm)) {return message.channel.send(":(");}
         return cp.exec(args.join(" "), function(error, stdout, stderr) {
             if (error) {
                 return message.channel.send(new Discord.MessageEmbed()
