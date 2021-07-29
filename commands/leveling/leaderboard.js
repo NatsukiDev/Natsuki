@@ -23,7 +23,7 @@ module.exports = {
         let lvl = lvlp.slice(0, Object.keys(xp).length >= 5 ? 5 : Object.keys(xp).length);
         let lvls = ``;
         let i; for (i=0; i<lvl.length; i++) {lvls += `${i+1}. <@${lvl[i]}> -> **Level ${xp[lvl[i]][1]}**\n`;}
-        lvls += `\n${cfmh} *You are ranked #${lvlp.indexOf(message.author.id) + 1} at Level ${xp[lvlp[i]][1]}.*`;
+        lvls += `\n${cfmh} *You are ranked **#${lvlp.indexOf(message.author.id) + 1}** at Level ${xp[lvlp[lvlp.indexOf(message.author.id)]][1]}.*`;
 
         return message.channel.send(new Discord.MessageEmbed()
             .setTitle("Server Leaderboard")
