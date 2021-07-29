@@ -20,7 +20,7 @@ module.exports = {
         let xp = gxp.xp;
     
         let lvlp = Object.keys(xp).sort((a, b) => {return xp[a][1] - xp[b][1];}).reverse();
-        let lvl = lvlp.slice(0, Object.keys(xp).length >= 5 ? 5 : Object.keys(xp).length);
+        let lvl = lvlp.slice(0, Object.keys(xp).length >= 10 ? 10 : Object.keys(xp).length);
         let lvls = ``;
         let i; for (i=0; i<lvl.length; i++) {lvls += `${i+1}. <@${lvl[i]}> -> **Level ${xp[lvl[i]][1]}**\n`;}
         lvls += `\n${cfmh} *You are ranked **#${lvlp.indexOf(message.author.id) + 1}** at Level ${xp[lvlp[lvlp.indexOf(message.author.id)]][1]}.*`;
