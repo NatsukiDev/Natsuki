@@ -17,6 +17,7 @@ module.exports = {
         let cfmh = '<a:xp:870418598047387668>';
 
         let gxp = await XP.findOne({gid: message.guild.id});
+        if (!gxp) {return message.channel.send("Your server doesn't have XP enabled! If it's something you want to use, you can enable it with the `setupleveling` command");}
         let xp = gxp.xp;
     
         let lvlp = Object.keys(xp).sort((a, b) => {return xp[a][1] - xp[b][1];}).reverse();
