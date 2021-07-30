@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const cp = require("child_process");
 
 module.exports = {
-    name: "Execute",
+    name: "execute",
     aliases: ['exec'],
     meta: {
         category: 'Developer',

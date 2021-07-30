@@ -2,7 +2,6 @@ const LXP = require('../../models/localxp');
 const LR = require('../../models/levelroles');
 
 module.exports = async (client, member, channel) => {
-    if (member.id === '468903364533420074' && channel.guild.id === '703196054966894642') {return;}
     client.misc.cache.lxp.xp[channel.guild.id][member].lastXP = new Date().getTime();
     client.misc.cache.lxp.xp[channel.guild.id][member].xp += 10;
 

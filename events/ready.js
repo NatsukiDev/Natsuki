@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const moment = require('moment');
 const mongoose = require('mongoose');
 const ora = require('ora');
+const lastfm = require("lastfm");
 
 const GuildSettings = require('../models/guild');
 const BotDataSchema = require('../models/bot');
@@ -17,6 +18,9 @@ const vcloop = require('../util/vcloop');
 let prefix = 'n?';
 
 module.exports = async client => {
+	if (client.misc.readied) {return;}
+	client.misc.readied = true;
+	
 	const config = client.config;
 
 	/*let db = mongoose.connection;
@@ -30,13 +34,16 @@ module.exports = async client => {
     console.log(`${chalk.gray('[INFO]')} >> ${chalk.white(`Running on ${client.guilds.cache.size} servers!`)}`);
 	console.log(`${chalk.gray('[INFO]')} >> ${chalk.white(`Serving ${client.users.cache.size} users!`)}`);
 
+	client.lfm = new lastfm.LastFmNode({api_key: client.config.lfm.key, secret: client.config.lfm.secret});
+
 	let responses = {
 		"PLAYING": [
 			`with my darling`, 'RAIN: Shadow Lords', "with my waifu", "with the neko formula",
 			"with magic", "terrible anime games", "anime OSTs at max volume",
 			`${Math.ceil(Math.random() * 100)} days of trying to become a samurai`,
 			"with the sauce", "witch hats are >", "explosion magic is the best magic",
-			"with Kazuma's sanity"
+			"with Kazuma's sanity", "please help i gave myself cat ears",
+			"starting my own harem", "wor. wor never changes", "a little more UwU than necessary"
 			,`in ${client.guilds.cache.size} servers`
 		],
 		"WATCHING": [
@@ -45,7 +52,10 @@ module.exports = async client => {
 			"a slime somehow start an empire", "a fox-maid get her tail fluffed",
 			"a raccoon-girl and some guy with a shield", "some chick with unusually red hair",
 			"Mob hit 100", "a really bad harem anime", "The Black Swordsman",
-			"The Misfit of Demon King Academy", "Akame ga Kill"
+			"The Misfit of Demon King Academy", "Akame ga Kill", "a witch explode a castle",
+			"Code Geass", "\"did you really think ___ would be enough to kill me?\"",
+			"hentacle tentai", "JIBUN WO-", "he did it... he actually made risotto",
+			""
 			,`over ${client.guilds.cache.size} servers`
 		]
 	};
