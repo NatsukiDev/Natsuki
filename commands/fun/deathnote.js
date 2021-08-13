@@ -104,12 +104,12 @@ module.exports = {
 
         let pretext = before[Math.floor(Math.random() * before.length)].replace(/{p}/g, victim);
 
-        let note = await message.channel.send(new Discord.MessageEmbed()
+        let note = await message.channel.send({embeds: [new Discord.MessageEmbed()
             .setDescription(pretext)
             .setColor('c375f0')
             .setFooter("Natsuki", client.user.avatarURL())
             .setTimestamp()
-        );
+        ]});
 
         await require('../../util/wait')(2500);
 
@@ -139,6 +139,6 @@ module.exports = {
 
         if (mention) {finalEmbed.setThumbnail(mention.avatarURL({size: 1024}));}
 
-        return note.edit(finalEmbed);
+        return note.edit({embeds: [finalEmbed]});
     }
 };

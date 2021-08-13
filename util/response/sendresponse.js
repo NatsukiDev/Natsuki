@@ -16,7 +16,7 @@ module.exports = async(member, channel, mode, client, options) => {
             if (options.guildthumb) {responseEmbed.setThumbnail(channel.guild.iconURL({size: 1024}));}
         }
         if (channel.permissionsFor(client.user.id).has("SEND_MESSAGES")) {return channel.send(
-            options.message ? await filterResponse(member, client, options.text) : responseEmbed
+            options.message ? await filterResponse(member, client, options.text) : {embeds: [responseEmbed]}
         );}
     } catch {}
 };

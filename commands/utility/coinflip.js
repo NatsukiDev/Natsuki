@@ -51,6 +51,6 @@ module.exports = {
         if (options.against && options.against.length) {coinEmbed.addField("Against", `Coin flipped against ${options.against}`, true);}
         if (calls) {coinEmbed.addField("Call", `${message.guild ? message.member.displayName : message.author.username} called **${calls['1']}** ${options.against && options.against.length ? `(leaving ${options.against} with **${calls['2']}**)` : ''} and **${(calls['1'] === 'Heads' && flip === 1) || (calls['2'] === 'Heads' && flip === 2) ? 'was' : "wasn't"}** correct!`);}
 
-        return message.channel.send(coinEmbed);
+        return message.channel.send({embeds: [coinEmbed]});
     }
 };

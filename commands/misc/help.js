@@ -54,7 +54,7 @@ module.exports = {
             if (pages.length > 1) {
                 let help = new Pagination(message.channel, pages, message, client, true);
                 return await help.start({endTime: 120000, user: message.author.id});
-            } else {return message.channel.send(pages[0].setFooter("Natsuki", client.user.avatarURL()).setTimestamp());}
+            } else {return message.channel.send({embeds: [pages[0].setFooter("Natsuki", client.user.avatarURL()).setTimestamp()]});}
         } else {
             let command;
             if (client.commands.has(args[0])) {command = client.commands.get(args[0]);}

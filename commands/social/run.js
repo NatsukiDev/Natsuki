@@ -16,11 +16,11 @@ module.exports = {
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let savess = await Saves.findOne({name: 'run'}) ? await Saves.findOne({name: 'run'}) : new Saves({name: 'run'});
         let saves = savess.saves;
-        if (!args.length) {return message.channel.send(new Discord.MessageEmbed()
+        if (!args.length) {return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} ran away!`)
             .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
             .setColor('add8e6')
-        );}
+        ]});}
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}
             let tu = await UserData.findOne({uid: message.author.id});

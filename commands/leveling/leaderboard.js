@@ -26,14 +26,14 @@ module.exports = {
         let i; for (i=0; i<lvl.length; i++) {lvls += `${i+1}. <@${lvl[i]}> -> **Level ${xp[lvl[i]][1]}**\n`;}
         lvls += `\n${cfmh} *You are ranked **#${lvlp.indexOf(message.author.id) + 1}** at Level ${xp[lvlp[lvlp.indexOf(message.author.id)]][1]}.*`;
 
-        return message.channel.send(new Discord.MessageEmbed()
+        return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle("Server Leaderboard")
             .setThumbnail(message.guild.iconURL({size: 2048, dynamic: true}))
             .addField("Level", lvls)
             .setColor('c375f0')
             .setFooter("Natsuki | Stats may be up to 2 minutes out of sync")
             .setTimestamp()
-        );
+        ]});
 
         /*u = Object.keys(tm.messages.members).sort((a, b) => {return tm.messages.members[a] - tm.messages.members[b];}).reverse().slice(0, Object.keys(tm.messages.members).length >= 5 ? 5 : Object.keys(tm.messages.members).length);
         us = ``;

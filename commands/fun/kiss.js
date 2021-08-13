@@ -16,24 +16,24 @@ module.exports = {
         let savess = await Saves.findOne({name: 'kiss'}) ? await Saves.findOne({name: 'kiss'}) : new Saves({name: 'kiss'});
         let saves = savess.saves;
         if (!args.length) {
-            return message.channel.send(message.guild ? new Discord.MessageEmbed()
+            return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
                     .setTitle(`${message.guild ? message.member.displayName : message.author.username} wants a kiss!`)
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Give them a little kiss with \`${prefix}kiss @${message.member.displayName}\`!`)
                     .setColor('c375f0')
                     .setFooter('Natsuki', client.user.avatarURL())
-                    .setTimestamp()
+                    .setTimestamp()]}
                 : "I'm not really into that kind of thing. Maybe try asking in a server?"
             );}
         if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
             if (!message.guild) {return message.reply("Please make sure you're in a server so you can mention someone other than me to kiss!");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("A self-kiss ought to be a little hard, don't you think?");}
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} kisses ${message.guild.members.cache.get(mention.id).displayName}`, message.author.avatarURL())
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d428a0')
-            );
+            ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}

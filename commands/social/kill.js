@@ -18,13 +18,13 @@ module.exports = {
         let saves = savess.saves;
         if (!args.length) {
             let name = message.guild ? message.member.displayName : message.author.username;
-            return message.channel.send(message.guild ? new Discord.MessageEmbed()
+            return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
                     .setTitle(`${name} is feeling homicidal..watch out!`)
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Brutally murder someone with \`${prefix}kill @${name}\`!`)
                     .setColor('bb0a1e')
                     .setFooter('Luno', client.user.avatarURL())
-                    .setTimestamp()
+                    .setTimestamp()]}
                 : "You can't kill me..don't even try."
             );}
         if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
@@ -33,11 +33,11 @@ module.exports = {
             if (message.author.id === mention.id) {return message.reply("Uhhh no. Please don't try to hurt yourself..");}
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} brutally murders ${message.guild.members.cache.get(mention.id).displayName}..Rest in Peace.`, message.author.avatarURL())
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('bb0a1e')
-            );
+            ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}

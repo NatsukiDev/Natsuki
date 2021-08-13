@@ -45,7 +45,7 @@ module.exports = {
             }
             if (cwc > 0) {ws += '*Plus ' + cwc + ' other warnings that have been cleared.*';}
             if (cwc === mh.warnings[user.id].length) {return message.reply("That user has no uncleared warnings.");}
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("User Warnings")
                 .setThumbnail(client.users.cache.get(user.id).avatarURL({size: 1024}))
                 .setDescription(`For ${user.displayName}`)
@@ -53,7 +53,7 @@ module.exports = {
                 .setColor("c375f0")
                 .setFooter("Natsuki", client.user.avatarURL())
                 .setTimestamp()
-            );
+            ]});
         }
 
         else if (['clear', 'e', 'empty'].includes(args[0].toLowerCase())) {

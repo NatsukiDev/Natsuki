@@ -1,9 +1,12 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
 
 const chalk = require('chalk');
 const ora = require('ora');
 const mongoose = require('mongoose');
+
+const flags = Discord.Intents.FLAGS;
+let fl = []; Object.keys(flags).forEach(flag => fl.push(flags[flag]))
+const client = new Discord.Client({intents: fl, partials: ["CHANNEL", "REACTION", "MESSAGE"]});
 
 client.misc = {
     savers: ['497598953206841375', '480535078150340609', '468903364533420074'],

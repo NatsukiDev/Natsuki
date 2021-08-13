@@ -18,14 +18,14 @@ module.exports = {
         let saves = savess.saves;
         if (!args.length) {
             let name = message.guild ? message.member.displayName : message.author.username;
-            return message.channel.send(message.guild ? new Discord.MessageEmbed()
+            return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
                     .setTitle(`${name} is feeling lonely..maybe you should simp for them!`)
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Fall madly in love with someone with \`${prefix}simp @${name}\`!`)
                     .setColor('ffb6c1')
                     .setFooter('Luno', client.user.avatarURL())
-                    .setTimestamp()
-                : "Only my mommy Crescent can simp for me."
+                    .setTimestamp()]}
+                : "Nobody simps for me. That's just weird. Be weird to someone else."
             );}
         if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
             if (!message.guild) {return message.reply("Only my mommy Crescent can simp for me.");}
@@ -33,11 +33,11 @@ module.exports = {
             if (message.author.id === mention.id) {return message.reply("You can't simp for yourself you lonely fuck.");}
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} falls madly in love with ${message.guild.members.cache.get(mention.id).displayName}..what a simp.`, message.author.avatarURL())
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('ffb6c1')
-            );
+            ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}

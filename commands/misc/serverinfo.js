@@ -14,11 +14,11 @@ module.exports = {
     },
     execute(message, msg, args, cmd, prefix, mention, client) {
         let now = new Date();
-        return message.channel.send(new Discord.MessageEmbed()
+        return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setAuthor("Server info", message.author.avatarURL())
             .setTitle(message.guild.name)
             .setThumbnail(message.guild.iconURL({size: 2048}))
-            .setDescription(`Name: \`${message.guild.name}\`\n\nOwner: <@${message.guild.ownerID}>\nRegion: ${message.guild.region}\nIcon: [URL](${message.guild.iconURL({size: 2048})})`)
+            .setDescription(`Name: \`${message.guild.name}\`\n\nOwner: <@${message.guild.ownerId}>\nRegion: ${message.guild.region}\nIcon: [URL](${message.guild.iconURL({size: 2048})})`)
             .addField("Members", `${message.guild.members.cache.size}\n[${message.guild.members.cache.filter(m => !client.users.cache.get(m.id).bot).size} Humans | ${message.guild.members.cache.filter(m => client.users.cache.get(m.id).bot).size} Bots]\n\nOnline: ${message.guild.members.cache.filter(m => client.users.cache.get(m.id).presence.status === "online").size} | Idle: ${message.guild.members.cache.filter(m => client.users.cache.get(m.id).presence.status === "idle").size} | Do not Disturb: ${message.guild.members.cache.filter(m => client.users.cache.get(m.id).presence.status === "dnd").size}`)
             .addField("Channels", `${message.guild.channels.cache.size}\n[${message.guild.channels.cache.filter(ch => ch.type === "text").size} Text | ${message.guild.channels.cache.filter(ch => ch.type === "voice").size} Voice]`, true)
             .addField("Roles", `${message.guild.roles.cache.size} (you have ${message.member.roles.cache.size})\nYour highest is <@&${message.member.roles.highest.id}>`, true)
@@ -26,6 +26,6 @@ module.exports = {
             .setColor('c375f0')
             .setFooter("Natsuki")
             .setTimestamp()
-        );
+        ]});
     }
 };

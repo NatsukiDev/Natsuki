@@ -30,13 +30,13 @@ module.exports = {
             slaps.total++;
             slaps.markModified(`against.${mention.id}`);
             slaps.save();
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} slaps ${message.guild.members.cache.get(mention.id).displayName}`, message.author.avatarURL())
                 .setDescription(`That makes slap **#${slaps.against[mention.id]}** from you to them!`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d93846')
                 .setFooter(`${slaps.total} slap${slaps.total === 1 ? '' : 's'} total`)
-            );
+            ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}

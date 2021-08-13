@@ -19,13 +19,13 @@ module.exports = {
         let savess = await Saves.findOne({name: 'fuck'}) ? await Saves.findOne({name: 'fuck'}) : new Saves({name: 'fuck'});
         let saves = savess.saves;
         if (!args.length) {
-            return message.channel.send(message.guild ? new Discord.MessageEmbed()
+            return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} is horny!`)
             .setThumbnail(message.author.avatarURL({size: 2048}))
             .setDescription(`Show them some love with \`${prefix}fuck @${message.member.displayName}\`!`)
             .setColor('dda0dd')
             .setFooter('Luno', client.user.avatarURL())
-            .setTimestamp()
+            .setTimestamp()]}
             : "You can't bang me.......only Crescent can."
         );}
         if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
@@ -37,13 +37,13 @@ module.exports = {
             fuck.total++;
             fuck.markModified(`against.${mention.id}`);
             fuck.save();
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} bangs ${message.guild.members.cache.get(mention.id).displayName}!...Kinky! `, message.author.avatarURL())
                 .setDescription(`You've banged them **${fuck.against[mention.id] === 1 ? 'once' : `${fuck.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('dda0dd')
                 .setFooter(`${fuck.total} fuck${fuck.total === 1 ? '' : 's'} total`)
-            );
+            ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}

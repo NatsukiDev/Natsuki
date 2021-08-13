@@ -27,20 +27,20 @@ module.exports = {
             await am.react('👎');
         } catch {return message.channel.send(":thinking: hmmm... something went wrong there. I might not have permissions to add reactions to messages, and this could be the issue.");}
         try {
-            let rc = am.createReactionCollector((r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, {max: 1, time: 60000});
+            let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
             rc.on("collect", async r => {
                 let xp = new LXP({gid: message.guild.id});
                 xp.msg = r.emoji.name === "👍";
                 xp.save();
                 client.misc.cache.lxp.enabled.push(message.guild.id);
-                return message.channel.send(new Discord.MessageEmbed()
+                return message.channel.send({embeds: [new Discord.MessageEmbed()
                     .setTitle("XP System Enabled!")
                     .setThumbnail(message.guild.iconURL({size: 2048}))
                     .setDescription(`Your server now has its leveling system enabled! If you enabled level up messages, you can set the channel for that using \`${prefix}levelchannel\`.`) //TODO update this with info on how the shiz works
                     .setColor("c375f0")
                     .setFooter("Natsuki", client.user.avatarURL())
                     .setTimestamp()
-                );
+                ]});
             });
             rc.on("end", collected => {if (!collected.size) {return message.channel.send("Looks like you ran out of time! Try again?");}});
         } catch {return message.channel.send("Hmm... there was some error problem thingy that happened when I tried to enable XP for your server. If it keeps not working, then go yell at my devs!");}

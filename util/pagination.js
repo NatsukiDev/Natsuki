@@ -30,9 +30,10 @@ class Pagination {
                 this.message = tempm;
             }
         }
-        await this.message.edit('', this.pages[page]
-            .setFooter(`Natsuki | Page ${page + 1} of ${this.pages.length}`, this.client.user.avatarURL())
-            .setTimestamp());
+        await this.message.edit({ content: '', embeds: [this.pages[page]
+                    .setFooter(`Natsuki | Page ${page + 1} of ${this.pages.length}`, this.client.user.avatarURL())
+                    .setTimestamp()]
+        });
         this.currentPage = page;
         return this;
     }
@@ -86,7 +87,7 @@ class Pagination {
         let filter = user && user.toLowerCase().trim() !== 'any'
             ? (r, u) => { return u.id === user.trim() && emoji.includes(r.emoji.name); }
             : (r) => { return emoji.includes(r.emoji.name); };
-        this.controllers.collector = this.message.createReactionCollector(filter, { time: 450000 });
+        this.controllers.collector = this.message.createReactionCollector({ filter, time: 450000 });
         this.controllers.collector.on('collect', async (r) => {
             let functions = {
                 '⬅': () => { return this.prevPage(); },
@@ -115,7 +116,7 @@ class Pagination {
         let fe = this.message.embeds[0];
         fe.setDescription(`${fe.description}\n\n*This menu has ended, start a new one to interact with it!*`);
         fe.setFooter(`${fe.footer.text} | Menu ended`, this.client.user.avatarURL());
-        await this.message.edit(fe);
+        await this.message.edit({ embeds: [fe] });
         clearInterval(this.timeoutInterval);
         return this;
     }

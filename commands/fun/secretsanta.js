@@ -75,7 +75,7 @@ module.exports = {
             tss.save();
 
             clearDM();
-            return dmch.send(new Discord.MessageEmbed()
+            return dmch.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("Secret Santa Created!")
                 .setDescription("Your Secret Santa has been completed! Have your members join by using `n?secretsanta join <ID>` where the ID is the ID displayed below. You can start your secret santa when you have at least 3 members with `n?secretsanta start <ID>`. If someone joins that you don't want in your secret santa, use `n?secretsanta kick <ID> <@member|userID>`. If you want to also participate, just join the same way as everyone else.")
                 .setThumbnail(message.author.avatarURL({size: 1024}))
@@ -84,7 +84,7 @@ module.exports = {
                 .setColor("01bd2f")
                 .setFooter("Natsuki", client.user.avatarURL())
                 .setTimestamp()
-            );
+            ]});
         }
 
         if (['j', 'join'].includes(args[0].toLowerCase())) {
@@ -105,7 +105,7 @@ module.exports = {
 
             let o = await client.users.fetch(tss.owner);
 
-            await dmch.send(new Discord.MessageEmbed()
+            await dmch.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("This Secret Santa!")
                 .setDescription("This is the one you're trying to join!")
                 .addField("Start", tss.start)
@@ -115,11 +115,11 @@ module.exports = {
                 .addField("Anonymous Gifters", tss.anon ? "Yes" : "No")
                 .addField("ID", `\`${tss.ssid}\``, true)
                 .addField("Owner", o.username, true)
-                .addField("Members", tss.members ? tss.members.length : 0, true)
+                .addField("Members", `${tss.members ? tss.members.length : 0}`, true)
                 .setColor("01bd2f")
                 .setFooter("Natsuki", client.user.avatarURL())
                 .setTimestamp()
-            );
+            ]});
 
             let name = await ask(mesg, "What is your name? This can be seen by everyone in the secret santa.", 60000, true); if (!name) {return clearDM();}
             if (name.length > 50) {clearDM(); return dmch.send("Maybe just the *first* name? I doubt it's over 50 characters.");}

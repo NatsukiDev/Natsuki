@@ -8,9 +8,15 @@ const AR = require('../models/ar');
 const LXP = require('../models/localxp');
 const Monitors = require('../models/monitor');
 
+const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE"];
+
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
-	if (message.channel.type !== 'text' && message.channel.type !== 'dm') {return undefined;}
+
+    if (message.partial) {await message.fetch();}
+    if (message.channel.partial) {await message.channel.fetch();}
+
+	if (!channelTypes.includes(message.channel.type)) {return undefined;}
 
 	//if (message.channel.type == "text") {if (settings[message.guild.id]) {prefix = settings[message.guild.id].prefix;};};
 
@@ -30,10 +36,10 @@ module.exports = async (client, message) => {
     if (message.content.includes("@everyone")) {return;}
 
 	if ([`<@${client.user.id}>`, `<@!${client.user.id}>`].includes(msg)) {
-	    return message.channel.send(new Discord.MessageEmbed()
+	    return message.channel.send({embeds: [new Discord.MessageEmbed()
         .setTitle(["Yep, that's me!", "^^ Hiya!", "Oh, hi there!", "Sure, what's up?", "How can I help!", "Natsuki is busy, but I can take a message for you!", "Teehee that's me!", "You were looking for Natsuki Tivastl, right?", "Sure! What's up?", "Pong!"][Math.floor(Math.random() * 10)])
         .setDescription(`My prefix here is \`${prefix}\`. Use \`${prefix}help\` to see what commands you can use.`)
-        .setColor('c375f0'));
+        .setColor('c375f0')]});
     }
 
 	if (mention && message.guild) {require('../util/mention')(message, msg, args, cmd, prefix, mention, client);}
@@ -43,7 +49,7 @@ module.exports = async (client, message) => {
         tu.statustype = '';
         tu.save();
         require('../util/siftstatuses')(client, message.author.id, true);
-        message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {m.delete({timeout: 5000});});
+        message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {setTimeout(() => {m.delete();}, 5000);});
 	}});
 
 	if (message.guild && client.misc.cache.ar.has(message.guild.id) && client.misc.cache.ar.get(message.guild.id).includes(msg.trim()) && !(client.misc.cache.arIgnore.has(message.guild.id) && client.misc.cache.arIgnore.get(message.guild.id).includes(message.channel.id))) {
@@ -96,9 +102,8 @@ module.exports = async (client, message) => {
             }
 
             if (!command) {let trigger; for (trigger of client.responses.triggers) {if (await trigger[1](message, msg, args, cmd, prefix, mention, client)) {await client.responses.commands.get(trigger[0]).execute(message, msg, args, cmd, prefix, mention, client); break;}} return;}
-            message.channel.startTyping();
-            await wait(800);
-            message.channel.stopTyping();
+            message.channel.sendTyping();
+            await wait(500);
             if (command.meta && command.meta.guildOnly && !message.guild) {return message.channel.send("You must be in a server to use this command!");}
             require('../util/oncommand')(message, msg, args, cmd, prefix, mention, client);
             if (client.misc.loggers.cmds) {client.misc.loggers.cmds.send(`${chalk.gray("[CMDL]")} >> ${chalk.white("Command")} ${chalk.blue(command.name)} ${message.guild ? `|| ${chalk.blue("Guild ID: ")} ${chalk.blueBright(message.guild.id)}` : ''} || ${chalk.blue("User ID: ")} ${chalk.blueBright(message.author.id)}`);}

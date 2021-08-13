@@ -9,14 +9,14 @@ module.exports = {
     meta: {
         category: 'Misc',
         description: "Stop auto responses from being sent to a specific channel.",
-        syntax: '`ignorear [#channel|channelID]`',
+        syntax: '`ignorear [#channel|channelId]`',
         extra: null,
         guildOnly: true
     },
     help: new Discord.MessageEmbed()
         .setTitle("Help -> AR Ignoring")
         .setDescription("Provide a channel (or don't to use the current channel) to be voided from auto-responses, that way the responses won't send in places you don't want them to.")
-        .addField("Syntax", "`[#channel|channelID]` - channel is optional."),
+        .addField("Syntax", "`[#channel|channelId]` - channel is optional."),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         const tg = await GuildData.findOne({gid: message.guild.id});
         if ((!tg || !tg.staffrole || !tg.staffrole.length || !message.member.roles.cache.has(tg.staffrole) && !message.member.permissions.has("ADMINISTRATOR"))) {return message.channel.send("You must have the staff role or be an administrator in this server in order to edit AR settings.");}

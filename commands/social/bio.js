@@ -21,14 +21,14 @@ module.exports = {
             let person = args[1] ? args[1].match(/^<@(?:!?)(?:\d+)>$/) && message.mentions.users.first() ? message.mentions.users.first().id : message.guild && message.guild.members.cache.has(args[1]) ? args[1] : message.author.id : message.author.id;
             let pud = await UserData.findOne({uid: person});
             if (!pud || !pud.bio || !pud.bio.length) {return message.reply(person === message.author.id ? "You don't have a bio set!" : "That user has no bio for me to show you!");}
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle(`Bio for ${message.guild ? message.guild.members.cache.get(person).displayName : message.author.username}`)
                 .setThumbnail(client.users.cache.get(person).avatarURL({size: 2048}))
                 .setDescription(pud.bio)
                 .setColor(pud.color && pud.color.length ? pud.color : 'c375f0')
                 .setFooter('Natsuki', client.user.avatarURL())
                 .setTimestamp()
-            );
+            ]});
         }
         if (['s', 'set'].includes(args[0].toLowerCase())) {
             args.shift();
@@ -43,14 +43,14 @@ module.exports = {
             if (bio.length > 200) {return message.reply("Please keep your bio under 200 characters!");}
             tu.bio = bio;
             tu.save();
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle(`Bio Set!`)
                 .setThumbnail(message.author.avatarURL({size: 2048}))
                 .setDescription(tu.bio)
                 .setColor(tu.color && tu.color.length ? tu.color : 'c375f0')
                 .setFooter('Natsuki', client.user.avatarURL())
                 .setTimestamp()
-            );
+            ]});
         }
         if (['c', 'clear'].includes(args[0].toLowerCase())) {
             tu.bio = '';

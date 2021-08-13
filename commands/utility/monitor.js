@@ -67,7 +67,7 @@ module.exports = {
             if (thm) {emb.addField("Total Messages", tm.messages.total, true);}
             if (tv) {emb.addField("Total Voice Hours", (tm.voice.total / 60).toFixed(1), true);}
             
-            return message.channel.send(emb);
+            return message.channel.send({embeds: [emb]});
         }
 
         if (['s', 'setup', 'config', 'configure', 'enable', 'e'].includes(args[0].toLowerCase())) {

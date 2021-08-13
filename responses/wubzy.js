@@ -34,7 +34,7 @@ module.exports = {
                 "<:awoo:750131415693393950> glad you're getting some sleep ^^ ~"];
             message.channel.send(`${r[Math.floor(Math.random() * r.length)]} Want me to set your status before you go off?`);
             let to = false; let sconf;
-            try {sconf = await message.channel.awaitMessages(m => m.author.id === "330547934951112705", {time: 15000, errors: ['time'], max: 1});}
+            try {sconf = await message.channel.awaitMessages({filter: m => m.author.id === "330547934951112705", time: 15000, errors: ['time'], max: 1});}
             catch {message.channel.send("Oh, I guess he already went to bed, huh? I'll just... set his status anyways-"); to = true;}
             if (sconf) {sconf = sconf.first().content.trim().toLowerCase();}
             if (to || incl(['ye', 'mhm', 'sure'], sconf)) {
@@ -59,7 +59,7 @@ module.exports = {
                 "watch quintessential quintuplets", "have your heart wrenched out by Senko-San again", "finish Bleach", "finish Akame ga Kill", "start Guren Lagann", "finish Darling in the Franxx again",
                 "watch Akashic Records again", "finish Rent-a-Girlfriend", "rebinge Kabaneri and question reality", "rewatch Code Geass", "do a thing called getting the hell off anime and doing something productive with your life!"];
                 message.channel.send(`${r1[Math.floor(Math.random() * r1.length)]} ${r2[Math.floor(Math.random() * r2.length)]}`);
-                try {sconf = await message.channel.awaitMessages(m => m.author.id === "330547934951112705", {time: 15000, errors: ['time'], max: 1});}
+                try {sconf = await message.channel.awaitMessages({filter: m => m.author.id === "330547934951112705", time: 15000, errors: ['time'], max: 1});}
                 catch {message.channel.send("Oh, I guess he liked the idea that much and just left..."); return 2;}
                 sconf = sconf.first().content.trim().toLowerCase();
                 if (incl(["bet", "i like", "yes", "sure", "fine", "alright", "ok"], sconf)) {
@@ -75,7 +75,7 @@ module.exports = {
             let res = await q();
             if (res === 2) {return;}
             let to = false; let sconf;
-            try {sconf = await message.channel.awaitMessages(m => m.author.id === "330547934951112705", {time: 15000, errors: ['time'], max: 1});}
+            try {sconf = await message.channel.awaitMessages({filter: m => m.author.id === "330547934951112705", time: 15000, errors: ['time'], max: 1});}
             catch {message.channel.send("Guess my recommendations are just that good that he left... Don't mind me while I set his status anyways"); to = true;}
             if (sconf) {sconf = sconf.first().content.trim().toLowerCase();}
             if (to || incl(['ye', 'mhm', 'sure'], sconf)) {

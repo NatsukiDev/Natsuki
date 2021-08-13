@@ -27,10 +27,10 @@ module.exports = async (client, reaction, user) => {
             if (reaction.message.attachments.size) {starEmbed.setImage(reaction.message.attachments.first().url);}
             if (Object.keys(sd.stars).includes(reaction.message.id)) {
                 let starMessage = await reaction.message.guild.channels.cache.get(tg.starchannel).messages.fetch(sd.stars[reaction.message.id]);
-                if (starMessage) {await starMessage.edit(starEmbed);}
+                if (starMessage) {await starMessage.edit({embeds: [starEmbed]});}
             } else {
                 if (reaction.count < tg.starreq) {return;}
-                let starEmbedMessage = await reaction.message.guild.channels.cache.get(tg.starchannel).send(starEmbed);
+                let starEmbedMessage = await reaction.message.guild.channels.cache.get(tg.starchannel).send({embeds: [starEmbed]});
                 sd.stars[reaction.message.id] = starEmbedMessage.id;
                 sd.starCount[reaction.message.author.id] = sd.starCount[reaction.message.author.id] ? sd.starCount[reaction.message.author.id] + 1 : 1;
                 sd.serverStarCount += 1;

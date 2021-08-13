@@ -25,11 +25,12 @@ module.exports = {
         ];
         let name = message.guild ? message.member.displayName : message.author.username;
 
-        return message.reply(new Discord.MessageEmbed()
+        return message.reply({embeds: [new Discord.MessageEmbed()
             .setAuthor("8ball Question", message.author.avatarURL())
             .setDescription("**Question:** " + question + "\n**Answer:** " + responses[Math.floor(Math.random() * responses.length)])
             .setColor("c375f0")
             .setFooter(`Asked by ${name} | Natsuki`)
-            .setTimestamp());
+            .setTimestamp()]}
+        );
     }
 };

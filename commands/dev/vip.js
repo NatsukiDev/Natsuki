@@ -36,14 +36,14 @@ module.exports = {
             if (tguild.vip === true) {return message.reply("This server is already a VIP server.");}
             tguild.vip = true;
             tguild.save();
-            client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send(logemb("Added"));
+            client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send({embeds: [logemb("Added")]});
             return message.reply("This server is now a VIP server!");
         } else if (['remove', 'r', 'delete', 'd'].includes(args[0])) {
             let tguild = await GuildSettings.findOne({gid: message.guild.id});
             if (tguild) {
                 if (tguild.vip === false) {return message.reply("This server wasn't a VIP server anyways...");}
                 await GuildSettings.findOneAndUpdate({gid: message.guild.id, vip: false});
-                client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send(logemb("Removed"));
+                client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send({embeds: [logemb("Removed")]});
             } else {return message.reply("This server wasn't a VIP server anyways...");}
             return message.reply("This server is no longer a VIP server!");
         } else if (['check', 'c', 'view', 'v'].includes(args[0])) {

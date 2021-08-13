@@ -14,15 +14,15 @@ module.exports = async (client, guild) => {
     botData.servers_all += 1;
     botData.save();
 
-    client.guilds.cache.get('762707532417335296').channels.cache.get('766031709866557471').send(new Discord.MessageEmbed()
-        .setAuthor('New Guild Added', client.users.cache.get(guild.owner.id).avatarURL())
+    client.guilds.cache.get('762707532417335296').channels.cache.get('766031709866557471').send({embeds: [new Discord.MessageEmbed()
+        .setAuthor('New Guild Added', client.users.cache.get(guild.ownerId).avatarURL())
         .setTitle(guild.name)
         .setThumbnail(guild.iconURL({size: 2048}))
-        .addField('Owner', client.users.cache.get(guild.owner.id).tag, true)
+        .addField('Owner', client.users.cache.get(guild.ownerId).tag, true)
         .addField('Members', guild.members.cache.size, true)
         .addField('Position', `Server #${client.guilds.cache.size}`, true)
         .setColor('55ff7f')
         .setFooter('Natsuki')
         .setTimestamp()
-    );
+    ]});
 };

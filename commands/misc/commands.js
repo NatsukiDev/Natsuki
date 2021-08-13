@@ -20,6 +20,6 @@ module.exports = {
             .setFooter("Natsuki", client.user.avatarURL())
             .setTimestamp();
         categories.forEach(category => ce.addField(category, Array.from(client.commands.values()).filter(command => command.meta ? command.meta.category === category : category === "Uncategorized").map(cmd => `\`${cmd.name}\``).join(', ')));
-        return message.channel.send(ce);
+        return message.channel.send({embeds: [ce]});
     }
 };

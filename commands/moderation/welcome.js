@@ -37,13 +37,13 @@ module.exports = {
             tg.save();
             tr.bindings.set('welcome', args[2].toLowerCase());
             tr.save();
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("Welcome Channel/Message Updated")
                 .setDescription(`This server's member-welcoming settings have been altered by ${message.author.tag}.\n\n**Channel**: <#${ch}>\n**Response Name**: \`${args[2].toLowerCase()}\``)
                 .setColor('c375f0')
                 .setFooter("Natsuki", client.user.avatarURL())
                 .setTimestamp()
-            )
+            ]})
         }
 
         if (['t', 'test'].includes(args[0].toLowerCase())) {
@@ -60,13 +60,13 @@ module.exports = {
                 tr.bindings.delete('welcome');
                 tr.save();
             }
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("Welcome Channel/Message Updated")
                 .setDescription(`This server's member-welcoming settings have been altered by ${message.author.tag}.\n\n**Channel**: None`)
                 .setColor('c375f0')
                 .setFooter("Natsuki", client.user.avatarURL())
                 .setTimestamp()
-            );
+            ]});
         }
     }
 };

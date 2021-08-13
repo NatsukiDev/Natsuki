@@ -35,7 +35,7 @@ module.exports = {
         client.guildconfig.prefixes.set(message.guild.id, np);
         let upm = await message.reply("sure thing!");
         await require('../../util/wait')(1750);
-        return upm.edit(new Discord.MessageEmbed()
+        return upm.edit({embeds: [new Discord.MessageEmbed()
             .setAuthor('Prefix updated!', message.author.avatarURL())
             .setDescription(`New prefix: \`${np}\``)
             .addField('Auditing Admin', `<@${message.member.id}>`, true)
@@ -43,6 +43,6 @@ module.exports = {
             .setColor('c375f0')
             .setFooter('Natsuki', client.user.avatarURL())
             .setTimestamp()
-        );
+        ]});
     }
 };

@@ -34,12 +34,12 @@ module.exports = {
             .replace(client.config.database.password, 'Database Password')
             .replace(client.config.database.cluster, 'Database Cluster');
 
-            return options.silent ? null : message.channel.send(new Discord.MessageEmbed()
+            return options.silent ? null : message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle('Client Evaluation')
             .setDescription(`\`\`\`js\n${output}\n\`\`\``)
             .setColor('c375f0')
             .setFooter(`Natsuki | Evaluated in ${new Date().getTime() - timer}ms`, client.user.avatarURL())
-            .setTimestamp());
+            .setTimestamp()]});
         }).catch(error => {return message.channel.send(`Error: \`${error}\`.`);});
         } catch (error) {
             let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);

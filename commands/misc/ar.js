@@ -64,9 +64,9 @@ module.exports = {
             if (!tar || !tar.triggers.length) {return message.channel.send("You can't edit any auto-responses... because there aren't any here...");}
 
             let sar = sortARs(tar);
-            await message.channel.send(viewARs(sar).addField("Editing", "Please say the **number** of the AR you wish to edit."));
+            await message.channel.send({embeds: [viewARs(sar).addField("Editing", "Please say the **number** of the AR you wish to edit.")]});
             let collected;
-            try {collected = await message.channel.awaitMessages(m => m.author.id === message.author.id, {errors: ['time'], time: 60001, max: 1});}
+            try {collected = await message.channel.awaitMessages({filter: m => m.author.id === message.author.id, errors: ['time'], time: 60001, max: 1});}
             catch {return message.channel.send("This question has timed out. Please try again!");}
             collected = collected.first().content.trim();
             if (isNaN(Number(collected))) {return message.channel.send("Hmmm, maybe try replying with a *number*!");}
@@ -89,9 +89,9 @@ module.exports = {
             if (!tar || !tar.triggers.length) {return message.channel.send("It's not like this server has any ARs for me to delete in the first place!");}
 
             let sar = sortARs(tar);
-            await message.channel.send(viewARs(sar).addField("Deletion", "Please say the **number** of the AR you wish to delete."));
+            await message.channel.send({embeds: [viewARs(sar).addField("Deletion", "Please say the **number** of the AR you wish to delete.")]});
             let collected;
-            try {collected = await message.channel.awaitMessages(m => m.author.id === message.author.id, {errors: ['time'], time: 60000, max: 1});}
+            try {collected = await message.channel.awaitMessages({filter: m => m.author.id === message.author.id, errors: ['time'], time: 60000, max: 1});}
             catch {return message.channel.send("This question has timed out. Please try again!");}
             collected = collected.first().content.trim();
             if (isNaN(Number(collected))) {return message.channel.send("You didn't reply with a number!");}
@@ -113,7 +113,7 @@ module.exports = {
         if (['v', 'view', 'l', 'list'].includes(args[0].toLowerCase())) {
             let tar = await AR.findOne({gid: message.guild.id});
             if (!tar || !tar.triggers.length) {return message.channel.send("This server has no ARs!");}
-            return message.channel.send(viewARs(sortARs(tar)));
+            return message.channel.send({embeds: [viewARs(sortARs(tar))]});
         }
 
         if (['s', 'settings'].includes(args[0].toLowerCase())) {

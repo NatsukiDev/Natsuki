@@ -26,7 +26,7 @@ module.exports = {
             .setColor('c375f0')
             .setFooter("Natsuki", client.user.avatarURL())
             if (!options.vsmall) {avem.setTimestamp();}
-            return message.channel.send(avem);
+            return message.channel.send({embeds: [avem]});
         } catch {return message.reply("Hmm, there seems to have been an error while I tried to show you that user's avatar.");}
     }
 };

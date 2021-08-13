@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Natsuki.iml" filepath="$PROJECT_DIR$/.idea/Natsuki.iml" />
-      <module fileurl="file://$USER_HOME$/WebstormProjects/death/.idea/death.iml" filepath="$USER_HOME$/WebstormProjects/death/.idea/death.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Natsukiv13/.idea/Natsukiv13.iml" filepath="$PROJECT_DIR$/../Natsukiv13/.idea/Natsukiv13.iml" />
     </modules>
   </component>
 </project>

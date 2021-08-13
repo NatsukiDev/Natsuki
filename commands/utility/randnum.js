@@ -40,12 +40,12 @@ module.exports = {
         for (let i=0; i<count;i++) {
             res += `${1 + 1}. \`${Math.floor(Math.random() * (nums[1] - nums[0] + 1) + nums[0])}\`\n`;
         }
-        return message.channel.send(new Discord.MessageEmbed()
+        return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle(`Random Number${num.length > 1 ? 's' : ''}`)
             .setDescription(res)
             .setColor('c375f0')
             .setFooter('Natsuki', client.user.avatarURL())
             .setTimestamp()
-        );
+        ]});
     }
 };

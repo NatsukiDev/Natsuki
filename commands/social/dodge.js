@@ -16,11 +16,11 @@ module.exports = {
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let savess = await Saves.findOne({name: 'dodge'}) ? await Saves.findOne({name: 'dodge'}) : new Saves({name: 'dodge'});
         let saves = savess.saves;
-        if (!args.length) {return message.channel.send(new Discord.MessageEmbed()
+        if (!args.length) {return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} dodged the attack!`)
             .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
             .setColor('b2ac88')
-        );}
+        ]});}
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}
             let tu = await UserData.findOne({uid: message.author.id});

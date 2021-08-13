@@ -18,13 +18,13 @@ module.exports = {
         let saves = savess.saves;
         if (!args.length) {
             let name = message.guild ? message.member.displayName : message.author.username;
-            return message.channel.send(message.guild ? new Discord.MessageEmbed()
+            return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
                     .setTitle(`${name} needs a creampie!`)
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Help with their..ahem..problem..with \`${prefix}creampie @${name}\`!`)
                     .setColor('fffdd0')
                     .setFooter('Luno', client.user.avatarURL())
-                    .setTimestamp()
+                    .setTimestamp()]}
                 : "Do. Not. Touch. Me."
             );}
         if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
@@ -33,11 +33,11 @@ module.exports = {
             if (message.author.id === mention.id) {return message.reply("You can't give yourself a creampie..weirdo.");}
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} gives a massive creampie to ${message.guild.members.cache.get(mention.id).displayName}..Tasty!`, message.author.avatarURL())
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('fffdd0')
-            );
+            ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}

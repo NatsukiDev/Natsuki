@@ -17,12 +17,12 @@ module.exports = {
     help: "Shows my uptime, which is how long it's been since my last restart.",
     async execute(message, msg, args, cmd, prefix, mention, client) {
         const bot = await Bot.findOne({finder: 'lel'});
-        return message.channel.send(new Discord.MessageEmbed()
+        return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle("Uptime")
-            .setDescription(moment.preciseDiff(moment(bot.lastRestart), moment()))
+            .setDescription(`${moment.preciseDiff(moment(bot.lastRestart), moment())}`)
             .setColor('c375f0')
             .setFooter("Natsuki")
             .setTimestamp()
-        )
+        ]})
     }
 };

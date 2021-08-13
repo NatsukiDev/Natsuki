@@ -41,7 +41,7 @@ module.exports = {
             tguild.save();
             let upm = await message.reply("sure thing!");
             await require('../../util/wait')(1750);
-            return upm.edit(new Discord.MessageEmbed()
+            return upm.edit({embeds: [new Discord.MessageEmbed()
                 .setAuthor('Staff role updated!', message.author.avatarURL())
                 .setDescription(`<@&${tguild.staffrole}> can now edit my settings in this server.`)
                 .addField('Auditing Admin', `<@${message.member.id}>`, true)
@@ -49,7 +49,7 @@ module.exports = {
                 .setColor('c375f0')
                 .setFooter('Natsuki', client.user.avatarURL())
                 .setTimestamp()
-            );
+            ]});
         }
     }
 };

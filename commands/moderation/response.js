@@ -71,14 +71,14 @@ module.exports = {
                 .setFooter("Natsuki", client.user.avatarURL())
                 .setTimestamp();
             if (hasBinding) {infoEmbed.addField("Server Bindings", bm);}
-            return message.channel.send(infoEmbed);
+            return message.channel.send({embeds: [infoEmbed]});
         }
         if (['edit', 'e', 'm', 'modify'].includes(args[0].toLowerCase())) {
             let options = await getResponse(message, args[1]);
             if (!options) {return;}
-
         }
 
+        return message.channel.send("Invalid argument! (Or it's one that isn't supported yet. Sorry.)");
 
         return message.channel.send(`Syntax: \`${prefix}response <new|edit|view|list|delete|test|quick>\``);
     }

@@ -74,13 +74,13 @@ module.exports = {
             } else {
                 let page = '';
                 for (let i = 0; i < lookup.size; i++) {page += `<${emotes[i].animated ? 'a' : ''}:${emotes[i].name}:${emotes[i].id}> \`:${emotes[i].name}:\` -> ${emotes[i].id}\n`;}
-                return message.channel.send(new Discord.MessageEmbed()
+                return message.channel.send({embeds: [new Discord.MessageEmbed()
                     .setTitle(`Emoji Lookup Results - ${lookup.size}`)
                     .setDescription(page)
                     .setColor('c375f0')
                     .setFooter("Natsuki", client.user.avatarURL())
                     .setTimestamp()
-                );
+                ]});
             }
         }
         let name; let id; let animated; let url;
@@ -114,7 +114,7 @@ module.exports = {
                 .setTimestamp();
             if (access) {finEm.setThumbnail(client.emojis.cache.get(id).guild.iconURL({size: 1024}));}
             if (access && client.emojis.cache.get(id).guild.members.cache.has(message.author.id) && client.emojis.cache.get(id).guild.id !== (message.guild ? message.guild.id : 1)) {finEm.addField("Server", `You're in the server this emoji is from: **${client.emojis.cache.get(id).guild.name}**`);}
-            return message.channel.send(finEm);
+            return message.channel.send({embeds: [finEm]});
         } catch {
             return message.channel.send("There was an error getting info for that emoji. You may not have given a valid emoji, or the ID you gave doesn't lead to a real emoji.");
         }

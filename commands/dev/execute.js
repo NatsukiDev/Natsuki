@@ -18,21 +18,21 @@ module.exports = {
         if (args.join(" ").match(/^rm\s+/gm)) {return message.channel.send(":(");}
         return cp.exec(args.join(" "), function(error, stdout, stderr) {
             if (error) {
-                return message.channel.send(new Discord.MessageEmbed()
+                return message.channel.send({embeds: [new Discord.MessageEmbed()
                     .setTitle("Error")
                     .setDescription(`\`\`\`${error}\`\`\``)
                     .setColor("ff446a")
                     .setFooter("Natsuki", client.user.avatarURL())
-                    .setTimestamp()
+                    .setTimestamp()]}
                 );
             }
 
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("Execution Successful")
                 .setDescription(`\`\`\`${stdout}\`\`\``)
                 .setColor("c375f0")
                 .setFooter("Natsuki", client.user.avatarURL())
-                .setTimestamp()
+                .setTimestamp()]}
             );
         });
     }

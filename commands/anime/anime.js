@@ -150,15 +150,15 @@ module.exports = {
                 .setFooter('Natsuki', client.user.avatarURL())
                 .setTimestamp();
             try {
-                am = await message.channel.send(amEmbed);
+                am = await message.channel.send({embeds: [amEmbed]});
                 await am.react('👍');
                 await am.react('👎');
             } catch {return message.channel.send(":thinking: hmmm... something went wrong there. I might not have permissions to add reactions to messages, and this could be the issue.");}
             try {
-                let rc = am.createReactionCollector((r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, {max: 1, time: 60000});
+                let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
                 rc.on("collect", async r => {
                     if (r.emoji.name !== '👎') {
-                        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send(amEmbed));
+                        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
                         while (true) {options.id = require('../../util/makeid')(4); if (!await AniData.findOne({id: options.id})) {break;}}
                         await new AniData(options).save();
                         return message.author.send(`Your anime has been ${!queue ? "added" : "submitted"}`);

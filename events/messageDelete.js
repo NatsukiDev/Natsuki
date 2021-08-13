@@ -1,7 +1,9 @@
 const Discord = require('discord.js');
 
+const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE"];
+
 module.exports = async (client, message) => {
-	if (message.channel.type !== "text") {return;}
+	if (!channelTypes.includes(message.channel.type)) {return;}
 	//if (!Object.keys(snipe.delete).includes(message.guild.id)) {snipe.delete[message.guild.id] = {};};
 	//snipe.delete[message.guild.id][message.channel.id] = message;
 
@@ -22,6 +24,6 @@ module.exports = async (client, message) => {
 			}
 			if (as.length) {mde.addField('Attachments', as);}
 		}
-		message.guild.channels.cache.get(ts).send(mde).catch(() => {});
+		message.guild.channels.cache.get(ts).send({embeds: [mde]}).catch(() => {});
 	}}
 }

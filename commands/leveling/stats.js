@@ -27,15 +27,15 @@ module.exports = {
             if (!txp.xp[u.id]) {return message.channel.send(`${u.id === message.author.id ? "You" : "That user"} doesn't have any leveling info available!`);}
             xp = {xp: txp.xp[u.id][0], level: txp.xp[u.id][1]};
         } else {xp = client.misc.cache.lxp.xp[message.guild.id][u.id];}
-        return message.channel.send(new Discord.MessageEmbed()
+        return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle(`${u.displayName}${u.displayName.toLowerCase().endsWith('s') ? "'" : "'s"} Stats`)
             .setDescription("Local leveling stats")
-            .addField("Level", xp.level, true)
+            .addField("Level", `${xp.level}`, true)
             .addField("XP", `**${xp.xp}** of **${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))}** needed to level up`, true)
             .setThumbnail(client.users.cache.get(u.id).avatarURL({size: 2048}))
             .setColor("c375f0")
             .setFooter("Natsuki")
             .setTimestamp()
-        )
+        ]})
     }
 };

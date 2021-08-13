@@ -47,22 +47,22 @@ module.exports = {
                 await td.save();
                 let totalItems = 0;
                 Object.keys(td.lists).forEach(l => totalItems += td.lists[l].length);
-                return message.channel.send(`Your list was successfully created!`, new Discord.MessageEmbed()
+                return message.channel.send({content: `Your list was successfully created!`, embeds: [new Discord.MessageEmbed()
                     .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
                     .setTitle(`List Created: ${ln}`)
                     .setDescription(`You now have **${Object.keys(td.lists).length}** lists (including your personal list) with a total of **${totalItems} items**.`)
                     .addField("Managing", `-To add to your new list, use \`${prefix}todo list ${ln} add\`.\n-To view its items, use \`${prefix}todo list ${ln} view\`.\n-To delete this list, use \`${prefix}todo list delete ${ln}\`.`)
                     .setColor("c375f0")
                     .setFooter("Natsuki")
-                    .setTimestamp()
-                );
+                    .setTimestamp()]
+                });
             } else if (['d', 'delete', 'r', 'remove'].includes(args[0].toLowerCase())) {
                 if (!td || td.lists.length === 1) {return message.channel.send("You don't have any lists made, or you only have a quick list.");}
                 let ln;
                 if (!args[1]) {
                     let s = ``; let lists = Object.keys(td.lists);
                     let i; for (i = 0; i < lists.length; i++) {if (lists[i] === 'quick') {continue;} s += `**${i}**. \`${lists[i]}\` - ${td.lists[lists[i]].length} ${td.lists[lists[i]].length === 1 ? 'item' : 'items'}\n`;}
-                    message.channel.send(new Discord.MessageEmbed()
+                    message.channel.send({embeds: [new Discord.MessageEmbed()
                         .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
                         .setTitle(`Your ToDo lists`)
                         .setDescription(s)
@@ -70,9 +70,9 @@ module.exports = {
                         .setColor("c375f0")
                         .setFooter("Natsuki")
                         .setTimestamp()
-                    );
+                    ]});
                     let collected;
-                    try {collected = await message.channel.awaitMessages(m => m.author.id === message.author.id, {errors: ['time'], time: 60000, max: 1});}
+                    try {collected = await message.channel.awaitMessages({filter: m => m.author.id === message.author.id, errors: ['time'], time: 60000, max: 1});}
                     catch {return message.channel.send("This question has timed out. Please try again!");}
                     ln = collected.first().content.trim();
                 } else {ln = args[1].trim().toLowerCase();}
@@ -90,14 +90,14 @@ module.exports = {
                 let s = ``; let lists = Object.keys(td.lists);
                 let i; for (i = 0; i < lists.length; i++) {if (lists[i] === 'quick') {continue;} s += `**${i}**. \`${lists[i]}\` - ${td.lists[lists[i]].length} ${td.lists[lists[i]].length === 1 ? 'item' : 'items'}\n`;}
                 s += `\nPlus ${td.lists.quick.length} items in your quick list.`;
-                return message.channel.send(new Discord.MessageEmbed()
+                return message.channel.send({embeds: [new Discord.MessageEmbed()
                     .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
                     .setTitle(`Your ToDo lists`)
                     .setDescription(s)
                     .setColor("c375f0")
                     .setFooter("Natsuki")
                     .setTimestamp()
-                );
+                ]});
             } else if (td && Object.keys(td.lists).includes(args[0].trim().toLowerCase())) {
                 list = args[0].trim().toLowerCase();
                 args.shift();
@@ -115,11 +115,11 @@ module.exports = {
             td.lists[list].push(item);
             td.markModified(`lists.${list}`);
             td.save();
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor("To-Do Added!", message.author.avatarURL())
                 .setDescription(`${item}\n\`->\` In ${list === 'quick' ? "your personal quick list" : `list \`${list}\``}`)
                 .setColor('c375f0')
-            );
+            ]});
         }
 
         else if (['v', 'view'].includes(args[0].toLowerCase())) {
@@ -131,14 +131,14 @@ module.exports = {
                 let s = '';
                 let n = 0; let i;
                 for (i of td.lists[list]) {n++; s += `**${n}.** ${i}\n`;}
-                return message.channel.send(new Discord.MessageEmbed()
+                return message.channel.send({embeds: [new Discord.MessageEmbed()
                     .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
                     .setTitle(list === "quick" ? "Personal Quick List" : `List: "${list}"`)
                     .setDescription(s)
                     .setColor("c375f0")
                     .setFooter("Natsuki")
                     .setTimestamp()
-                ).catch(() => {
+                ]}).catch(() => {
                     client.users.fetch(client.developers[0]).then(wubzy => wubzy.send("Hey stupid, someone got the todo length bug. Fix it."));
                     return message.channel.send("There was an error displaying your list. It might have too many characters. This bug has been reported to the developers and will be fixed soon! Join the support server for updates.");
                 });
@@ -146,14 +146,14 @@ module.exports = {
                 if (isNaN(Number(args[1])) && !['last', 'l'].includes(args[1].toLowerCase().trim())) {return message.channel.send("You didn't give me a number!");}
                 let id = ['last', 'l'].includes(args[1].toLowerCase().trim()) ? td.lists[list].length : Number(args[1]);
                 if (id < 1 || id > td.lists[list].length) {return message.channel.send("Your number was either below 1 or doesn't have a list item to match it.");}
-                return message.channel.send(new Discord.MessageEmbed()
+                return message.channel.send({embeds: [new Discord.MessageEmbed()
                     .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
                     .setTitle(list === "quick" ? "Personal Quick List" : `List "${list}"`)
                     .setDescription(`List item **#${id}**\n\`->\` ${td.lists[list][id-1]}`)
                     .setColor("c375f0")
                     .setFooter("Natsuki")
                     .setTimestamp()
-                );
+                ]});
             }
         }
 
@@ -166,7 +166,7 @@ module.exports = {
             if (!args[1]) {
                 let s = '';
                 let n = 0; let i; for (i of td.lists[list]) {n++; s += `**${n}.** ${i}\n`;}
-                await message.channel.send(new Discord.MessageEmbed()
+                await message.channel.send({embeds: [new Discord.MessageEmbed()
                     .setAuthor(message.guild ? message.member.displayName : message.author.username, message.author.avatarURL())
                     .setTitle(list === "quick" ? "Personal Quick List" : `List "${list}"`)
                     .setDescription(s)
@@ -174,8 +174,8 @@ module.exports = {
                     .setColor("c375f0")
                     .setFooter("Natsuki")
                     .setTimestamp()
-                );
-                try {collected = await message.channel.awaitMessages(m => m.author.id === message.author.id, {errors: ['time'], time: 60000, max: 1});}
+                ]});
+                try {collected = await message.channel.awaitMessages({filter: m => m.author.id === message.author.id, errors: ['time'], time: 60000, max: 1});}
                 catch {return message.channel.send("This question has timed out. Please try again!");}
                 collected = collected.first().content.trim();
             } else {collected = args[1];}

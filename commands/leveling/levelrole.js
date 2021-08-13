@@ -59,14 +59,14 @@ module.exports = {
             rs.sort((a, b) => a.level - b.level);
             for (let i = 0; i < rs.length; i++) {s += `**${i + 1}.** Level ${rs[i].level} - <@&${rs[i].role.id}>\n`;}
             if (!s.length) {return message.channel.send("Hmm, there was some kind of error there. It may be that your server's leveling roles were deleted, or there was some internal error when trying to read them. Contact my devs if the problem persists.");}
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("Server Leveling Roles")
                 .setThumbnail(message.guild.iconURL({size: 2048}))
                 .setDescription(s)
                 .setColor('c375f0')
                 .setFooter("Natsuki", client.user.avatarURL())
                 .setTimestamp()
-            );
+            ]});
         }
 
         if (['d', 'delete', 'r', 'remove'].includes(args[0].toLowerCase())) {

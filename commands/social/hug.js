@@ -19,13 +19,13 @@ module.exports = {
         let savess = await Saves.findOne({name: 'hug'}) ? await Saves.findOne({name: 'hug'}) : new Saves({name: 'hug'});
         let saves = savess.saves;
         if (!args.length) {
-            return message.channel.send(message.guild ? new Discord.MessageEmbed()
+            return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} needs a hug!`)
             .setThumbnail(message.author.avatarURL({size: 2048}))
             .setDescription(`Show them some love with \`${prefix}hug @${message.member.displayName}\`!`)
             .setColor('c375f0')
             .setFooter('Natsuki', client.user.avatarURL())
-            .setTimestamp()
+            .setTimestamp()]}
             : "Sorry, but I'm a bot, and I can't hug you. Go into a server and ask for some hugs!"
         );}
         if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
@@ -37,13 +37,13 @@ module.exports = {
             hugs.total++;
             hugs.markModified(`against.${mention.id}`);
             hugs.save();
-            return message.channel.send(new Discord.MessageEmbed()
+            return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor(`${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a hug!`, message.author.avatarURL())
                 .setDescription(`You've hugged them **${hugs.against[mention.id] === 1 ? 'once' : `${hugs.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')
                 .setFooter(`${hugs.total} hug${hugs.total === 1 ? '' : 's'} total`)
-            );
+            ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}

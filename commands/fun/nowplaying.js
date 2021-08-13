@@ -28,14 +28,14 @@ module.exports = {
                 let stream = client.lfm.stream(saves.get(user.id));
                 stream.on('nowPlaying', t => {
                     clearTimeout(timeout);
-                    message.channel.send(new Discord.MessageEmbed()
+                    message.channel.send({embeds: [new Discord.MessageEmbed()
                         .setAuthor(message.guild ? message.guild.members.cache.get(user.id) ? message.guild.members.cache.get(user.id).displayName : user.username : user.username, user.avatarURL())
                         .setTitle(`${saves.get(user.id)} | Now Playing`)
                         .setDescription(`<@${user.id}> is currently listening to **${t.name}** by **${t.artist['#text']}**.\nView the song [here](${t.url}).`)
                         .setColor("c375f0")
                         .setThumbnail(t.image[3]['#text'])
                         .setTimestamp()
-                    )
+                    ]})
                     found = true;
                     stream.stop();
                     return resolve(undefined);
