@@ -8,7 +8,7 @@ const AR = require('../models/ar');
 const LXP = require('../models/localxp');
 const Monitors = require('../models/monitor');
 
-const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE"];
+const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE", "GUILD_TEXT"];
 
 module.exports = async (client, message) => {
     if (message.author.bot) {return undefined;}
@@ -89,8 +89,6 @@ module.exports = async (client, message) => {
         client.misc.cache.monit[message.guild.id].messages.total += 1;
         client.misc.cache.monit[message.guild.id].expiry.setTime(Date.now());
     }
-
-
 
     try {
         if (msg.startsWith(prefix) || msg.startsWith(`<@${client.user.id}>`) || msg.startsWith(`<@!${client.user.id}>`)) {

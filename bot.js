@@ -83,6 +83,6 @@ async function init() {
 
     client.guildconfig.logs = new Map();
 
-    await require('./util/wait')(10000).then(async () => {if (!client.misc.readied) {await require('./events/ready')(client);}});
+    await require('./util/wait')(5000).then(async () => {if (!client.misc.readied) {client.misc.forcedReady = true; await require('./events/ready')(client);}});
 }
 init().then(() => {});
