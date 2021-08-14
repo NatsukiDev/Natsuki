@@ -64,8 +64,8 @@ module.exports = {
             if (thm) {emb.addField("Top Channels", chs).addField("Top Members", us);}
             if (tv) {emb.addField("Top Voice Channels", vchs).addField("Top VC Members", vus);}
 
-            if (thm) {emb.addField("Total Messages", tm.messages.total, true);}
-            if (tv) {emb.addField("Total Voice Hours", (tm.voice.total / 60).toFixed(1), true);}
+            if (thm) {emb.addField("Total Messages", `${tm.messages.total}`, true);}
+            if (tv) {emb.addField("Total Voice Hours", `${(tm.voice.total / 60).toFixed(1)}`, true);}
             
             return message.channel.send({embeds: [emb]});
         }
