@@ -6,7 +6,7 @@ const {TagFilter} = require('../../util/tagfilter');
 
 module.exports = {
     name: 'eval',
-    aliases: ['ev', ':', 'e'],
+    aliases: ['ev', ':'],
     help: "Evaluates raw JavaScript code. *This is a __developer-only__ command.* Usage: `{{p}}eval <code>`",
     meta: {
         category: 'Developer',
