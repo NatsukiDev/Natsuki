@@ -4,7 +4,7 @@ The official repository of Natsuki the Discord Bot.
 
 Developed solely by WubzyGD, and intended to help others learn the ropes of discord.js, as well as provide some useful utilities to make the troubles of bot development just a little easier.
 
-Skip down to **Open-Source** if you wanna get straight to ~~robbing me~~ seeing some of the awesome stuff Natsuki has to offer.
+Skip down to [**Open-Source**](https://github.com/NatsukiDev/Natsuki#open-source) if you wanna get straight to ~~robbing me~~ seeing some of the awesome stuff Natsuki has to offer.
 
 > Natsuki is now also on Discord.js' latest update, v13!
 
@@ -171,3 +171,38 @@ await help.start({
 _Please note that the Pagination class is still in the works. Only one bug is currently known, and it's that the Pagination will error when a user tries to end the pagination in a DM channel, but this error is not extremely high-level and shouldn't have any major effects on your node process._
 
 _Another note: you'll want to go into the pagination.js file and search for .setFooter() and change the name Natsuki to whatever name your bot is_
+
+### Clean Timeout
+
+> util/wait.js
+
+Using Promises, wait an amount of time before you do something, but not have to deal with pesky setTimeout syntax, especially when you don't want to get way too nested with your code.
+
+```js
+const wait = require('./util/wait');
+
+let m = await message.channel.send("hacking the mainframe...");
+await wait(5000); // time is in ms
+return m.edit("mainframe hacked.");
+```
+
+Or, alternatively, use `.then()` syntax so your whole code doesn't have to wait.
+
+```js
+const wait = require('./util/wait');
+
+let m = await message.channel.send("hacking the mainframe...");
+wait(5000).then(() => {return m.edit("mainframe hacked.");});
+//some other stuff that will happen without waiting for the message to edit
+```
+
+### Other Utils
+
+Have lots of free time and a good knowledge of JavaScript and discord.js?
+
+Check out these files for some more reference and inspiration.
+
+- `/cache/` and `/cache.js` -> A strong way to cache stuff from your database on startup.
+- `/lxp/cacheloop.js` -> How I keep a cache of leveling information that is synced periodically and has a 10-minute entry expiry to save memory.
+- `/makeid.js` -> Creates a hash string of your choice in length
+- Anything in `/response/` -> A massive amount of code to save, parse, send, and filter responses saved by users, which encompasses things like custom embeds and messages, allowing welcome and leave messages to work.
