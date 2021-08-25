@@ -82,7 +82,12 @@ module.exports = {
         }
 
         if (['a', 'add'].includes(args[0].toLowerCase())) {
-            let trigger = await ask(message, "What would you like the trigger to be? This is the message that will make your AR work.", 120000); if (!trigger) {return;}
+            let trigger;
+            if (args[1]) {
+                let targs = args.slice(0);
+                targs.shift();
+                trigger = targs.join(' ');
+            } else {trigger = await ask(message, "What would you like the trigger to be? This is the message that will make your AR work.", 120000); if (!trigger) {return;}}
             if (`${trigger}`.length > 150) {return message.channel.send("Your trigger needs to be less than 150 characters, please!");}
             let response = await ask(message, "What would you like my response to be?", 120000); if (!response) {return;}
             if (`${response}`.length > 300) {return message.channel.send("Your response needs to be less than 300 characters, please!");}
