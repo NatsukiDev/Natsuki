@@ -63,7 +63,7 @@ module.exports = {
 
             return message.reply(command.help
                 ? command.help instanceof Discord.MessageEmbed
-                    ? command.help.setFooter("Natsuki | <required> [optional]", client.user.avatarURL()).setColor("c375f0").setTimestamp()
+                    ? {embeds: [command.help.setFooter("Natsuki | <required> [optional]", client.user.avatarURL()).setColor("c375f0").setTimestamp()]}
                     : command.help.replace(/{{p}}/g, prefix)
                 : "I don't seem to have any help info available for that command."
             );
