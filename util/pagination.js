@@ -87,7 +87,7 @@ class Pagination {
         let filter = user && user.toLowerCase().trim() !== 'any'
             ? (r, u) => { return u.id === user.trim() && emoji.includes(r.emoji.name); }
             : (r) => { return emoji.includes(r.emoji.name); };
-        this.controllers.collector = this.message.createReactionCollector({ filter, time: 450000 });
+        this.controllers.collector = this.message.createReactionCollector({ filter: filter, time: 450000 });
         this.controllers.collector.on('collect', async (r) => {
             let functions = {
                 '⬅': () => { return this.prevPage(); },

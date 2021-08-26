@@ -3,10 +3,15 @@ const Discord = require('discord.js');
 const chalk = require('chalk');
 const ora = require('ora');
 const mongoose = require('mongoose');
+const readline = require('readline');
+
+const {SlashCommand} = require('./util/slash');
+const {SlashManager} = require('./util/slashmanager');
+const {SlashCommandBuilder} = require('@discordjs/builders');
 
 const flags = Discord.Intents.FLAGS;
-let fl = []; Object.keys(flags).forEach(flag => fl.push(flags[flag]))
-const client = new Discord.Client({intents: fl, partials: ["CHANNEL", "REACTION", "MESSAGE"]});
+let fl = []; Object.keys(flags).forEach(flag => fl.push(flags[flag]));
+let client = new Discord.Client({intents: fl, partials: ["CHANNEL", "REACTION", "MESSAGE"]});
 
 client.misc = {
     savers: ['497598953206841375', '480535078150340609', '468903364533420074'],
@@ -32,7 +37,8 @@ client.misc = {
         VCG: {},
         activeVC: []
     },
-    loggers: {}
+    loggers: {},
+    rl: readline.createInterface({input: process.stdin, output: process.stdout})
 };
 
 //const config = require('./config.js');
@@ -50,6 +56,31 @@ async function init() {
     client.misc.startupNoConnect = new Date();
     client.config = auth;
 
+    /*client.slash = new SlashManager(client);
+    client.slash.setTestServer('691122844339404800').add(new SlashCommand('fortune', client, new SlashCommandBuilder()
+    .setName('fortune')
+    .setDescription("Get a totally accurate and well-thought-out answer to your life's troubles.")
+    .addStringOption(option => {
+        return option.setName("question")
+            .setDescription("Your existential crisis.")
+            .setRequired(true);
+    })
+    .addBooleanOption(option => {
+        return option.setName("send")
+            .setDescription("Should I send the answer to the channel?");
+    }), async (client, interaction) => {return await interaction.reply({embeds: [new Discord.MessageEmbed()
+        .setAuthor("8ball Question", interaction.user.id)
+        .setDescription("**Question:** " + interaction.options.getString('question') + "\n**Answer:** " + responses[Math.floor(Math.random() * responses.length)])
+        .setColor("c375f0")
+        .setFooter(`Asked by ${interaction.guild ? interaction.member.displayName : interaction.user.username} | Natsuki`)
+        .setTimestamp()], 
+    ephemeral: !interaction.options.getBoolean("send")});})).init();
+
+    client = client.slash.client;
+
+    //client.slash.commands[0].registerToServer(client.slash.testServerId);
+    */
+
     let mloginsp = ora(chalk.magentaBright('Connecting to Mongo client...')).start();
     let pmcc = new Date().getTime();
     const config = client.config;
@@ -57,22 +88,22 @@ async function init() {
         await mongoose.connect(`mongodb+srv://${config.database.user}:${config.database.password}@${config.database.cluster}.3jpp4.mongodb.net/test`, {
             useFindAndModify: false, useNewUrlParser: true, dbName: 'Natsuki-Main', useUnifiedTopology: true, useCreateIndex: true
         }).catch(e => {
-            let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
+            let date = new Date(); date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
             console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to connect to Mongo Cluster`)}`, e);
             mloginsp.stop(); mloginsp.clear();
         });
         mloginsp.stop(); mloginsp.clear();
         console.log(`${chalk.green('[BOOT]')} >> ${chalk.greenBright(`Connected to Mongo Database in `)}${chalk.white(`${new Date().getTime() - pmcc}ms`)}`);
     } catch (e) {
-        let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
+        let date = new Date(); date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
         console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to connect to Mongo Cluster`)}`, e);
         mloginsp.stop(); mloginsp.clear();
     }
 
-    ['commands', 'aliases'].forEach(x => client[x] = new Discord.Collection());
+    ['commands', 'aliases', 'executables'].forEach(x => client[x] = new Discord.Collection());
     client.responses = {triggers: [], commands: new Discord.Collection()};
 
-    ['command', 'event', 'response'].forEach(x => require(`./handle/${x}`)(client));
+    ['command', 'event', 'response', 'console'].forEach(x => require(`./handle/${x}`)(client));
 
     client.developers = ["330547934951112705", "673477059904929802"];
     client.utils = {};
@@ -83,6 +114,9 @@ async function init() {
 
     client.guildconfig.logs = new Map();
 
-    await require('./util/wait')(5000).then(async () => {if (!client.misc.readied) {client.misc.forcedReady = true; await require('./events/ready')(client);}});
+    await require('./util/wait')(5000);
+    if (!client.misc.readied) {client.misc.forcedReady = true; await require('./events/ready')(client);}
+
+    require('./console')(client);
 }
 init().then(() => {});

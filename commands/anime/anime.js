@@ -42,7 +42,7 @@ module.exports = {
                 new Tag(['streams', 'streamat', 'sa'], 'streamAt', 'listAppend'),
                 new Tag(['img', 'thumb', 'thumbnail', 'image'])
             ]).test(args.join(' '));
-            
+
             if (Object.keys(options).length) {
                 let foptions = {};
                 let option; for (option of Object.keys(options)) {
