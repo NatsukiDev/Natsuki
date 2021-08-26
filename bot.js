@@ -5,9 +5,9 @@ const ora = require('ora');
 const mongoose = require('mongoose');
 const readline = require('readline');
 
-const {SlashCommand} = require('./util/slash');
+/*const {SlashCommand} = require('./util/slash');
 const {SlashManager} = require('./util/slashmanager');
-const {SlashCommandBuilder} = require('@discordjs/builders');
+const {SlashCommandBuilder} = require('@discordjs/builders');*/
 
 const flags = Discord.Intents.FLAGS;
 let fl = []; Object.keys(flags).forEach(flag => fl.push(flags[flag]));
