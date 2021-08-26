@@ -4,6 +4,7 @@ const AR = require('../../models/ar');
 const GuildData = require('../../models/guild');
 
 const ask = require('../../util/ask');
+const {Pagination} = require('../../util/pagination');
 
 module.exports = {
     name: "ar",
@@ -27,23 +28,66 @@ module.exports = {
 
         function sortARs(tar) {
             let t = tar.triggers;
+            let res = {};
+            res.paginate = t.length > 10;
             let ar = tar.ars;
-            let s = '';
-            for (let i=0;i<t.length;i++) {s+=`\`${i+1}.\` ${t[i]}\n-> ${ar[i]}\n\n`;}
-            return s;
+            if (res.paginate) {
+                let pages = [];
+                let cond = false;
+                let x = 0;
+                while (true) {
+                    let s = '';
+                    for (let i = 0; i < 10; i++) {
+                        if (ar[(x * 10) + i] === undefined) {cond = true; break;}
+                        s += `\`${(x*10)+i+1}.\` ${t[(x * 10) + i]}\n-> ${ar[(x * 10) + i]}\n\n`;
+                        if ((x * 10) + i >= ar.length) {cond = true; break;}
+                    }
+                    pages.push(new Discord.MessageEmbed()
+                        .setTitle(`Auto-Responses in this Server`)
+                        .setDescription(s)
+                        .setColor('c375f0')
+                        .setTimestamp()
+                    );
+                    if (cond) {break;}
+                    x++;
+                }
+                res.pagination = new Pagination(message.channel, pages, message, client, true);
+            } else {
+                let s = '';
+                for (let i=0;i<t.length;i++) {s+=`\`${i+1}.\` ${t[i]}\n-> ${ar[i]}\n\n`;}
+                res.s = s;
+            }
+            return res;
         }
 
-        function viewARs(string) {
-            return new Discord.MessageEmbed()
-                .setTitle("Auto-Responses in this Server")
-                .setDescription(string)
-                .setColor('c375f0')
-                .setFooter("Natsuki", client.user.avatarURL())
-                .setTimestamp();
+        function viewARs(res, mode) {
+            return new Promise(async resolve => {
+                if (res.paginate) {
+                    if (mode) {res.pagination.pages.forEach(page => page.addField(mode === 'edit' ? "Editing" : 'Deletion', `Please say the **number** of the AR you wish to ${mode}.`));}
+                    let r = await res.pagination.start({endTime: 60000, user: message.author.id});
+                    return resolve(r);
+                } else {
+                    let string = res.s;
+                    let embed = new Discord.MessageEmbed()
+                        .setTitle("Auto-Responses in this Server")
+                        .setDescription(string)
+                        .setColor('c375f0')
+                        .setFooter("Natsuki", client.user.avatarURL())
+                        .setTimestamp();
+                    if (mode) {embed.addField(mode === 'edit' ? "Editing" : 'Deletion', `Please say the **number** of the AR you wish to ${mode}.`);}
+                    let r = await message.channel.send({embeds: [embed]});
+                    return resolve(r);
+                }
+            });
         }
 
         if (['a', 'add'].includes(args[0].toLowerCase())) {
-            let trigger = await ask(message, "What would you like the trigger to be? This is the message that will make your AR work.", 120000); if (!trigger) {return;}
+            let trigger;
+            if (args[1]) {
+                let targs = args.slice(0);
+                targs.shift();
+                trigger = targs.join(' ');
+            } else {trigger = await ask(message, "What would you like the trigger to be? This is the message that will make your AR work.", 120000); if (!trigger) {return;}}
             if (`${trigger}`.length > 150) {return message.channel.send("Your trigger needs to be less than 150 characters, please!");}
             let response = await ask(message, "What would you like my response to be?", 120000); if (!response) {return;}
             if (`${response}`.length > 300) {return message.channel.send("Your response needs to be less than 300 characters, please!");}
@@ -64,7 +108,7 @@ module.exports = {
             if (!tar || !tar.triggers.length) {return message.channel.send("You can't edit any auto-responses... because there aren't any here...");}
 
             let sar = sortARs(tar);
-            await message.channel.send({embeds: [viewARs(sar).addField("Editing", "Please say the **number** of the AR you wish to edit.")]});
+            await viewARs(sar, 'edit');
             let collected;
             try {collected = await message.channel.awaitMessages({filter: m => m.author.id === message.author.id, errors: ['time'], time: 60001, max: 1});}
             catch {return message.channel.send("This question has timed out. Please try again!");}
@@ -89,7 +133,7 @@ module.exports = {
             if (!tar || !tar.triggers.length) {return message.channel.send("It's not like this server has any ARs for me to delete in the first place!");}
 
             let sar = sortARs(tar);
-            await message.channel.send({embeds: [viewARs(sar).addField("Deletion", "Please say the **number** of the AR you wish to delete.")]});
+            await viewARs(sar, 'delete');
             let collected;
             try {collected = await message.channel.awaitMessages({filter: m => m.author.id === message.author.id, errors: ['time'], time: 60000, max: 1});}
             catch {return message.channel.send("This question has timed out. Please try again!");}
@@ -113,7 +157,7 @@ module.exports = {
         if (['v', 'view', 'l', 'list'].includes(args[0].toLowerCase())) {
             let tar = await AR.findOne({gid: message.guild.id});
             if (!tar || !tar.triggers.length) {return message.channel.send("This server has no ARs!");}
-            return message.channel.send({embeds: [viewARs(sortARs(tar))]});
+            return viewARs(sortARs(tar));
         }
 
         if (['s', 'settings'].includes(args[0].toLowerCase())) {

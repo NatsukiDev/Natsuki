@@ -4,7 +4,7 @@ const {Pagination} = require('../../util/pagination');
 
 module.exports = {
     name: "emoji",
-    aliases: ['emote', 'emojiinfo', 'emoteinfo', 'ei'],
+    aliases: ['emote', 'emojiinfo', 'emoteinfo', 'ei', 'e'],
     meta: {
         category: 'Misc',
         description: "Get info on a certain emoji",
