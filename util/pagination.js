@@ -31,7 +31,7 @@ class Pagination {
                 this.message = tempm;
             }
         }
-        await this.message.edit({ content: '', embeds: [this.pages[page]
+        await this.message.edit({ embeds: [this.pages[page]
                     .setFooter(`Natsuki | Page ${page + 1} of ${this.pages.length}`, this.client.user.avatarURL())
                     .setTimestamp()]
         });
