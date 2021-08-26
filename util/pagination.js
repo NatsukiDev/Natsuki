@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Pagination = void 0;
+const discord_js_1 = require("discord.js");
 class Pagination {
     constructor(channel, pages, originalMessage, client, loopPages, message) {
         this.loopPages = true;
@@ -21,7 +22,7 @@ class Pagination {
     async setPage(page) {
         if (this.pages.length < page + 1) { }
         if (!this.message) {
-            let tempm = await this.channel.send("One moment...")
+            let tempm = await this.channel.send({ embeds: [new discord_js_1.MessageEmbed().setDescription("One moment...")] })
                 .catch(() => { this.originalMessage.reply("There seemed to be a problem doing that..."); return this; });
             if (tempm instanceof Pagination) {
                 return this;

@@ -1,4 +1,4 @@
-import {TextChannel, Message, MessageEmbed, Client, MessageReaction, ReactionCollector} from 'discord.js';
+import {TextChannel, Message, MessageEmbed, Client, MessageReaction, ReactionCollector, DiscordAPIError} from 'discord.js';
 
 export class Pagination {
     channel: TextChannel;
@@ -30,7 +30,7 @@ export class Pagination {
         if (this.pages.length < page + 1) {}
 
         if (!this.message) {
-            let tempm = await this.channel.send("One moment...")
+            let tempm = await this.channel.send({embeds: [new MessageEmbed().setDescription("One moment...")]})
                 .catch(() => {this.originalMessage.reply("There seemed to be a problem doing that..."); return this;});
             if (tempm instanceof Pagination) {return this;}
             else {this.message = tempm;}
