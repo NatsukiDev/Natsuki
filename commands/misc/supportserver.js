@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: "supportserver",
-    aliases: ['helpserver'],
+    aliases: ['helpserver', 'support'],
     meta: {
         category: 'Misc',
         description: "Get an invite to Natsuki's support server!",
