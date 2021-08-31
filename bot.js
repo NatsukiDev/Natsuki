@@ -5,9 +5,9 @@ const ora = require('ora');
 const mongoose = require('mongoose');
 const readline = require('readline');
 
-/*const {SlashCommand} = require('./util/slash');
+const {SlashCommand} = require('./util/slash');
 const {SlashManager} = require('./util/slashmanager');
-const {SlashCommandBuilder} = require('@discordjs/builders');*/
+const {SlashCommandBuilder} = require('@discordjs/builders');
 
 const flags = Discord.Intents.FLAGS;
 let fl = []; Object.keys(flags).forEach(flag => fl.push(flags[flag]));
@@ -56,30 +56,9 @@ async function init() {
     client.misc.startupNoConnect = new Date();
     client.config = auth;
 
-    /*client.slash = new SlashManager(client);
-    client.slash.setTestServer('691122844339404800').add(new SlashCommand('fortune', client, new SlashCommandBuilder()
-    .setName('fortune')
-    .setDescription("Get a totally accurate and well-thought-out answer to your life's troubles.")
-    .addStringOption(option => {
-        return option.setName("question")
-            .setDescription("Your existential crisis.")
-            .setRequired(true);
-    })
-    .addBooleanOption(option => {
-        return option.setName("send")
-            .setDescription("Should I send the answer to the channel?");
-    }), async (client, interaction) => {return await interaction.reply({embeds: [new Discord.MessageEmbed()
-        .setAuthor("8ball Question", interaction.user.id)
-        .setDescription("**Question:** " + interaction.options.getString('question') + "\n**Answer:** " + responses[Math.floor(Math.random() * responses.length)])
-        .setColor("c375f0")
-        .setFooter(`Asked by ${interaction.guild ? interaction.member.displayName : interaction.user.username} | Natsuki`)
-        .setTimestamp()], 
-    ephemeral: !interaction.options.getBoolean("send")});})).init();
-
+    client.slash = new SlashManager(client).setTestServer('691122844339404800').importCommands().init();
     client = client.slash.client;
-
-    //client.slash.commands[0].registerToServer(client.slash.testServerId);
-    */
+    client.slash.commands[0].registerToServer(client.slash.testServerId);
 
     let mloginsp = ora(chalk.magentaBright('Connecting to Mongo client...')).start();
     let pmcc = new Date().getTime();
