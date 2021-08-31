@@ -20,7 +20,7 @@ class SlashManager {
         let trp = commands || this.commands;
         let tr = Array.isArray(trp) ? this.getCommands(trp) : this.getCommand(trp);
         return Array.isArray(tr)
-            ? this.rest.put(v9_1.Routes.applicationCommands(this.client.user.id), { body: [(() => { let t = []; tr.forEach(trt => t.push(this.commands[trt].command.toJSON())); return t; })()] })
+            ? this.rest.put(v9_1.Routes.applicationCommands(this.client.user.id), { body: (() => { let t = []; tr.forEach(trt => t.push(this.commands[trt].command.toJSON())); return t; })() })
             : this.commands[tr].registerGlobally();
     }
     ;

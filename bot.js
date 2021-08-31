@@ -57,8 +57,8 @@ async function init() {
     client.config = auth;
 
     client.slash = new SlashManager(client).setTestServer('691122844339404800').importCommands().init();
+    client.slash.register();
     client = client.slash.client;
-    client.slash.commands[0].registerToServer(client.slash.testServerId);
 
     let mloginsp = ora(chalk.magentaBright('Connecting to Mongo client...')).start();
     let pmcc = new Date().getTime();
