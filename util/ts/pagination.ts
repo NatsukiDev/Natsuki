@@ -126,7 +126,7 @@ export class Pagination {
 
         let fe = this.message.embeds[0];
         fe.setDescription(`${fe.description}\n\n*This menu has ended, start a new one to interact with it!*`);
-        fe.setFooter(`${fe.footer.text} | Menu ended`, this.client.user.avatarURL());
+        fe.setFooter(`${fe.footer && fe.footer.text && fe.footer.text.length ? ` | ${fe.footer.text}` : ''}Menu ended`, this.client.user.avatarURL());
         await this.message.edit({embeds: [fe]});
 
         clearInterval(this.timeoutInterval);
