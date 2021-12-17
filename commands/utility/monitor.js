@@ -44,7 +44,7 @@ module.exports = {
 
             if (Object.keys(tm.voice.members).length) {
                 tv = true;
-                vch = Object.keys(tm.voice.channels).sort((a, b) => {return tm.voice.channels[a] - tm.voice.channels[b];}).reverse().slice(0, Object.keys(tm.voice.channels).length >= 5 ? 5 : Object.keys(tm.voice.channels).length);
+                vch = Object.keys(tm.voice.channels).filter(tfc => message.guild.channels.cache.has(tfc)).sort((a, b) => {return tm.voice.channels[a] - tm.voice.channels[b];}).reverse().slice(0, Object.keys(tm.voice.channels).length >= 5 ? 5 : Object.keys(tm.voice.channels).length);
                 vchs = ``;
                 let i; for (i=0; i<vch.length; i++) {vchs += `${i+1}. ${message.guild.channels.cache.get(vch[i]).name} -> **${(tm.voice.channels[vch[i]] / 60).toFixed(1)} Hours**\n`;}
 
