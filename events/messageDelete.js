@@ -4,6 +4,7 @@ const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE
 
 module.exports = async (client, message) => {
 	if (!channelTypes.includes(message.channel.type)) {return;}
+	if (!message.guild) {return;}
 	//if (!Object.keys(snipe.delete).includes(message.guild.id)) {snipe.delete[message.guild.id] = {};};
 	//snipe.delete[message.guild.id][message.channel.id] = message;
 
