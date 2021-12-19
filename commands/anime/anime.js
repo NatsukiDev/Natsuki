@@ -27,7 +27,7 @@ module.exports = {
             options = new TagFilter([
                 new Tag(['ask', 'question'], 'ask', 'toggle'),
                 new Tag(['title', 't', 'name', 'n'], 'name', 'append'),
-                new Tag(['japname', 'japanesename', 'jn'], 'japname', 'listAppend'),
+                new Tag(['japname', 'japanesename', 'jn'], 'japname', 'append'),
                 new Tag(['description', 'desc', 'd', 'plot', 'p'], 'plot', 'append'),
                 new Tag(['pub', 'pubs', 'publishers', 'publisher', 'pb'], 'publishers', 'listAppend'),
                 new Tag(['stud', 's', 'studio', 'studs', 'studios'], 'studios', 'listAppend'),
@@ -40,7 +40,7 @@ module.exports = {
                 new Tag(['tags', 'ta', 'tgs', 'tg', 'tag'], 'tags', 'listAppend'),
                 new Tag(['cs', 'characters', 'chars', 'chs'], 'characters', 'listAppend'),
                 new Tag(['streams', 'streamat', 'sa'], 'streamAt', 'listAppend'),
-                new Tag(['img', 'thumb', 'thumbnail', 'image'])
+                new Tag(['img', 'thumb', 'thumbnail', 'image'], 'thumbnail', 'append')
             ]).test(args.join(' '));
 
             if (Object.keys(options).length) {
@@ -138,10 +138,12 @@ module.exports = {
                     foptions[option] = s;
                 }
             }
+            if (!options.characters) {options.characters = [];}
             let amEmbed = new Discord.MessageEmbed()
                 .setTitle(`New Anime -> ${options.name}`)
                 .setDescription(`${queue ? 'Requested' : 'Added'} by ${message.author.tag}`)
                 .addField('Info', `**Name:** ${options.name}\n**Japanese Name:** ${options.japname}\n\n**Publishers:** ${foptions.publishers}\n**Studios:** ${foptions.studios}`)
+                .addField('Description', options.plot)
                 .addField('Length', `**# of Seasons:** ${options.seasons}\n**# of Episodes:** ${options.episodes}`)
                 .addField('Airing', `**Began:** ${options.airStartDate}\n**Ended:** ${options.isComplete ? options.airEndDate : 'This anime is still airing!'}`)
                 .addField('Other', `**Genre(s):** ${foptions.genres}\n**Tags:** ${foptions.tags}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
@@ -158,8 +160,11 @@ module.exports = {
                 let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
                 rc.on("collect", async r => {
                     if (r.emoji.name !== '👎') {
+                        if (!queue) {amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);}
+                        amEmbed.setAuthor(!queue ? "Anime Added" : "Anime Submitted", message.author.avatarURL());
                         client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
                         while (true) {options.id = require('../../util/makeid')(4); if (!await AniData.findOne({id: options.id})) {break;}}
+                        if (!queue) {options.queued = false;}
                         await new AniData(options).save();
                         return message.author.send(`Your anime has been ${!queue ? "added" : "submitted"}`);
                     } else {

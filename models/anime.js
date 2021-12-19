@@ -21,7 +21,8 @@ const AniSchema = new mongoose.Schema({
     liked: {type: Number, default: 0},
     rating: {type: Number, default: 0},
     lastUpdate: String,
-    thumbnail: String
+    thumbnail: String,
+    queued: {type: Boolean, default: true}
 });
 
 module.exports = mongoose.model('anime', AniSchema);
