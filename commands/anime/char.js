@@ -275,7 +275,19 @@ module.exports = {
             return message.channel.send(`I've added **${tfc.name}** to your loved/favorited character list!`);
         }
         if (['loved', 'favorites', 'favs'].includes(args[0].toLowerCase())) {
-
+            let cf = await CF.findOne({uid: mention ? mention.id : message.author.id});
+            if (!cf || !cf.loved.length) {return message.channel.send(`Looks like ${mention ? 'they' : 'you'} haven't favorited any characters!`);}
+            let chars = cf.loved;
+            chars = chars.map(tc => Array.from(client.misc.cache.chars.keys()).filter(c => client.misc.cache.chars.get(c) === tc));
+            let n = mention ? message.guild ? message.mentions.members.first().displayName : message.mentions.users.first().username : message.guild ? message.member.displayName : message.author.username;
+            return message.channel.send({embeds: [
+                new Discord.MessageEmbed()
+                    .setAuthor(`${n}${n.endsWith('s') ? '' : "'s"} Favorited Characters`, mention ? mention.avatarURL() : message.author.avatarURL())
+                    .setDescription(`**${chars.length} character${chars.length === 1 ? '': 's'} favorited**\n\n${chars.join(", ")}`)
+                    .setColor('c375f0')
+                    .setFooter("Natsuki")
+                    .setTimestamp()
+            ]});
         }
     }
 };
