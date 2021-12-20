@@ -18,6 +18,7 @@ module.exports = {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}anime <>\``);}
         let queue = false;
         let options = {};
+        let dmch;
         if (['a', 'add', 'n', 'new'].includes(args[0])) {
             let tu = await UserData.findOne({uid: message.author.id});
             if (!tu || !tu.staff) {
@@ -65,7 +66,7 @@ module.exports = {
                 if (message.guild) {await mesg.channel.send("Check your DMs!");}
 
                 function clearDM() {client.misc.activeDMs.delete(message.author.id);}
-                let dmch = mesg.channel;
+                dmch = mesg.channel;
 
                 options.name = await ask(mesg, "What is the anime's name?", 60000, true); if (!options.name) {return;}
                 if (options.name.length > 75) {clearDM(); return dmch.send("The anime name can't be more than 75 characters!");}
@@ -141,20 +142,20 @@ module.exports = {
             let amEmbed = new Discord.MessageEmbed()
                 .setTitle(`New Anime -> ${options.name}`)
                 .setDescription(`${queue ? 'Requested' : 'Added'} by ${message.author.tag}`)
-                .addField('Info', `**Name:** ${options.name}\n**Japanese Name:** ${options.japname}\n\n**Publishers:** ${foptions.publishers}\n**Studios:** ${foptions.studios}`)
+                .addField('Info', `**Name:** ${options.name}\n**Japanese Name:** ${options.japname}\n\n**Publishers:** ${foptions.publishers.join(", ")}\n**Studios:** ${foptions.studios.join(", ")}`)
                 .addField('Description', options.plot)
                 .addField('Length', `**# of Seasons:** ${options.seasons}\n**# of Episodes:** ${options.episodes}`)
                 .addField('Airing', `**Began:** ${options.airStartDate}\n**Ended:** ${options.isComplete ? options.airEndDate : 'This anime is still airing!'}`)
-                .addField('Other', `**Genre(s):** ${foptions.genres}\n**Tags:** ${foptions.tags}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
+                .addField('Other', `**Genre(s):** ${foptions.genres.join(", ")}\n**Tags:** ${foptions.tags.join(", ")}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
                 .setColor("c375f0")
                 .setImage(options.thumbnail)
                 .setFooter('Natsuki', client.user.avatarURL())
                 .setTimestamp();
             try {
-                am = await message.channel.send({embeds: [amEmbed]});
+                am = await dmch.send({embeds: [amEmbed]});
                 await am.react('👍');
                 await am.react('👎');
-            } catch {return message.channel.send(":thinking: hmmm... something went wrong there. I might not have permissions to add reactions to messages, and this could be the issue.");}
+            } catch {return dmch.send(":thinking: hmmm... something went wrong there. I might not have permissions to add reactions to messages, and this could be the issue.");}
             try {
                 let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
                 rc.on("collect", async r => {
@@ -171,7 +172,7 @@ module.exports = {
                     }
                 });
                 rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
-            } catch {return message.channel.send("Hmm... there was some kind of error when I tried to submit that anime. Try again, and if it keeps not working, then go yell at my devs!");}
+            } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that anime. Try again, and if it keeps not working, then go yell at my devs!");}
         }
     }
 };
