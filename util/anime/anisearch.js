@@ -2,12 +2,18 @@ const fz = require('fuzzysort');
 const Discord = require('discord.js');
 
 const Ani = require('../../models/anime');
+const Char = require('../../models/char');
 
 const {Pagination} = require("../../util/pagination");
 
 module.exports = async (message, client, search, threshold=-10000, type='top') => {
     const me = async (ani) => {
         let an = await Ani.findOne({id: client.misc.cache.anime.get(ani)});
+        let chs = [];
+        for (let i = 0; i < an.characters.length; i++) {
+            let tch = await Char.findOne({id: an.characters[i]});
+            if (tch) {chs.push(tch.name);}
+        }
         return {embed: new Discord.MessageEmbed()
             .setTitle(an.name)
             .setAuthor('Anime Search', message.author.avatarURL())
@@ -15,7 +21,7 @@ module.exports = async (message, client, search, threshold=-10000, type='top') =
             .addField('Description', an.plot)
             .addField('Length', `**# of Seasons:** ${an.seasons}\n**# of Episodes:** ${an.episodes}`)
             .addField('Airing', `**Began:** ${an.airStartDate}\n**Ended:** ${an.isComplete ? an.airEndDate : 'This anime is still airing!'}`)
-            .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Characters:** ${an.characters}\n**Stream this at:** ${an.streamAt}`)
+            .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Characters:** ${chs.join(", ")}\n**Stream this at:** ${an.streamAt.join(" ")}`)
             .setColor("c375f0")
             .setImage(an.thumbnail)
             .setFooter('Natsuki', client.user.avatarURL())

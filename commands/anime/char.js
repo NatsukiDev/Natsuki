@@ -144,7 +144,7 @@ module.exports = {
                 .setTitle(`New Character -> ${options.name}`)
                 .setDescription(`${queue ? 'Requested' : 'Added'} by ${message.author.tag}`)
                 .addField('Info', `**Name:** ${options.name}`)
-                .addField('Other', `**Anime**: ${aniData.name} | ${aniData.japname} | \`${aniData.id}\`\n\n**Gender**: ${options.gender}\n`)
+                .addField('Other', `**Anime**: ${forceAni ? options.anime : `${aniData.name} | ${aniData.japname} | \`${aniData.id}\``}\n\n**Gender**: ${options.gender}\n`)
                 .setColor("c375f0")
                 .setImage(options.thumbnail)
                 .setFooter('Natsuki', client.user.avatarURL())
@@ -165,6 +165,11 @@ module.exports = {
                         while (true) {options.id = require('../../util/makeid')(4); if (!await Char.findOne({id: options.id})) {break;}}
                         if (!queue) {options.queued = false;}
                         await new Char(options).save();
+                        if (aniData) {
+                            aniData.characters.push(options.id);
+                            aniData.markModified('characters');
+                            aniData.save();
+                        }
                         return message.author.send(`Your character has been ${!queue ? "added" : "submitted"}`);
                     } else {
                         return message.author.send("Oh, okay. I'll discard that then!");
