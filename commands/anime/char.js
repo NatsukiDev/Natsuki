@@ -6,6 +6,8 @@ const Char = require('../../models/char');
 const {Tag} = require('../../util/tag');
 const {TagFilter} = require('../../util/tagfilter');
 const ask = require('../../util/ask');
+const ans = require('../../util/anime/anisearch');
+const {Pagination} = require('../../util/pagination');
 
 module.exports = {
     name: "char",
@@ -73,6 +75,27 @@ module.exports = {
                 options.anime = await ask(mesg, "What anime (or game) did the character appear in? If the character is an OC, say 'none'", 6000, true); if (!options.anime) {return;}
                 if (options.anime.length > 75) {clearDM(); return dmch.send("The anime name can't be more than 75 characters!");}
                 if (options.anime.trim().toLowerCase() === 'none') {options.anime = null;}
+                else {
+                    let asr = await ans(mesg, client, options.anime.trim().toLowerCase());
+                    if (asr instanceof Pagination) {
+                        await dmch.send({embeds: [asr.pages[0]]});
+                        let conf = await ask(mesg, "Is this the anime you meant?");
+                        if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
+                        conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
+                        if (!conf) {
+
+                        }
+                    }
+                    else {
+                        await dmch.send({embeds: [asr.embed]});
+                        let conf = await ask(mesg, "Is this the anime you meant?");
+                        if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
+                        conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
+                        if (!conf) {return mesg.channel.send("Well, I've got nothing, then. If that doesn't match the anime you're looking for then I would try again with a more narrow search.");}
+                        fn = asr.id;
+                    }
+                    options.anime = fn;
+                }
 
                 options.gender = await ask(mesg, "What is the character's gender?", 60000, true); if (!options.name) {return;}
                 if (options.gender.length > 75) {clearDM(); return dmch.send("That's one heck of a gender. Maybe like... abbreviate?");}
