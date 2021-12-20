@@ -24,6 +24,7 @@ export declare class Pagination {
         user?: 'any' | string;
     }): Promise<Pagination>;
     stop(): Promise<Pagination>;
+    getCurrentPage(): MessageEmbed;
 }
 interface ExtraControls {
 }

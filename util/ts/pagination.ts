@@ -146,6 +146,8 @@ export class Pagination {
         return await this.endControllers();
     };
 
+    public getCurrentPage(): MessageEmbed {return this.pages[this.currentPage];}
+
 }
 
 
