@@ -10,7 +10,8 @@ const char = new mongoose.Schema({
     loved: {type: Number, default: 0},
     personality: {type: String, defualt: null},
     gender: String,
-    loveInterest: {type: String, defualt: null}
+    loveInterest: {type: String, defualt: null},
+    queued: {type: Boolean, default: true}
 });
 
 module.exports = mongoose.model('char', char);

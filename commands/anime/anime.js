@@ -62,10 +62,9 @@ module.exports = {
 
                 let mesg = await message.author.send("I'm going to ask you some questions about the anime's info. Just reply with the answer and use good grammar and spelling and be as accurate as possible. To cancel the process, just leave the question unanswered for a few minutes and I'll let you know that the question timed out and is not longer answerable.")
                 .catch(() => {return message.reply("Something went wrong there! Most likely, your DMs are closed.");});
-                await mesg.channel.send("Check your DMs!");
+                if (message.guild) {await mesg.channel.send("Check your DMs!");}
 
                 function clearDM() {client.misc.activeDMs.delete(message.author.id);}
-                client.misc.activeDMs.set(message.author.id, 'anime-make');
                 let dmch = mesg.channel;
 
                 options.name = await ask(mesg, "What is the anime's name?", 60000, true); if (!options.name) {return;}
