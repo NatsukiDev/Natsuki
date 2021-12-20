@@ -6,6 +6,8 @@ const AniData = require('../../models/anime');
 const {TagFilter} = require("../../util/tagfilter");
 const {Tag} = require ("../../util/tag");
 const ask = require('../../util/ask');
+const ans = require('../../util/anime/anisearch');
+const {Pagination} = require('../../util/pagination');
 
 module.exports = {
     name: "anime",
@@ -19,7 +21,7 @@ module.exports = {
         let queue = false;
         let options = {};
         let dmch;
-        if (['a', 'add', 'n', 'new'].includes(args[0])) {
+        if (['a', 'add', 'n', 'new'].includes(args[0].trim().toLowerCase())) {
             let tu = await UserData.findOne({uid: message.author.id});
             if (!tu || !tu.staff) {
                 await message.channel.send("Since you aren't a Natsuki Staff member, this anime will be __submitted__ for reviewal!");
@@ -142,11 +144,11 @@ module.exports = {
             let amEmbed = new Discord.MessageEmbed()
                 .setTitle(`New Anime -> ${options.name}`)
                 .setDescription(`${queue ? 'Requested' : 'Added'} by ${message.author.tag}`)
-                .addField('Info', `**Name:** ${options.name}\n**Japanese Name:** ${options.japname}\n\n**Publishers:** ${foptions.publishers.join(", ")}\n**Studios:** ${foptions.studios.join(", ")}`)
+                .addField('Info', `**Name:** ${options.name}\n**Japanese Name:** ${options.japname}\n\n**Publishers:** ${foptions.publishers}\n**Studios:** ${foptions.studios}`)
                 .addField('Description', options.plot)
                 .addField('Length', `**# of Seasons:** ${options.seasons}\n**# of Episodes:** ${options.episodes}`)
                 .addField('Airing', `**Began:** ${options.airStartDate}\n**Ended:** ${options.isComplete ? options.airEndDate : 'This anime is still airing!'}`)
-                .addField('Other', `**Genre(s):** ${foptions.genres.join(", ")}\n**Tags:** ${foptions.tags.join(", ")}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
+                .addField('Other', `**Genre(s):** ${foptions.genres}\n**Tags:** ${foptions.tags}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
                 .setColor("c375f0")
                 .setImage(options.thumbnail)
                 .setFooter('Natsuki', client.user.avatarURL())
@@ -160,10 +162,11 @@ module.exports = {
                 let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
                 rc.on("collect", async r => {
                     if (r.emoji.name !== '👎') {
+                        while (true) {options.id = require('../../util/makeid')(4); if (!await AniData.findOne({id: options.id})) {break;}}
                         if (!queue) {amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);}
+                        else {amEmbed.addField("ID", options.id);}
                         amEmbed.setAuthor(!queue ? "Anime Added" : "Anime Submitted", message.author.avatarURL());
                         client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
-                        while (true) {options.id = require('../../util/makeid')(4); if (!await AniData.findOne({id: options.id})) {break;}}
                         if (!queue) {options.queued = false;}
                         await new AniData(options).save();
                         return message.author.send(`Your anime has been ${!queue ? "added" : "submitted"}`);
@@ -173,6 +176,40 @@ module.exports = {
                 });
                 rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
             } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that anime. Try again, and if it keeps not working, then go yell at my devs!");}
+        }
+        if (['s', 'search'].includes(args[0].trim().toLowerCase())) {
+            args.shift();
+            let asr = await ans(message, client, args.join(" ").trim().toLowerCase());
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+            } else {
+                await message.channel.send({embeds: [asr.embed]});
+            }
+            return;
+        }
+        if (['v', 'view'].includes(args[0].trim().toLowerCase())) {
+            args.shift();
+            let asr = await ans(message, client, args.join(" ").trim().toLowerCase(), -700);
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+            } else {
+                await message.channel.send({embeds: [asr.embed]});
+            }
+            return;
+        }
+        if (['reject'].includes(args[0].trim().toLowerCase())) {
+            let tu = await UserData.findOne({uid: message.author.id});
+            if (!tu || !tu.staff) {await message.channel.send("Since you aren't a Natsuki Staff member, you can't reject anime submissions!");}
+            let tr = await AniData.findOne({id: args[1].toLowerCase()});
+            if (!tr) {return message.reply("That anime submission doesn't seem to exist!");}
+            if (tr.queued !== true) {return message.reply("That anime was already accepted, so you can't reject it.");}
+            return await AniData.deleteOne({id: args[1].toLowerCase()})
+            .then(() => {return message.channel.send("I got that submission out of here!");})
+            .catch(() => {return message.reply("It seems that submission wasn't deleted for some reason. \*insert head scratching*");});
         }
     }
 };

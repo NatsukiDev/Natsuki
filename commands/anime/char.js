@@ -99,7 +99,10 @@ module.exports = {
                         try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
                         catch {return dmch.send("Looks like you didn't find the anime you were looking for, so I went ahead and ended the character creation for you.");}
                         collected = arc.first().emoji.name;
-                        if (collected === '✅') {fn = client.misc.cache.anime.get(asr.getCurrentPage().title.trim());}
+                        if (collected === '✅') {
+                            fn = client.misc.cache.anime.get(asr.getCurrentPage().title.trim());
+                            asr.stop();
+                        }
                         else {return dmch.send("Looks like you didn't find the anime you were looking for, so I went ahead and ended the character creation for you.");}
                     } else {
                         await dmch.send({embeds: [asr.embed]});
@@ -155,9 +158,10 @@ module.exports = {
                 let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
                 rc.on("collect", async r => {
                     if (r.emoji.name !== '👎') {
-                        if (!queue) {amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);}
-                        amEmbed.setAuthor(!queue ? "Character Added" : "Character Submitted", message.author.avatarURL());
                         client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
+                        if (!queue) {amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);}
+                        else {amEmbed.addField("ID", options.id);}
+                        amEmbed.setAuthor(!queue ? "Character Added" : "Character Submitted", message.author.avatarURL());
                         while (true) {options.id = require('../../util/makeid')(4); if (!await Char.findOne({id: options.id})) {break;}}
                         if (!queue) {options.queued = false;}
                         await new Char(options).save();

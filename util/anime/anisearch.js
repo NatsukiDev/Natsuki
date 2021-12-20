@@ -5,7 +5,7 @@ const Ani = require('../../models/anime');
 
 const {Pagination} = require("../../util/pagination");
 
-module.exports = async (message, client, search, type='top') => {
+module.exports = async (message, client, search, threshold=-10000, type='top') => {
     const me = async (ani) => {
         let an = await Ani.findOne({id: client.misc.cache.anime.get(ani)});
         return {embed: new Discord.MessageEmbed()
@@ -25,7 +25,7 @@ module.exports = async (message, client, search, type='top') => {
     let attF = await Ani.findOne({id: search.trim().toLowerCase()});
     if (attF) {return await me(res[0]);}
 
-    const res = fz.go(search, Array.from(client.misc.cache.anime.keys()), {limit: 10}).sort((a,b)=>a.score-b.score).map(k => k.target);
+    const res = fz.go(search, Array.from(client.misc.cache.anime.keys()), {threshold: threshold, limit: 10}).sort((a,b)=>a.score-b.score).map(k => k.target);
     if (res.length === 0) {return 0;}
     else if (res.length > 1) {
         let tp = [];
