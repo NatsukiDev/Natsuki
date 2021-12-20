@@ -159,11 +159,13 @@ module.exports = {
                 let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
                 rc.on("collect", async r => {
                     if (r.emoji.name !== '👎') {
-                        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
-                        if (!queue) {amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);}
+                        while (true) {options.id = require('../../util/makeid')(4); if (!await Char.findOne({id: options.id})) {break;}}
+                        if (!queue) {
+                            amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);
+                            client.misc.cache.chars.set(options.name, options.id);
+                        }
                         else {amEmbed.addField("ID", options.id);}
                         amEmbed.setAuthor(!queue ? "Character Added" : "Character Submitted", message.author.avatarURL());
-                        while (true) {options.id = require('../../util/makeid')(4); if (!await Char.findOne({id: options.id})) {break;}}
                         if (!queue) {options.queued = false;}
                         await new Char(options).save();
                         if (aniData) {
@@ -171,6 +173,7 @@ module.exports = {
                             aniData.markModified('characters');
                             aniData.save();
                         }
+                        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
                         return message.author.send(`Your character has been ${!queue ? "added" : "submitted"}`);
                     } else {
                         return message.author.send("Oh, okay. I'll discard that then!");

@@ -6,6 +6,6 @@ module.exports = async client => {
     client.misc.cache.chars = new Discord.Collection();
 
     for await (const char of CharData.find()) {
-        client.misc.cache.chars.set(char.name, char.id);
+        if (char.queued !== true) {client.misc.cache.chars.set(char.name, char.id);}
     }
 }

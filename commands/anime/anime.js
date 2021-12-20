@@ -163,7 +163,11 @@ module.exports = {
                 rc.on("collect", async r => {
                     if (r.emoji.name !== '👎') {
                         while (true) {options.id = require('../../util/makeid')(4); if (!await AniData.findOne({id: options.id})) {break;}}
-                        if (!queue) {amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);}
+                        if (!queue) {
+                            amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);
+                            client.misc.cache.anime.set(options.name, options.id);
+                            client.misc.cache.anime.set(options.japname, options.id);
+                        }
                         else {amEmbed.addField("ID", options.id);}
                         amEmbed.setAuthor(!queue ? "Anime Added" : "Anime Submitted", message.author.avatarURL());
                         client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
