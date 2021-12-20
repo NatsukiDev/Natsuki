@@ -121,7 +121,7 @@ export class Pagination {
     public async updateControllers(): Promise<Pagination> {return this;};
 
     public async endControllers(): Promise<Pagination> {
-        await this.message.reactions.removeAll();
+        if (this.message.guild) {await this.message.reactions.removeAll().catch(() => {});}
         this.controllers.collector.stop();
 
         let fe = this.message.embeds[0];

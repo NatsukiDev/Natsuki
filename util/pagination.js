@@ -112,7 +112,9 @@ class Pagination {
     async updateControllers() { return this; }
     ;
     async endControllers() {
-        await this.message.reactions.removeAll();
+        if (this.message.guild) {
+            await this.message.reactions.removeAll().catch(() => { });
+        }
         this.controllers.collector.stop();
         let fe = this.message.embeds[0];
         fe.setDescription(`${fe.description}\n\n*This menu has ended, start a new one to interact with it!*`);
