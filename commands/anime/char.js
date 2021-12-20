@@ -8,6 +8,7 @@ const {Tag} = require('../../util/tag');
 const {TagFilter} = require('../../util/tagfilter');
 const ask = require('../../util/ask');
 const ans = require('../../util/anime/anisearch');
+const chs = require('../../util/anime/charsearch');
 const {Pagination} = require('../../util/pagination');
 
 module.exports = {
@@ -177,6 +178,40 @@ module.exports = {
                 });
                 rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
             } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that character. Try again, and if it keeps not working, then go yell at my devs!");}
+        }
+        if (['s', 'search'].includes(args[0].trim().toLowerCase())) {
+            args.shift();
+            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -100000);
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+            } else {
+                await message.channel.send({embeds: [asr.embed]});
+            }
+            return;
+        }
+        if (['v', 'view'].includes(args[0].trim().toLowerCase())) {
+            args.shift();
+            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700);
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+            } else {
+                await message.channel.send({embeds: [asr.embed]});
+            }
+            return;
+        }
+        if (['reject'].includes(args[0].trim().toLowerCase())) {
+            let tu = await UserData.findOne({uid: message.author.id});
+            if (!tu || !tu.staff) {await message.channel.send("Since you aren't a Natsuki Staff member, you can't reject character submissions!");}
+            let tr = await CharData.findOne({id: args[1].toLowerCase()});
+            if (!tr) {return message.reply("That character submission doesn't seem to exist!");}
+            if (tr.queued !== true) {return message.reply("That character was already accepted, so you can't reject it.");}
+            return await CharData.deleteOne({id: args[1].toLowerCase()})
+            .then(() => {return message.channel.send("I got that submission out of here!");})
+            .catch(() => {return message.reply("It seems that submission wasn't deleted for some reason. \*insert head scratching*");});
         }
     }
 };
