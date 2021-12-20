@@ -35,7 +35,9 @@ client.misc = {
         monitEnabled: [],
         inVC: [],
         VCG: {},
-        activeVC: []
+        activeVC: [],
+        chars: new Discord.Collection(),
+        anime: new Discord.Collection()
     },
     loggers: {},
     rl: readline.createInterface({input: process.stdin, output: process.stdout})

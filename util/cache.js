@@ -28,4 +28,14 @@ module.exports = async (client) => {
     await require('./cache/monit')(client);
     ora_moCache.stop(); ora_moCache.clear();
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${Object.keys(client.misc.cache.monit).length}`)} ${chalk.blueBright(`guilds with Monitors enabled.`)}`);
+
+    let ora_anCache = ora("Caching Animes...").start();
+    await require('./cache/anime')(client);
+    ora_anCache.stop(); ora_anCache.clear();
+    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.anime.size / 2}`)} ${chalk.blueBright(`animes into lookup registry.`)}`);
+
+    let ora_chCache = ora("Caching Characters...").start();
+    await require('./cache/char')(client);
+    ora_chCache.stop(); ora_chCache.clear();
+    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.chars.size}`)} ${chalk.blueBright(`characters into lookup registry.`)}`);
 };
