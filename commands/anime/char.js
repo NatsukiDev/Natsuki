@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const UserData = require('../../models/user');
 const Char = require('../../models/char');
 const AniData = require('../../models/anime');
+const CF = require('../../models/charfav');
 
 const {Tag} = require('../../util/tag');
 const {TagFilter} = require('../../util/tagfilter');
@@ -184,6 +185,11 @@ module.exports = {
         }
         if (['s', 'search'].includes(args[0].trim().toLowerCase())) {
             args.shift();
+            if (!args[0]) {
+                let tempchar = await ask(message, "What character would you like to search for?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
             let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -100000);
             if (asr === 0) {
                 return message.channel.send("That search returned no results! Try again?");
@@ -196,6 +202,11 @@ module.exports = {
         }
         if (['v', 'view'].includes(args[0].trim().toLowerCase())) {
             args.shift();
+            if (!args[0]) {
+                let tempchar = await ask(message, "What character would you like to view?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
             let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700);
             if (asr === 0) {
                 return message.channel.send("That search returned no results! Try again?");
@@ -219,6 +230,52 @@ module.exports = {
         if (['r', 'rand', 'random', 'any'].includes(args[0].toLowerCase())) {
             let asr = await chs(message, client, client.misc.cache.chars.random(), -100000);
             return await message.channel.send({embeds: [asr.embed]});
+        }
+        if (['l', 'love', 'favorite', 'fav'].includes(args[0].toLowerCase())) {
+            args.shift();
+            if (!args[0]) {
+                let tempchar = await ask(message, "What character would you like to add to your favorites list?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
+            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700);
+            let fn;
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+                await asr.message.react('✅');
+                await message.channel.send("React with :white_check_mark: when you've found the character you want!");
+                let arc;
+                try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                catch {return message.channel.send("Looks like you didn't find the character you were looking for, so I went ahead and ended the character creation for you.");}
+                collected = arc.first().emoji.name;
+                if (collected === '✅') {
+                    fn = client.misc.cache.chars.get(asr.getCurrentPage().title.trim());
+                    asr.stop();
+                }
+                else {return message.reply("Looks like you didn't find the character you were looking for.");}
+            } else {
+                await message.channel.send({embeds: [asr.embed]});
+                let conf = await ask(message, "Is this the character you meant?", 60000);
+                if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
+                conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
+                if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the character you're looking for then I would try again with a more narrow search.");}
+                fn = asr.id;
+            }
+            let cf = await CF.findOne({uid: message.author.id}) || new CF({uid: message.author.id});
+            if (cf.loved.includes(fn)) {return message.channel.send("Look like that character is already on your loved list!");}
+            let tfc = await Char.findOne({id: fn});
+            tfc.loved += 1;
+            tfc.markModified('loved');
+            tfc.save();
+            cf.loved.push(fn);
+            cf.markModified('loved');
+            cf.save();
+            return message.channel.send(`I've added **${tfc.name}** to your loved/favorited character list!`);
+        }
+        if (['loved', 'favorites', 'favs'].includes(args[0].toLowerCase())) {
+
         }
     }
 };

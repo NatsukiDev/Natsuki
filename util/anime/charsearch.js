@@ -16,6 +16,7 @@ module.exports = async (message, client, search, threshold=-10000, type='top') =
             .setAuthor('Character Search', message.author.avatarURL())
             .setDescription(`**Name:** ${cch.name}`)
             .addField('Other', `**Anime**: ${forceAni ? cch.anime : `${ani.name} | ${ani.japname} | \`${ani.id}\``}\n\n**Gender**: ${cch.gender}\n`)
+            .addField("Loved by", `**${cch.loved}** Natsuki user${cch.loved === 1 ? '' : 's'}!\n\`char love ${cch.name}\``)
             .setColor("c375f0")
             .setImage(cch.thumbnail)
             .setFooter('Natsuki', client.user.avatarURL())

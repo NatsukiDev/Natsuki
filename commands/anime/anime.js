@@ -183,6 +183,11 @@ module.exports = {
         }
         if (['s', 'search'].includes(args[0].trim().toLowerCase())) {
             args.shift();
+            if (!args[0]) {
+                let tempchar = await ask(message, "What anime would you like to search for?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
             let asr = await ans(message, client, args.join(" ").trim().toLowerCase());
             if (asr === 0) {
                 return message.channel.send("That search returned no results! Try again?");
@@ -195,6 +200,11 @@ module.exports = {
         }
         if (['v', 'view'].includes(args[0].trim().toLowerCase())) {
             args.shift();
+            if (!args[0]) {
+                let tempchar = await ask(message, "What anime would you like to view?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
             let asr = await ans(message, client, args.join(" ").trim().toLowerCase(), -700);
             if (asr === 0) {
                 return message.channel.send("That search returned no results! Try again?");
