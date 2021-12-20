@@ -21,7 +21,7 @@ module.exports = async (message, client, search, threshold=-10000, type='top') =
             .addField('Description', an.plot)
             .addField('Length', `**# of Seasons:** ${an.seasons}\n**# of Episodes:** ${an.episodes}`)
             .addField('Airing', `**Began:** ${an.airStartDate}\n**Ended:** ${an.isComplete ? an.airEndDate : 'This anime is still airing!'}`)
-            .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Characters:** ${chs.join(", ")}\n**Stream this at:** ${an.streamAt.join(" ")}`)
+            .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Characters:** ${chs.join(", ")}\n**Stream this at:** ${an.streamAt.join(", ")}`)
             .setColor("c375f0")
             .setImage(an.thumbnail)
             .setFooter('Natsuki', client.user.avatarURL())
