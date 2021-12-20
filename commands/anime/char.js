@@ -278,7 +278,7 @@ module.exports = {
             let cf = await CF.findOne({uid: mention ? mention.id : message.author.id});
             if (!cf || !cf.loved.length) {return message.channel.send(`Looks like ${mention ? 'they' : 'you'} haven't favorited any characters!`);}
             let chars = cf.loved;
-            chars = chars.map(tc => Array.from(client.misc.cache.chars.keys()).filter(c => client.misc.cache.chars.get(c) === tc));
+            chars = chars.map(tc => client.misc.cache.charsID.get(tc));
             let n = mention ? message.guild ? message.mentions.members.first().displayName : message.mentions.users.first().username : message.guild ? message.member.displayName : message.author.username;
             return message.channel.send({embeds: [
                 new Discord.MessageEmbed()
