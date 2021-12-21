@@ -6,7 +6,7 @@ const Char = require('../../models/char');
 
 const {Pagination} = require("../../util/pagination");
 
-module.exports = async (message, client, search, threshold=-10000, type='top') => {
+module.exports = async (message, client, search, threshold=-10000, type='full') => {
     const me = async (ani) => {
         let an = ani.plot ? ani : await Ani.findOne({id: client.misc.cache.anime.get(ani)});
         let chs = [];
@@ -14,18 +14,21 @@ module.exports = async (message, client, search, threshold=-10000, type='top') =
             let tch = await Char.findOne({id: an.characters[i]});
             if (tch) {chs.push(tch.name);}
         }
-        return {embed: new Discord.MessageEmbed()
+        let rte = new Discord.MessageEmbed()
             .setTitle(an.name)
             .setAuthor('Anime Search', message.author.avatarURL())
             .setDescription(`**Name:** ${an.name}\n**Japanese Name:** ${an.japname}\n\n**Publishers:** ${an.publishers.join(", ")}\n**Studios:** ${an.studios.join(", ")}`)
-            .addField('Description', an.plot)
-            .addField('Length', `**# of Seasons:** ${an.seasons}\n**# of Episodes:** ${an.episodes}`)
-            .addField('Airing', `**Began:** ${an.airStartDate}\n**Ended:** ${an.isComplete ? an.airEndDate : 'This anime is still airing!'}`)
-            .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Characters:** ${chs.join(", ")}\n**Stream this at:** ${an.streamAt.join(", ")}`)
             .setColor("c375f0")
             .setImage(an.thumbnail)
             .setFooter('Natsuki', client.user.avatarURL())
-            .setTimestamp(), id: an.id};
+            .setTimestamp()
+        if (type === 'full') {
+            rte.addField('Description', an.plot)
+                .addField('Length', `**# of Seasons:** ${an.seasons}\n**# of Episodes:** ${an.episodes}`)
+                .addField('Airing', `**Began:** ${an.airStartDate}\n**Ended:** ${an.isComplete ? an.airEndDate : 'This anime is still airing!'}`)
+                .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Characters:** ${chs.join(", ")}\n**Stream this at:** ${an.streamAt.join(", ")}`)
+        }
+        return {embed: rte, id: an.id};
     };
 
     let attF = await Ani.findOne({id: search.trim().toLowerCase()});

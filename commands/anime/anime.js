@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 
 const UserData = require('../../models/user');
 const AniData = require('../../models/anime');
+const AF = require('../../models/anifav');
 
 const {TagFilter} = require("../../util/tagfilter");
 const {Tag} = require ("../../util/tag");
@@ -181,6 +182,7 @@ module.exports = {
                 rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
             } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that anime. Try again, and if it keeps not working, then go yell at my devs!");}
         }
+
         if (['s', 'search'].includes(args[0].trim().toLowerCase())) {
             args.shift();
             if (!args[0]) {
@@ -198,6 +200,7 @@ module.exports = {
             }
             return;
         }
+
         if (['v', 'view'].includes(args[0].trim().toLowerCase())) {
             args.shift();
             if (!args[0]) {
@@ -215,6 +218,7 @@ module.exports = {
             }
             return;
         }
+        
         if (['reject'].includes(args[0].trim().toLowerCase())) {
             let tu = await UserData.findOne({uid: message.author.id});
             if (!tu || !tu.staff) {await message.channel.send("Since you aren't a Natsuki Staff member, you can't reject anime submissions!");}
@@ -225,9 +229,54 @@ module.exports = {
             .then(() => {return message.channel.send("I got that submission out of here!");})
             .catch(() => {return message.reply("It seems that submission wasn't deleted for some reason. \*insert head scratching*");});
         }
+
         if (['r', 'rand', 'random', 'any'].includes(args[0].toLowerCase())) {
             let asr = await ans(message, client, client.misc.cache.anime.random(), -100000);
             return await message.channel.send({embeds: [asr.embed]});
+        }
+
+        if (['w', 'watched'].includes(args[0].toLowerCase())) {
+            args.shift();
+            if (!args[0]) {
+                let tempchar = await ask(message, "What anime would you like to add to your finished list?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
+            let asr = await ans(message, client, args.join(" ").trim().toLowerCase(), -700, 0);
+            let fn;
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+                await asr.message.react('✅');
+                await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
+                let arc;
+                try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                catch {return message.reply("Looks like you didn't find the anime you were looking for.");}
+                collected = arc.first().emoji.name;
+                if (collected === '✅') {
+                    fn = client.misc.cache.anime.get(asr.getCurrentPage().title.trim());
+                    asr.stop();
+                }
+                else {return message.reply("Looks like you didn't find the anime you were looking for.");}
+            } else {
+                await message.channel.send({embeds: [asr.embed]});
+                let conf = await ask(message, "Is this the anime you meant?", 60000);
+                if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
+                conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
+                if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the anime you're looking for then I would try again with a more narrow search.");}
+                fn = asr.id;
+            }
+            let af = await AF.findOne({uid: message.author.id}) || new AF({uid: message.author.id});
+            if (af.watched.includes(fn)) {return message.channel.send("Looks like that anime is already on your finished list!");}
+            let tfc = await AniData.findOne({id: fn});
+            tfc.watchers += 1;
+            tfc.markModified('watchers');
+            tfc.save();
+            af.watched.push(fn);
+            af.markModified('watched');
+            af.save();
+            return message.channel.send(`I've added **${tfc.name}** to your list of finished animes!`);
         }
     }
 };

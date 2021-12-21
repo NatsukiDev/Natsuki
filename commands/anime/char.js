@@ -15,19 +15,19 @@ const {Pagination} = require('../../util/pagination');
 module.exports = {
     name: "char",
     aliases: ['ch', 'character'],
-    /*meta: {
+    meta: {
         category: 'Anime',
-        description: "",
-        syntax: '` <>`',
+        description: "Get info on and view anime characters",
+        syntax: '`char <add|view|search|random|love|loved>`',
         extra: null
-    },*/
+    },
     help: new Discord.MessageEmbed()
     .setTitle("Help -> Characters")
     .setDescription("Incomplete command, please stand by <3")
-    .addField("Syntax", "`char`"),
+    .addField("Syntax", "`char <add|view|search|random|love|loved>`"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}char\``);}
-        
+        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}char <add|view|search|random|love|loved>\``);}
+
         let queue = false;
         let forceAni = false;
         let options = {};
@@ -248,7 +248,7 @@ module.exports = {
                 await message.channel.send("React with :white_check_mark: when you've found the character you want!");
                 let arc;
                 try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
-                catch {return message.channel.send("Looks like you didn't find the character you were looking for, so I went ahead and ended the character creation for you.");}
+                catch {return message.reply("Looks like you didn't find the character you were looking for.");}
                 collected = arc.first().emoji.name;
                 if (collected === '✅') {
                     fn = client.misc.cache.chars.get(asr.getCurrentPage().title.trim());
@@ -264,7 +264,7 @@ module.exports = {
                 fn = asr.id;
             }
             let cf = await CF.findOne({uid: message.author.id}) || new CF({uid: message.author.id});
-            if (cf.loved.includes(fn)) {return message.channel.send("Look like that character is already on your loved list!");}
+            if (cf.loved.includes(fn)) {return message.channel.send("Looks like that character is already on your loved list!");}
             let tfc = await Char.findOne({id: fn});
             tfc.loved += 1;
             tfc.markModified('loved');
@@ -289,5 +289,7 @@ module.exports = {
                     .setTimestamp()
             ]});
         }
+
+        return message.channel.send(`Invalid arg! Syntax: \`${prefix}char <add|view|search|random|love|loved>\``);
     }
 };
