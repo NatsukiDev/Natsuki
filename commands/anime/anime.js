@@ -13,6 +13,12 @@ const {Pagination} = require('../../util/pagination');
 module.exports = {
     name: "anime",
     aliases: ['ani', 'an'],
+    meta: {
+        category: 'Anime',
+        description: "View, submit, favorite, and rate animes",
+        syntax: '``',
+        extra: null
+    },
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Anime")
         .setDescription("View and find anime in our huge list of anime!")
