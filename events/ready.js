@@ -1,14 +1,10 @@
-const Discord = require('discord.js');
 const chalk = require('chalk');
 const moment = require('moment');
-const mongoose = require('mongoose');
-const ora = require('ora');
 const lastfm = require("lastfm");
 
 const GuildSettings = require('../models/guild');
 const BotDataSchema = require('../models/bot');
 const LogData = require('../models/log');
-const Monitors = require('../models/monitor');
 
 const siftStatuses = require('../util/siftstatuses');
 const localXPCacheClean = require('../util/lxp/cacheloop');
