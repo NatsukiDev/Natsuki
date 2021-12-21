@@ -174,6 +174,7 @@ module.exports = {
                             amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);
                             client.misc.cache.anime.set(options.name, options.id);
                             client.misc.cache.anime.set(options.japname, options.id);
+                            client.misc.cache.animeID.set(options.id, options.name);
                         }
                         else {amEmbed.addField("ID", options.id);}
                         amEmbed.setAuthor(!queue ? "Anime Added" : "Anime Submitted", message.author.avatarURL());
@@ -187,6 +188,7 @@ module.exports = {
                 });
                 rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
             } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that anime. Try again, and if it keeps not working, then go yell at my devs!");}
+            return;
         }
 
         if (['s', 'search'].includes(args[0].trim().toLowerCase())) {

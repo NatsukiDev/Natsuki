@@ -164,6 +164,7 @@ module.exports = {
                         if (!queue) {
                             amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);
                             client.misc.cache.chars.set(options.name, options.id);
+                            client.misc.cache.charsID.set(options.id, options.name);
                         }
                         else {amEmbed.addField("ID", options.id);}
                         amEmbed.setAuthor(!queue ? "Character Added" : "Character Submitted", message.author.avatarURL());
@@ -182,7 +183,9 @@ module.exports = {
                 });
                 rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
             } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that character. Try again, and if it keeps not working, then go yell at my devs!");}
+            return;
         }
+
         if (['s', 'search'].includes(args[0].trim().toLowerCase())) {
             args.shift();
             if (!args[0]) {
@@ -200,6 +203,7 @@ module.exports = {
             }
             return;
         }
+
         if (['v', 'view'].includes(args[0].trim().toLowerCase())) {
             args.shift();
             if (!args[0]) {
@@ -217,6 +221,7 @@ module.exports = {
             }
             return;
         }
+
         if (['reject'].includes(args[0].trim().toLowerCase())) {
             let tu = await UserData.findOne({uid: message.author.id});
             if (!tu || !tu.staff) {await message.channel.send("Since you aren't a Natsuki Staff member, you can't reject character submissions!");}
@@ -227,10 +232,12 @@ module.exports = {
             .then(() => {return message.channel.send("I got that submission out of here!");})
             .catch(() => {return message.reply("It seems that submission wasn't deleted for some reason. \*insert head scratching*");});
         }
+
         if (['r', 'rand', 'random', 'any'].includes(args[0].toLowerCase())) {
             let asr = await chs(message, client, client.misc.cache.chars.random(), -100000);
             return await message.channel.send({embeds: [asr.embed]});
         }
+
         if (['l', 'love', 'favorite', 'fav'].includes(args[0].toLowerCase())) {
             args.shift();
             if (!args[0]) {
@@ -274,6 +281,7 @@ module.exports = {
             cf.save();
             return message.channel.send(`I've added **${tfc.name}** to your loved/favorited character list!`);
         }
+
         if (['loved', 'favorites', 'favs'].includes(args[0].toLowerCase())) {
             let cf = await CF.findOne({uid: mention ? mention.id : message.author.id});
             if (!cf || !cf.loved.length) {return message.channel.send(`Looks like ${mention ? 'they' : 'you'} haven't favorited any characters!`);}
@@ -288,6 +296,76 @@ module.exports = {
                     .setFooter("Natsuki")
                     .setTimestamp()
             ]});
+        }
+
+        if (['i', 'im', 'img', 'image'].includes(args[0].toLowerCase())) {
+            args.shift();
+            if (!args[0]) {
+                let tempchar = await ask(message, "What character would you like to add to add an image to?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
+            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700);
+            let fn;
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+                await asr.message.react('✅');
+                await message.channel.send("React with :white_check_mark: when you've found the character you want!");
+                let arc;
+                try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                catch {return message.reply("Looks like you didn't find the character you were looking for.");}
+                collected = arc.first().emoji.name;
+                if (collected === '✅') {
+                    fn = client.misc.cache.chars.get(asr.getCurrentPage().title.trim());
+                    asr.stop();
+                }
+                else {return message.reply("Looks like you didn't find the character you were looking for.");}
+            } else {
+                await message.channel.send({embeds: [asr.embed]});
+                let conf = await ask(message, "Is this the character you meant?", 60000);
+                if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
+                conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
+                if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the character you're looking for then I would try again with a more narrow search.");}
+                fn = asr.id;
+            }
+            let tu = await UserData.findOne({uid: message.author.id});
+            let queue = false;
+            if (!tu || !tu.staff) {
+                message.channel.send("This image will be __submitted__ for reviewal.");
+                queue = true;
+            }
+            let ch = await Char.findOne({id: fn});
+            args.shift();
+            if (!args[0]) {
+                let tempchar = message.attachments.size
+                    ? message.attachments.first().url
+                    : await ask(message, "Please paste the image or a link to the image you'd like to add.", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
+            let img = args.join(" ");
+            if (!img.match(/^https:\/\/(?:[\w\-].?)+[\/\w\-\%\(\)_]+\.(?:png|jpg|jpeg|gif|webp)$/gm)) {return message.channel.send("I don't think that's an image. Try again?");}
+            if (!queue) {
+                ch.images.push(img);
+                ch.markModified('images');
+                ch.save();
+            }
+            client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
+                embeds: [
+                    new Discord.MessageEmbed()
+                        .setAuthor(message.author.username, message.author.avatarURL())
+                        .setTitle(`New Image ${queue ? "Submitted" : "Added"}`)
+                        .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
+                        .setThumbnail(ch.thumbnail)
+                        .setImage(img)
+                        .setColor('c375f0')
+                        .setTimestamp()
+                        .setFooter("Natsuki")
+                ], content: queue ? '<@330547934951112705>' : undefined
+            }).catch(() => {})).catch(() => {});
+            return message.channel.send(`Character image ${queue ? "submitted" : "added"}.`);
         }
 
         return message.channel.send(`Invalid arg! Syntax: \`${prefix}char <add|view|search|random|love|loved>\``);
