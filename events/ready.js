@@ -111,4 +111,6 @@ module.exports = async client => {
 	console.log(`${chalk.gray('\n[INFO]')} >> ${chalk.white(`Startup completed in ${cms - client.misc.startup.getTime() - (client.misc.forcedReady ? 5000 : 0)}ms (${cms - client.misc.startupNoConnect.getTime() - (client.misc.forcedReady ? 5000 : 0)}ms post-connect).`)}`);
 
     await botData.save();
+
+	require('../console')(client);
 };

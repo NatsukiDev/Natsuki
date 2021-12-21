@@ -99,7 +99,5 @@ async function init() {
 
     await require('./util/wait')(5000);
     if (!client.misc.readied) {client.misc.forcedReady = true; await require('./events/ready')(client);}
-
-    require('./console')(client);
 }
 init().then(() => {});
