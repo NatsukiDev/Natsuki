@@ -7,7 +7,9 @@ const Char = require('../../models/char');
 const {Pagination} = require("../../util/pagination");
 
 module.exports = async (message, client, search, threshold=-10000, type='full') => {
+    let da = [];
     const me = async (ani) => {
+        if (da.includes(client.misc.cache.anime.get(ani))) {return 0;}
         let an = ani.plot ? ani : await Ani.findOne({id: client.misc.cache.anime.get(ani)});
         let chs = [];
         for (let i = 0; i < an.characters.length; i++) {
@@ -23,11 +25,13 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
             .setFooter('Natsuki', client.user.avatarURL())
             .setTimestamp()
         if (type === 'full') {
-            rte.addField('Description', an.plot)
+            rte
+                .addField('Description', an.plot)
                 .addField('Length', `**# of Seasons:** ${an.seasons}\n**# of Episodes:** ${an.episodes}`)
                 .addField('Airing', `**Began:** ${an.airStartDate}\n**Ended:** ${an.isComplete ? an.airEndDate : 'This anime is still airing!'}`)
                 .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Characters:** ${chs.join(", ")}\n**Stream this at:** ${an.streamAt.join(", ")}`)
         }
+        da.push(an.id);
         return {embed: rte, id: an.id};
     };
 
@@ -38,8 +42,11 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
     if (res.length === 0) {return 0;}
     else if (res.length > 1) {
         let tp = [];
-        await res.forEach(ca => tp.push(me(ca)));
+        for (let i = 0; i < res.length; i++) {
+            const tres = await me(res[i]);
+            if (tres !== 0) {tp.push(tres);}
+        }
         tp = await Promise.all(tp);
-        return new Pagination(message.channel, tp.map(k => k.embed), message, client, true);
+        return tp.length > 1 ? new Pagination(message.channel, tp.map(k => k.embed), message, client, true) : tp[0];
     } else {return await me(res[0]);}
 }
