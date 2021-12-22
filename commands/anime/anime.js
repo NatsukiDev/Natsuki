@@ -80,7 +80,7 @@ module.exports = {
                 options.name = await ask(mesg, "What is the anime's name?", 60000, true); if (!options.name) {return;}
                 if (options.name.length > 75) {clearDM(); return dmch.send("The anime name can't be more than 75 characters!");}
 
-                options.plot = await ask(mesg, "How would you describe the anime? Give a very brief description of things like its plot, main characters, and setting.", 240000, true); if (!options.plot) {return clearDM();;}
+                options.plot = await ask(mesg, "How would you describe the anime? Give a very brief description of things like its plot, main characters, and setting.", 240000, true); if (!options.plot) {return clearDM();}
                 if (options.plot.length > 500) {clearDM(); return dmch.send("Oi! I said give a \"very brief\" description of the anime!");}
 
                 options.japname = await ask(mesg, "What is the anime's japanese name? (The romanization, not the Japanese characters.)", 120000, true); if (!options.japname) {return clearDM();}
@@ -259,7 +259,7 @@ module.exports = {
                 await asr.message.react('✅');
                 await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
                 let arc;
-                try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
                 catch {return message.reply("Looks like you didn't find the anime you were looking for.");}
                 collected = arc.first().emoji.name;
                 if (collected === '✅') {

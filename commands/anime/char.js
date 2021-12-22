@@ -81,6 +81,7 @@ module.exports = {
                 if (options.anime.length > 75) {clearDM(); return dmch.send("The anime name can't be more than 75 characters!");}
                 if (options.anime.trim().toLowerCase() === 'none') {options.anime = null;}
                 else {
+                    let fn;
                     let asr = await ans(mesg, client, options.anime.trim().toLowerCase());
                     if (asr === 0) {
                         let conf = await ask(mesg, "That search returned no results. Would you like me to put the anime you specified down anyways? Otherwise, I'll abandon this process, and we can try again.", 60000, true);
@@ -98,9 +99,9 @@ module.exports = {
                         await asr.message.react('✅');
                         await dmch.send("React with :white_check_mark: when you've found the anime you want!");
                         let arc;
-                        try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                        try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
                         catch {return dmch.send("Looks like you didn't find the anime you were looking for, so I went ahead and ended the character creation for you.");}
-                        collected = arc.first().emoji.name;
+                        let collected = arc.first().emoji.name;
                         if (collected === '✅') {
                             fn = client.misc.cache.anime.get(asr.getCurrentPage().title.trim());
                             asr.stop();
@@ -254,7 +255,7 @@ module.exports = {
                 await asr.message.react('✅');
                 await message.channel.send("React with :white_check_mark: when you've found the character you want!");
                 let arc;
-                try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
                 catch {return message.reply("Looks like you didn't find the character you were looking for.");}
                 collected = arc.first().emoji.name;
                 if (collected === '✅') {
@@ -314,7 +315,7 @@ module.exports = {
                 await asr.message.react('✅');
                 await message.channel.send("React with :white_check_mark: when you've found the character you want!");
                 let arc;
-                try {arc = await asr.message.awaitReactions({filter: (r, u) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
                 catch {return message.reply("Looks like you didn't find the character you were looking for.");}
                 collected = arc.first().emoji.name;
                 if (collected === '✅') {
@@ -346,7 +347,7 @@ module.exports = {
                 args = tempchar.split(/\s+/g);
             }
             let img = args.join(" ");
-            if (!img.match(/^https:\/\/(?:[\w\-].?)+[\/\w\-\%\(\)_]+\.(?:png|jpg|jpeg|gif|webp)$/gm)) {return message.channel.send("I don't think that's an image. Try again?");}
+            if (!img.match(/^https:\/\/(?:[\w\-].?)+[\/\w\-%()_]+\.(?:png|jpg|jpeg|gif|webp)$/gm)) {return message.channel.send("I don't think that's an image. Try again?");}
             if (!queue) {
                 ch.images.push(img);
                 ch.markModified('images');
