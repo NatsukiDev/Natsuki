@@ -28,21 +28,21 @@ module.exports = {
             .setTimestamp()]}
             : "You can't bang me.......only Wubzy can."
         );}
+        let fuck;
+        if (message.channel.nsfw) {
+            fuck = await VC.findOne({uid: message.author.id, countOf: 'realfuck'}) || new VC({uid: message.author.id, countOf: 'realfuck'});
+            savess = await Saves.findOne({name: 'realfuck'}) || new Saves({name: 'realfuck'});
+            saves = savess.saves;
+        } else {
+            fuck = await VC.findOne({uid: message.author.id, countOf: 'fuck'}) || new VC({uid: message.author.id, countOf: 'fuck'});
+            savess = await Saves.findOne({name: 'fuck'}) ? await Saves.findOne({name: 'fuck'}) : new Saves({name: 'fuck'});
+            saves = savess.saves;
+        }
         if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("Can't bang someone that doesn't exist.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("They ran away from you..I wonder why.");}
-            if (message.author.id === mention.id) {return message.reply("Go fuck yourself..oh wait you can't.");}
 
-            let fuck;
-            if (message.channel.nsfw) {
-                fuck = await VC.findOne({uid: message.author.id, countOf: 'realfuck'}) || new VC({uid: message.author.id, countOf: 'realfuck'});
-                savess = await Saves.findOne({name: 'realfuck'}) ? await Saves.findOne({name: 'realfuck'}) : new Saves({name: 'realfuck'});
-                saves = savess.saves;
-            } else {
-                fuck = await VC.findOne({uid: message.author.id, countOf: 'fuck'}) || new VC({uid: message.author.id, countOf: 'fuck'});
-                savess = await Saves.findOne({name: 'fuck'}) ? await Saves.findOne({name: 'fuck'}) : new Saves({name: 'fuck'});
-                saves = savess.saves;
-            }
+            if (message.author.id === mention.id) {return message.reply("Go fuck yourself... oh wait you can't.");}
             fuck.against[mention.id] = fuck.against[mention.id] ? fuck.against[mention.id] + 1 : 1;
             fuck.total++;
             fuck.markModified(`against.${mention.id}`);
