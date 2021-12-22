@@ -16,8 +16,8 @@ module.exports = {
         extra: null
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        let savess = await Saves.findOne({name: 'fuck'}) ? await Saves.findOne({name: 'fuck'}) : new Saves({name: 'fuck'});
-        let saves = savess.saves;
+        let savess;
+        let saves;
         if (!args.length) {
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} is horny!`)
@@ -26,13 +26,23 @@ module.exports = {
             .setColor('dda0dd')
             .setFooter('Luno', client.user.avatarURL())
             .setTimestamp()]}
-            : "You can't bang me.......only Crescent can."
+            : "You can't bang me.......only Wubzy can."
         );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("Can't bang someone that doesn't exist.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("They ran away from you..I wonder why.");}
             if (message.author.id === mention.id) {return message.reply("Go fuck yourself..oh wait you can't.");}
-            let fuck = await VC.findOne({uid: message.author.id, countOf: 'fuck'}) || new VC({uid: message.author.id, countOf: 'fuck'});
+
+            let fuck;
+            if (message.channel.nsfw) {
+                fuck = await VC.findOne({uid: message.author.id, countOf: 'realfuck'}) || new VC({uid: message.author.id, countOf: 'realfuck'});
+                savess = await Saves.findOne({name: 'realfuck'}) ? await Saves.findOne({name: 'realfuck'}) : new Saves({name: 'realfuck'});
+                saves = savess.saves;
+            } else {
+                fuck = await VC.findOne({uid: message.author.id, countOf: 'fuck'}) || new VC({uid: message.author.id, countOf: 'fuck'});
+                savess = await Saves.findOne({name: 'fuck'}) ? await Saves.findOne({name: 'fuck'}) : new Saves({name: 'fuck'});
+                saves = savess.saves;
+            }
             fuck.against[mention.id] = fuck.against[mention.id] ? fuck.against[mention.id] + 1 : 1;
             fuck.total++;
             fuck.markModified(`against.${mention.id}`);
@@ -56,7 +66,7 @@ module.exports = {
             saves.set(id, args.join(" ").trim());
             savess.saves = saves;
             savess.save();
-            return message.channel.send("Save added!.....master..");
+            return message.channel.send("Save added!");
         }
     }
 };
