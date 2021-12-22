@@ -283,7 +283,7 @@ module.exports = {
             return message.channel.send(`I've added **${tfc.name}** to your loved/favorited character list!`);
         }
 
-        if (['loved', 'favorites', 'favs'].includes(args[0].toLowerCase())) {
+        if (['loved', 'favorites', 'favs', 'ls', 'fs'].includes(args[0].toLowerCase())) {
             let cf = await CF.findOne({uid: mention ? mention.id : message.author.id});
             if (!cf || !cf.loved.length) {return message.channel.send(`Looks like ${mention ? 'they' : 'you'} haven't favorited any characters!`);}
             let chars = cf.loved;
@@ -367,6 +367,64 @@ module.exports = {
                 ], content: queue ? '<@330547934951112705>' : undefined
             }).catch(() => {})).catch(() => {});
             return message.channel.send(`Character image ${queue ? "submitted" : "added"}.`);
+        }
+
+        if (['la', 'listani', 'listanime', 'inani', 'inanime', 'ia'].includes(args[0].toLowerCase())) {
+            args.shift();
+            let paginate = args[0] && args[0].toLowerCase() === 'paginate';
+            if (paginate) {args.shift();}
+            if (!args[0]) {
+                let tempchar = await ask(message, "What anime would you like to view the characters of?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
+            let asr = await ans(message, client, args.join(" ").toLowerCase(), undefined, 0);
+            let fn;
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+                await asr.message.react('✅');
+                await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
+                let arc;
+                try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                catch {return message.reply("Looks like you didn't find the anime you were looking for.");}
+                let collected = arc.first().emoji.name;
+                if (collected === '✅') {
+                    fn = client.misc.cache.chars.get(asr.getCurrentPage().title.trim());
+                    asr.stop();
+                }
+                else {return message.reply("Looks like you didn't find the anime you were looking for.");}
+            } else {fn = asr.id;}
+            let anime = await AniData.findOne({id: fn});
+            if (!anime) {return message.channel.send("Huh... even though I knew exactly what anime you were looking for, I scoured my endless tomes of knowledge and couldn't find it. I would definitely talk to my devs.");}
+            if (paginate) {
+                let chs = [];
+                anime.characters.forEach(ch => chs.push(Char.findOne({id: ch})));
+                chs = await Promise.all(chs);
+                let pages = [];
+                chs.forEach(ch => pages.push( new Discord.MessageEmbed()
+                    .setTitle(ch.name)
+                    .setDescription(`**Name:** ${ch.name}`)
+                    .addField('Other', `**Anime**: ${`${anime.name} | ${anime.japname} | \`${anime.id}\``}\n\n**Gender**: ${ch.gender}\n`)
+                    .addField("Loved by", `**${ch.loved}** Natsuki user${ch.loved === 1 ? '' : 's'}!\n\`${prefix}char love ${ch.name}\``)
+                    .setColor("c375f0")
+                    .setImage(ch.thumbnail)
+                    .setFooter('Natsuki', client.user.avatarURL())
+                    .setTimestamp()
+                ));
+                let pag = new Pagination(message.channel, pages, message, client, true);
+                return await pag.start({user: message.author.id, endTime: 60000});
+            } else {
+                return message.channel.send({embeds: [
+                    new Discord.MessageEmbed()
+                        .setTitle(`${anime.name}: Characters`)
+                        .setThumbnail(anime.thumbnail)
+                        .setDescription(anime.characters.map(ch => client.misc.cache.charsID.get(ch)).join(", "))
+                        .setFooter("Natsuki", client.user.avatarURL())
+                        .setTimestamp()
+                ]});
+            }
         }
 
         return message.channel.send(`Invalid arg! Syntax: \`${prefix}char <add|view|search|random|love|loved>\``);
