@@ -23,12 +23,12 @@ module.exports = {
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Fall madly in love with someone with \`${prefix}simp @${name}\`!`)
                     .setColor('ffb6c1')
-                    .setFooter('Luno', client.user.avatarURL())
+                    .setFooter('Natsuki', client.user.avatarURL())
                     .setTimestamp()]}
                 : "Nobody simps for me. That's just weird. Be weird to someone else."
             );}
         if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
-            if (!message.guild) {return message.reply("Only my mommy Crescent can simp for me.");}
+            if (!message.guild) {return message.reply("Listen I get it I get it you like me and all but I'm gonna have to get a restraining order real soon.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("They already left you. Get over it.");}
             if (message.author.id === mention.id) {return message.reply("You can't simp for yourself you lonely fuck.");}
             let name = message.guild ? message.member.displayName : message.author.username;
@@ -42,7 +42,7 @@ module.exports = {
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}
             let tu = await UserData.findOne({uid: message.author.id});
-            if ((!tu || !tu.developer) && !client.developers.includes(message.author.id) && !client.misc.savers.includes(message.author.id)) {return message.reply("You must be a Luno Developer in order to add new simping GIFs.");}
+            if ((!tu || !tu.developer) && !client.developers.includes(message.author.id) && !client.misc.savers.includes(message.author.id)) {return message.reply("You must be a Natsuki Developer in order to add new simping GIFs.");}
             let e = true;
             let id;
             while (e === true) {id = makeId(6); if (!saves.has(id)) {e = false;}}
