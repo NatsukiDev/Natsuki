@@ -27,7 +27,7 @@ module.exports = {
                     .setTimestamp()]}
                 : "I am immortal, I don't need healing."
             );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("I am immortal, I don't need healing.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("It's too late..they're already gone to a better place..");}
             if (message.author.id === mention.id) {return message.reply("You can't heal yourself because....I SAID SO");}

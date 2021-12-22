@@ -18,7 +18,7 @@ module.exports = {
         let tu = await UserData.findOne({uid: message.author.id}) ? await UserData.findOne({uid: message.author.id}) : new UserData({uid: message.author.id});
 
         if (['v', 'view', 'check'].includes(args[0].toLowerCase())) {
-            let person = args[1] ? args[1].match(/^<@(?:!?)(?:\d+)>$/) && message.mentions.users.first() ? message.mentions.users.first().id : message.guild && message.guild.members.cache.has(args[1]) ? args[1] : message.author.id : message.author.id;
+            let person = args[1] ? args[1].match(/^<@!?\d+>$/) && message.mentions.users.first() ? message.mentions.users.first().id : message.guild && message.guild.members.cache.has(args[1]) ? args[1] : message.author.id : message.author.id;
             let pud = await UserData.findOne({uid: person});
             if (!pud || !pud.bio || !pud.bio.length) {return message.reply(person === message.author.id ? "You don't have a bio set!" : "That user has no bio for me to show you!");}
             return message.channel.send({embeds: [new Discord.MessageEmbed()

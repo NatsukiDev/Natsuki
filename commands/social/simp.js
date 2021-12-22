@@ -27,7 +27,7 @@ module.exports = {
                     .setTimestamp()]}
                 : "Nobody simps for me. That's just weird. Be weird to someone else."
             );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("Listen I get it I get it you like me and all but I'm gonna have to get a restraining order real soon.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("They already left you. Get over it.");}
             if (message.author.id === mention.id) {return message.reply("You can't simp for yourself you lonely fuck.");}

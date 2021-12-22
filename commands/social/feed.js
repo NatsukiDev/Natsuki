@@ -27,7 +27,7 @@ module.exports = {
                     .setTimestamp()]}
                 : "Sorry..I'm kinda full right now."
             );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("weirdchamp.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("I guess that person didn't want any food..");}
             if (message.author.id === mention.id) {return message.reply("You can't feed yourself. **Starve.**");}

@@ -25,7 +25,7 @@ module.exports = {
                     .setTimestamp()]}
                 : "I'm not really into that kind of thing. Maybe try asking in a server?"
             );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("Please make sure you're in a server so you can mention someone other than me to kiss!");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("A self-kiss ought to be a little hard, don't you think?");}

@@ -28,7 +28,7 @@ module.exports = {
             .setTimestamp()]}
             : "I fucking dare you to hit me."
         );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("I dare you to hit me.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("You missed your bonk..");}
             if (message.author.id === mention.id) {return message.reply("I should bonk you for attempting to self harm.");}

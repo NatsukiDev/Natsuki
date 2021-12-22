@@ -27,7 +27,7 @@ module.exports = {
                     .setTimestamp()]}
                 : "Do. Not. Touch. Me."
             );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("No means no.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("I guess they didn't want your creampie..");}
             if (message.author.id === mention.id) {return message.reply("You can't give yourself a creampie..weirdo.");}

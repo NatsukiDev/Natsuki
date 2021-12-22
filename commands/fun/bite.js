@@ -20,7 +20,7 @@ module.exports = {
         let saves = savess.saves;
         if (!args.length) {
             return message.channel.send(message.guild ? "Please mention someone to bite!" : "Oi! I get it if you don't like me but you can't just waltz into my DMs and bite me!");}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("Oi! I get it if you don't like me but you can't just waltz into my DMs and bite me!");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("Ew quit tryna bite yourself, that's weird.");}

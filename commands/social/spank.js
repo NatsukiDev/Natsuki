@@ -19,7 +19,7 @@ module.exports = {
         let savess = await Saves.findOne({name: 'spank'}) ? await Saves.findOne({name: 'spank'}) : new Saves({name: 'spank'});
         let saves = savess.saves;
         if (!args.length) {return message.channel.send("You have to mention someone to spank!");}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("Please make sure you're in a server so you can mention someone other than me to spank!");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("You turn around and... whoop your own ass? Nah, I don't think it really works.");}

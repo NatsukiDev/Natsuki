@@ -27,7 +27,7 @@ module.exports = {
                     .setTimestamp()]}
                 : "You can't kill me..don't even try."
             );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("You can't kill me..don't even try.");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("The person must have ran from their inevitable death..");}
             if (message.author.id === mention.id) {return message.reply("Uhhh no. Please don't try to hurt yourself..");}

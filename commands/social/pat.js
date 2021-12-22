@@ -29,7 +29,7 @@ module.exports = {
             .setTimestamp()]}
             : "Sorry, but I'm only able to pat one person, and it's not you ^^"
         );}
-        if (mention && args[0].match(/^<@(?:!?)(?:\d+)>$/)) {
+        if (mention && args[0].match(/^<@!?\d+>$/)) {
             if (!message.guild) {return message.reply("Please make sure you're in a server so you can mention someone other than me to pat!");}
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("Self pats just don't work mate. Maybe try asking for some!");}

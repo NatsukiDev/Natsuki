@@ -1,0 +1,56 @@
+const {SlashCommand} = require('../util/slash');
+const {SlashCommandBuilder} = require('@discordjs/builders');
+const Discord = require('discord.js');
+
+const UserData = require("../models/user");
+const moment = require('moment');
+
+module.exports = (client) => {
+    return new SlashCommand(
+        'userinfo', client,
+
+        new SlashCommandBuilder()
+            .setName("userinfo")
+            .setDescription("Get info about yourself or another user!")
+            .addUserOption(option => {
+                return option
+                    .setName("user")
+                    .setDescription("A user to get the info of");
+            })
+            .addBooleanOption(option => {
+                return option
+                    .setName('send')
+                    .setDescription("If you want me to send the response to this channel.");
+            }),
+        
+        async (client, interaction) => {
+            let person = interaction.options.getUser("user") ? interaction.options.getUser("user").id : interaction.user.id;
+            let name = interaction.guild ? person.displayName : person.username;
+            let tu = await UserData.findOne({uid: person.id});
+            let now = new Date();
+            let infoembed = new Discord.MessageEmbed()
+                .setTitle(`User Info for ${name}`)
+                .setDescription(`Requested by ${interaction.guild ? interaction.member.displayName : interaction.user.username}`)
+                .setThumbnail(client.users.cache.get(person.id).avatarURL({size: 2048}))
+                .addField("Account Created", moment(client.users.cache.get(person.id).createdAt).fromNow(), true)
+                .addField("Bot User?", client.users.cache.get(person.id).bot ? "Is a bot" : "Is not a bot", true)
+                .setColor('c375f0')
+                .setFooter('Natsuki', client.user.avatarURL())
+                .setTimestamp();
+
+            if (interaction.guild) {
+                infoembed.addField('In Server Since', `${moment(person.joinedAt).fromNow()}${!moment(person.joinedAt).fromNow().includes('days') ? ` | ${Math.floor((new Date().getTime() - person.joinedAt.getTime()) / (60 * 60 * 24 * 1000))} days` : ''}\nMember for **${Math.round(((now.getTime() - new Date(interaction.member.joinedAt.getTime()).getTime()) / (new Date(interaction.guild.createdAt).getTime() - now.getTime())) * -100)}%** of server lifetime`, false)
+                    .addField('Roles', `**${person.roles.cache.size}** roles | [${person.roles.cache.size}/${interaction.guild.roles.cache.size}] - ${Math.round((person.roles.cache.size / interaction.guild.roles.cache.size) * 100)}%\nHighest: ${person.roles.highest ? `<@&${person.roles.highest.id}>` : 'No roles!'}`, true)
+                if (interaction.guild.ownerId === person.id) {infoembed.addField("Extra", "User is the server's owner!");}
+                else if (person.permissions.has("ADMINISTRATOR")) {infoembed.addField("Extra", "User is an admin! Watch out :eyes:");}
+            }
+
+            if (tu) {
+                infoembed.addField('Natsuki Commands Executed', tu.commands)
+                    .addField('Donator?', tu.developer ? `Well, ${name} makes me work, so they're a supporter in my book!` : tu.donator ? 'Yes! They have donated or supported me in the past!' : 'No', true)
+                    .addField('Natsuki Staff Level', tu.developer ? 'Developer' : tu.admin ? 'Admin; Audit access to the bot' : tu.staff ? 'Staff; Support but with maintenance permissions' : tu.support ? 'Support; Answers tickets and help queries' : 'Member; Does not have a staff rank.', true);
+            }
+            return interaction.reply({embeds: [infoembed]});
+        }
+    );
+}
