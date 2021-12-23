@@ -125,6 +125,9 @@ class Pagination {
     }
     ;
     async start(options) {
+        if (options && options.time) {
+            options.endTime = options.time;
+        }
         await this.setPage(options && options.startPage ? options.startPage : 0);
         await this.setControllers(options && options.endTime ? options.endTime : 60, options && options.user ? options.user : 'any');
         return this;

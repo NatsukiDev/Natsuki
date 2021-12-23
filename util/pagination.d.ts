@@ -20,6 +20,7 @@ export declare class Pagination {
     endControllers(): Promise<Pagination>;
     start(options?: {
         endTime?: number;
+        time?: number;
         startPage?: number;
         user?: 'any' | string;
     }): Promise<Pagination>;

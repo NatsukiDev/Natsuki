@@ -135,7 +135,8 @@ export class Pagination {
     };
 
 
-    public async start(options?: {endTime?: number, startPage?: number, user?: 'any' | string}): Promise<Pagination> {
+    public async start(options?: {endTime?: number, time?: number, startPage?: number, user?: 'any' | string}): Promise<Pagination> {
+        if (options && options.time) {options.endTime = options.time;}
         await this.setPage(options && options.startPage ? options.startPage : 0);
         await this.setControllers(options && options.endTime ? options.endTime : 60, options && options.user ? options.user : 'any');
 
