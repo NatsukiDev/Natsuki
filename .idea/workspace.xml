@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="e">
-      <change afterPath="$PROJECT_DIR$/slash/userinfo.js.dev" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/slashtemplate.js" afterDir="false" />
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="list characters in anime">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/anime/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/char.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +78,7 @@
       <workItem from="1640124257973" duration="3978000" />
       <workItem from="1640131913922" duration="1135000" />
       <workItem from="1640142319793" duration="749000" />
-      <workItem from="1640147904557" duration="2860000" />
+      <workItem from="1640147904557" duration="6966000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -102,7 +101,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640206937172</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="list characters in anime">
+      <created>1640214318896</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1640214318896</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +131,7 @@
     <MESSAGE value="not even gonna explain" />
     <MESSAGE value="stoopid errors" />
     <MESSAGE value="e" />
-    <option name="LAST_COMMIT_MESSAGE" value="e" />
+    <MESSAGE value="list characters in anime" />
+    <option name="LAST_COMMIT_MESSAGE" value="list characters in anime" />
   </component>
 </project>

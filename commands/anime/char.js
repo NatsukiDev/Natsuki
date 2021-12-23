@@ -323,14 +323,7 @@ module.exports = {
                     asr.stop();
                 }
                 else {return message.reply("Looks like you didn't find the character you were looking for.");}
-            } else {
-                await message.channel.send({embeds: [asr.embed]});
-                let conf = await ask(message, "Is this the character you meant?", 60000);
-                if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
-                conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
-                if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the character you're looking for then I would try again with a more narrow search.");}
-                fn = asr.id;
-            }
+            } else {fn = asr.id;}
             let tu = await UserData.findOne({uid: message.author.id});
             let queue = false;
             if (!tu || !tu.staff) {
@@ -425,6 +418,61 @@ module.exports = {
                         .setTimestamp()
                 ]});
             }
+        }
+
+        if (['nn', 'nicknane', 'altname', 'nick'].includes(args[0].toLowerCase())) {
+            args.shift();
+            if (!args[0]) {
+                let tempchar = await ask(message, "What character would you like to add to add a nickname to?", 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
+            }
+            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700);
+            let fn;
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+                await asr.message.react('✅');
+                await message.channel.send("React with :white_check_mark: when you've found the character you want!");
+                let arc;
+                try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                catch {return message.reply("Looks like you didn't find the character you were looking for.");}
+                collected = arc.first().emoji.name;
+                if (collected === '✅') {
+                    fn = client.misc.cache.chars.get(asr.getCurrentPage().title.trim());
+                    asr.stop();
+                }
+                else {return message.reply("Looks like you didn't find the character you were looking for.");}
+            } else {fn = asr.id;}
+            let tu = await UserData.findOne({uid: message.author.id});
+            let queue = false;
+            if (!tu || !tu.staff) {
+                message.channel.send("This nickname will be __submitted__ for reviewal.");
+                queue = true;
+            }
+            let ch = await Char.findOne({id: fn});
+            let nn = await ask(message, `What nickname would you like to add to ${ch.name}?`, 60000, false, true);
+            if (!nn) {return;}
+            if (!queue) {
+                ch.nicknames.push(nn);
+                ch.markModified('nicknames');
+                ch.save();
+            }
+            client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
+                embeds: [
+                    new Discord.MessageEmbed()
+                        .setAuthor(message.author.username, message.author.avatarURL())
+                        .setTitle(`New Character Nickname ${queue ? "Submitted" : "Added"}`)
+                        .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
+                        .addField("Name", nn)
+                        .setThumbnail(ch.thumbnail)
+                        .setColor('c375f0')
+                        .setTimestamp()
+                        .setFooter("Natsuki")
+                ], content: queue ? '<@330547934951112705>' : undefined
+            }).catch(() => {})).catch(() => {});
+            return message.channel.send(`Character nickname ${queue ? "submitted" : "added"}.`);
         }
 
         return message.channel.send(`Invalid arg! Syntax: \`${prefix}char <add|view|search|random|love|loved>\``);
