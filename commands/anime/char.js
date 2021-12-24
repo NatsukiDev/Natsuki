@@ -504,6 +504,7 @@ module.exports = {
             let ch = await Char.findOne({id: fn});
             let nn = await ask(message, `What nickname would you like to add to ${ch.name}?`, 60000, false, true);
             if (!nn) {return;}
+            if (ch.nicknames.map(nickn => nickn.toLowerCase()).includes(nn.toLowerCase())) {return message.channel.send(`Looks like **${ch.name}** already has the nickname "${nn}".`);}
             if (!queue) {
                 ch.nicknames.push(nn);
                 ch.markModified('nicknames');
