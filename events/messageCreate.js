@@ -39,7 +39,7 @@ module.exports = async (client, message) => {
 	    return message.channel.send({embeds: [new Discord.MessageEmbed()
         .setTitle(["Yep, that's me!", "^^ Hiya!", "Oh, hi there!", "Sure, what's up?", "How can I help!", "Natsuki is busy, but I can take a message for you!", "Teehee that's me!", "You were looking for Natsuki Tivastl, right?", "Sure! What's up?", "Pong!"][Math.floor(Math.random() * 10)])
         .setDescription(`My prefix here is \`${prefix}\`. Use \`${prefix}help\` to see what commands you can use.`)
-        .setColor('c375f0')]});
+        .setColor('c375f0')]}).catch(() => {});
     }
 
 	if (mention && message.guild) {require('../util/mention')(message, msg, args, cmd, prefix, mention, client);}
@@ -49,12 +49,12 @@ module.exports = async (client, message) => {
         tu.statustype = '';
         tu.save();
         require('../util/siftstatuses')(client, message.author.id, true);
-        message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {setTimeout(() => {m.delete();}, 5000);});
+        message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {setTimeout(() => {m.delete().catch(() => {});}, 5000);}).catch(() => {});
 	}});
 
 	if (message.guild && client.misc.cache.ar.has(message.guild.id) && client.misc.cache.ar.get(message.guild.id).includes(msg.trim()) && !(client.misc.cache.arIgnore.has(message.guild.id) && client.misc.cache.arIgnore.get(message.guild.id).includes(message.channel.id))) {
 	    AR.findOne({gid: message.guild.id}).then(ar => {
-	        if (ar && ar.triggers.length && ar.triggers.includes(msg.trim())) {return message.channel.send(ar.ars[ar.triggers.indexOf(msg.trim())]);}
+	        if (ar && ar.triggers.length && ar.triggers.includes(msg.trim())) {return message.channel.send(ar.ars[ar.triggers.indexOf(msg.trim())]).catch(() => {});}
 	    });
 	}
 
@@ -95,14 +95,15 @@ module.exports = async (client, message) => {
             let command = client.commands.get(cmd) || client.commands.get(client.aliases.get(cmd));
 
             if (command && command.name !== "blacklist") {
-                if (message.guild && client.misc.cache.bl.guild.includes(message.guild.id)) {return message.channel.send("Your server has been blacklisted from using my commands! Shame, tsk tsk");}
-                if (client.misc.cache.bl.user.includes(message.author.id)) {return message.channel.send("You've been blacklisted from using my commands! Now what'd ya do to deserve that??");}
+                if (message.guild && client.misc.cache.bl.guild.includes(message.guild.id)) {return message.channel.send("Your server has been blacklisted from using my commands! Shame, tsk tsk").catch(() => {});}
+                if (client.misc.cache.bl.user.includes(message.author.id)) {return message.channel.send("You've been blacklisted from using my commands! Now what'd ya do to deserve that??").catch(() => {});}
             }
 
             if (!command) {let trigger; for (trigger of client.responses.triggers) {if (await trigger[1](message, msg, args, cmd, prefix, mention, client)) {await client.responses.commands.get(trigger[0]).execute(message, msg, args, cmd, prefix, mention, client); break;}} return;}
-            message.channel.sendTyping();
+            if (message.guild && !message.channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) {return message.author.send(`You tried to run the \`${command.name}\` command, but I don't seem to be able to send messages in <#${message.channel.id}>, so I can't do that!`).catch(() => {});};
+            message.channel.sendTyping().catch(() => {});
             await wait(500);
-            if (command.meta && command.meta.guildOnly && !message.guild) {return message.channel.send("You must be in a server to use this command!");}
+            if (command.meta && command.meta.guildOnly && !message.guild) {return message.channel.send("You must be in a server to use this command!").catch(() => {});}
             require('../util/oncommand')(message, msg, args, cmd, prefix, mention, client);
             if (client.misc.loggers.cmds) {client.misc.loggers.cmds.send(`${chalk.gray("[CMDL]")} >> ${chalk.white("Command")} ${chalk.blue(command.name)} ${message.guild ? `|| ${chalk.blue("Guild ID: ")} ${chalk.blueBright(message.guild.id)}` : ''} || ${chalk.blue("User ID: ")} ${chalk.blueBright(message.author.id)}`);}
             return command.execute(message, msg, args, cmd, prefix, mention, client);
