@@ -34,6 +34,7 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
     if (attF) {return await me(attF);}
 
     const res = fz.go(search, Array.from(client.misc.cache.anime.keys()), {threshold: threshold, limit: 10}).sort((a,b)=>a.score-b.score).map(k => k.target);
+    
     if (res.length === 0) {return 0;}
     else if (res.length > 1) {
         let tp = [];

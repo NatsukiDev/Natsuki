@@ -37,5 +37,5 @@ module.exports = async (client) => {
     let ora_chCache = ora("Caching Characters...").start();
     await require('./cache/char')(client);
     ora_chCache.stop(); ora_chCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.chars.size}`)} ${chalk.blueBright(`characters into lookup registry.`)}`);
+    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.charsNum}`)} ${chalk.blueBright(`characters into lookup registry.`)} ${chalk.gray(`(${client.misc.cache.chars.size} // NN)`)}`);
 };
