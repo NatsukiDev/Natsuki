@@ -3,8 +3,12 @@ const Discord = require('discord.js');
 const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE"];
 
 module.exports = async (client, oldM, newM) => {
+    if (oldM.partial) {await oldM.fetch().catch(() => {});}
+    if (newM.partial) {await newM.fetch().catch(() => {});}
+	if (oldM.channel.partial) {await oldM.channel.fetch().catch(() => {});}
+
 	if (!channelTypes.includes(oldM.channel.type)) {return;};
-	if (oldM.author.bot) {return;}
+	if (!oldM.author || oldM.author.bot) {return;}
 	if (oldM.deleted) {return;}
 	//if (!Object.keys(snipe.edit).includes(oldM.guild.id)) {snipe.edit[oldM.guild.id] = {};};
 	//snipe.edit[oldM.guild.id][oldM.channel.id] = {old: oldM, cur: newM};

@@ -11,10 +11,10 @@ const Monitors = require('../models/monitor');
 const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE", "GUILD_TEXT"];
 
 module.exports = async (client, message) => {
-    if (message.author.bot) {return undefined;}
-
     if (message.partial) {await message.fetch();}
     if (message.channel.partial) {await message.channel.fetch();}
+
+    if (!message.author || message.author.bot) {return undefined;}
 
 	if (!channelTypes.includes(message.channel.type)) {return undefined;}
 

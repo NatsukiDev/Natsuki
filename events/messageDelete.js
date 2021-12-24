@@ -3,6 +3,10 @@ const Discord = require('discord.js');
 const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE"];
 
 module.exports = async (client, message) => {
+	if (message.partial) {await message.fetch().catch(() => {});}
+	if (message.channel.partial) {await message.channel.fetch().catch(() => {});}
+	if (!message.author) {return;}
+
 	if (!channelTypes.includes(message.channel.type)) {return;}
 	if (!message.guild) {return;}
 	//if (!Object.keys(snipe.delete).includes(message.guild.id)) {snipe.delete[message.guild.id] = {};};
