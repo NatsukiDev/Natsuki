@@ -72,34 +72,64 @@ module.exports = {
             } else {return message.channel.send(pages[0].setTimestamp());}
         } else {
             args.shift();
-            if (!args[0]) {
-                let tempchar = message.attachments.size
-                    ? message.attachments.first().url
-                    : await ask(message, "Please paste the image or a link to the image you'd like to add.", 60000, false, true);
-                if (!tempchar) {return;}
-                args = tempchar.split(/\s+/g);
+            let images = [];
+            if (message.attachments.size > 1) {
+                Array.from(message.attachments.keys()).forEach(i => images.push(message.attachments.get(i).url));
+            } else {
+                if (!args[0]) {
+                    let tempchar = message.attachments.size
+                        ? message.attachments.first().url
+                        : await ask(message, "Please paste the image or a link to the image you'd like to add.", 60000, false, true);
+                    if (!tempchar) {return;}
+                    args = tempchar.split(/\s+/g);
+                }
+                images.push(args.join(" "));
             }
-            let img = args.join(" ");
-            if (!img.match(/^https:\/\/(?:[\w\-].?)+[\/\w\-%()_]+\.(?:png|jpg|jpeg|gif|webp)$/gm)) {return message.channel.send("I don't think that's an image. Try again?");}
-            if (!queue) {
-                ch.images.push(img);
-                ch.markModified('images');
-                ch.save();
+            let f;
+            images.forEach(img => {if (!img.match(/^https:\/\/(?:[\w\-].?)+[\/\w\-%()_]+\.(?:png|jpg|jpeg|gif|webp)$/gm)) {f = true; return message.channel.send("I don't think that's an image. Try again?");}})
+            if (f) {return;}
+            if (images.length === 1) {
+                let img = images[0];
+                if (!queue) {
+                    ch.images.push(img);
+                    ch.markModified('images');
+                    ch.save();
+                }
+                client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
+                    embeds: [
+                        new Discord.MessageEmbed()
+                            .setAuthor(message.author.username, message.author.avatarURL())
+                            .setTitle(`New Image ${queue ? "Submitted" : "Added"}`)
+                            .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
+                            .setThumbnail(ch.thumbnail)
+                            .setImage(img)
+                            .setColor('c375f0')
+                            .setTimestamp()
+                            .setFooter("Natsuki")
+                    ], content: queue ? '<@330547934951112705>' : undefined
+                }).catch(() => {})).catch(() => {});
+                return message.channel.send(`Character image ${queue ? "submitted" : "added"}.`);
+            } else {
+                if (!queue) {
+                    images.forEach(img => ch.images.push(img));
+                    ch.markModified('images');
+                    ch.save();
+                }
+                client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
+                    embeds: [
+                        new Discord.MessageEmbed()
+                            .setAuthor(message.author.username, message.author.avatarURL())
+                            .setTitle(`New Images ${queue ? "Submitted" : "Added"}`)
+                            .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
+                            .addField("Images", images.map(img => `${img}\n`).join(""))
+                            .setThumbnail(ch.thumbnail)
+                            .setColor('c375f0')
+                            .setTimestamp()
+                            .setFooter("Natsuki")
+                    ], content: queue ? '<@330547934951112705>' : undefined
+                }).catch(() => {})).catch(() => {});
+                return message.channel.send(`Character images ${queue ? "submitted" : "added"}.`);
             }
-            client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
-                embeds: [
-                    new Discord.MessageEmbed()
-                        .setAuthor(message.author.username, message.author.avatarURL())
-                        .setTitle(`New Image ${queue ? "Submitted" : "Added"}`)
-                        .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
-                        .setThumbnail(ch.thumbnail)
-                        .setImage(img)
-                        .setColor('c375f0')
-                        .setTimestamp()
-                        .setFooter("Natsuki")
-                ], content: queue ? '<@330547934951112705>' : undefined
-            }).catch(() => {})).catch(() => {});
-            return message.channel.send(`Character image ${queue ? "submitted" : "added"}.`);
         }
     }
 };
