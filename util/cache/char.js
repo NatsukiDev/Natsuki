@@ -5,6 +5,7 @@ const CharData = require('../../models/char');
 module.exports = async client => {
     client.misc.cache.chars = new Discord.Collection();
     client.misc.cache.charsID = new Discord.Collection();
+    client.misc.cache.charsLove = new Discord.Collection();
     client.misc.cache.charsNum = 0;
 
     for await (const char of CharData.find()) {
@@ -13,6 +14,7 @@ module.exports = async client => {
             char.nicknames.forEach(nn => client.misc.cache.chars.set(nn, char.id));
             client.misc.cache.charsID.set(char.id, char.name);
             client.misc.cache.charsNum++;
+            client.misc.cache.charsLove.set(char.id, char.loved);
         }
     }
 }
