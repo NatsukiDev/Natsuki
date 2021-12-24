@@ -43,7 +43,8 @@ client.misc = {
         charsNum: 0
     },
     loggers: {},
-    rl: readline.createInterface({input: process.stdin, output: process.stdout})
+    rl: readline.createInterface({input: process.stdin, output: process.stdout}),
+    cooldown: new Discord.Collection()
 };
 
 //const config = require('./config.js');

@@ -11,12 +11,14 @@ module.exports = {
         syntax: '`remind <x days|x hours|x minutes>`',
         extra: null
     },
+    cooldown: {time: 5000, silent: false, message: "Slow down pal, I don't exactly have a world-star memory. Cool down on the reminders! (This command has a cooldown of 5s and you exceeded it)"},
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Reminders")
         .setDescription("Have me remind you about something later on.")
         .addField("Syntax", "`remind <x days|x hours|x minutes>`"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}remind <time> <days|hours|minutes> <reminder>\``);}
+        if (!['linux'].includes(process.platform)) {return message.channel.send("I'm unable to issue reminders at the moment :( Check back later.");}
         if (isNaN(args[0])) {return message.channel.send("You didn't provide a number for how long I should wait to remind you.");}
         if (args[0].length > 8) {return message.channel.send("Whoah there, pal. That's a lot of time! A little too much, perhaps?");}
         let time = Number(args[0]);
