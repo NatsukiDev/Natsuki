@@ -246,7 +246,7 @@ module.exports = {
                 if (!tempchar) {return;}
                 args = tempchar.split(/\s+/g);
             }
-            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700);
+            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700, 0);
             let fn;
             if (asr === 0) {
                 return message.channel.send("That search returned no results! Try again?");
@@ -311,7 +311,7 @@ module.exports = {
                 if (!tempchar) {return;}
                 args = tempchar.split(/\s+/g);
             }
-            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700);
+            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700, 0);
             let fn;
             if (asr === 0) {
                 return message.channel.send("That search returned no results! Try again?");
@@ -477,7 +477,7 @@ module.exports = {
                 if (!tempchar) {return;}
                 args = tempchar.split(/\s+/g);
             }
-            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700);
+            let asr = await chs(message, client, args.join(" ").trim().toLowerCase(), -700, 0);
             let fn;
             if (asr === 0) {
                 return message.channel.send("That search returned no results! Try again?");

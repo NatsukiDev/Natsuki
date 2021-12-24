@@ -6,24 +6,28 @@ const Char = require('../../models/char');
 
 const {Pagination} = require("../../util/pagination");
 
-module.exports = async (message, client, search, threshold=-10000, type='top') => {
+module.exports = async (message, client, search, threshold=-10000, type='full') => {
     let da = [];
     const me = async (char) => {
         if (da.includes(client.misc.cache.chars.get(char))) {return 0;}
         let cch = char.anime ? char : await Char.findOne({id: client.misc.cache.chars.get(char)});
         let ani = await Ani.findOne({id: cch.anime});
         let forceAni = false; if (!ani) {forceAni = true;}
-        da.push(cch.id);
-        return {embed: new Discord.MessageEmbed()
+        let rte = new Discord.MessageEmbed()
             .setTitle(cch.name)
             .setAuthor('Character Search', message.author.avatarURL())
             .setDescription(`**Name:** ${cch.name}`)
             .addField('Other', `**Anime**: ${forceAni ? cch.anime : `${ani.name} | ${ani.japname} | \`${ani.id}\``}\n\n**Gender**: ${cch.gender}\n`)
-            .addField("Loved by", `**${cch.loved}** Natsuki user${cch.loved === 1 ? '' : 's'}!\n\`char love ${cch.name}\``)
             .setColor("c375f0")
             .setImage(cch.thumbnail)
             .setFooter('Natsuki', client.user.avatarURL())
-            .setTimestamp(), id: cch.id};
+            .setTimestamp();
+        if (type === 'full') {
+            rte.addField("Loved by", `**${cch.loved}** Natsuki user${cch.loved === 1 ? '' : 's'}!\n\`char love ${cch.name}\``);
+            if (cch.nicknames.length) {rte.addField("Nicknames/Other Names", cch.nicknames.join(", "));}
+        }
+        da.push(cch.id);
+        return {embed: rte, id: cch.id};
     };
 
     let attF = await Char.findOne({id: search.trim().toLowerCase()});
