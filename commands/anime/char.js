@@ -509,6 +509,7 @@ module.exports = {
                 ch.nicknames.push(nn);
                 ch.markModified('nicknames');
                 ch.save();
+                client.misc.cache.chars.set(nn, ch.id);
             }
             client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
                 embeds: [
