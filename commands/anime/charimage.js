@@ -80,7 +80,7 @@ module.exports = {
                 if (!args[0]) {
                     let tempchar = message.attachments.size
                         ? message.attachments.first().url
-                        : await ask(message, "Please paste the image or a link to the image you'd like to add.", 60000, false, true);
+                        : await ask(message, `Please paste the image or a link to the image you'd like to add to **${ch.name}**.`, 60000, false, true);
                     if (!tempchar) {return;}
                     args = tempchar.split(/\s+/g);
                 }
@@ -109,7 +109,7 @@ module.exports = {
                             .setFooter("Natsuki")
                     ], content: queue ? '<@330547934951112705>' : undefined
                 }).catch(() => {})).catch(() => {});
-                return message.channel.send(`Character image ${queue ? "submitted" : "added"}.`);
+                return message.channel.send(`Character image ${queue ? "submitted" : "added"} to **${ch.name}**.`);
             } else {
                 if (!queue) {
                     images.forEach(img => ch.images.push(img));
@@ -129,7 +129,7 @@ module.exports = {
                             .setFooter("Natsuki")
                     ], content: queue ? '<@330547934951112705>' : undefined
                 }).catch(() => {})).catch(() => {});
-                return message.channel.send(`Character images ${queue ? "submitted" : "added"}.`);
+                return message.channel.send(`Character images (${images.length}) ${queue ? "submitted" : "added"} to **${ch.name}**.`);
             }
         }
     }
