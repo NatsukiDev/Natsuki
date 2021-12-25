@@ -59,7 +59,7 @@ module.exports = {
         let ch = await Char.findOne({id: fn});
 
         if (list) {
-            let pages = ch.images.map(im => new Discord.MessageEmbed()
+            let pages = ch.images.push(ch.thumbnail).map(im => new Discord.MessageEmbed()
                 .setTitle(ch.name)
                 .setDescription(`**Name:** ${ch.name}`)
                 .addField('Other', `**Anime**: ${client.misc.cache.animeID.get(ch.anime)}\n\n**Gender**: ${ch.gender}\n`)

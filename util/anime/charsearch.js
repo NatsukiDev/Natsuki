@@ -13,13 +13,14 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
         let cch = char.anime ? char : await Char.findOne({id: client.misc.cache.chars.get(char)});
         let ani = await Ani.findOne({id: cch.anime});
         let forceAni = false; if (!ani) {forceAni = true;}
+        cch.images.push(cch.thumbnail);
         let rte = new Discord.MessageEmbed()
             .setTitle(cch.name)
             .setAuthor('Character Search', message.author.avatarURL())
             .setDescription(`**Name:** ${cch.name}`)
             .addField('Other', `**Anime**: ${forceAni ? cch.anime : `${ani.name} | ${ani.japname} | \`${ani.id}\``}\n\n**Gender**: ${cch.gender}\n`)
             .setColor("c375f0")
-            .setImage(cch.thumbnail)
+            .setImage(cch.images[Math.floor(Math.random() * (cch.images.length + 1))])
             .setFooter('Natsuki', client.user.avatarURL())
             .setTimestamp();
         if (type === 'full') {
