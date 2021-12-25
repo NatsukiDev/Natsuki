@@ -77,7 +77,7 @@ module.exports = {
                 function clearDM() {client.misc.activeDMs.delete(message.author.id);}
                 dmch = mesg.channel;
 
-                options.name = await ask(mesg, "What is the anime's name?", 60000, true); if (!options.name) {return;}
+                options.name = await ask(mesg, "What is the anime's name? Make sure to use proper capitalization and spelling. This applies to the rest of the questions I'll ask you.", 60000, true); if (!options.name) {return;}
                 if (options.name.length > 75) {clearDM(); return dmch.send("The anime name can't be more than 75 characters!");}
 
                 options.plot = await ask(mesg, "How would you describe the anime? Give a very brief description of things like its plot, main characters, and setting.", 240000, true); if (!options.plot) {return clearDM();}
@@ -96,38 +96,38 @@ module.exports = {
                 options.publishers = options.publishers.split(/,\s+/gm);
                 if (options.publishers.length > 5) {clearDM(); return dmch.send("No way there were actually that many publishers...");}
 
-                options.airStartDate = await ask(mesg, "When did the anime start?", 120000, true); if (!options.airStartDate) {return clearDM();}
-                options.airEndDate = await ask(mesg, "When did the anime end?", 120000, true); if (!options.airStartDate) {return clearDM();}
+                options.airStartDate = await ask(mesg, "When did the anime start? Please format this as \"Month Day, Year\" - e.g. January 1, 2021", 120000, true); if (!options.airStartDate) {return clearDM();}
+                options.airEndDate = await ask(mesg, "When did the anime end? If the anime never ended, you can say \"N/A\"", 120000, true); if (!options.airEndDate) {return clearDM();}
                 options.lastUpdate = await ask(mesg, "When was the last time a new episode was released for the anime?", 120000, true); if (!options.lastUpdate) {return clearDM();}
 
                 options.isComplete = await ask(mesg, "Is the anime completed? (If the most recent season has finished, you may only say \"no\" if the next season is *confirmed* by the *studio or publishers* or the next season is in the works.", 60000, true); if (!options.isComplete) {return clearDM();}
                 if (!['y', 'yes', 'ye', 'n', 'no'].includes(options.isComplete.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
                 options.isComplete = ['y', 'yes', 'ye'].includes(options.isComplete.trim().toLowerCase());
 
-                options.seasons = await ask(mesg, "How many seasons does the anime have?", 120000, true); if (!options.seasons) {return clearDM();}
+                options.seasons = await ask(mesg, "How many seasons does the anime have? Please don't include spinoffs. (Gun Gale Online spinoff doesn't count as a Sword Art Online season.)", 120000, true); if (!options.seasons) {return clearDM();}
                 if (isNaN(options.seasons) || Number(options.seasons < 1)) {clearDM(); return dmch.send("You either didn't give a number, or it was < 1.");}
                 options.seasons = Number(options.seasons);
 
-                options.episodes = await ask(mesg, "How many episodes does the anime have?", 120000, true); if (!options.episodes) {return clearDM();}
+                options.episodes = await ask(mesg, "How many episodes does the anime have? Try not to include OVAs or spinoffs, unless they're canon and widely considered by the community to be a part of the series.", 120000, true); if (!options.episodes) {return clearDM();}
                 if (isNaN(options.episodes) || Number(options.episodes < 1)) {clearDM(); return dmch.send("You either didn't give a number, or it was < 1.");}
                 options.episodes = Number(options.episodes);
 
                 options.genres = await ask(mesg, "What genre(s) describe the anime? If there are multiple genres, please separate them with a comma.", 120000, true); if (!options.genres) {return clearDM();}
-                if (options.genres.length > 150) {clearDM(); return dmch.send("That's too many genres!");}
+                if (options.genres.length > 200) {clearDM(); return dmch.send("That's too many genres!");}
                 options.genres = options.genres.split(/,\s+/gm);
-                if (options.genres.length > 7) {clearDM(); return dmch.send("That's too many genres!");}
+                if (options.genres.length > 10) {clearDM(); return dmch.send("That's too many genres!");}
 
-                options.tags = await ask(mesg, "What tags describe the anime? Please separate tags with a comma, and *do not put the # in the tag!*.", 120000, true); if (!options.tags) {return clearDM();}
+                /*options.tags = await ask(mesg, "What tags describe the anime? Please separate tags with a comma, and *do not put the # in the tag!*.", 120000, true); if (!options.tags) {return clearDM();}
                 if (options.tags.length > 200) {clearDM(); return dmch.send("That's too many tags!");}
                 options.tags = options.tags.split(/,\s+/gm);
-                if (options.tags.length > 25) {clearDM(); return dmch.send("That's too many tags!");}
+                if (options.tags.length > 25) {clearDM(); return dmch.send("That's too many tags!");}*/
 
-                options.streamAt = await ask(mesg, "What streaming services can you use to watch the anime? If there are multiple stream sites, please separate them with a comma. Please include only legal, licensed industries such as Netflix, Funimation, Crunchyroll, or Hulu. 9anime, cartooncrazy, and similar sites are illegal and won't be listed here.", 120000, true); if (!options.streamAt) {return clearDM();}
+                options.streamAt = await ask(mesg, "What streaming services can you use to watch the anime? If there are multiple stream sites, please separate them with a comma. Please include only legal, licensed industries such as Netflix, Funimation, Crunchyroll, or Hulu. 9anime, cartooncrazy, GoGoAnime, and similar sites are illegal and won't be listed here.", 120000, true); if (!options.streamAt) {return clearDM();}
                 if (options.streamAt.length > 150) {clearDM(); return dmch.send("No way there are actually that many streaming sites to watch the anime on...");}
                 options.streamAt = options.streamAt.split(/,\s+/gm);
-                if (options.streamAt.length > 7) {clearDM(); return dmch.send("No way there are actually that many streaming sites to watch the anime on...");}
+                if (options.streamAt.length > 8) {clearDM(); return dmch.send("No way there are actually that many streaming sites to watch the anime on...");}
 
-                options.thumbnail = await ask(mesg, "Give me an image **URL** *do not upload the image* to use for the anime", 120000, true); if (!options.thumbnail) {return clearDM();}
+                options.thumbnail = await ask(mesg, "Give me an image to use for the anime. You may upload an image or send a URL to an image **that is hosted on Discord**. Please do not upload NSFW or copyrighted images.", 120000, true); if (!options.thumbnail) {return clearDM();}
                 if (options.thumbnail.length > 350) {clearDM(); return dmch.send("That URL is a bit too long. Consider uploading it to imgur or another image sharing site and trying again.");}
 
                 options.characters = [];
@@ -273,8 +273,7 @@ module.exports = {
                 if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
                 conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
                 if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the anime you're looking for then I would try again with a more narrow search.");}
-                fn = asr.id;
-            }
+                fn = asr.id;}
             let af = await AF.findOne({uid: message.author.id}) || new AF({uid: message.author.id});
             if (af.watched.includes(fn)) {return message.channel.send("Looks like that anime is already on your finished list!");}
             let tfc = await AniData.findOne({id: fn});

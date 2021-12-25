@@ -143,6 +143,7 @@ module.exports = {
             }
             if (!options.characters) {options.characters = [];}
             let aniData = await AniData.findOne({id: options.anime});
+            if (!aniData && !forceAni) {return dmch.send(":thinking: hmmm... something went wrong there. I couldn't find the anime you specified. Please contact my dev if the problem persists.");}
             let amEmbed = new Discord.MessageEmbed()
                 .setTitle(`New Character -> ${options.name}`)
                 .setDescription(`${queue ? 'Requested' : 'Added'} by ${message.author.tag}`)

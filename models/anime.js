@@ -13,7 +13,7 @@ const AniSchema = new mongoose.Schema({
     seasons: Number,
     episodes: Number,
     genres: [String],
-    tags: [String],
+    tags: {type: [String], default: []},
     characters: [String],
     streamAt: [String],
     watchers: {type: Number, default: 0},
