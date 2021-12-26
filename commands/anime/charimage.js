@@ -77,13 +77,11 @@ module.exports = {
             if (message.attachments.size > 1) {
                 Array.from(message.attachments.keys()).forEach(i => images.push(message.attachments.get(i).url));
             } else {
-                if (!args[0]) {
-                    let tempchar = message.attachments.size
-                        ? message.attachments.first().url
-                        : await ask(message, `Please paste the image or a link to the image you'd like to add to **${ch.name}**.`, 60000, false, true);
-                    if (!tempchar) {return;}
-                    args = tempchar.split(/\s+/g);
-                }
+                let tempchar = message.attachments.size
+                    ? message.attachments.first().url
+                    : await ask(message, `Please paste the image or a link to the image you'd like to add to **${ch.name}**.`, 60000, false, true);
+                if (!tempchar) {return;}
+                args = tempchar.split(/\s+/g);
                 images.push(args.join(" "));
             }
             let f;
