@@ -12,7 +12,13 @@ module.exports = async(message, msg, args, cmd, prefix, mention, client) => {
     if (tu && tu.statusmsg.length) {
         if (!client.misc.statusPings.has(message.guild.id)) {client.misc.statusPings.set(message.guild.id, new Discord.Collection());}
         client.misc.statusPings.get(message.guild.id).set(mention.id, new Date());
-        let m = await message.channel.send(`That user ${tu.statustype === 'dnd' ? 'wishes not to be disturbed' : 'is AFK'}. Reason: ${tu.statusmsg}.${tu.statussetat ? ` \`(This status was set ${moment(tu.statussetat.getTime()).fromNow()})\`` : ''}`);
+        let m = await message.channel.send({embeds: [
+            new Discord.MessageEmbed()
+                .setAuthor(mention.tag, mention.avatarURL())
+                .setDescription(`That user ${tu.statustype === 'dnd' ? 'wishes not to be disturbed' : 'is AFK'}. Reason: ${tu.statusmsg}.${tu.statussetat ? `\n\n(This status was set ${moment(tu.statussetat.getTime()).fromNow()})` : ''}`)
+                .setColor('c375f0')
+            ]
+        });
         await require('../util/wait')(10000);
         m.delete().catch((e) => {console.log(e);});
         //console.log(m);
