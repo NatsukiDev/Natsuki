@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const TD = require('../../models/todo');
 
 const ask = require('../../util/ask');
+const wait = require('../../util/wait');
 
 module.exports = {
     name: "todo",
@@ -102,13 +103,14 @@ module.exports = {
                 list = args[0].trim().toLowerCase();
                 args.shift();
             } else {return message.channel.send("Valid `list` args: `<create|delete|list|listName>`. If you tried to specify a list name, it may not exist or you don't have any lists.");}
+            if (!args.length) {return message.channel.send(`You must specify what you want to do with your list! Use \`${prefix}help todo\` if you're confused.`);}
         }
 
         if (['add', 'a'].includes(args[0].toLowerCase())) {
             let td = await TD.findOne({uid: message.author.id});
             if (td && td.lists[list].length === 25) {return message.channel.send("Sorry, but your list can only have 25 items or less.");}
             let item;
-            if (!args[1]) {item = await ask(message, "What would you like to add to your quick list?", 90000); if (!item) {return;}}
+            if (!args[1]) {item = await ask(message, `What would you like to add to your \`${list}\` list?`, 90000); if (!item) {return;}}
             else {args.shift(); item = args.join(" ");}
             if (item.length > 100) {return message.channel.send("ToDo items can only be less than 100 characters.");}
             td = td || new TD({uid: message.author.id});
@@ -120,6 +122,46 @@ module.exports = {
                 .setDescription(`${item}\n\`->\` In ${list === 'quick' ? "your personal quick list" : `list \`${list}\``}`)
                 .setColor('c375f0')
             ]});
+        }
+
+        else if (['addmult', 'addmultiple', 'ma', 'am'].includes(args[0].toLowerCase())) {
+            let td = await TD.findOne({uid: message.author.id});
+            if (td && td.lists[list] && td.lists[list].length === 25) {return message.channel.send("Sorry, but your list can only have 25 items or less.");}
+            let items = [];
+            let maxItems = td && td.lists[list] ? (25 - td.lists[list].length) : 25;
+            let reachedMax = false;
+            while (true) {
+                if (items.length === maxItems) {
+                    reachedMax = true;
+                    break;
+                }
+
+                let item;
+                if (!items.length) {message.channel.send(`What would you like to add to your \`${list}\` list? You're in multiple addition mode, which means you can keep adding items to your list until you say 'done'. To add a new item, just send it in a message.`);}
+                try {
+                    let col = await message.channel.awaitMessages({filter: m => m.author.id === message.author.id, time: 90000, errors: ['time'], max: 1});
+                    item = col.first().content.trim();
+                    if (item.toLowerCase() !== 'done') {
+                        col.first().react('717197259732942859')
+                        .then(r => wait(10000).then(() => r.remove().catch(() => {})))
+                        .catch(() => {});
+                    }
+                } catch {break;}
+                if (item.length > 100) {message.channel.send("ToDo items can only be less than 100 characters. Try again, or say \"done\" to stop adding items.");}
+                if (item.toLowerCase() === 'done') {break;}
+                items.push(item);
+            }
+            if (!items.length) {return message.reply("Looks like you didn't want to add anything after all...");}
+            td = td || new TD({uid: message.author.id});
+            items.forEach(item => td.lists[list].push(item));
+            td.markModified(`lists.${list}`);
+            td.save();
+            let resembed = new Discord.MessageEmbed()
+                .setAuthor(`To-Do Item${items.length > 1 ? 's' : ''} Added!`, message.author.avatarURL())
+                .setDescription(`In ${list === 'quick' ? "your personal quick list" : `list \`${list}\``}\n- ${items.join('\n- ')}`)
+                .setColor('c375f0');
+            if (reachedMax) {resembed.addField("Notice", "The list addition process was automatically stopped because your list reached the maximum limit of 25 items.");}
+            return message.channel.send({embeds: [resembed]});
         }
 
         else if (['v', 'view'].includes(args[0].toLowerCase())) {
