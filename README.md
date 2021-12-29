@@ -27,6 +27,8 @@ Natsuki's commands and abilities include, but are absolutely not limited to:
 - Advanced Warning System
 - Custom Welcome/Leave Messages
 - Autorole/Join-role
+- Mass message deletion
+- WIP logging system
 
 ### Fun
 
@@ -58,6 +60,13 @@ Natsuki's commands and abilities include, but are absolutely not limited to:
 - Custom level message channel
 - Leveling Roles
 - Leaderboard
+
+### Anime
+- A growing database of anime and characters
+- Ability to submit your own
+- Watched/to watch/favorite anime lists
+- Character favoriting
+- (Soon to come) Waifu features!
 
 ## FAQ
 
