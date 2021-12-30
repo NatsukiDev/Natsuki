@@ -10,7 +10,7 @@ const applyText = (canvas, text) => {
 	let fontSize = 120;
 
 	do {context.font = `${fontSize -= 5}px "Nunito"`;}
-    while (context.measureText(text).width > canvas.width - 250);
+    while (context.measureText(text).width > canvas.width - 460);
 
 	return context.font;
 };
