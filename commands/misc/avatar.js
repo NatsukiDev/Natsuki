@@ -13,20 +13,21 @@ module.exports = {
         extra: null
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        let member = !args.length ? message.author : mention ? mention : client.users.cache.has(args[0]) ? client.users.cache.get(args[0]) : message.author;
-        let name = !args.length ? message.member ? message.member.displayName : message.author.username : mention ? mention.username : client.users.cache.has(args[0]) ? client.users.cache.get(args[0]).username : message.author.username;
+        let member = args.length ? (mention || client.users.cache.get(args[0]) || message.author) : message.author;
+        let name = message.guild ? message.guild.members.cache.get(member.id).displayName : member.username;
         let options = new TagFilter([
             new Tag(['small', 's', 'mini', 'm'], 'small', 'toggle'),
             new Tag(['verysmall', 'vsmall', '-vs', 'xs'], 'vsmall', 'toggle')
         ]).test(args.join(" "));
+        
         try {
             let avem = new Discord.MessageEmbed()
             .setTitle(`${name.endsWith('s') ? `${name}'` : `${name}'s`} Avatar`)
-            .setImage(member.avatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}))
+            .setImage(message.guild ? message.guild.members.cache.get(member.id).displayAvatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}) : member.displayAvatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}))
             .setColor('c375f0')
-            .setFooter("Natsuki", client.user.avatarURL())
+            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
             if (!options.vsmall) {avem.setTimestamp();}
             return message.channel.send({embeds: [avem]});
-        } catch {return message.reply("Hmm, there seems to have been an error while I tried to show you that user's avatar.");}
+        } catch (e) {console.error(e); return message.reply("Hmm, there seems to have been an error while I tried to show you that user's avatar.");}
     }
 };
