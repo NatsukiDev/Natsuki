@@ -27,6 +27,8 @@
         "node": ">=16.0.0"
     },
     "scripts": {
-        "start": "run"
+        "start": "node bot.js",
+        "swin": "run",
+        "dev": "node bot.js -dev"
     }
 }

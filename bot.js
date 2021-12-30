@@ -8,6 +8,8 @@ const readline = require('readline');
 const {SlashCommand} = require('./util/slash');
 const {SlashManager} = require('./util/slashmanager');
 const {SlashCommandBuilder} = require('@discordjs/builders');
+const {Tag} = require('./util/tag');
+const {TagFilter} = require('./util/tagfilter');
 
 const flags = Discord.Intents.FLAGS;
 let fl = []; Object.keys(flags).forEach(flag => fl.push(flags[flag]));
@@ -45,7 +47,14 @@ client.misc = {
     },
     loggers: {},
     rl: readline.createInterface({input: process.stdin, output: process.stdout}),
-    cooldown: new Discord.Collection()
+    cooldown: new Discord.Collection(),
+    config: {
+        nocli: false,
+        dev: false,
+        logs: 'normal',
+        lightstartup: false,
+        ignorecmds: []
+    }
 };
 
 //const config = require('./config.js');
@@ -54,6 +63,23 @@ const auth = require('./auth.json');
 //client.config = config;
 
 async function init() {
+    const cliargs = new TagFilter([
+        new Tag(['cli', 'c', 'nc', 'nocli'], 'nocli', 'toggle'),
+        new Tag(['dev', 'd', 'development', 'test'], 'dev', 'toggle'),
+        new Tag(['logs', 'l', 'loglevel', 'll'], 'logs', 'append'),
+        new Tag(['lightstart', 'lightstartup', 'ls'], 'lightstartup', 'toggle'),
+        new Tag(['i', 'ignore', 'icmd', 'ignorecmd'], 'ignorecmds', 'listAppend')
+    ]).test(process.argv.slice(2).join(" "));
+
+    if (Object.keys(cliargs).length) {
+        console.log(`${chalk.gray('[ARGS]')} >> ${chalk.gray.bold("Arguments detected.\n")}`);
+        Object.keys(cliargs).forEach(arg => {
+            client.misc.config[arg] = cliargs[arg];
+            console.log(`${chalk.gray('[ARGS]')} >> ${chalk.gray.bold(arg)}${chalk.gray(':')} ${chalk.blue(cliargs[arg])}`);
+        });
+        console.log('');
+    }
+
     let cloginsp = ora(chalk.magentaBright('Connecting Discord client...')).start();
     let pclc = new Date().getTime();
     await client.login(auth.token);
@@ -89,7 +115,8 @@ async function init() {
     ['commands', 'aliases', 'executables'].forEach(x => client[x] = new Discord.Collection());
     client.responses = {triggers: [], commands: new Discord.Collection()};
 
-    ['command', 'event', 'response', 'console'].forEach(x => require(`./handle/${x}`)(client));
+    ['command', 'event', 'response'].forEach(x => require(`./handle/${x}`)(client));
+    if (!client.misc.config.nocli) {require('./handle/console')(client);}
 
     client.developers = ["330547934951112705", "673477059904929802"];
     client.utils = {};
