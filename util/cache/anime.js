@@ -12,6 +12,7 @@ module.exports = async client => {
         if (ani.queued !== true) {
             client.misc.cache.anime.set(ani.japname, ani.id);
             client.misc.cache.anime.set(ani.name, ani.id);
+            if (ani.altNames) {ani.altNames.forEach(altName => client.misc.cache.anime.set(altName, ani.id));}
             client.misc.cache.animeID.set(ani.id, ani.name);
             client.misc.cache.animeLove.set(ani.id, ani.watchers);
             client.misc.cache.animeNum++;

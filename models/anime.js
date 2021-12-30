@@ -15,6 +15,7 @@ const AniSchema = new mongoose.Schema({
     genres: [String],
     tags: {type: [String], default: []},
     characters: [String],
+    altNames: {type: [String], default: []},
     streamAt: [String],
     watchers: {type: Number, default: 0},
     listed: {type: Number, default: 0},
