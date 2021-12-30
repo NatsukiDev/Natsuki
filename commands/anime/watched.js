@@ -21,6 +21,28 @@ module.exports = {
         if (args[0] && ['v', 'view'].includes(args[0].toLowerCase())) {
             if (mention) {args.shift();}
             let user = mention || message.author;
+            let af = await AF.findOne({uid: user.id});
+            if (!af || !af.watched.length) {return message.channel.send(`${user.id === message.author.id ? "You haven't" : "That person hasn't"} watched any anime.`);}
+            let pages = [];
+            let pl = (Math.floor(af.watched.length / 10) + 1);
+            for (let i = 0; i < pl; i++) {
+                let s = '';
+                for (let x = 0; x < 10; x++) {
+                    if (!af.watched[(i * 10) + x]) {break;}
+                    s += `**${x + (i * 10) + 1}.** ${client.misc.cache.animeID.get(af.watched[(i * 10) + x])}\n`;
+                }
+                pages.push(new Discord.MessageEmbed()
+                    .setAuthor(message.guild ? message.guild.members.cache.get(user.id).displayName : user.username, message.author.displayAvatarURL({dynamic: true}))
+                    .setTitle("Finished Anime List")
+                    .setDescription(s)
+                    .setColor('c375f0')
+                    .setTimestamp()
+                );
+            }
+            if (pages.length > 1) {
+                let pag = new Pagination(message.channel, pages, message, client, true);
+                return await pag.start({user: message.author.id, time: 60000});
+            } else {return message.channel.send({embeds: [pages[0].setFooter("Natsuki")]});}
         }
 
         if (!args[0]) {
