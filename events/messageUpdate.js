@@ -9,11 +9,11 @@ module.exports = async (client, oldM, newM) => {
 
 	if (!channelTypes.includes(oldM.channel.type)) {return;};
 	if (!oldM.author || oldM.author.bot) {return;}
-	if (oldM.deleted) {return;}
+	//if (oldM.deleted) {return;}
 	//if (!Object.keys(snipe.edit).includes(oldM.guild.id)) {snipe.edit[oldM.guild.id] = {};};
 	//snipe.edit[oldM.guild.id][oldM.channel.id] = {old: oldM, cur: newM};
 
-    if (!oldM.guild) {return;}
+    if (!oldM.guild || !oldM.author) {return;}
 
 	let ts = client.guildconfig.logs.has(oldM.guild.id) && client.guildconfig.logs.get(oldM.guild.id).has('medit') ? client.guildconfig.logs.get(oldM.guild.id).get('medit') : null;
 	if (ts) {if (oldM.guild.channels.cache.has(ts) && oldM.guild.channels.cache.get(ts).permissionsFor(client.user.id).has("SEND_oldMS")) {
