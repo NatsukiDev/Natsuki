@@ -32,7 +32,10 @@ module.exports = {
                     s += `**${x + (i * 10) + 1}.** ${client.misc.cache.animeID.get(af.watched[(i * 10) + x])}\n`;
                 }
                 pages.push(new Discord.MessageEmbed()
-                    .setAuthor({name: message.guild ? message.guild.members.cache.get(user.id).displayName : user.username, iconURL: message.author.displayAvatarURL({dynamic: true})})
+                    .setAuthor({
+                        name: message.guild ? message.guild.members.cache.get(user.id).displayName : user.username, 
+                        iconURL: message.guild ? message.guild.members.cache.get(user.id).displayAvatarURL({dynamic: true}) : user.displayAvatarURL({dynamic: true})
+                    })
                     .setTitle("Finished Anime List")
                     .setDescription(s)
                     .setColor('c375f0')
