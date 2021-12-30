@@ -1,5 +1,19 @@
+const Discord = require('discord.js');
+const Canvas = require('canvas');
+Canvas.registerFont('./resources/fonts/Nunito-Regular.ttf', {family: "Nunito"});
+
 const LXP = require('../../models/localxp');
 const LR = require('../../models/levelroles');
+
+const applyText = (canvas, text) => {
+	const context = canvas.getContext('2d');
+	let fontSize = 120;
+
+	do {context.font = `${fontSize -= 5}px "Nunito"`;}
+    while (context.measureText(text).width > canvas.width - 250);
+
+	return context.font;
+};
 
 module.exports = async (client, member, channel) => {
     client.misc.cache.lxp.xp[channel.guild.id][member].lastXP = new Date().getTime();
@@ -17,7 +31,35 @@ module.exports = async (client, member, channel) => {
             try {
                 let ch = xp.lvch.length ? channel.guild.channels.cache.get(xp.lvch) : channel;
                 if (ch.partial) {await ch.fetch().catch(() => {});}
-                if (ch && ch.permissionsFor(ch.guild.me.id).has('SEND_MESSAGES')) {ch.send(`<:awoo:560193779764559896> <@${member}> has reached **Level ${x + 1}**!`).catch((e) => {/*console.error(e)*/});}
+                if (ch && ch.permissionsFor(ch.guild.me.id).has('SEND_MESSAGES')) {
+                    if (!ch.permissionsFor(ch.guild.me.id).has('ATTACH_FILES')) {ch.send(`<:awoo:560193779764559896> <@${member}> has reached **Level ${x + 1}**!`).catch((e) => {/*console.error(e)*/});}
+                    else {
+                        const canvas = Canvas.createCanvas(1193, 411);
+                        const context = canvas.getContext('2d');
+
+                        const background = await Canvas.loadImage('./resources/images/nat-lvl.jpg');
+                        context.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+                        context.fillStyle = '#13131337'; //darken img
+                        context.fillRect(0, 0, canvas.width, canvas.height);
+
+                        context.font = '50px "Nunito"'; //top text
+                        context.fillStyle = '#ffffff';
+                        context.fillText(`Level up - Level ${x + 1}`, canvas.width / 2.8, canvas.height / 3);
+
+                        context.font = applyText(canvas, `${ch.guild.members.cache.get(member).displayName}`); //center text
+                        context.fillStyle = '#ffffff';
+                        context.fillText(`${ch.guild.members.cache.get(member).displayName}`, canvas.width / 2.8, canvas.height / 1.5);
+
+                        const avatar = await Canvas.loadImage(ch.guild.members.cache.get(member).displayAvatarURL({format: 'jpg', size: 2048}));
+                        context.drawImage(avatar, 40, 40, canvas.height - 80, canvas.height - 80);
+
+                        ch.send({
+                            content: `<:awoo:560193779764559896> <@${member}> has reached **Level ${x + 1}**!`,
+                            files: [new Discord.MessageAttachment(canvas.toBuffer(), 'level-up.png')]
+                        });
+                    }
+                }
                 if (client.misc.cache.lxp.hasLevelRoles.includes(channel.guild.id)) {
                     LR.findOne({gid: channel.guild.id}).then(async lr => {
                         if (!lr) {return;}
