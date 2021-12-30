@@ -20,13 +20,13 @@ module.exports = {
         if (!client.developers.includes(message.author.id) && !['check', 'c', 'view', 'v'].includes(args[0])) {return message.reply("Unfortunately, this is a **developer-only command**!");}
         const GuildSettings = require('../../models/guild');
         const logemb = (act) => new Discord.MessageEmbed()
-        .setAuthor(`VIP Server ${act}`, message.author.avatarURL())
+        .setAuthor({name: `VIP Server ${act}`, iconURL: message.author.avatarURL()})
         .setDescription("A Server's VIP status was updated.")
         .setThumbnail(message.guild.iconURL({size: 1024}))
         .addField("Name", message.guild.name, true)
         .addField("Admin", message.author.username, true)
         .setColor("e8da3a")
-        .setFooter("Natsuki")
+        .setFooter({text: "Natsuki"})
         .setTimestamp();
 
         if (['add', 'a', 'make', 'm'].includes(args[0])) {

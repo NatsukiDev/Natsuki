@@ -28,13 +28,13 @@ module.exports = {
         else {tu.staff = false; tu.admin = false; tu.developer = false;}
         tu.save();
         const logemb = (act) => new Discord.MessageEmbed()
-            .setAuthor(`Staff ${act}`, message.author.avatarURL())
+            .setAuthor({name: `Staff ${act}`, iconURL: message.author.avatarURL()})
             .setDescription("A user's Staff status was updated.")
             .setThumbnail(person.avatarURL({size: 1024}))
             .addField("Name", person.username, true)
             .addField("Developer", message.author.username, true)
             .setColor("e8da3a")
-            .setFooter("Natsuki")
+            .setFooter({text: "Natsuki"})
             .setTimestamp();
         client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send(logemb(['a', 'add'].includes(args[0]) ? 'Added' : 'Removed'));
         return message.reply(`${message.guild.members.cache.get(person.id).displayName} is no${['a', 'add'].includes(args[0]) ? 'w' : ' longer'} a staff member!`);

@@ -23,7 +23,7 @@ module.exports = {
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Let them know you love them with \`${prefix}handhold @${name}\`!`)
                     .setColor('328ba8')
-                    .setFooter('Natsuki', client.user.avatarURL())
+                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp()]}
                 : "Yikes... I'm kinda germaphobic you know. Maybe try asking in a server?"
             );}
@@ -34,7 +34,7 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} holds ${uname.endsWith('s') ? `${uname}'` : `${uname}'s`} hand!`, message.author.avatarURL())
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} holds ${uname.endsWith('s') ? `${uname}'` : `${uname}'s`} hand!`, iconURL: message.author.avatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d428a0')
             ]});

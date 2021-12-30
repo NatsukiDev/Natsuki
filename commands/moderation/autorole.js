@@ -31,7 +31,7 @@ module.exports = {
                 .setThumbnail(message.author.avatarURL({size: 2048}))
                 .setDescription(`Role: ${tg.joinrole.length ? `<@&${tg.joinrole}>` : "None"}`)
                 .setColor("c375f0")
-                .setFooter('Natsuki', client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
             );
         }

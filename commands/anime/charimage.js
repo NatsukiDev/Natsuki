@@ -97,14 +97,14 @@ module.exports = {
                 client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setAuthor(message.author.username, message.author.avatarURL())
+                            .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
                             .setTitle(`New Image ${queue ? "Submitted" : "Added"}`)
                             .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
                             .setThumbnail(ch.thumbnail)
                             .setImage(img)
                             .setColor('c375f0')
                             .setTimestamp()
-                            .setFooter("Natsuki")
+                            .setFooter({text: "Natsuki"})
                     ], content: queue ? '<@330547934951112705>' : undefined
                 }).catch(() => {})).catch(() => {});
                 return message.channel.send(`Character image ${queue ? "submitted" : "added"} to **${ch.name}**.`);
@@ -117,14 +117,14 @@ module.exports = {
                 client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setAuthor(message.author.username, message.author.avatarURL())
+                            .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
                             .setTitle(`New Images ${queue ? "Submitted" : "Added"}`)
                             .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
                             .addField("Images", images.map(img => `${img}\n`).join(""))
                             .setThumbnail(ch.thumbnail)
                             .setColor('c375f0')
                             .setTimestamp()
-                            .setFooter("Natsuki")
+                            .setFooter({text: "Natsuki"})
                     ], content: queue ? '<@330547934951112705>' : undefined
                 }).catch(() => {})).catch(() => {});
                 return message.channel.send(`Character images (${images.length}) ${queue ? "submitted" : "added"} to **${ch.name}**.`);

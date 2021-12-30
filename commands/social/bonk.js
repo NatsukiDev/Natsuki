@@ -24,7 +24,7 @@ module.exports = {
             .setThumbnail(message.author.avatarURL({size: 2048}))
             .setDescription(`Give them one with \`${prefix}bonk @${message.member.displayName}\`!`)
             .setColor('dda0dd')
-            .setFooter('Natsuki', client.user.avatarURL())
+            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
             .setTimestamp()]}
             : "I fucking dare you to hit me."
         );}
@@ -38,11 +38,11 @@ module.exports = {
             bonk.markModified(`against.${mention.id}`);
             bonk.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} bonks ${message.guild.members.cache.get(mention.id).displayName}!...ouch! `, message.author.avatarURL())
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} bonks ${message.guild.members.cache.get(mention.id).displayName}!...ouch! `, iconURL: message.author.avatarURL()})
                 .setDescription(`You've bonked them **${bonk.against[mention.id] === 1 ? 'once' : `${bonk.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('dda0dd')
-                .setFooter(`${bonk.total} bonk${bonk.total === 1 ? '' : 's'} total`)
+                .setFooter({text: `${bonk.total} bonk${bonk.total === 1 ? '' : 's'} total`})
             ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {

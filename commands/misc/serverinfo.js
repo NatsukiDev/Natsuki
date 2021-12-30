@@ -15,7 +15,7 @@ module.exports = {
     execute(message, msg, args, cmd, prefix, mention, client) {
         let now = new Date();
         return message.channel.send({embeds: [new Discord.MessageEmbed()
-            .setAuthor("Server info", message.author.avatarURL())
+            .setAuthor({name: "Server info", iconURL: message.author.avatarURL()})
             .setTitle(message.guild.name)
             .setThumbnail(message.guild.iconURL({size: 2048}))
             .setDescription(`Name: \`${message.guild.name}\`\n\nOwner: <@${message.guild.ownerId}>\nRegion: ${message.guild.region}\nIcon: [URL](${message.guild.iconURL({size: 2048})})`)
@@ -24,7 +24,7 @@ module.exports = {
             .addField("Roles", `${message.guild.roles.cache.size} (you have ${message.member.roles.cache.size})\nYour highest is <@&${message.member.roles.highest.id}>`, true)
             .addField("Other Info", `Server created roughly **${moment(message.guild.createdAt).fromNow()}**\n\nYou joined ${moment(message.member.joinedAt).fromNow()} (Member for **${Math.round(((now.getTime() - new Date(message.member.joinedAt.getTime()).getTime()) / (new Date(message.guild.createdAt).getTime() - now.getTime())) * -100)}%** of server lifetime)`)
             .setColor('c375f0')
-            .setFooter("Natsuki")
+            .setFooter({text: "Natsuki"})
             .setTimestamp()
         ]});
     }

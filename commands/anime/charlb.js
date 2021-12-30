@@ -22,7 +22,7 @@ module.exports = {
                     .map((c, i) => `${i+1}. **${client.misc.cache.charsLove.get(c)} vote${client.misc.cache.charsLove.get(c) === 1 ? '' : 's'}** -> ${client.misc.cache.charsID.get(c)}`)
                     .join('\n')
                 ).setColor('c375f0')
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
         ]});
     }

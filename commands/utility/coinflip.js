@@ -40,10 +40,10 @@ module.exports = {
         let flip = [1,2][Math.floor(Math.random() * 2)];
 
         let coinEmbed = new Discord.MessageEmbed()
-            .setAuthor("Coin Flip", message.author.avatarURL())
+            .setAuthor({name: "Coin Flip", iconURL: message.author.avatarURL()})
             .setThumbnail(flip === 1 ? "https://cdn.discordapp.com/attachments/563198656241598484/655514893033799700/SmartSelect_20191214-140108_Samsung_Internet.jpg" : "https://cdn.discordapp.com/attachments/563198656241598484/655514881293811753/SmartSelect_20191214-140131_Samsung_Internet.jpg")
             .setDescription(`Flipped by ${message.guild ? message.member.displayName : message.author.username}.\nThe result is **${flip === 1 ? "Heads" : "Tails"}**`)
-            .setFooter("Natsuki")
+            .setFooter({text: "Natsuki"})
             .setColor("c375f0")
             .setTimestamp();
 

@@ -158,7 +158,7 @@ module.exports = {
                 .addField('Other', `**Genre(s):** ${foptions.genres}\n**Tags:** ${foptions.tags}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
                 .setColor("c375f0")
                 .setImage(options.thumbnail)
-                .setFooter('Natsuki', client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp();
             try {
                 am = await dmch.send({embeds: [amEmbed]});
@@ -177,7 +177,7 @@ module.exports = {
                             client.misc.cache.animeID.set(options.id, options.name);
                         }
                         else {amEmbed.addField("ID", options.id);}
-                        amEmbed.setAuthor(!queue ? "Anime Added" : "Anime Submitted", message.author.avatarURL());
+                        amEmbed.setAuthor({name: !queue ? "Anime Added" : "Anime Submitted", iconURL: message.author.avatarURL()});
                         client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
                         if (!queue) {options.queued = false;}
                         await new AniData(options).save();

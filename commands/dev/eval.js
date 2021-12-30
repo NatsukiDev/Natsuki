@@ -38,7 +38,7 @@ module.exports = {
             .setTitle('Client Evaluation')
             .setDescription(`\`\`\`js\n${output}\n\`\`\``)
             .setColor('c375f0')
-            .setFooter(`Natsuki | Evaluated in ${new Date().getTime() - timer}ms`, client.user.avatarURL())
+            .setFooter({text: `Natsuki | Evaluated in ${new Date().getTime() - timer}ms`, iconURL: client.user.avatarURL()})
             .setTimestamp()]});
         }).catch(error => {return message.channel.send(`Error: \`${error}\`.`);});
         } catch (error) {

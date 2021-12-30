@@ -82,7 +82,7 @@ module.exports = {
                 .addField("ID", `\`${id}\``, true)
                 .addField("Owner", message.author.username, true)
                 .setColor("01bd2f")
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
             ]});
         }
@@ -117,7 +117,7 @@ module.exports = {
                 .addField("Owner", o.username, true)
                 .addField("Members", `${tss.members ? tss.members.length : 0}`, true)
                 .setColor("01bd2f")
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
             ]});
 

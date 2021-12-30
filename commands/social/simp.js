@@ -23,7 +23,7 @@ module.exports = {
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Fall madly in love with someone with \`${prefix}simp @${name}\`!`)
                     .setColor('ffb6c1')
-                    .setFooter('Natsuki', client.user.avatarURL())
+                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp()]}
                 : "Nobody simps for me. That's just weird. Be weird to someone else."
             );}
@@ -34,7 +34,7 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} falls madly in love with ${message.guild.members.cache.get(mention.id).displayName}..what a simp.`, message.author.avatarURL())
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} falls madly in love with ${message.guild.members.cache.get(mention.id).displayName}..what a simp.`, iconURL: message.author.avatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('ffb6c1')
             ]});

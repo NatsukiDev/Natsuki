@@ -23,7 +23,7 @@ module.exports = async (client, oldM, newM) => {
             .setThumbnail(oldM.author.avatarURL({size: 1024}))
             .addField("Old Message", "`-> `" + oldM.content.toString())
             .addField("New Message", "`-> `" + newM.content.toString())
-            .setColor('8034eb').setFooter("Natsuki", client.user.avatarURL()).setTimestamp();
+            .setColor('8034eb').setFooter({text: "Natsuki", iconURL: client.user.avatarURL()}).setTimestamp();
         if (newM.attachments.size && ['.png', '.jpg', '.gif'].includes(newM.attachments.first().url.slice(newM.attachments.first().url.length - 4, newM.attachments.first().url.length))) {embed.setImage(newM.attachments.first().url);}
         oldM.guild.channels.cache.get(ts).send({embeds: [embed]}).catch(() => {});
 	}}

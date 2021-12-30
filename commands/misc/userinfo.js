@@ -25,7 +25,7 @@ module.exports = {
             .addField("Account Created", `${moment(client.users.cache.get(person.id).createdAt).fromNow()}`, true)
             .addField("Bot User?", client.users.cache.get(person.id).bot ? "Is a bot" : "Is not a bot", true)
             .setColor('c375f0')
-            .setFooter('Natsuki', client.user.avatarURL())
+            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
             .setTimestamp();
 
         if (message.guild) {

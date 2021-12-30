@@ -30,13 +30,13 @@ module.exports = {
         else {tu.developer = false;}
         tu.save();
         const logemb = (act) => new Discord.MessageEmbed()
-            .setAuthor(`Developer ${act}`, message.author.avatarURL())
+            .setAuthor({name: `Developer ${act}`, iconURL: message.author.avatarURL()})
             .setDescription("A user's Developer status was updated.")
             .setThumbnail(person.avatarURL({size: 1024}))
             .addField("Name", person.username, true)
             .addField("Developer", message.author.username, true)
             .setColor("e8da3a")
-            .setFooter("Natsuki")
+            .setFooter({text: "Natsuki"})
             .setTimestamp();
         client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915').send({embeds: [logemb(['a', 'add'].includes(args[0]) ? 'Added' : 'Removed')]});
         return message.reply(`${message.guild.members.cache.get(person.id).displayName} is no${['a', 'add'].includes(args[0]) ? 'w' : ' longer'} a developer!`);

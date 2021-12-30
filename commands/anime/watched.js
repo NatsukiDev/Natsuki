@@ -32,7 +32,7 @@ module.exports = {
                     s += `**${x + (i * 10) + 1}.** ${client.misc.cache.animeID.get(af.watched[(i * 10) + x])}\n`;
                 }
                 pages.push(new Discord.MessageEmbed()
-                    .setAuthor(message.guild ? message.guild.members.cache.get(user.id).displayName : user.username, message.author.displayAvatarURL({dynamic: true}))
+                    .setAuthor({name: message.guild ? message.guild.members.cache.get(user.id).displayName : user.username, iconURL: message.author.displayAvatarURL({dynamic: true})})
                     .setTitle("Finished Anime List")
                     .setDescription(s)
                     .setColor('c375f0')
@@ -42,7 +42,7 @@ module.exports = {
             if (pages.length > 1) {
                 let pag = new Pagination(message.channel, pages, message, client, true);
                 return await pag.start({user: message.author.id, time: 60000});
-            } else {return message.channel.send({embeds: [pages[0].setFooter("Natsuki")]});}
+            } else {return message.channel.send({embeds: [pages[0].setFooter({text: "Natsuki"})]});}
         }
 
         if (!args[0]) {

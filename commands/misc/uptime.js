@@ -21,7 +21,7 @@ module.exports = {
             .setTitle("Uptime")
             .setDescription(`${moment.preciseDiff(moment(bot.lastRestart), moment())}`)
             .setColor('c375f0')
-            .setFooter("Natsuki")
+            .setFooter({text: "Natsuki"})
             .setTimestamp()
         ]})
     }

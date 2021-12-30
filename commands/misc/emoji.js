@@ -34,7 +34,7 @@ module.exports = {
                     .setDescription(`Name: ${spl[1] ? `\`:${spl[1]}:\`` : "Not Found"}\nID: ${spl[2].slice(0, spl[2].length - 1)}\nURL: [Here](${`https://cdn.discordapp.com/emojis/${spl[2].slice(0, spl[2].length - 1)}${spl[0].includes('a') ? '.gif' : ""}`})\nAnimated: ${spl[0].includes('a') === true}\n\nI have access: ${client.emojis.cache.has(spl[2].slice(0, spl[2].length - 1))}`)
                     .setColor('c375f0')
                     .setImage(`https://cdn.discordapp.com/emojis/${spl[2].slice(0, spl[2].length - 1)}${spl[0].includes('a') ? '.gif' : ""}`)
-                    .setFooter("Natsuki", client.user.avatarURL())
+                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp();
                 if (client.emojis.cache.has(spl[2].slice(0, spl[2].length - 1))) {finEm.setThumbnail(client.emojis.cache.get(spl[2].slice(0, spl[2].length - 1)).guild.iconURL({size: 1024}));}
                 if (client.emojis.cache.has(spl[2].slice(0, spl[2].length - 1)) && client.emojis.cache.get(spl[2].slice(0, spl[2].length - 1)).guild.members.cache.has(message.author.id) && client.emojis.cache.get(spl[2].slice(0, spl[2].length - 1)).guild.id !== (message.guild ? message.guild.id : 1)) {finEm.addField("Server", `You're in the server this emoji is from: **${client.emojis.cache.get(spl[2].slice(0, spl[2].length - 1)).guild.name}**`);}
@@ -63,7 +63,7 @@ module.exports = {
                         .setTitle(`Emoji Lookup Results [${(x * 20) + 1}-${(x * 20) + 20} of ${lookup.size}]`)
                         .setDescription(page)
                         .setColor('c375f0')
-                        .setFooter("Natsuki", client.user.avatarURL())
+                        .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                         .setTimestamp()
                     );
                     if (cond) {break;}
@@ -78,7 +78,7 @@ module.exports = {
                     .setTitle(`Emoji Lookup Results - ${lookup.size}`)
                     .setDescription(page)
                     .setColor('c375f0')
-                    .setFooter("Natsuki", client.user.avatarURL())
+                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp()
                 ]});
             }
@@ -110,7 +110,7 @@ module.exports = {
                 .setDescription(`Name: ${name ? `\`:${name}:\`` : "Not Found"}\nID: ${id}\nURL: [Here](${url})\nAnimated: ${animated === true}\n\nI have access: ${access}`)
                 .setColor('c375f0')
                 .setImage(url)
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp();
             if (access) {finEm.setThumbnail(client.emojis.cache.get(id).guild.iconURL({size: 1024}));}
             if (access && client.emojis.cache.get(id).guild.members.cache.has(message.author.id) && client.emojis.cache.get(id).guild.id !== (message.guild ? message.guild.id : 1)) {finEm.addField("Server", `You're in the server this emoji is from: **${client.emojis.cache.get(id).guild.name}**`);}

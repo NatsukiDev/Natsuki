@@ -18,7 +18,7 @@ module.exports = async (client, message) => {
 			.setTitle('Message Deleted')
 			.setDescription(`Sent by <@${message.author.id}> | In <#${message.channel.id}>`)
 			.setThumbnail(message.author.avatarURL({size: 1024}))
-			.setColor('ecff8f').setFooter("Natsuki", client.user.avatarURL()).setTimestamp();
+			.setColor('ecff8f').setFooter({text: "Natsuki", iconURL: client.user.avatarURL()}).setTimestamp();
 		if (message.content && message.content.length) {mde.addField("Message", "`-> `" + message.content.toString());}
 		if (message.attachments.size) {
 			if (message.attachments.first().url.includes(".png") || message.attachments.first().url.includes(".jpg") || message.attachments.first().url.includes(".gif")) {/*console.log('e');*/ try {mde.setImage(message.attachments.first().url);} catch {}}

@@ -10,14 +10,14 @@ module.exports = async (client, oldState, voice) => {
                 .setTitle(`Member Switched VCs`)
                 .setThumbnail(client.users.cache.get(oldState.member.id).avatarURL({size: 2048, dynamic: true}))
                 .setDescription(`Old Channel: **${oldState.channel.name}**\nNew Channel: **${voice.channel.name}**`)
-                .setColor('e86b8f').setFooter("Natsuki", client.user.avatarURL()).setTimestamp()
+                .setColor('e86b8f').setFooter({text: "Natsuki", iconURL: client.user.avatarURL()}).setTimestamp()
             ]}).catch(() => {});
         } else {
             voice.guild.channels.cache.get(ts).send({embeds: [new Discord.MessageEmbed()
                 .setTitle(`Member ${voice.channelId ? 'Joined' : 'Left'} VC`)
                 .setThumbnail(client.users.cache.get(oldState.member.id).avatarURL({size: 2048, dynamic: true}))
                 .setDescription(`Channel: **${voice.channelId ? voice.channel.name : oldState.channel.name}**`)
-                .setColor('e86b8f').setFooter("Natsuki", client.user.avatarURL()).setTimestamp()
+                .setColor('e86b8f').setFooter({text: "Natsuki", iconURL: client.user.avatarURL()}).setTimestamp()
             ]}).catch(() => {});
         }
     }}

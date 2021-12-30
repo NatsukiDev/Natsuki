@@ -25,7 +25,7 @@ module.exports = {
             .setThumbnail(message.author.avatarURL({size: 2048}))
             .setDescription(`Give them some with \`${prefix}pat @${message.member.displayName}\`!`)
             .setColor('c375f0')
-            .setFooter('Natsuki', client.user.avatarURL())
+            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
             .setTimestamp()]}
             : "Sorry, but I'm only able to pat one person, and it's not you ^^"
         );}
@@ -39,11 +39,11 @@ module.exports = {
             pats.markModified(`against.${mention.id}`);
             pats.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} pats ${message.guild.members.cache.get(mention.id).displayName}!`, message.author.avatarURL())
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} pats ${message.guild.members.cache.get(mention.id).displayName}!`, iconURL: message.author.avatarURL()})
                 .setDescription(`You've given them **${pats.against[mention.id]}** pat${pats.against[mention.id] === 1 ? '' : 's'}!`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')
-                .setFooter(`${pats.total} pat${pats.total === 1 ? '' : 's'} total`)
+                .setFooter({text: `${pats.total} pat${pats.total === 1 ? '' : 's'} total`})
             ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {

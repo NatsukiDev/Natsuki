@@ -29,11 +29,11 @@ module.exports = {
             spanks.markModified(`against.${mention.id}`);
             spanks.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a spank!`, message.author.avatarURL())
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a spank!`, iconURL: message.author.avatarURL()})
                 .setDescription(`You've spanked them **${spanks.against[mention.id] === 1 ? 'once' : `${spanks.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')
-                .setFooter(`${spanks.total} spank${spanks.total === 1 ? '' : 's'} total`)
+                .setFooter({text: `${spanks.total} spank${spanks.total === 1 ? '' : 's'} total`})
             ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {

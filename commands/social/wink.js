@@ -23,7 +23,7 @@ module.exports = {
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Give them a little wink with \`${prefix}wink @${name}\`!`)
                     .setColor('8a2be2')
-                    .setFooter('Natsuki', client.user.avatarURL())
+                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp()]}
                 : "W-why are you winking at me privately..do it in a server! "
             );}
@@ -34,7 +34,7 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} winks at ${message.guild.members.cache.get(mention.id).displayName}!`, message.author.avatarURL())
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} winks at ${message.guild.members.cache.get(mention.id).displayName}!`, iconURL: message.author.avatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('8a2be2')
             ]});

@@ -19,7 +19,7 @@ module.exports = {
         let user = await UserData.findOne({uid: message.author.id});
 
         return message.channel.send({embeds: [new Discord.MessageEmbed()
-            .setAuthor("About Me!", client.users.cache.get(client.developers[Math.floor(Math.random() * client.developers.length)]).avatarURL())
+            .setAuthor({name: "About Me!", iconURL: client.users.cache.get(client.developers[Math.floor(Math.random() * client.developers.length)]).avatarURL()})
             .setThumbnail(client.user.avatarURL({size: 1024}))
             .setDescription(`I am created by WubzyGD#8766 and Slushie#1234 - a pair conveniently known as NatsukiDev - in JavaScript/Discord.js!\n\nI'm a powerful all-purpose bot with everything you could want or need, and I have my own set of unique skills that you won't find anywhere else ^^`)
             .addField("Presence", `I'm currently in **${client.guilds.cache.size}** servers, and I'm watching over approximately **${client.users.cache.size}** people!`)
@@ -28,7 +28,7 @@ module.exports = {
             .addField("Last Restart", moment(botData.lastRestart).fromNow(), true)
             .addField("Mem", `\`${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB\` heap of \`${(process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2)}MB\` allocated. | **${Math.floor((process.memoryUsage().heapUsed / process.memoryUsage().heapTotal) * 100)}%**\nTotal RAM: \`${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)}GB\` | Free RAM: \`${(os.freemem() / 1024 / 1024 / 1024).toFixed(2)}GB\``, true)
             .setColor("c375f0")
-            .setFooter("Natsuki")
+            .setFooter({text: "Natsuki"})
             .setTimestamp()
         ]});
     }

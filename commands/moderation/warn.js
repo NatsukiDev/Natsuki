@@ -51,7 +51,7 @@ module.exports = {
                 .setDescription(`For ${user.displayName}`)
                 .addField("Warnings", ws)
                 .setColor("c375f0")
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
             ]});
         }

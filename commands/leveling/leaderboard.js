@@ -31,7 +31,7 @@ module.exports = {
             .setThumbnail(message.guild.iconURL({size: 2048, dynamic: true}))
             .addField("Level", lvls)
             .setColor('c375f0')
-            .setFooter("Natsuki | Stats may be up to 2 minutes out of sync")
+            .setFooter({text: "Natsuki | Stats may be up to 2 minutes out of sync"})
             .setTimestamp()
         ]});
 

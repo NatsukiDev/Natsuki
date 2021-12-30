@@ -22,7 +22,7 @@ module.exports = {
                     .setTitle("Error")
                     .setDescription(`\`\`\`${error}\`\`\``)
                     .setColor("ff446a")
-                    .setFooter("Natsuki", client.user.avatarURL())
+                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp()]}
                 );
             }
@@ -31,7 +31,7 @@ module.exports = {
                 .setTitle("Execution Successful")
                 .setDescription(`\`\`\`${stdout}\`\`\``)
                 .setColor("c375f0")
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()]}
             );
         });

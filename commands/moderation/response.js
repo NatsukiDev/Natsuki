@@ -68,7 +68,7 @@ module.exports = {
                 .addField("Name/ID", args[1].toLowerCase(), true)
                 .addField("Type", tr.responses.get(args[1].toLowerCase()).embed ? "Embed" : "Message", true)
                 .setColor('c375f0')
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp();
             if (hasBinding) {infoEmbed.addField("Server Bindings", bm);}
             return message.channel.send({embeds: [infoEmbed]});

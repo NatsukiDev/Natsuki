@@ -38,7 +38,7 @@ module.exports = {
                     .setThumbnail(message.guild.iconURL({size: 2048}))
                     .setDescription(`Your server now has its leveling system enabled! If you enabled level up messages, you can set the channel for that using \`${prefix}levelchannel\`.`) //TODO update this with info on how the shiz works
                     .setColor("c375f0")
-                    .setFooter("Natsuki", client.user.avatarURL())
+                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp()
                 ]});
             });

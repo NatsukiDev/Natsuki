@@ -21,7 +21,7 @@ module.exports = {
             return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("Add Emoji")
                 .setDescription("React to this message with the emoji you want to be added to the server.")
-                .setFooter("This will time out in 60 seconds")
+                .setFooter({text: "This will time out in 60 seconds"})
                 .setColor('c375f0')
             ]}).then(m => {
                 const rc = m.createReactionCollector((r, u) => u.id === message.author.id, {time: 60000});
@@ -29,11 +29,11 @@ module.exports = {
                     rc.stop();
                     return message.guild.emojis.create(`https://cdn.discordapp.com/emojis/${r.emoji.id}`, r.emoji.name)
                     .then(e => message.channel.send({embeds: [new Discord.MessageEmbed()
-                        .setAuthor(message.member.displayName, message.author.avatarURL())
+                        .setAuthor({name: message.member.displayName, iconURL: message.author.avatarURL()})
                         .setTitle("Emoji Created!")
                         .setThumbnail(`https://cdn.discordapp.com/emojis/${e.id}${e.animated ? '.gif': ''}`)
                         .setDescription(`Name: \`:${e.name}:\`\nID: ${e.id}\nURL: [Click Me](https://cdn.discordapp.com/emojis/${e.id})`)
-                        .setFooter("Natsuki")
+                        .setFooter({text: "Natsuki"})
                         .setColor('c375f0')
                         .setTimestamp()
                     ]}).then(() => require('../../util/ask')(message, "If you'd like to rename the emoji, send the name now. Otherwise, wait 30 seconds and nothing will happen.", 30000, false, false)
@@ -61,11 +61,11 @@ module.exports = {
                     : args[0],
             args[1] || args[0].split(':')[1]
         ).then(e => message.channel.send({embeds: [new Discord.MessageEmbed()
-            .setAuthor(message.member.displayName, message.author.avatarURL())
+            .setAuthor({name: message.member.displayName, iconURL: message.author.avatarURL()})
             .setTitle("Emoji Created!")
             .setThumbnail(`https://cdn.discordapp.com/emojis/${e.id}${e.animated ? '.gif': ''}`)
             .setDescription(`Name: \`:${e.name}:\`\nID: ${e.id}\nURL: [Click Me](https://cdn.discordapp.com/emojis/${e.id}${e.animated ? '.gif': ''})`)
-            .setFooter("Natsuki")
+            .setFooter({text: "Natsuki"})
             .setColor('c375f0')
             .setTimestamp()
         ]}))

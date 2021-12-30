@@ -18,7 +18,7 @@ module.exports = async (client, reaction, user) => {
                 .setDescription(`Sent by ${reaction.message.member.displayName} (<@${reaction.message.author.id}>) || Channel: ${reaction.message.channel.name} (<#${reaction.message.channel.id}>)\n[Jump to Message](${reaction.message.url})`)
                 .setThumbnail(reaction.message.author.avatarURL({size: 2048}))
                 .setColor('ebb931')
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp();
             if (reaction.message.content.length) {starEmbed.addField("Message", reaction.message.content);}
             starEmbed

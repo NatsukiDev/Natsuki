@@ -41,7 +41,7 @@ module.exports = {
                 .setTitle("Leave Channel/Message Updated")
                 .setDescription(`This server's leave-notifying settings have been altered by ${message.author.tag}.\n\n**Channel**: <#${ch}>\n**Response Name**: \`${args[2].toLowerCase()}\``)
                 .setColor('c375f0')
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
             ]})
         }
@@ -64,7 +64,7 @@ module.exports = {
                 .setTitle("Leave Channel/Message Updated")
                 .setDescription(`This server's leave-notifying settings have been altered by ${message.author.tag}.\n\n**Channel**: None`)
                 .setColor('c375f0')
-                .setFooter("Natsuki", client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
             ]});
         }

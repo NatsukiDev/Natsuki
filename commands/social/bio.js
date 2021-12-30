@@ -26,7 +26,7 @@ module.exports = {
                 .setThumbnail(client.users.cache.get(person).avatarURL({size: 2048}))
                 .setDescription(pud.bio)
                 .setColor(pud.color && pud.color.length ? pud.color : 'c375f0')
-                .setFooter('Natsuki', client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
             ]});
         }
@@ -48,7 +48,7 @@ module.exports = {
                 .setThumbnail(message.author.avatarURL({size: 2048}))
                 .setDescription(tu.bio)
                 .setColor(tu.color && tu.color.length ? tu.color : 'c375f0')
-                .setFooter('Natsuki', client.user.avatarURL())
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp()
             ]});
         }

@@ -34,7 +34,7 @@ module.exports = {
             .addField("XP", `**${xp.xp}** of **${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))}** needed to level up`, true)
             .setThumbnail(client.users.cache.get(u.id).avatarURL({size: 2048}))
             .setColor("c375f0")
-            .setFooter("Natsuki")
+            .setFooter({text: "Natsuki"})
             .setTimestamp()
         ]})
     }

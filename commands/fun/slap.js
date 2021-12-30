@@ -31,11 +31,11 @@ module.exports = {
             slaps.markModified(`against.${mention.id}`);
             slaps.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} slaps ${message.guild.members.cache.get(mention.id).displayName}`, message.author.avatarURL())
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} slaps ${message.guild.members.cache.get(mention.id).displayName}`, iconURL: message.author.avatarURL()})
                 .setDescription(`That makes slap **#${slaps.against[mention.id]}** from you to them!`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d93846')
-                .setFooter(`${slaps.total} slap${slaps.total === 1 ? '' : 's'} total`)
+                .setFooter({text: `${slaps.total} slap${slaps.total === 1 ? '' : 's'} total`})
             ]});
         }
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {

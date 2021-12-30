@@ -21,7 +21,7 @@ module.exports = {
                     .setThumbnail(message.author.avatarURL({size: 2048}))
                     .setDescription(`Give them a little kiss with \`${prefix}kiss @${message.member.displayName}\`!`)
                     .setColor('c375f0')
-                    .setFooter('Natsuki', client.user.avatarURL())
+                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp()]}
                 : "I'm not really into that kind of thing. Maybe try asking in a server?"
             );}
@@ -30,7 +30,7 @@ module.exports = {
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("A self-kiss ought to be a little hard, don't you think?");}
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor(`${message.guild ? message.member.displayName : message.author.username} kisses ${message.guild.members.cache.get(mention.id).displayName}`, message.author.avatarURL())
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} kisses ${message.guild.members.cache.get(mention.id).displayName}`, iconURL: message.author.avatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d428a0')
             ]});
