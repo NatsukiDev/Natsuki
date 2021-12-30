@@ -22,7 +22,6 @@ module.exports = {
 
         if (args.length) {
             anime = fz.go(args.join(" "), Array.from(client.misc.cache.animeID.values()), {limit: 200}).sort((a,b)=>a.score-b.score).map(k => client.misc.cache.anime.get(k.target));
-            console.log(anime);
             if (!anime.length) {return message.channel.send("That query returned no results!");}
             matches = `matches`;
         } else {anime = Array.from(client.misc.cache.animeID.keys());}

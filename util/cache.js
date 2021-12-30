@@ -32,7 +32,7 @@ module.exports = async (client) => {
     let ora_anCache = ora("Caching Animes...").start();
     await require('./cache/anime')(client);
     ora_anCache.stop(); ora_anCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.anime.size / 2}`)} ${chalk.blueBright(`animes into lookup registry.`)}`);
+    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.animeNum}`)} ${chalk.blueBright(`animes into lookup registry.`)}`);
 
     let ora_chCache = ora("Caching Characters...").start();
     await require('./cache/char')(client);
