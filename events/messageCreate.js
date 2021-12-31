@@ -24,13 +24,13 @@ module.exports = async (client, message) => {
 	
     let prefix = message.guild ? client.guildconfig.prefixes.has(message.guild.id) ? client.guildconfig.prefixes.get(message.guild.id) !== null ? client.guildconfig.prefixes.get(message.guild.id) : 'n?' : 'n?' : 'n?';
 
-	let msg = message.content.toLowerCase();
+	let msg = message.content.toLowerCase().replace('\u200E', '');
 	let mention = message.mentions.users.first();
     let args = msg.startsWith(prefix)
-        ? message.content.slice(prefix.length).trim().split(/\s+/g)
-        : msg.startsWith('<@!') 
-            ? message.content.slice(4 + client.user.id.length).trim().split(/\s+/g)
-            : message.content.slice(3 + client.user.id.length).trim().split(/\s+/g);
+        ? message.content.slice(prefix.length).trim().replace('\u200E', '').split(/\s+/g)
+        : msg.startsWith('<@!')
+            ? message.content.slice(4 + client.user.id.length).trim().replace('\u200E', '').split(/\s+/g)
+            : message.content.slice(3 + client.user.id.length).trim().replace('\u200E', '').split(/\s+/g);
 	let cmd = args.shift().toLowerCase().trim();
 
     if (message.content.includes("@everyone")) {return;}

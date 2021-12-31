@@ -43,14 +43,29 @@ module.exports = {
                 new Tag(['name', 'n'], 'name', 'append'),
                 new Tag(['description', 'desc', 'p', 'personality'], 'personality', 'append'),
                 new Tag(['anime', 'ani', 'a'], 'anime', 'append'),
-                new Tag(['thumb', 'thumbnail'], 'thumbnail', 'append'),
-                new Tag(['img', 'image'], 'images', 'listAppend'),
+                new Tag(['thumb', 'thumbnail', 't'], 'thumbnail', 'append'),
+                new Tag(['img', 'image', 'i'], 'images', 'listAppend'),
                 new Tag(['loveInterest', 'dating', 'married', 'li'], 'loveInterest', 'append'),
                 new Tag(['gender', 'g', 'sex'], 'gender', 'append'),
                 new Tag(['nickname', 'nn', 'nick'], 'nicknames', 'listAppend')
-            ]).test(args.join(' '));
+            ]).test(args.slice(1).join(' '));
 
             if (Object.keys(options).length) {
+                if (message.attachments.size) {
+                    if (options.thumbnail) {
+                        if (!options.images) {options.images = [];}
+                        Array.from(message.attachments.keys()).forEach(i => options.images.push(i));
+                    } else {
+                        if (!options.images) {options.images = [];}
+                        let att = Array.from(message.attachments.keys());
+                        if (message.attachments.size > 1) {
+                            for (let i = 1; i < att.length; i++) {
+                                options.images.push(message.attachments.get(att[i].url));
+                            }
+                        }
+                        options.thumbnail = message.attachments.get(att[0]).url;
+                    }
+                }
                 let foptions = {};
                 let option; for (option of Object.keys(options)) {
                     if (Array.isArray(options[option])) {
@@ -63,6 +78,32 @@ module.exports = {
                         foptions[option] = s;
                     }
                 }
+                if (!options.name || !options.anime || !options.gender || !options.thumbnail) {return message.channel.send("You're missing an option! If you don't know what this means, just run this command without any text after it.");}
+                let fn;
+                let asr = await ans(message, client, options.anime.trim().toLowerCase(), undefined, 0);
+                if (asr === 0) {return message.channel.send("That search returned no results! Try remaking the character?");}
+                else if (asr instanceof Pagination) {
+                    await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+                    await asr.message.react('✅');
+                    await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
+                    let arc;
+                    try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                    catch {return message.channel.send("Looks like you didn't find the anime you were looking for, so I went ahead and ended the character creation for you.");}
+                    let collected = arc.first().emoji.name;
+                    if (collected === '✅') {
+                        fn = client.misc.cache.anime.get(asr.getCurrentPage().title.trim());
+                        asr.stop();
+                    }
+                    else {return message.channel.send("Looks like you didn't find the anime you were looking for, so I went ahead and ended the character creation for you.");}
+                } else {
+                    await message.channel.send({embeds: [asr.embed]});
+                    let conf = await ask(message, "Is this the anime you meant?", 60000, true);
+                    if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {return message.channel.send("You must specify yes or no! Please try again.");}
+                    conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
+                    if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the anime you're looking for then I would try again with a more narrow search.");}
+                    fn = asr.id;
+                }
+                options.anime = fn;
             } else {
                 if (client.misc.activeDMs.has(message.author.id)) {return message.channel.send("I'm already asking you questions in a DM! Finish that first, then try this command again.");}
                 client.misc.activeDMs.set(message.author.id, 'char-add');
@@ -126,22 +167,26 @@ module.exports = {
 
                 options.characters = [];
                 clearDM();
+
+                let foptions = {};
+                let option; for (option of Object.keys(options)) {
+                    if (Array.isArray(options[option])) {
+                        let s = '';
+                        let data;
+                        for (data of options[option]) {
+                            s += data;
+                            s += options[option].indexOf(data) < (options[option].length - 1) ? ', ' : '';
+                        }
+                        foptions[option] = s;
+                    }
+                }
             }
 
             let am;
-            let foptions = {};
-            let option; for (option of Object.keys(options)) {
-                if (Array.isArray(options[option])) {
-                    let s = '';
-                    let data;
-                    for (data of options[option]) {
-                        s += data;
-                        s += options[option].indexOf(data) < (options[option].length - 1) ? ', ' : '';
-                    }
-                    foptions[option] = s;
-                }
-            }
+            if (!dmch) {dmch = message.channel;}
             if (!options.characters) {options.characters = [];}
+            if (options.gender.toLowerCase() === 'm') {options.gender = 'Male';}
+            if (options.gender.toLowerCase() === 'f') {options.gender = 'Female';}
             let aniData = await AniData.findOne({id: options.anime});
             if (!aniData && !forceAni) {return dmch.send(":thinking: hmmm... something went wrong there. I couldn't find the anime you specified. Please contact my dev if the problem persists.");}
             let amEmbed = new Discord.MessageEmbed()
@@ -155,8 +200,8 @@ module.exports = {
                 .setTimestamp();
             try {
                 am = await dmch.send({embeds: [amEmbed]});
-                await am.react('👍');
-                await am.react('👎');
+                await am.react('👍').catch(() => {});
+                await am.react('👎').catch(() => {});
             } catch {return dmch.send(":thinking: hmmm... something went wrong there. I might not have permissions to add reactions to messages, and this could be the issue.");}
             try {
                 let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
@@ -178,9 +223,10 @@ module.exports = {
                             aniData.save();
                         }
                         client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
-                        return message.author.send(`Your character has been ${!queue ? "added" : "submitted"}`);
+                        am.delete().catch(() => {});
+                        return dmch.send(`Your character has been ${!queue ? "added" : "submitted"}`);
                     } else {
-                        return message.author.send("Oh, okay. I'll discard that then!");
+                        return dmch.send("Oh, okay. I'll discard that then!");
                     }
                 });
                 rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
