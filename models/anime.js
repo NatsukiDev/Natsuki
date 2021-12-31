@@ -23,6 +23,7 @@ const AniSchema = new mongoose.Schema({
     rating: {type: Number, default: 0},
     lastUpdate: String,
     thumbnail: String,
+    images: {type: [String], default: []},
     queued: {type: Boolean, default: true}
 });
 
