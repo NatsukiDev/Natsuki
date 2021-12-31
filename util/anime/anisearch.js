@@ -24,7 +24,8 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
                 .addField('Length', `**# of Seasons:** ${an.seasons}\n**# of Episodes:** ${an.episodes}`)
                 .addField('Airing', `**Began:** ${an.airStartDate}\n**Ended:** ${an.isComplete ? an.airEndDate : 'This anime is still airing!'}`)
                 .addField("Cast", `**${an.characters.length} Characters**\n${an.characters.map(char => client.misc.cache.charsID.get(char)).join(', ')}`)
-                .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Stream this at:** ${an.streamAt.join(", ")}`)
+                .addField('Other', `**Genre(s):** ${an.genres.join(", ")}\n**Tags:** ${an.tags.join(", ")}\n**Stream this at:** ${an.streamAt.join(", ")}${an.altNames && an.altNames.length ? `\n\n**Other names:** ${an.altNames.map(n => `\`${n}\``).join(', ')}` : ''}`)
+                .addField('Love', `**Watchers**: **${an.watchers} Natsuki ${client.utils.as(an.watchers, 'user')}** have this anime on their list of finished anime!\n\`n?watched ${an.name}\``)
         }
         da.push(an.id);
         return {embed: rte, id: an.id};
