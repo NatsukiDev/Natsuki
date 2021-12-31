@@ -41,7 +41,7 @@ module.exports = {
             res += `${1 + 1}. \`${Math.floor(Math.random() * (nums[1] - nums[0] + 1) + nums[0])}\`\n`;
         }
         return message.channel.send({embeds: [new Discord.MessageEmbed()
-            .setTitle(`Random Number${num.length > 1 ? 's' : ''}`)
+            .setTitle(`Random Number${num.length === 1 ? '' : 's'}`)
             .setDescription(res)
             .setColor('c375f0')
             .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
