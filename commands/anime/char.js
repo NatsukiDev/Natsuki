@@ -95,14 +95,7 @@ module.exports = {
                         asr.stop();
                     }
                     else {return message.channel.send("Looks like you didn't find the anime you were looking for, so I went ahead and ended the character creation for you.");}
-                } else {
-                    await message.channel.send({embeds: [asr.embed]});
-                    let conf = await ask(message, "Is this the anime you meant?", 60000, true);
-                    if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {return message.channel.send("You must specify yes or no! Please try again.");}
-                    conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
-                    if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the anime you're looking for then I would try again with a more narrow search.");}
-                    fn = asr.id;
-                }
+                } else {fn = asr.id;}
                 options.anime = fn;
             } else {
                 if (client.misc.activeDMs.has(message.author.id)) {return message.channel.send("I'm already asking you questions in a DM! Finish that first, then try this command again.");}
