@@ -64,13 +64,14 @@ module.exports = {
             xp = {xp: txp.xp[u.id][0], level: txp.xp[u.id][1]};
         } else {xp = client.misc.cache.lxp.xp[message.guild.id][u.id];}
         let tmoon = client.misc.cache.monners[u.id] ? {currency: client.misc.cache.monners[u.id]} : await Monners.findOne({uid: u.id});
+        let tcur = tmoon ? tmoon.currency : 0;
         if (!message.channel.permissionsFor(message.guild.me.id).has("ATTACH_FILES")) {
             return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle(`${u.displayName}${u.displayName.toLowerCase().endsWith('s') ? "'" : "'s"} Stats`)
                 .setDescription("Local leveling stats")
                 .addField("Level", `${xp.level}`, true)
                 .addField("XP", `**${xp.xp}** of **${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))}** needed to level up`, true)
-                .addField("Monners", `<:monners:926736756047495218> ${tmoon ? tmoon.currency : 0}`)
+                .addField("Monners", `<:monners:926736756047495218> ${tcur}`)
                 .setThumbnail(client.users.cache.get(u.id).avatarURL({size: 2048}))
                 .setColor("c375f0")
                 .setFooter({text: "Natsuki"})
@@ -96,16 +97,23 @@ module.exports = {
             ctx.font = applyText(120, canvas, `${xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}`); //top text
             ctx.fillStyle = '#ffffff';
             ctx.fillText(`${xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}`, canvas.width / 2.8, canvas.height / 3.2);
+
+            const monnersImage = await Canvas.loadImage('https://cdn.discordapp.com/emojis/926736756047495218');
+            ctx.drawImage(monnersImage, canvas.width / 2.8, (canvas.height / 1.53) - 11, 58, 60); //draw monners icon
+            ctx.font = `50px "Nunito"`;
+            ctx.fillText(`${tcur}`, (canvas.width / 2.8) + 70, (canvas.height / 1.53) + 57 - 20);
+            ctx.fillText(` | `, (canvas.width / 2.8) + 70 + ctx.measureText(`${tcur}`).width, (canvas.height / 1.53) + 57 - 24); // draw monners amount
+            let monnersWidth = ctx.measureText(`${tcur} | `).width + 75; //get width of monners text and icon to account for bar size later
             
             //draw the bar borders
             ctx.strokeStyle = '#ffffff';
             ctx.strokeWidth = 6;
-            roundRect(ctx, canvas.width / 2.8, canvas.height / 1.53, canvas.width - (canvas.width / 2.8) - 80, 40, 10, false, true, false);
+            roundRect(ctx, (canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, canvas.width - (canvas.width / 2.8) - monnersWidth - 80, 40, 10, false, true, false);
             //set a clipping area to keep the bar filler inside the rounded borders
-            roundRect(ctx, canvas.width / 2.8, canvas.height / 1.53, canvas.width - (canvas.width / 2.8) - 80, 40, 10, false, false, true);
+            roundRect(ctx, (canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, canvas.width - (canvas.width / 2.8) - monnersWidth - 80, 40, 10, false, false, true);
             ctx.fillStyle = '#4aa4e0c8';
             //draw the bar filler
-            ctx.fillRect(canvas.width / 2.8, canvas.height / 1.53, (xp.xp / Math.ceil(100 + (((xp.level / 3) ** 2) * 2))) * (canvas.width - (canvas.width / 2.8) - 80), 40);
+            ctx.fillRect((canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, (xp.xp / Math.ceil(100 + (((xp.level / 3) ** 2) * 2))) * (canvas.width - (canvas.width / 2.8) - monnersWidth - 80), 40);
 
             message.channel.send({files: [new Discord.MessageAttachment(canvas.toBuffer(), 'xp-stats.png')]});
         }

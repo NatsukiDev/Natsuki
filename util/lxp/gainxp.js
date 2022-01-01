@@ -55,7 +55,7 @@ module.exports = async (client, member, channel) => {
 
                         const monnersImage = await Canvas.loadImage('https://cdn.discordapp.com/emojis/926736756047495218');
                         context.drawImage(monnersImage, canvas.width / 2.8, canvas.height / 1.5, 58, 60);
-                        context.fillText(`${oldMonners} + ${cur} Bonus Monners`, (canvas.width / 2.8) + 70, (canvas.height / 1.55) + 50);
+                        context.fillText(`${oldMonners} + ${cur} Bonus Monners`, (canvas.width / 2.8) + 70, (canvas.height / 1.55) + 57);
 
                         context.font = applyText(canvas, `${ch.guild.members.cache.get(member).displayName}`); //center text
                         context.fillText(`${ch.guild.members.cache.get(member).displayName}`, canvas.width / 2.8, canvas.height / 2.7);
