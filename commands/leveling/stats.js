@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const Canvas = require('canvas');
 Canvas.registerFont('./resources/fonts/Nunito-Regular.ttf', {family: "Nunito"});
 
+const Monners = require('../../models/monners');
+
 const applyText = (base, canvas, text) => {
 	const ctx = canvas.getContext('2d');
 	let fontSize = base;
@@ -61,12 +63,14 @@ module.exports = {
             if (!txp.xp[u.id]) {return message.channel.send(`${u.id === message.author.id ? "You" : "That user"} doesn't have any leveling info available!`);}
             xp = {xp: txp.xp[u.id][0], level: txp.xp[u.id][1]};
         } else {xp = client.misc.cache.lxp.xp[message.guild.id][u.id];}
+        let tmoon = client.misc.cache.monners[u.id] ? {currency: client.misc.cache.monners[u.id]} : await Monners.findOne({uid: u.id});
         if (!message.channel.permissionsFor(message.guild.me.id).has("ATTACH_FILES")) {
             return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle(`${u.displayName}${u.displayName.toLowerCase().endsWith('s') ? "'" : "'s"} Stats`)
                 .setDescription("Local leveling stats")
                 .addField("Level", `${xp.level}`, true)
                 .addField("XP", `**${xp.xp}** of **${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))}** needed to level up`, true)
+                .addField("Monners", `<:monners:926736756047495218> ${tmoon ? tmoon.currency : 0}`)
                 .setThumbnail(client.users.cache.get(u.id).avatarURL({size: 2048}))
                 .setColor("c375f0")
                 .setFooter({text: "Natsuki"})

@@ -7,6 +7,7 @@ const UserData = require('../models/user');
 const AR = require('../models/ar');
 const LXP = require('../models/localxp');
 const Monitors = require('../models/monitor');
+const Monners = require('../models/monners');
 
 const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE", "GUILD_TEXT"];
 
@@ -70,6 +71,11 @@ module.exports = async (client, message) => {
                 require('../util/lxp/gainxp')(client, message.member.id, message.channel);
             }
         });
+    }
+
+    if (!client.misc.cache.monners[message.author.id]) {
+        let tmonners = await Monners.findOne({uid: message.author.id}) || new Monners({uid: message.author.id});
+        client.misc.cache.monners[message.author.id] = tmonners.currency;
     }
 
     if (message.guild && client.misc.cache.monitEnabled.includes(message.guild.id)) {

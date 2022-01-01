@@ -43,7 +43,8 @@ client.misc = {
         charsID: new Discord.Collection(),
         animeID: new Discord.Collection(),
         charsNum: 0,
-        charsLove: new Discord.Collection()
+        charsLove: new Discord.Collection(),
+        monners: {}
     },
     loggers: {},
     rl: readline.createInterface({input: process.stdin, output: process.stdout}),
