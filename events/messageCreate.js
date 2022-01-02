@@ -78,7 +78,7 @@ module.exports = async (client, message) => {
         }
     }
 
-    if (message.guild && client.misc.cache.chests.includes(message.guild.id)) {require('../util/lxp/spawnchest')(client, message.member, message.channel, prefix);}
+    //if (message.guild && client.misc.cache.chests.includes(message.guild.id)) {require('../util/lxp/spawnchest')(client, message.member, message.channel, prefix);}
 
     if (!client.misc.cache.monners[message.author.id]) {
         let tmonners = await Monners.findOne({uid: message.author.id}) || new Monners({uid: message.author.id});
