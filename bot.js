@@ -31,7 +31,8 @@ client.misc = {
         lxp: {
             enabled: [],
             xp: {},
-            hasLevelRoles: []
+            hasLevelRoles: [],
+            disabledChannels: new Map()
         },
         monit: {},
         monitEnabled: [],
