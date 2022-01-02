@@ -14,7 +14,7 @@ module.exports = {
     },
     help: new Discord.MessageEmbed()
         .setTitle("Help -> Local Leveling Setup")
-        .setDescription("Set up your local leveling system to allow your server's members to progress in ranks, which lets you enable leveling roles and shops *features not available at this time*") //TODO remove the "features not available" as soon as they are available
+        .setDescription("Set up your local leveling system to allow your server's members to progress in ranks, which lets you enable leveling roles")
         .addField("Syntax", "`setupleveling`")
         .addField("Important Notice", "You must be a server administrator in order to use this command. Please know that local leveling systems can cost a great deal of our database storage space when used on larger servers, so please only enable this feature **if you will actually make use of it**, not just for fun."),
     async execute(message, msg, args, cmd, prefix, mention, client) {
@@ -36,7 +36,7 @@ module.exports = {
                 return message.channel.send({embeds: [new Discord.MessageEmbed()
                     .setTitle("XP System Enabled!")
                     .setThumbnail(message.guild.iconURL({size: 2048}))
-                    .setDescription(`Your server now has its leveling system enabled! If you enabled level up messages, you can set the channel for that using \`${prefix}levelchannel\`.`) //TODO update this with info on how the shiz works
+                    .setDescription(`Your server now has its leveling system enabled! If you enabled level up messages, you can set the channel for that using \`${prefix}levelchannel\`.\n\nAll members of your server will now gain XP as they talk. I'm a smart cookie, so don't try spamming. It won't work. Every member can gain more XP once per minute, no matter how many messages they send in that one minute.\n\nIf you want to see your level and how much more XP you need to level up, run \`${prefix}stats\`.`)
                     .setColor("c375f0")
                     .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                     .setTimestamp()

@@ -5,8 +5,7 @@ const lxp = new mongoose.Schema({
     msg: {type: Boolean, default: true},
     xp: {type: Object, default: {}},
     lvch: {type: String, default: ''},
-    chests: {type: Object},
-    noGains: {type: [String]}
+    noGains: [String]
 });
 
 module.exports = mongoose.model('localxp', lxp);

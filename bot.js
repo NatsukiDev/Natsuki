@@ -34,6 +34,8 @@ client.misc = {
             hasLevelRoles: [],
             disabledChannels: new Map()
         },
+        chests: [],
+        chestsTimeout: new Map(),
         monit: {},
         monitEnabled: [],
         inVC: [],
@@ -126,6 +128,7 @@ async function init() {
     client.utils.logch = async () => {return client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915');};
     client.utils.s = num => num === 1 ? '' : 's';
     client.utils.as = (num, text) => `${text}${client.utils.s(num)}`;
+    client.utils.an = (text, caps) => `${caps ? 'A' : 'a'}${['a', 'e', 'i', 'o'].includes(text.toLowerCase().trim().slice(0, 1)) ? 'n' : ''} ${text}`;
     client.guildconfig = {};
     client.guildconfig.prefixes = new Map();
 

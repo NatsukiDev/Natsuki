@@ -38,4 +38,9 @@ module.exports = async (client) => {
     await require('./cache/char')(client);
     ora_chCache.stop(); ora_chCache.clear();
     console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.charsNum}`)} ${chalk.blueBright(`characters into lookup registry.`)} ${chalk.gray(`(${client.misc.cache.chars.size} // NN)`)}`);
+
+    let ora_ctCache = ora("Caching Chests...").start();
+    await require('./cache/chest')(client);
+    ora_ctCache.stop(); ora_ctCache.clear();
+    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.chests.length}`)} ${chalk.blueBright("guilds that spawn chests.")}`);
 };
