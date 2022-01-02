@@ -60,17 +60,19 @@ module.exports = async (client, message) => {
 	}
 
 	if (message.guild && client.misc.cache.lxp.enabled.includes(message.guild.id)) {
-	    LXP.findOne({gid: message.guild.id}).then(xp => {
-            if (!client.misc.cache.lxp.xp[message.guild.id]) {client.misc.cache.lxp.xp[message.guild.id] = {};}
-            if (!client.misc.cache.lxp.xp[message.guild.id][message.author.id]) {client.misc.cache.lxp.xp[message.guild.id][message.author.id] = {
-                xp: xp.xp[message.author.id] ? xp.xp[message.author.id][0] : 0,
-                level: xp.xp[message.author.id] ? xp.xp[message.author.id][1] : 1,
-                lastXP: new Date().getTime() - 60000
-            };}
-            if (new Date().getTime() - client.misc.cache.lxp.xp[message.guild.id][message.author.id].lastXP > 60000) {
-                require('../util/lxp/gainxp')(client, message.member.id, message.channel);
-            }
-        });
+        if (!client.misc.cache.lxp.xp[message.guild.id]) {client.misc.cache.lxp.xp[message.guild.id] = {};}
+        if (!client.misc.cache.lxp.xp[message.guild.id][message.author.id]) {
+            LXP.findOne({gid: message.guild.id}).then(xp => {
+                client.misc.cache.lxp.xp[message.guild.id][message.author.id] = {
+                    xp: xp.xp[message.author.id] ? xp.xp[message.author.id][0] : 0,
+                    level: xp.xp[message.author.id] ? xp.xp[message.author.id][1] : 1,
+                    lastXP: new Date().getTime() - 60000
+                };
+            });
+        }
+        if (new Date().getTime() - client.misc.cache.lxp.xp[message.guild.id][message.author.id].lastXP > 60000) {
+            require('../util/lxp/gainxp')(client, message.member.id, message.channel);
+        }
     }
 
     if (!client.misc.cache.monners[message.author.id]) {
