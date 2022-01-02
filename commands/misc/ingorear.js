@@ -19,7 +19,7 @@ module.exports = {
         .addField("Syntax", "`[#channel|channelId]` - channel is optional."),
     async execute(message, msg, args, cmd, prefix, mention, client) {
         const tg = await GuildData.findOne({gid: message.guild.id});
-        if ((!tg || !tg.staffrole || !tg.staffrole.length || !message.member.roles.cache.has(tg.staffrole) && !message.member.permissions.has("ADMINISTRATOR"))) {return message.channel.send("You must have the staff role or be an administrator in this server in order to edit AR settings.");}
+        if ((!tg || !tg.staffrole || !tg.staffrole.length || !message.member.roles.cache.has(tg.staffrole)) && !message.member.permissions.has("ADMINISTRATOR")) {return message.channel.send("You must have the staff role or be an administrator in this server in order to edit AR settings.");}
 
         let tar = await AR.findOne({gid: message.guild.id});
         if (!tar || !tar.triggers.length) {return message.channel.send("This server doesn't have any auto-responses. Try adding some first, then you can set some channels to be ignored.");}
