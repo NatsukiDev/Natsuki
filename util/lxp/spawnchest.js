@@ -4,7 +4,7 @@ const manyitems = require('manyitems');
 const Discord = require('discord.js');
 
 module.exports = async (client, member, channel, prefix) => {
-    if (client.misc.cache.chestsTimeout.has(member.guild.id) && new Date().getTime() - client.misc.cache.chestsTimeout.get(member.guild.id) < (1000 * 60 * 2)) {return;}
+    if (client.misc.cache.chests.timeout.has(member.guild.id) && new Date().getTime() - client.misc.cache.chests.timeout.get(member.guild.id) < (1000 * 60 * 2)) {return;}
     //let rand = Math.floor(Math.random() * 100);
     //if (rand !== 69) {return;} //decide if it even continues
 
@@ -62,7 +62,7 @@ module.exports = async (client, member, channel, prefix) => {
     if (!chests) {return;}
     let spawnChannel = chests.channel && chests.channel.length ? chests.channel : channel;
 
-    client.misc.cache.chestsTimeout.set(member.guild.id, new Date().getTime());
+    client.misc.cache.chests.timeout.set(member.guild.id, new Date().getTime());
 
     let chestEmbed = new Discord.MessageEmbed()
         .setTitle(`${client.utils.an(rarity.name, true)} Chest has spawned!`)
@@ -70,10 +70,16 @@ module.exports = async (client, member, channel, prefix) => {
         .setFooter({text: `Type \`${prefix}claim\` to claim it!`})
         .setColor(rarity.color) //create the chest message
 
-    if (spawnChannel === channel) {return channel.send({embeds: [chestEmbed]}).catch(() => {});}
+    if (spawnChannel === channel) {
+        return channel.send({embeds: [chestEmbed]})
+        .then(m => {client.misc.cache.chests.waiting.set(m.channel.id, {amount: amount, rarity: rarity, message: m});})
+        .catch(() => {});
+    }
     else {
         member.guild.channels.fetch(spawnChannel)
-        .then(ch => ch.send({embeds: [chestEmbed]}).catch(() => {}))
+        .then(ch => ch.send({embeds: [chestEmbed]})
+            .then(m => {client.misc.cache.chests.waiting.set(m.channel.id, {amount: amount, rarity: rarity, message: m});})
+            .catch(() => {}))
         .catch(() => {})
     }
     return spawnChannel.send({embeds: [chestEmbed]}); //spawn the chest

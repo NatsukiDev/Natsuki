@@ -1,9 +1,9 @@
 const Chests = require('../../models/chests');
 
 module.exports = async client => {
-    client.misc.cache.chests = [];
+    client.misc.cache.chests.enabled = [];
 
     for await (const chest of Chests.find()) {
-        client.misc.cache.chests.push(chest.gid);
+        client.misc.cache.chests.enabled.push(chest.gid);
     }
 };
