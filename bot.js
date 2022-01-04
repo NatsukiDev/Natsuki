@@ -63,7 +63,8 @@ client.misc = {
         logs: 'normal',
         lightstartup: false,
         ignorecmds: []
-    }
+    },
+    fullyReady: false
 };
 
 //const config = require('./config.js');

@@ -12,6 +12,8 @@ const Monners = require('../models/monners');
 const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE", "GUILD_TEXT"];
 
 module.exports = async (client, message) => {
+    if (!client.misc.fullyReady) {return;}
+
     if (message.partial) {await message.fetch();}
     if (message.channel.partial) {await message.channel.fetch();}
 

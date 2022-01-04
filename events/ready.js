@@ -108,5 +108,7 @@ module.exports = async client => {
 
     await botData.save();
 
+	client.misc.fullyReady = true;
+
 	require('../console')(client);
 };
