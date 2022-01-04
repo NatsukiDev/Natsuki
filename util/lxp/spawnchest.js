@@ -67,12 +67,12 @@ module.exports = async (client, member, channel, prefix) => {
     let chestEmbed = new Discord.MessageEmbed()
         .setTitle(`${client.utils.an(rarity.name, true)} Chest has spawned!`)
         .setDescription(`It has **${amount} Monners<:monners:926736756047495218>**`)
-        .setFooter({text: `Type \`${prefix}claim\` to claim it!`})
+        .setFooter({text: `Type ${prefix}claim to claim it!`})
         .setColor(rarity.color) //create the chest message
 
     if (spawnChannel === channel) {
         return channel.send({embeds: [chestEmbed]})
-        .then(m => {client.misc.cache.chests.waiting.set(m.channel.id, {amount: amount, rarity: rarity, message: m});})
+        .then(m => {client.misc.cache.chests.waiting.set(m.channel.id, {amount: amount, rarity: rarity, message: m});}) //place the chest in waiting to make it claimable
         .catch(() => {});
     }
     else {
