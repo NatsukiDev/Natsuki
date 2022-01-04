@@ -19,11 +19,10 @@ module.exports = async (client, message) => {
 
 	if (!channelTypes.includes(message.channel.type)) {return undefined;}
 
-	//if (message.channel.type == "text") {if (settings[message.guild.id]) {prefix = settings[message.guild.id].prefix;};};
-
     if (message.guild && !message.member.permissions.has("SEND_MESSAGES")) {return undefined;}
 	
-    let prefix = message.guild ? client.guildconfig.prefixes.has(message.guild.id) ? client.guildconfig.prefixes.get(message.guild.id) !== null ? client.guildconfig.prefixes.get(message.guild.id) : 'n?' : 'n?' : 'n?';
+    let defaultPrefix = client.misc.config.dev ? 'n!' : 'n?';
+    let prefix = message.guild ? client.guildconfig.prefixes.has(message.guild.id) ? client.guildconfig.prefixes.get(message.guild.id) !== null ? client.guildconfig.prefixes.get(message.guild.id) : defaultPrefix : defaultPrefix : defaultPrefix;
 
 	let msg = message.content.toLowerCase().replace('\u200E', '');
 	let mention = message.mentions.users.first();
@@ -78,7 +77,7 @@ module.exports = async (client, message) => {
         }
     }
 
-    //if (message.guild && client.misc.cache.chests.includes(message.guild.id)) {require('../util/lxp/spawnchest')(client, message.member, message.channel, prefix);}
+    if (message.guild && client.misc.cache.chests.enabled.includes(message.guild.id)) {require('../util/lxp/spawnchest')(client, message.member, message.channel, prefix);}
 
     if (!client.misc.cache.monners[message.author.id]) {
         let tmonners = await Monners.findOne({uid: message.author.id}) || new Monners({uid: message.author.id});
