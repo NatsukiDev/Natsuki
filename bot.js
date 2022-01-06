@@ -52,7 +52,8 @@ client.misc = {
         animeID: new Discord.Collection(),
         charsNum: 0,
         charsLove: new Discord.Collection(),
-        monners: {}
+        monners: {},
+        monnersNames: new Map()
     },
     loggers: {},
     rl: readline.createInterface({input: process.stdin, output: process.stdout}),

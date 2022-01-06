@@ -66,7 +66,7 @@ module.exports = async (client, member, channel, prefix) => {
 
     let chestEmbed = new Discord.MessageEmbed()
         .setTitle(`${client.utils.an(rarity.name, true)} Chest has spawned!`)
-        .setDescription(`It has **${amount} Monners<:monners:926736756047495218>**`)
+        .setDescription(`It has **${amount} ${client.misc.cache.monnersNames.get(member.guild.id) || 'Monners'}<:monners:926736756047495218>**`)
         .setFooter({text: `Type ${prefix}claim to claim it!`})
         .setColor(rarity.color) //create the chest message
 

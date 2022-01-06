@@ -35,6 +35,8 @@ module.exports = async (client, message) => {
             : message.content.slice(3 + client.user.id.length).trim().replace('\u200E', '').split(/\s+/g);
 	let cmd = args.shift().toLowerCase().trim();
 
+    message.misc = {mn: message.guild ? (client.misc.cache.monnersNames.get(message.guild.id) || 'Monners') : 'Monners'};
+
     if (message.content.includes("@everyone")) {return;}
 
 	if ([`<@${client.user.id}>`, `<@!${client.user.id}>`].includes(msg)) {

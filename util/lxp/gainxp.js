@@ -38,7 +38,7 @@ module.exports = async (client, member, channel) => {
                 client.misc.cache.monners[member] += cur;
 
                 if (ch && ch.permissionsFor(ch.guild.me.id).has('SEND_MESSAGES')) {
-                    if (!ch.permissionsFor(ch.guild.me.id).has('ATTACH_FILES')) {ch.send(`<:awoo:560193779764559896> <@${member}> has reached **Level ${x + 1}**, and gained **${cur}** bonus Monners<:monners:926736756047495218>! <a:meowth_monners:926736229184208927>`).catch((e) => {/*console.error(e)*/});}
+                    if (!ch.permissionsFor(ch.guild.me.id).has('ATTACH_FILES')) {ch.send(`<:awoo:560193779764559896> <@${member}> has reached **Level ${x + 1}**, and gained **${cur}** bonus ${client.misc.cache.monnersNames.get(channel.guild.id) || 'Monners'}<:monners:926736756047495218>! <a:meowth_monners:926736229184208927>`).catch((e) => {/*console.error(e)*/});}
                     else {
                         const canvas = Canvas.createCanvas(1193, 411);
                         const context = canvas.getContext('2d');
@@ -55,7 +55,7 @@ module.exports = async (client, member, channel) => {
 
                         const monnersImage = await Canvas.loadImage('https://cdn.discordapp.com/emojis/926736756047495218');
                         context.drawImage(monnersImage, canvas.width / 2.8, canvas.height / 1.5, 58, 60);
-                        context.fillText(`${oldMonners} + ${cur} Bonus Monners`, (canvas.width / 2.8) + 70, (canvas.height / 1.55) + 57);
+                        context.fillText(`${oldMonners} + ${cur} Bonus ${client.misc.cache.monnersNames.get(channel.guild.id) || 'Monners'}`, (canvas.width / 2.8) + 70, (canvas.height / 1.55) + 57);
 
                         context.font = applyText(canvas, `${ch.guild.members.cache.get(member).displayName}`); //center text
                         context.fillText(`${ch.guild.members.cache.get(member).displayName}`, canvas.width / 2.8, canvas.height / 2.7);
@@ -64,7 +64,7 @@ module.exports = async (client, member, channel) => {
                         context.drawImage(avatar, 40, 40, canvas.height - 80, canvas.height - 80);
 
                         ch.send({
-                            content: `<:awoo:560193779764559896> <@${member}> has reached **Level ${x + 1}**, and gained **${cur}** bonus Monners<:monners:926736756047495218>! <a:meowth_monners:926736229184208927>`,
+                            content: `<:awoo:560193779764559896> <@${member}> has reached **Level ${x + 1}**, and gained **${cur}** bonus ${client.misc.cache.monnersNames.get(channel.guild.id) || 'Monners'}<:monners:926736756047495218>! <a:meowth_monners:926736229184208927>`,
                             files: [new Discord.MessageAttachment(canvas.toBuffer(), 'level-up.png')]
                         });
                     }
