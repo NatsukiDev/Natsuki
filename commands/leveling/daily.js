@@ -44,7 +44,7 @@ module.exports = {
             .setAuthor({iconURL: message.guild ? message.member.displayAvatarURL() : message.author.iconURL(), name: message.guild ? message.member.displayName : message.author.username})
             .setDescription(`You've claimed today's daily!`)
             .addField("Streak", streakIncrease ? `Your streak has **increased** to **${tm.daily.streak}**` : 'Your streak has **reset** to **1**.', true)
-            .addField("Bonus Monners", `<:monners:926736756047495218> ${bonus}`, true)
+            .addField(`Bonus ${message.misc.mn}`, `<:monners:926736756047495218> ${bonus}`, true)
             .addField("Total Dailies Claimed", `${tm.daily.total}`)
             .setColor('c375f0')
         ]});

@@ -5,6 +5,7 @@ const lastfm = require("lastfm");
 const GuildSettings = require('../models/guild');
 const BotDataSchema = require('../models/bot');
 const LogData = require('../models/log');
+const Saves = require('../models/saves');
 
 const siftStatuses = require('../util/siftstatuses');
 const localXPCacheClean = require('../util/lxp/cacheloop');
@@ -81,6 +82,9 @@ module.exports = async client => {
 	setInterval(() => {siftStatuses(client, null);}, 120000);
 
 	await require('../util/cache')(client);
+
+	let mnsaves = await Saves.findOne({name: 'monnersnames'}) || new Saves({name: 'monnersnames'});
+	client.misc.cache.monnersNames = mnsaves.saves;
 
 	setInterval(() => localXPCacheClean(client), 150000);
 	setInterval(() => monitorCacheClean(client), 150000);
