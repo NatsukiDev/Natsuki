@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="list characters in anime">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/char.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/anime/anime.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/anime.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +23,9 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="c33h99al" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -79,6 +82,8 @@
       <workItem from="1640131913922" duration="1135000" />
       <workItem from="1640142319793" duration="749000" />
       <workItem from="1640147904557" duration="6966000" />
+      <workItem from="1641588609694" duration="320000" />
+      <workItem from="1641840125341" duration="1415000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
