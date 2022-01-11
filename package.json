@@ -14,6 +14,7 @@
         "discord-api-types": "^0.22.0",
         "discord.js": "^13.5.0",
         "fuzzysort": "^1.1.4",
+        "gradient-string": "^2.0.0",
         "lastfm": "^0.9.0",
         "manyitems": "^1.0.2",
         "moment": "^2.28.0",
@@ -22,6 +23,7 @@
         "node-fetch": "^2.6.1",
         "ora": "^5.3.0",
         "swwrap": "^1.0.0",
+        "tinygradient": "^1.1.5",
         "ws": "^7.4.6"
     },
     "engines": {

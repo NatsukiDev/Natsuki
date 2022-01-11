@@ -20,7 +20,7 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
             .setDescription(`**Name:** ${cch.name}`)
             .addField('Other', `**Anime**: ${forceAni ? cch.anime : `${ani.name} | ${ani.japname} | \`${ani.id}\``}\n\n**Gender**: ${cch.gender}\n`)
             .setColor("c375f0")
-            .setImage(cch.images[Math.floor(Math.random() * (cch.images.length + 1))])
+            .setImage(cch.images[Math.floor(Math.random() * cch.images.length)])
             .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
             .setTimestamp();
         if (type === 'full') {
