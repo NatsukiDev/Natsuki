@@ -78,7 +78,7 @@ module.exports = {
                 dmch = mesg.channel;
 
                 options.name = await ask(mesg, "What is the anime's name? Make sure to use proper capitalization and spelling. This applies to the rest of the questions I'll ask you.", 60000, true); if (!options.name) {return;}
-                if (options.name.length > 75) {clearDM(); return dmch.send("The anime name can't be more than 75 characters!");}
+                if (options.name.length > (queue ? 75 : 250)) {clearDM(); return dmch.send(`The anime name can't be more than ${queue ? 75 : 250} characters!`);}
 
                 options.plot = await ask(mesg, "How would you describe the anime? Give a very brief description of things like its plot, main characters, and setting.", 240000, true); if (!options.plot) {return clearDM();}
                 if (options.plot.length > 500) {clearDM(); return dmch.send("Oi! I said give a \"very brief\" description of the anime!");}
