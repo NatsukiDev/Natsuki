@@ -19,7 +19,7 @@ module.exports = async client => {
             log(`${chalk.gray('[LOAD]')} >> ${chalk.blueBright('Loaded Event')} ${chalk.white(evtName)}`);
         }
         log(`\n${chalk.gray('[BOOT]')} >> ${chalk.blue('Loaded all Events')}`);
-        client.misc.cache.spin.success('event', {text: iters.map(i => `Loaded ${i.slice(0, 1).toUpperCase()}${i.slice(1)}s`).map(i => client.misc.config.gradients ? gs.instagram(i) : chalk.blue(i))[1]});
+        if (client.misc.config.spinners) {client.misc.cache.spin.success('event', {text: iters.map(i => `Loaded ${i.slice(0, 1).toUpperCase()}${i.slice(1)}s`).map(i => client.misc.config.gradients ? gs.instagram(i) : chalk.blue(i))[1]});}
         resolve(0);
     });
 };

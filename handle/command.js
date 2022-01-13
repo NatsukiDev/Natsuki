@@ -26,7 +26,7 @@ module.exports = async client => {
             else {addCommand(command);}
         }
         log(`\n${chalk.gray('[BOOT]')} >> ${chalk.blue('Loaded all Commands')}`);
-        client.misc.cache.spin.success('command', {text: iters.map(i => `Loaded ${i.slice(0, 1).toUpperCase()}${i.slice(1)}s`).map(i => client.misc.config.gradients ? gs.instagram(i) : chalk.blue(i))[0]});
+        if (client.misc.config.spinners) {client.misc.cache.spin.success('command', {text: iters.map(i => `Loaded ${i.slice(0, 1).toUpperCase()}${i.slice(1)}s`).map(i => client.misc.config.gradients ? gs.instagram(i) : chalk.blue(i))[0]});}
         resolve(0);
     });
 };

@@ -18,7 +18,7 @@ module.exports = client => {
             log(`${chalk.gray('[LOAD]')} >> ${chalk.blueBright('Loaded Response')} ${chalk.white(response.name)}`);
         }
         log(`\n${chalk.gray('[BOOT]')} >> ${chalk.blue('Loaded all Responses')}`);
-        client.misc.cache.spin.success('response', {text: iters.map(i => `Loaded ${i.slice(0, 1).toUpperCase()}${i.slice(1)}s`).map(i => client.misc.config.gradients ? gs.instagram(i) : chalk.blue(i))[2]});
+        if (client.misc.config.spinners) {client.misc.cache.spin.success('response', {text: iters.map(i => `Loaded ${i.slice(0, 1).toUpperCase()}${i.slice(1)}s`).map(i => client.misc.config.gradients ? gs.instagram(i) : chalk.blue(i))[2]});}
         resolve(0);
     });
 };
