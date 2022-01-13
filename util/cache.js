@@ -1,46 +1,49 @@
-const ora = require('ora');
+const gs = require('gradient-string');
+const spinnies = require('dreidels');
 const chalk = require('chalk');
 
 module.exports = async (client) => {
-    console.log('');
-    let ora_arCache = ora("Caching ARs...").start();
-    await require('./cache/ar')(client);
-    ora_arCache.stop(); ora_arCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.ar.size}`)} ${chalk.blueBright(`guilds with auto responses.`)}`);
+    return new Promise(async resolve => {
+        const loaders = [];
+        const spin = new spinnies();
 
-    let ora_blCache = ora("Caching Blacklists...").start();
-    await require('./cache/bl')(client);
-    ora_blCache.stop(); ora_blCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.bl.guild.length}`)} ${chalk.blueBright(`guild blacklists`)}`);
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.bl.user.length}`)} ${chalk.blueBright(`user blacklists`)}`);
+        console.log('');
 
-    let ora_lxpCache = ora("Caching Local XPs...").start();
-    await require('./cache/lxp')(client);
-    ora_lxpCache.stop(); ora_lxpCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.lxp.enabled.length}`)} ${chalk.blueBright(`guilds with XP enabled.`)}`);
+        let arCache = spin.add("ar", {text: "Caching ARs..."});
+        loaders.push(require('./cache/ar')(client, arCache));
 
-    let ora_lrCache = ora("Caching Level Roles...").start();
-    await require('./cache/lr')(client);
-    ora_lrCache.stop(); ora_lrCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.lxp.hasLevelRoles.length}`)} ${chalk.blueBright(`guilds with Level Roles enabled.`)}`);
+        let blCache = spin.add("bl", {text: "Caching Guild Blacklists..."});
+        let bluCache = spin.add("blu", {text: "Caching User Blacklists..."});
+        loaders.push(require('./cache/bl')(client, blCache, bluCache));
 
-    let ora_moCache = ora("Caching Monitors...").start();
-    await require('./cache/monit')(client);
-    ora_moCache.stop(); ora_moCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${Object.keys(client.misc.cache.monit).length}`)} ${chalk.blueBright(`guilds with Monitors enabled.`)}`);
+        let lxpCache = spin.add("xp", {text: "Caching Local XPs..."});
+        loaders.push(require('./cache/lxp')(client, lxpCache));
 
-    let ora_anCache = ora("Caching Animes...").start();
-    await require('./cache/anime')(client);
-    ora_anCache.stop(); ora_anCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.animeNum}`)} ${chalk.blueBright(`animes into lookup registry.`)}`);
+        let lrCache = spin.add("lr", {text: "Caching Level Roles..."});
+        loaders.push(require('./cache/lr')(client, lrCache));
 
-    let ora_chCache = ora("Caching Characters...").start();
-    await require('./cache/char')(client);
-    ora_chCache.stop(); ora_chCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.charsNum}`)} ${chalk.blueBright(`characters into lookup registry.`)} ${chalk.gray(`(${client.misc.cache.chars.size} // NN)`)}`);
+        let moCache = spin.add("m", {text: "Caching Monitors..."});
+        loaders.push(require('./cache/monit')(client, moCache));
 
-    let ora_ctCache = ora("Caching Chests...").start();
-    await require('./cache/chest')(client);
-    ora_ctCache.stop(); ora_ctCache.clear();
-    console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.chests.enabled.length}`)} ${chalk.blueBright("guilds that spawn chests.")}`);
+        let anCache = spin.add("a", {text: "Caching Animes..."});
+        loaders.push(require('./cache/anime')(client, anCache));
+
+        let chCache = spin.add("ch", {text: "Caching Characters..."});
+        loaders.push(require('./cache/char')(client, chCache));
+
+        let ctCache = spin.add("cht", {text: "Caching Chests..."});
+        loaders.push(require('./cache/chest')(client, ctCache));
+
+        await Promise.all(loaders);
+        
+        /*console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.bl.guild.length}`)} ${chalk.blueBright(`guild blacklists`)}`);
+        console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.bl.user.length}`)} ${chalk.blueBright(`user blacklists`)}`);
+        console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.lxp.enabled.length}`)} ${chalk.blueBright(`guilds with XP enabled.`)}`);
+        console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.lxp.hasLevelRoles.length}`)} ${chalk.blueBright(`guilds with Level Roles enabled.`)}`);
+        console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${Object.keys(client.misc.cache.monit).length}`)} ${chalk.blueBright(`guilds with Monitors enabled.`)}`);
+        console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.animeNum}`)} ${chalk.blueBright(`animes into lookup registry.`)}`);
+        console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.charsNum}`)} ${chalk.blueBright(`characters into lookup registry.`)} ${chalk.gray(`(${client.misc.cache.chars.size} // NN)`)}`);
+        console.log(`${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${client.misc.cache.chests.enabled.length}`)} ${chalk.blueBright("guilds that spawn chests.")}`);*/
+        resolve(0);
+    });
 };

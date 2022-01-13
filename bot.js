@@ -15,6 +15,7 @@ const {TagFilter} = require('./util/tagfilter');
 const flags = Discord.Intents.FLAGS;
 let fl = []; Object.keys(flags).forEach(flag => fl.push(flags[flag]));
 let client = new Discord.Client({intents: fl, partials: ["CHANNEL", "REACTION", "MESSAGE"]});
+let botReadyResolver;
 
 client.misc = {
     savers: ['497598953206841375', '480535078150340609', '468903364533420074'],
@@ -69,6 +70,7 @@ client.misc = {
         gradients: false,
         spinners: false
     },
+    botFinished: new Promise(r => {botReadyResolver = r;}),
     fullyReady: false
 };
 
@@ -158,6 +160,8 @@ async function init() {
     client.guildconfig.prefixes = new Map();
 
     client.guildconfig.logs = new Map();
+
+    botReadyResolver(0);
 
     await require('./util/wait')(5000);
     if (!client.misc.readied) {client.misc.forcedReady = true; await require('./events/ready')(client);}

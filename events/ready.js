@@ -17,6 +17,7 @@ let prefix = 'n?';
 module.exports = async client => {
 	if (client.misc.readied) {return;}
 	client.misc.readied = true;
+	await client.misc.botFinished;
 	
 	const config = client.config;
 
