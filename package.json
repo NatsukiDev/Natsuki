@@ -13,6 +13,7 @@
         "dblapi.js": "^2.4.1",
         "discord-api-types": "^0.22.0",
         "discord.js": "^13.5.0",
+        "dreidels": "^0.5.2",
         "fuzzysort": "^1.1.4",
         "gradient-string": "^2.0.0",
         "lastfm": "^0.9.0",

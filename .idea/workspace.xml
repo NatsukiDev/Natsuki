@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="list characters in anime">
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/anime/charsearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/anime/charsearch.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +96,7 @@
       <workItem from="1640147904557" duration="6966000" />
       <workItem from="1641528547432" duration="191000" />
       <workItem from="1641707455657" duration="759000" />
-      <workItem from="1641853758124" duration="1487000" />
+      <workItem from="1641853758124" duration="2333000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -130,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640214318896</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fix images not showing in charsearch">
+      <created>1641863346127</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1641863346127</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,6 +157,7 @@
     <MESSAGE value="stoopid errors" />
     <MESSAGE value="e" />
     <MESSAGE value="list characters in anime" />
-    <option name="LAST_COMMIT_MESSAGE" value="list characters in anime" />
+    <MESSAGE value="fix images not showing in charsearch" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix images not showing in charsearch" />
   </component>
 </project>

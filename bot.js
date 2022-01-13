@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
-
+const spinnies = require('dreidels');
+const gs = require('gradient-string');
 const chalk = require('chalk');
 const ora = require('ora');
 const mongoose = require('mongoose');
@@ -53,7 +54,8 @@ client.misc = {
         charsNum: 0,
         charsLove: new Discord.Collection(),
         monners: {},
-        monnersNames: new Map()
+        monnersNames: new Map(),
+        spin: new spinnies()
     },
     loggers: {},
     rl: readline.createInterface({input: process.stdin, output: process.stdout}),
@@ -63,7 +65,9 @@ client.misc = {
         dev: false,
         logs: 'normal',
         lightstartup: false,
-        ignorecmds: []
+        ignorecmds: [],
+        gradients: false,
+        spinners: false
     },
     fullyReady: false
 };
@@ -79,7 +83,9 @@ async function init() {
         new Tag(['dev', 'd', 'development', 'test'], 'dev', 'toggle'),
         new Tag(['logs', 'l', 'loglevel', 'll'], 'logs', 'append'),
         new Tag(['lightstart', 'lightstartup', 'ls'], 'lightstartup', 'toggle'),
-        new Tag(['i', 'ignore', 'icmd', 'ignorecmd'], 'ignorecmds', 'listAppend')
+        new Tag(['i', 'ignore', 'icmd', 'ignorecmd'], 'ignorecmds', 'listAppend'),
+        new Tag(['g', 'gradient', 'gradients'], 'gradients', 'toggle'),
+        new Tag(['s', 'sp', 'spinners', 'spin'], 'spinners', 'toggle')
     ]).test(process.argv.slice(2).join(" "));
 
     if (Object.keys(cliargs).length) {
@@ -123,19 +129,31 @@ async function init() {
         mloginsp.stop(); mloginsp.clear();
     }
 
-    ['commands', 'aliases', 'executables'].forEach(x => client[x] = new Discord.Collection());
-    client.responses = {triggers: [], commands: new Discord.Collection()};
-
-    ['command', 'event', 'response'].forEach(x => require(`./handle/${x}`)(client));
-    if (!client.misc.config.nocli) {require('./handle/console')(client);}
-
     client.developers = ["330547934951112705", "673477059904929802"];
-    client.utils = {};
 
-    client.utils.logch = async () => {return client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915');};
+    client.utils = {};
     client.utils.s = num => num === 1 ? '' : 's';
     client.utils.as = (num, text) => `${text}${client.utils.s(num)}`;
     client.utils.an = (text, caps) => `${caps ? 'A' : 'a'}${['a', 'e', 'i', 'o', 'u'].includes(text.toLowerCase().trim().slice(0, 1)) ? 'n' : ''} ${text}`;
+
+    ['commands', 'aliases', 'executables'].forEach(x => client[x] = new Discord.Collection());
+    client.responses = {triggers: [], commands: new Discord.Collection()};
+    let iters = ['command', 'event', 'response'];
+    if (client.misc.config.spinners) {
+        console.log('');
+        client.misc.cache.spinLog = [];
+        iters.map(i => `Loading ${i.slice(0, 1).toUpperCase()}${i.slice(1)}s`)
+        .map(i => client.misc.config.gradients ? gs.instagram(i) : chalk.blue(i))
+        .forEach((i, ind) => client.misc.cache.spin.add(iters[ind], {text: i}));
+    }
+    for (let i = 0; i < iters.length; i++) {let x = iters[i]; await require(`./handle/${x}`)(client);}
+    if (client.misc.config.spinners) {
+        await require('./util/wait')(1000);
+        client.misc.cache.spinLog.forEach(log => console.log(log));
+    }
+    if (!client.misc.config.nocli) {require('./handle/console')(client);}
+
+    client.utils.logch = async () => {return client.guilds.cache.get('762707532417335296').channels.cache.get('762732961753595915');};
     client.guildconfig = {};
     client.guildconfig.prefixes = new Map();
 
