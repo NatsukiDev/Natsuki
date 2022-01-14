@@ -57,6 +57,7 @@ module.exports = async (client, member, channel, prefix) => {
     });
     let streakBonus = streak !== 0 ? Math.floor((Math.floor(Math.random() * (rarity.amount * .10)) * 1.5 * streak)) : 0;
     let amount = ri.calc_bubble() + streakBonus; //calculate the amount by allowing a 10% +/- variance, higher potential with higher streak, and adding another random bonus with streak
+    if (isNaN(amount)) {return;}
 
     let chests = await Chests.findOne({gid: member.guild.id});
     if (!chests) {return;}

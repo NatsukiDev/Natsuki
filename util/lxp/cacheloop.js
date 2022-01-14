@@ -9,6 +9,7 @@ module.exports = async (client) => {
             Object.keys(client.misc.cache.lxp.xp[gxp]).forEach(user => {
                 Monners.findOne({uid: user}).then(m => {
                     if (!Object.keys(client.misc.cache.monners).includes(user)) {return;}
+                    if (isNaN(client.misc.cache.monners[user])) {return;}
                     if (!m) {m = new Monners({uid: user});}
                     m.currency = client.misc.cache.monners[user];
                     m.save();
