@@ -85,7 +85,13 @@ module.exports = {
         tfc.save();
         af.watched.push(fn);
         af.markModified('watched');
+        let dw = false;
+        if (af.toWatch.includes(fn)) {
+            af.toWatch.splice(af.toWatch.indexOf(fn), 1);
+            af.markModified('toWatch');
+            dw = true;
+        }
         af.save();
-        return message.channel.send(`I've added **${tfc.name}** to your list of finished animes!`);
+        return message.channel.send(`I've added **${tfc.name}** to your list of finished animes!${dw ? " I've also removed it from your watch list for you :p" : ''}`);
     }
 };
