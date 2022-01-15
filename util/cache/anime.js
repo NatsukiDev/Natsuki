@@ -5,6 +5,8 @@ const AniData = require('../../models/anime');
 
 module.exports = async (client, spinner) => {
     return new Promise(async resolve => {
+        const st = new Date().getTime();
+
         client.misc.cache.anime = new Discord.Collection();
         client.misc.cache.animeID = new Discord.Collection();
         client.misc.cache.animeLove = new Discord.Collection();
@@ -24,6 +26,8 @@ module.exports = async (client, spinner) => {
             }
         }
 
+        const cacheTime = new Date().getTime() - st;
+        spinner.update({text: `${spinner.options.text.slice(0, 19).trim()} ${chalk.gray(`${cacheTime}ms >>`.padStart(8, '0').padStart(7, '0'))} ${spinner.options.text.slice(19).trim()}`});
         spinner.status('non-spinnable');
 
         resolve(0);

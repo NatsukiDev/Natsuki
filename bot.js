@@ -150,7 +150,6 @@ async function init() {
     }
     for (let i = 0; i < iters.length; i++) {let x = iters[i]; await require(`./handle/${x}`)(client);}
     if (client.misc.config.spinners) {
-        await require('./util/wait')(1000);
         client.misc.cache.spinLog.forEach(log => console.log(log));
     }
     if (!client.misc.config.nocli) {require('./handle/console')(client);}

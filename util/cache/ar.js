@@ -3,6 +3,8 @@ const chalk = require('chalk');
 
 module.exports = async (client, spinner) => {
     return new Promise(async resolve => {
+        const st = new Date().getTime();
+
         client.misc.cache.ar = new Map();
         client.misc.cache.arIgnore = new Map();
         let amount = 0;
@@ -14,6 +16,8 @@ module.exports = async (client, spinner) => {
             amount++;
         }
 
+        const cacheTime = new Date().getTime() - st;
+        spinner.update({text: `${spinner.options.text.slice(0, 19).trim()} ${chalk.gray(`${cacheTime}ms >>`.padStart(8, '0').padStart(7, '0'))} ${spinner.options.text.slice(19).trim()}`});
         spinner.status('non-spinnable');
         resolve(0);
     });
