@@ -43,10 +43,11 @@ module.exports = {
             }
             else {return message.reply("Looks like you didn't find the character you were looking for.");}
         } else {
-            await message.channel.send({embeds: [asr.embed]});
-            let conf = await ask(message, "Is this the character you meant?", 60000);
+            let preConfEmbed = await message.channel.send({embeds: [asr.embed]});
+            let conf = await ask(message, "Is this the character you meant?", 60000, undefined, undefined, true);
             if (!['y', 'yes', 'ye', 'n', 'no'].includes(conf.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
             conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
+            preConfEmbed.delete().catch(() => {});
             if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the character you're looking for then I would try again with a more narrow search.");}
             fn = asr.id;
         }
