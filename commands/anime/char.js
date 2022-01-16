@@ -215,7 +215,7 @@ module.exports = {
                             aniData.markModified('characters');
                             aniData.save();
                         }
-                        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({embeds: [amEmbed]}));
+                        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177797705781308').send({embeds: [amEmbed]}));
                         am.delete().catch(() => {});
                         return dmch.send(`Your character has been ${!queue ? "added" : "submitted"}`);
                     } else {
@@ -413,7 +413,7 @@ module.exports = {
                         ch.markModified('images');
                         ch.save();
                     }
-                    client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
+                    client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177850239422494').send({
                         embeds: [
                             new Discord.MessageEmbed()
                                 .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
@@ -433,7 +433,7 @@ module.exports = {
                         ch.markModified('images');
                         ch.save();
                     }
-                    client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
+                    client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177850239422494').send({
                         embeds: [
                             new Discord.MessageEmbed()
                                 .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
@@ -550,7 +550,7 @@ module.exports = {
                 ch.save();
                 client.misc.cache.chars.set(nn, ch.id);
             }
-            client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
+            client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177814638186516').send({
                 embeds: [
                     new Discord.MessageEmbed()
                         .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})

@@ -62,7 +62,7 @@ module.exports = {
             ch.save();
             client.misc.cache.anime.set(nn, ch.id);
         }
-        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('817466729293938698').send({
+        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177814638186516').send({
             embeds: [
                 new Discord.MessageEmbed()
                     .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
