@@ -66,14 +66,16 @@ module.exports = {
             } else if (asr instanceof Pagination) {
                 await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
                 await asr.message.react('✅');
-                await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
+                let noticeDel = await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
                 let arc;
                 try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
                 catch {return message.reply("Looks like you didn't find the anime you were looking for.");}
                 collected = arc.first().emoji.name;
                 if (collected === '✅') {
                     fn = client.misc.cache.anime.get(asr.getCurrentPage().title.trim());
-                    asr.stop();
+                    await asr.stop();
+                    await asr.message.delete().catch(() => {});
+                    await noticeDel.delete().catch(() => {});
                 }
                 else {return message.reply("Looks like you didn't find the anime you were looking for.");}
             } else {
