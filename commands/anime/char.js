@@ -215,7 +215,25 @@ module.exports = {
                             aniData.markModified('characters');
                             aniData.save();
                         }
-                        client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177797705781308').send({embeds: [amEmbed]}));
+                        client.guilds.fetch('762707532417335296')
+                            .then(g => g.channels.cache.get('932177797705781308').send({embeds: [amEmbed]})
+                                .then(nchm => {if (options.images && options.images.length) {
+                                    let imagesEmbed = new Discord.MessageEmbed()
+                                        .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                                        .setTitle(`New Image ${queue ? "Submitted" : "Added"}`)
+                                        .setDescription(`For **${options.name}** | \`${options.id}\` from ${client.misc.cache.animeID.get(options.anime)}`)
+                                        .setThumbnail(options.thumbnail)
+                                        .setImage(options.images[0])
+                                        .setColor('c375f0')
+                                        .setTimestamp()
+                                        .setFooter({text: "Natsuki"})
+                                    if (options.images.length > 1) {imagesEmbed.addField("Images", options.images.join("\n"));}
+                                    nchm.guild.channels.cache.get('932177850239422494').send({
+                                        embeds: [imagesEmbed], content: queue ? '<@330547934951112705>' : undefined
+                                    }).catch(() => {});
+                                }})
+                                .catch(() => {})
+                            );
                         am.delete().catch(() => {});
                         return dmch.send(`Your character has been ${!queue ? "added" : "submitted"}`);
                     } else {
