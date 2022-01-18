@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="higher ani name for natsuki staff">
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="extra images now show on char tag add">
+      <change afterPath="$PROJECT_DIR$/util/ts/livepagination.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/char.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/ts/pagination.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/ts/pagination.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,14 +45,21 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/util/ts" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="C:\Users\clarkjr1836\Downloads\WebStorm-2021.2.2.win\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.rename.search.for.dynamic.occurrences" value="true" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\clarkjr1836\Desktop\bot\Natsuki\util\ts" />
+    </key>
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -100,7 +108,7 @@
       <workItem from="1640147904557" duration="6966000" />
       <workItem from="1641588609694" duration="320000" />
       <workItem from="1641840125341" duration="1415000" />
-      <workItem from="1642537991410" duration="1236000" />
+      <workItem from="1642537991410" duration="3454000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -130,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640214318896</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="extra images now show on char tag add">
+      <created>1642539309483</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1642539309483</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,6 +169,7 @@
     <MESSAGE value="stoopid errors" />
     <MESSAGE value="e" />
     <MESSAGE value="list characters in anime" />
-    <option name="LAST_COMMIT_MESSAGE" value="list characters in anime" />
+    <MESSAGE value="extra images now show on char tag add" />
+    <option name="LAST_COMMIT_MESSAGE" value="extra images now show on char tag add" />
   </component>
 </project>
