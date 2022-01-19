@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-
 const AF = require("../../models/anifav");
 const AniData = require('../../models/anime');
 
@@ -23,7 +21,7 @@ module.exports = {
     help: "Check if you or another user has watched an anime with `{{p}}haswatched`",
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let user;
-        if (args[0] && args[0].match(/(?:<@\!?\d+>|\d+)/gm)) {
+        if (args[0] && args[0].match(/<@!?\d+>|\d+/gm)) {
             user = message.guild ? (mention || client.users.cache.get(args[0])) : message.author;
             if (!user) {return message.channel.send("Hmmm... for some reason I can't find the user you're looking for?");}
             args.shift();
@@ -38,7 +36,7 @@ module.exports = {
         if (asr === 0) {
             return message.channel.send("That search returned no results! Try again?");
         } else if (asr instanceof Pagination) {
-            await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+            await asr.start({user: message.author.id, startPage: 0, endTime: 60000});
             await asr.message.react('✅');
             await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
             let arc;

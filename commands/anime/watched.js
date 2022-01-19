@@ -58,7 +58,7 @@ module.exports = {
         if (asr === 0) {
             return message.channel.send("That search returned no results! Try again?");
         } else if (asr instanceof Pagination) {
-            await asr.start({user: message.author.id, startPage: 1, endTime: 60000});
+            await asr.start({user: message.author.id, startPage: 0, endTime: 60000});
             await asr.message.react('✅');
             let noticeDel = await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
             let arc;
