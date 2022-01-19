@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="extra images now show on char tag add">
-      <change afterPath="$PROJECT_DIR$/util/ts/livepagination.ts" afterDir="false" />
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/ts/pagination.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/ts/pagination.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/anime/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/char.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/anime/anisearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/anime/anisearch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/anime/charsearch.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/anime/charsearch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/cache/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/cache/char.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +67,7 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="npm run dev" />
+      <command value="git pull origin master" />
     </option>
   </component>
   <component name="RunManager" selected="Node.js.bot.js">
@@ -85,8 +89,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.dev" />
         <item itemvalue="Node.js.bot.js" />
+        <item itemvalue="npm.dev" />
         <item itemvalue="Node.js.bot.js (1)" />
       </list>
     </recent_temporary>

@@ -3,3 +3,7 @@ config.json
 auth.json
 test.js
 /.idea/
+
+api/**/*
+api/
+.idea/**/*

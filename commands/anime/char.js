@@ -54,7 +54,7 @@ module.exports = {
                 if (message.attachments.size) {
                     if (options.thumbnail) {
                         if (!options.images) {options.images = [];}
-                        Array.from(message.attachments.keys()).forEach(i => options.images.push(i));
+                        Array.from(message.attachments.keys()).forEach(i => options.images.push(message.attachments.get(i).url));
                     } else {
                         if (!options.images) {options.images = [];}
                         let att = Array.from(message.attachments.keys());

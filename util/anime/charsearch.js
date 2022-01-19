@@ -13,6 +13,7 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
         let cch = char.anime ? char : await Char.findOne({id: client.misc.cache.chars.get(char)});
         let ani = await Ani.findOne({id: cch.anime});
         let forceAni = false; if (!ani) {forceAni = true;}
+        //console.log(cch.images, cch.thumbnail);
         cch.images.push(cch.thumbnail);
         let rte = new Discord.MessageEmbed()
             .setTitle(cch.name)
