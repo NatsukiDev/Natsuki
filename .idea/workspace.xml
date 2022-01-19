@@ -5,17 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="start on 0th page for anime paginations">
-      <change beforePath="$PROJECT_DIR$/commands/anime/anime.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/anime.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/animeimage.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/animeimage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/animenick.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/animenick.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commands/anime/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/char.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commands/anime/charimage.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/charimage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/charnick.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/charnick.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/haswatched.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/haswatched.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/highvalue.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/highvalue.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/lovechar.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/lovechar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/watched.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/watched.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/watchlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/watchlist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/cache/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/cache/char.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +154,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642551387709</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="start on 0th page for anime paginations">
+      <created>1642551629134</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1642551629134</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

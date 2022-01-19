@@ -39,14 +39,16 @@ module.exports = {
         } else if (asr instanceof Pagination) {
             await asr.start({user: message.author.id, startPage: 0, endTime: 60000});
             await asr.message.react('✅');
-            await message.channel.send("React with :white_check_mark: when you've found the character you want!");
+            let noticeDel = await message.channel.send("React with :white_check_mark: when you've found the character you want!");
             let arc;
             try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
             catch {return message.reply("Looks like you didn't find the character you were looking for.");}
-            collected = arc.first().emoji.name;
+            let collected = arc.first().emoji.name;
             if (collected === '✅') {
                 fn = client.misc.cache.chars.get(asr.getCurrentPage().title.trim());
-                asr.stop();
+                await asr.stop();
+                await asr.message.delete().catch(() => {});
+                await noticeDel.delete().catch(() => {});
             }
             else {return message.reply("Looks like you didn't find the character you were looking for.");}
         } else {fn = asr.id;}
@@ -62,7 +64,7 @@ module.exports = {
             ch.images.push(ch.thumbnail);
             let pages = ch.images.map(im => new Discord.MessageEmbed()
                 .setTitle(ch.name)
-                .setDescription(`**Name:** ${ch.name}`)
+                .setDescription(`**Name:** ${ch.name} -> ${ch.images.length} ${client.utils.as(ch.images.length, 'image')}`)
                 .addField('Other', `**Anime**: ${client.misc.cache.animeID.get(ch.anime)}\n\n**Gender**: ${ch.gender}\n`)
                 .setColor("c375f0")
                 .setImage(im)
@@ -70,7 +72,7 @@ module.exports = {
             if (pages.length > 1) {
                 let pag = new Pagination(message.channel, pages, message, client, true);
                 return await pag.start({user: message.author.id, time: 60000});
-            } else {return message.channel.send(pages[0].setTimestamp());}
+            } else {return message.channel.send({embeds: [pages[0].setTimestamp()]});}
         } else {
             args.shift();
             let images = [];

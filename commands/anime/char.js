@@ -47,7 +47,8 @@ module.exports = {
                 new Tag(['img', 'image', 'i'], 'images', 'listAppend'),
                 new Tag(['loveInterest', 'dating', 'married', 'li'], 'loveInterest', 'append'),
                 new Tag(['gender', 'g', 'sex'], 'gender', 'append'),
-                new Tag(['nickname', 'nn', 'nick'], 'nicknames', 'listAppend')
+                new Tag(['nickname', 'nn', 'nick'], 'nicknames', 'listAppend'),
+                new Tag(['force', 'f'], 'force', 'toggle')
             ]).test(args.slice(1).join(' '));
 
             if (Object.keys(options).length) {
@@ -60,7 +61,7 @@ module.exports = {
                         let att = Array.from(message.attachments.keys());
                         if (message.attachments.size > 1) {
                             for (let i = 1; i < att.length; i++) {
-                                options.images.push(message.attachments.get(att[i].url));
+                                options.images.push(message.attachments.get(att[i]).url);
                             }
                         }
                         options.thumbnail = message.attachments.get(att[0]).url;
@@ -191,57 +192,59 @@ module.exports = {
                 .setImage(options.thumbnail)
                 .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                 .setTimestamp();
-            try {
-                am = await dmch.send({embeds: [amEmbed]});
-                await am.react('👍').catch(() => {});
-                await am.react('👎').catch(() => {});
-            } catch {return dmch.send(":thinking: hmmm... something went wrong there. I might not have permissions to add reactions to messages, and this could be the issue.");}
-            try {
-                let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
-                rc.on("collect", async r => {
-                    if (r.emoji.name !== '👎') {
-                        while (true) {options.id = require('../../util/makeid')(4); if (!await Char.findOne({id: options.id})) {break;}}
-                        if (!queue) {
-                            amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);
-                            client.misc.cache.chars.set(options.name, options.id);
-                            client.misc.cache.charsID.set(options.id, options.name);
+            const addChar = async () => {
+                while (true) {options.id = require('../../util/makeid')(4); if (!await Char.findOne({id: options.id})) {break;}}
+                if (!queue) {
+                    amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);
+                    client.misc.cache.chars.set(options.name, options.id);
+                    client.misc.cache.charsID.set(options.id, options.name);
+                }
+                else {amEmbed.addField("ID", options.id);}
+                amEmbed.setAuthor({name: !queue ? "Character Added" : "Character Submitted", iconURL: message.author.avatarURL()});
+                if (!queue) {options.queued = false;}
+                await new Char(options).save();
+                if (aniData) {
+                    aniData.characters.push(options.id);
+                    aniData.markModified('characters');
+                    aniData.save();
+                }
+                client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177797705781308').send({embeds: [amEmbed]}).catch(() => {})).catch(() => {});
+                if (options.images && options.images.length) {
+                    let imagesEmbed = new Discord.MessageEmbed()
+                        .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                        .setTitle(`New Image${client.utils.s(options.images.length)} ${queue ? "Submitted" : "Added"}`)
+                        .setDescription(`For **${options.name}** | \`${options.id}\` from ${client.misc.cache.animeID.get(options.anime)}`)
+                        .setThumbnail(options.thumbnail)
+                        .setImage(options.images[0])
+                        .setColor('c375f0')
+                        .setTimestamp()
+                        .setFooter({text: "Natsuki"})
+                    if (options.images.length > 1) {imagesEmbed.addField("Images", options.images.join("\n"));}
+                    client.guilds.cache.get('762707532417335296').channels.cache.get('932177850239422494').send({
+                        embeds: [imagesEmbed], content: queue ? '<@330547934951112705>' : undefined
+                    }).catch(() => {});
+                }
+                if (am) {am.delete().catch(() => {});}
+                return dmch.send(`Your character${options.images.length ? `, and ${options.gender === 'Male' ? 'his' : options.gender === 'Female' ? 'her' : 'their'} ${options.images.length} ${client.utils.as(options.images.length, 'image')},` : ''} has been ${!queue ? "added" : "submitted"}`);
+            };
+            if (!options.force) {
+                try {
+                    am = await dmch.send({embeds: [amEmbed]});
+                    await am.react('👍').catch(() => {});
+                    await am.react('👎').catch(() => {});
+                } catch {return dmch.send(":thinking: hmmm... something went wrong there. I might not have permissions to add reactions to messages, and this could be the issue.");}
+                try {
+                    let rc = am.createReactionCollector({filter: (r, u) => ['👍', '👎'].includes(r.emoji.name) && u.id === message.author.id, max: 1, time: 60000});
+                    rc.on("collect", async r => {
+                        if (r.emoji.name !== '👎') {
+                            await addChar();
+                        } else {
+                            return dmch.send("Oh, okay. I'll discard that then!");
                         }
-                        else {amEmbed.addField("ID", options.id);}
-                        amEmbed.setAuthor({name: !queue ? "Character Added" : "Character Submitted", iconURL: message.author.avatarURL()});
-                        if (!queue) {options.queued = false;}
-                        await new Char(options).save();
-                        if (aniData) {
-                            aniData.characters.push(options.id);
-                            aniData.markModified('characters');
-                            aniData.save();
-                        }
-                        client.guilds.fetch('762707532417335296')
-                            .then(g => g.channels.cache.get('932177797705781308').send({embeds: [amEmbed]})
-                                .then(nchm => {if (options.images && options.images.length) {
-                                    let imagesEmbed = new Discord.MessageEmbed()
-                                        .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
-                                        .setTitle(`New Image ${queue ? "Submitted" : "Added"}`)
-                                        .setDescription(`For **${options.name}** | \`${options.id}\` from ${client.misc.cache.animeID.get(options.anime)}`)
-                                        .setThumbnail(options.thumbnail)
-                                        .setImage(options.images[0])
-                                        .setColor('c375f0')
-                                        .setTimestamp()
-                                        .setFooter({text: "Natsuki"})
-                                    if (options.images.length > 1) {imagesEmbed.addField("Images", options.images.join("\n"));}
-                                    nchm.guild.channels.cache.get('932177850239422494').send({
-                                        embeds: [imagesEmbed], content: queue ? '<@330547934951112705>' : undefined
-                                    }).catch(() => {});
-                                }})
-                                .catch(() => {})
-                            );
-                        am.delete().catch(() => {});
-                        return dmch.send(`Your character has been ${!queue ? "added" : "submitted"}`);
-                    } else {
-                        return dmch.send("Oh, okay. I'll discard that then!");
-                    }
-                });
-                rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
-            } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that character. Try again, and if it keeps not working, then go yell at my devs!");}
+                    });
+                    rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
+                } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that character. Try again, and if it keeps not working, then go yell at my devs!");}
+            } else {await addChar();}
             return;
         }
 
@@ -379,14 +382,16 @@ module.exports = {
             } else if (asr instanceof Pagination) {
                 await asr.start({user: message.author.id, startPage: 0, endTime: 60000});
                 await asr.message.react('✅');
-                await message.channel.send("React with :white_check_mark: when you've found the character you want!");
+                let noticeDel = await message.channel.send("React with :white_check_mark: when you've found the character you want!");
                 let arc;
                 try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
                 catch {return message.reply("Looks like you didn't find the character you were looking for.");}
-                collected = arc.first().emoji.name;
+                let collected = arc.first().emoji.name;
                 if (collected === '✅') {
                     fn = client.misc.cache.chars.get(asr.getCurrentPage().title.trim());
-                    asr.stop();
+                    await asr.stop();
+                    await asr.message.delete().catch(() => {});
+                    await noticeDel.delete().catch(() => {});
                 }
                 else {return message.reply("Looks like you didn't find the character you were looking for.");}
             } else {fn = asr.id;}
@@ -402,7 +407,7 @@ module.exports = {
                 ch.images.push(ch.thumbnail);
                 let pages = ch.images.map(im => new Discord.MessageEmbed()
                     .setTitle(ch.name)
-                    .setDescription(`**Name:** ${ch.name}`)
+                    .setDescription(`**Name:** ${ch.name} -> ${ch.images.length} ${client.utils.as(ch.images.length, 'image')}`)
                     .addField('Other', `**Anime**: ${client.misc.cache.animeID.get(ch.anime)}\n\n**Gender**: ${ch.gender}\n`)
                     .setColor("c375f0")
                     .setImage(im)
@@ -410,7 +415,7 @@ module.exports = {
                 if (pages.length > 1) {
                     let pag = new Pagination(message.channel, pages, message, client, true);
                     return await pag.start({user: message.author.id, time: 60000});
-                } else {return message.channel.send(pages[0].setTimestamp());}
+                } else {return message.channel.send({embeds: [pages[0].setTimestamp()]});}
             } else {
                 args.shift();
                 let images = [];
