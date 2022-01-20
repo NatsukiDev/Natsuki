@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="SCM package scripts">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="more generous daily windows">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/leveling/daily.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/leveling/daily.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,41 +66,10 @@
       <command value="git pull origin master" />
     </option>
   </component>
-  <component name="RunManager" selected="npm.dev:pretty">
-    <configuration name="bot.js (1)" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/../Natsukiv13/bot.js" working-dir="$PROJECT_DIR$/../Natsukiv13">
+  <component name="RunManager">
+    <configuration name="Start" type="NodeJSConfigurationType" path-to-js-file="bot.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>
-    <configuration name="bot.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/bot.js" working-dir="$PROJECT_DIR$">
-      <method v="2" />
-    </configuration>
-    <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="dev" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="dev:pretty" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="dev:pretty" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="npm.dev:pretty" />
-        <item itemvalue="Node.js.bot.js" />
-        <item itemvalue="npm.dev" />
-        <item itemvalue="Node.js.bot.js (1)" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -120,7 +90,7 @@
       <workItem from="1641840125341" duration="1415000" />
       <workItem from="1642537991410" duration="3454000" />
       <workItem from="1642638383959" duration="700000" />
-      <workItem from="1642707112676" duration="519000" />
+      <workItem from="1642707112676" duration="1337000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -185,7 +155,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642707545761</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="more generous daily windows">
+      <created>1642708137867</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1642708137867</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,6 +191,7 @@
     <MESSAGE value="start on 0th page for anime paginations" />
     <MESSAGE value="way more stable char commands" />
     <MESSAGE value="SCM package scripts" />
-    <option name="LAST_COMMIT_MESSAGE" value="SCM package scripts" />
+    <MESSAGE value="more generous daily windows" />
+    <option name="LAST_COMMIT_MESSAGE" value="more generous daily windows" />
   </component>
 </project>

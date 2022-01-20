@@ -35,7 +35,7 @@ module.exports = {
         } else {tm.daily.streak = 1;}
         tm.daily.total++;
         tm.daily.last = new Date().getTime();
-        let bonus = (75 + (tm.daily.streak * 45) + Math.floor(Math.random() * (15 + (tm.daily.streak * 2))));
+        let bonus = (75 + (tm.daily.streak * (15 + Math.floor(Math.random() * 20))) + Math.floor(Math.random() * (15 + (tm.daily.streak * 2))));
         client.misc.cache.monners[message.author.id] += bonus;
         tm.markModified('daily');
         ['streak', 'last', 'total'].forEach(x => {tm.markModified(`daily.${x}`);});
