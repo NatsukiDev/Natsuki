@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="way more stable char commands">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="SCM package scripts">
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +65,7 @@
       <command value="git pull origin master" />
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.bot.js">
+  <component name="RunManager" selected="npm.dev:pretty">
     <configuration name="bot.js (1)" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/../Natsukiv13/bot.js" working-dir="$PROJECT_DIR$/../Natsukiv13">
       <method v="2" />
     </configuration>
@@ -83,8 +82,19 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="dev:pretty" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev:pretty" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.dev:pretty" />
         <item itemvalue="Node.js.bot.js" />
         <item itemvalue="npm.dev" />
         <item itemvalue="Node.js.bot.js (1)" />
@@ -110,7 +120,7 @@
       <workItem from="1641840125341" duration="1415000" />
       <workItem from="1642537991410" duration="3454000" />
       <workItem from="1642638383959" duration="700000" />
-      <workItem from="1642707112676" duration="378000" />
+      <workItem from="1642707112676" duration="519000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -168,7 +178,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642560099716</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="SCM package scripts">
+      <created>1642707545761</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1642707545761</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,6 +213,7 @@
     <MESSAGE value="anime char overload prevention" />
     <MESSAGE value="start on 0th page for anime paginations" />
     <MESSAGE value="way more stable char commands" />
-    <option name="LAST_COMMIT_MESSAGE" value="way more stable char commands" />
+    <MESSAGE value="SCM package scripts" />
+    <option name="LAST_COMMIT_MESSAGE" value="SCM package scripts" />
   </component>
 </project>

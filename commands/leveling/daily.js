@@ -20,16 +20,16 @@ module.exports = {
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let tm = await Monners.findOne({uid: message.author.id}) || new Monners({uid: message.author.id});
         if (!client.misc.cache.monners[message.author.id]) {client.misc.cache.monners[message.author.id] = tm.currency;}
-        if (tm.daily && tm.daily.last && ((new Date().getTime() - tm.daily.last) < (1000 * 60 * 60 * 24))) {
+        if (tm.daily && tm.daily.last && ((new Date().getTime() - tm.daily.last) < (1000 * 60 * 60 * 22))) {
             return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor({iconURL: message.guild ? message.member.displayAvatarURL() : message.author.iconURL(), name: message.guild ? message.member.displayName : message.author.username})
-                .setDescription(`Your daily is not available yet! You can claim your next daily in **${moment.preciseDiff(new Date().getTime(), tm.daily.last + (1000 * 60 * 60 * 24))}**`)
+                .setDescription(`Your daily is not available yet! You can claim your next daily in **${moment.preciseDiff(new Date().getTime(), tm.daily.last + (1000 * 60 * 60 * 22))}**`)
                 .setColor('c92a45')
             ]});
         }
         if (!tm.daily || !Object.keys(tm.daily).length) {tm.daily = {total: 0, last: new Date().getTime(), streak: 0};}
         let streakIncrease = false;
-        if (new Date().getTime() - tm.daily.last < (1000 * 60 * 60 * 36)) {
+        if (new Date().getTime() - tm.daily.last < (1000 * 60 * 60 * 47)) {
             streakIncrease = true;
             tm.daily.streak++
         } else {tm.daily.streak = 1;}
