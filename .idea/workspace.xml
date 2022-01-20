@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="start on 0th page for anime paginations">
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="way more stable char commands">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/char.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/charimage.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/charimage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/cache/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/cache/char.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +50,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
     <property name="ts.external.directory.path" value="C:\Users\clarkjr1836\Downloads\WebStorm-2021.2.2.win\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="ts.rename.search.for.dynamic.occurrences" value="true" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -111,6 +109,8 @@
       <workItem from="1641588609694" duration="320000" />
       <workItem from="1641840125341" duration="1415000" />
       <workItem from="1642537991410" duration="3454000" />
+      <workItem from="1642638383959" duration="700000" />
+      <workItem from="1642707112676" duration="378000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -161,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642551629134</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="way more stable char commands">
+      <created>1642560099716</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1642560099716</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,6 +195,7 @@
     <MESSAGE value="extra images now show on char tag add" />
     <MESSAGE value="anime char overload prevention" />
     <MESSAGE value="start on 0th page for anime paginations" />
-    <option name="LAST_COMMIT_MESSAGE" value="start on 0th page for anime paginations" />
+    <MESSAGE value="way more stable char commands" />
+    <option name="LAST_COMMIT_MESSAGE" value="way more stable char commands" />
   </component>
 </project>

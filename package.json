@@ -33,6 +33,9 @@
     "scripts": {
         "start": "node bot.js",
         "swin": "run",
-        "dev": "node bot.js -dev"
+        "dev": "node bot.js -dev",
+        "presync": "git pull origin master",
+        "sync":  "git push origin master",
+        "postsync": "git push wubzy master"
     }
 }
