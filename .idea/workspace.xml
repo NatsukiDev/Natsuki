@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="more generous daily windows">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/leveling/daily.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/leveling/daily.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/anime/haswatched.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/haswatched.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

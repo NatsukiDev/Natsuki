@@ -51,7 +51,7 @@ module.exports = {
         } else {fn = asr.id;}
         let ani = await AniData.findOne({id: fn});
         let af = await AF.findOne({uid: user.id});
-        if (!af || !af.watched.includes(fn)) {return message.channel.send(`${user.id === message.author.id ? "You haven't" : "That person hasn't"} watched **${ani.name}**.`);}
+        if (!af || !af.watched.includes(fn)) {return message.channel.send(`${user.id === message.author.id ? "You haven't" : "That person hasn't"} watched **${ani.name}**${af && af.toWatch.includes(fn) ? `, *but* it is on ${user.id === message.author.id ? "your" : "their"} watch list` : ''}.`);}
         else {return message.channel.send(`${user.id === message.author.id ? "You have" : "That person has"} watched **${ani.name}**.`);}
     }
 };
