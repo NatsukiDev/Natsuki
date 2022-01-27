@@ -12,24 +12,23 @@ module.exports = {
     },
     help: "Fully restarts the bot. Developer-only.",
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!client.developers.includes(message.author.id)) {
-            try {
-                await require('../../util/lxp/cacheloop')(client);
-                await require('../../util/vcloop')(client);
-                await require('../../util/monitorloop')(client);
-                await message.channel.send("Cache synchronized with DB! Restarting...");
-                return cp.exec("pm2 restart natsuki", function(error, stdout, stderr) {
-                    if (error) {
-                        return message.channel.send({embeds: [new Discord.MessageEmbed()
-                            .setTitle("Error")
-                            .setDescription(`\`\`\`${error}\`\`\``)
-                            .setColor("ff446a")
-                            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
-                            .setTimestamp()]}
-                        );
-                    }
-                });
-            } catch {return message.channel.send("There was an error in trying to do that!");}
-        }
+        if (!client.developers.includes(message.author.id)) {return message.channel.send("You must be a developer in order to do that!");}
+        try {
+            await require('../../util/lxp/cacheloop')(client);
+            await require('../../util/vcloop')(client);
+            await require('../../util/monitorloop')(client);
+            await message.channel.send("Cache synchronized with DB! Restarting...");
+            return cp.exec("pm2 restart natsuki", function(error, stdout, stderr) {
+                if (error) {
+                    return message.channel.send({embeds: [new Discord.MessageEmbed()
+                        .setTitle("Error")
+                        .setDescription(`\`\`\`${error}\`\`\``)
+                        .setColor("ff446a")
+                        .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                        .setTimestamp()]}
+                    );
+                }
+            });
+        } catch {return message.channel.send("There was an error in trying to do that!");}
     }
 };
