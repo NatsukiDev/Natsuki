@@ -6,7 +6,7 @@ const Discord = require('discord.js');
 module.exports = async (client, member, channel, prefix) => {
     if (client.misc.cache.chests.timeout.has(member.guild.id) && new Date().getTime() - client.misc.cache.chests.timeout.get(member.guild.id) < (1000 * 60 * 2)) {return;}
     let rand = Math.floor(Math.random() * 100);
-    if (rand !== 69 && rand !== 42) {return;} //decide if it even continues
+    if (rand !== 69) {return;} //decide if it even continues
 
     let tm = await Monners.findOne({uid: member.id});
     let streak = tm && tm.daily ? tm.daily.streak : 0; //get streak for bonus later
