@@ -15,10 +15,10 @@ module.exports = async (client, spinner) => {
 
         for await (const ani of AniData.find()) {
             if (ani.queued !== true) {
-                client.misc.cache.anime.set(ani.japname, ani.id);
-                client.misc.cache.anime.set(ani.name, ani.id);
+                client.misc.cache.anime.set(ani.japname.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), ani.id);
+                client.misc.cache.anime.set(ani.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), ani.id);
                 if (ani.altNames) {ani.altNames.forEach(altName => client.misc.cache.anime.set(altName, ani.id));}
-                client.misc.cache.animeID.set(ani.id, ani.name);
+                client.misc.cache.animeID.set(ani.id, ani.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
                 client.misc.cache.animeLove.set(ani.id, ani.watchers);
                 client.misc.cache.animeNum++;
                 spinner.update({text: `${chalk.gray('[PROC]')} >> ${chalk.blueBright(`Cached`)} ${chalk.white(`${amount}`)} ${chalk.blueBright(`animes into lookup registry.`)}`});

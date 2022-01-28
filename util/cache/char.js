@@ -15,9 +15,9 @@ module.exports = async (client, spinner) => {
 
         for await (const char of CharData.find()) {
             if (char.queued !== true) {
-                client.misc.cache.chars.set(char.name, char.id);
-                char.nicknames.forEach(nn => client.misc.cache.chars.set(nn, char.id));
-                client.misc.cache.charsID.set(char.id, char.name);
+                client.misc.cache.chars.set(char.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), char.id);
+                char.nicknames.forEach(nn => client.misc.cache.chars.set(nn.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), char.id));
+                client.misc.cache.charsID.set(char.id, char.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
                 client.misc.cache.charsNum++;
                 client.misc.cache.charsLove.set(char.id, char.loved);
                 /*let hasNull = false;
