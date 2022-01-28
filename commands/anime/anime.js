@@ -35,7 +35,6 @@ module.exports = {
                 queue = true;
             }
             options = new TagFilter([
-                new Tag(['ask', 'question'], 'ask', 'toggle'),
                 new Tag(['title', 't', 'name', 'n'], 'name', 'append'),
                 new Tag(['japname', 'japanesename', 'jn'], 'japname', 'append'),
                 new Tag(['description', 'desc', 'd', 'plot', 'p'], 'plot', 'append'),
@@ -189,6 +188,75 @@ module.exports = {
                 rc.on("end", collected => {if (!collected.size) {return message.author.send("Looks like you ran out of time! Try again?");}});
             } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that anime. Try again, and if it keeps not working, then go yell at my devs!");}
             return;
+        }
+
+        if (['e', 'edit'].includes(args[0].toLowerCase())) {
+            args.shift();
+            let tu = await UserData.findOne({uid: message.author.id});
+            if (!tu || !tu.staff) {return await message.channel.send("Since you aren't a Natsuki Staff member, you can't edit anime.");}
+            if (!args.length) {return message.channel.send("You have to provide tags to edit anime with.");}
+            options = new TagFilter([
+                new Tag(['title', 't', 'name', 'n'], 'name', 'append'),
+                new Tag(['rn', 'rename'], 'rename', 'append'),
+                new Tag(['japname', 'japanesename', 'jn'], 'japname', 'append'),
+                new Tag(['description', 'desc', 'd', 'plot', 'p'], 'plot', 'append'),
+                new Tag(['pub', 'pubs', 'publishers', 'publisher', 'pb'], 'publishers', 'listAppend'),
+                new Tag(['stud', 's', 'studio', 'studs', 'studios'], 'studios', 'listAppend'),
+                new Tag(['began', 'airstart', 'as'], 'airStartDate', 'append'),
+                new Tag(['ended', 'airend', 'ae'], 'airEndDate', 'append'),
+                new Tag(['iscomplete', 'completed', 'ic'], 'isComplete', 'toggle'),
+                new Tag(['seasons', 'sns'], 'seasons', 'append'),
+                new Tag(['episodes', 'es'], 'episodes', 'append'),
+                new Tag(['genres', 'g'], 'genres', 'listAppend'),
+                new Tag(['tags', 'ta', 'tgs', 'tg', 'tag'], 'tags', 'listAppend'),
+                new Tag(['streams', 'streamat', 'sa'], 'streamAt', 'listAppend'),
+                new Tag(['img', 'thumb', 'thumbnail', 'image'], 'thumbnail', 'append')
+            ]).test(args.join(' '));
+            if (!options.name) {
+                let tempani = await ask(message, "What anime would you like to edit?", 60000, false, true);
+                if (!tempani) {return;}
+                options.name = tempani.split(/\s+/g);
+            }
+            let asr = await ans(message, client, options.name.toLowerCase(), -700, 0);
+            let fn;
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 0, endTime: 60000});
+                await asr.message.react('✅');
+                let noticeDel = await message.channel.send("React with :white_check_mark: when you've found the anime you want!");
+                let arc;
+                try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                catch {return message.reply("Looks like you didn't find the anime you were looking for.");}
+                collected = arc.first().emoji.name;
+                if (collected === '✅') {
+                    fn = client.misc.cache.anime.get(asr.getCurrentPage().title.trim());
+                    await asr.stop(); 
+                    await asr.message.delete().catch(() => {});
+                    await noticeDel.delete().catch(() => {});
+                }
+                else {return message.reply("Looks like you didn't find the anime you were looking for.");}
+            } else {fn = asr.id;}
+            let ani = await AniData.findOne({id: fn});
+            if (!ani) {return message.channel.send("\\*Head scratching* that anime seems to have vanished into thin air. Try again or go yell at my devs.");}
+            Object.keys(options).forEach(o => {if (![undefined, null].includes(options[o])) {
+                if (o === 'japname') {
+                    client.misc.cache.anime.delete(ani.japname);
+                    client.misc.cache.anime.set(options.japname, ani.id);
+                }
+                if (Array.isArray(options[o])) {options[o].forEach(i => ani[o].push(i));}
+                else {ani[o] = options[o];}
+                ani.markModified(o);
+                if (o === 'rename') {
+                    delete ani.rename;
+                    client.misc.cache.animeID.set(ani.id, options.rename);
+                    client.misc.cache.anime.delete(ani.name);
+                    client.misc.cache.anime.set(options.rename, ani.id);
+                    ani.name = options.rename;
+                }
+            }});
+            ani.save();
+            return message.channel.send('Anime updated.');
         }
 
         if (['s', 'search'].includes(args[0].trim().toLowerCase())) {

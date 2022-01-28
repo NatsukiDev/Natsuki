@@ -79,7 +79,8 @@ module.exports = {
             conf = ['y', 'yes', 'ye'].includes(conf.trim().toLowerCase());
             preConfEmbed.delete().catch(() => {});
             if (!conf) {return message.channel.send("Well, I've got nothing, then. If that doesn't match the anime you're looking for then I would try again with a more narrow search.");}
-            fn = asr.id;}
+            fn = asr.id;
+        }
         let af = await AF.findOne({uid: message.author.id}) || new AF({uid: message.author.id});
         if (af.watched.includes(fn)) {return message.channel.send("Looks like that anime is already on your finished list!");}
         let tfc = await AniData.findOne({id: fn});
