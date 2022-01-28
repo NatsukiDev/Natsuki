@@ -636,9 +636,10 @@ module.exports = {
                     new Discord.MessageEmbed()
                         .setTitle(`${anime.name}: Characters`)
                         .setThumbnail(anime.thumbnail)
-                        .setDescription(anime.characters.map(ch => client.misc.cache.charsID.get(ch)).join(", "))
+                        .setDescription(`**${anime.characters.length} Characters**\n` + anime.characters.map(ch => client.misc.cache.charsID.get(ch)).join(", "))
                         .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
                         .setTimestamp()
+                        .setColor('c375f0')
                 ]});
             }
         }
