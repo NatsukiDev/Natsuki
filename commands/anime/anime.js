@@ -239,7 +239,7 @@ module.exports = {
             } else {fn = asr.id;}
             let ani = await AniData.findOne({id: fn});
             if (!ani) {return message.channel.send("\\*Head scratching* that anime seems to have vanished into thin air. Try again or go yell at my devs.");}
-            Object.keys(options).forEach(o => {if (![undefined, null].includes(options[o])) {
+            Object.keys(options).forEach(o => {if (![undefined, null].includes(options[o]) && o !== 'name') {
                 if (o === 'japname') {
                     client.misc.cache.anime.delete(ani.japname);
                     client.misc.cache.anime.set(options.japname, ani.id);

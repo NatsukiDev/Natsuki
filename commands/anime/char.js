@@ -39,7 +39,6 @@ module.exports = {
                 queue = true;
             }
             options = new TagFilter([
-                new Tag(['ask', 'question'], 'ask', 'toggle'),
                 new Tag(['name', 'n'], 'name', 'append'),
                 new Tag(['description', 'desc', 'p', 'personality'], 'personality', 'append'),
                 new Tag(['anime', 'ani', 'a'], 'anime', 'append'),
@@ -246,6 +245,87 @@ module.exports = {
                 } catch {return message.author.send("Hmm... there was some kind of error when I tried to submit that character. Try again, and if it keeps not working, then go yell at my devs!");}
             } else {await addChar();}
             return;
+        }
+
+        if (['e', 'edit'].includes(args[0].toLowerCase())) {
+            args.shift();
+            let tu = await UserData.findOne({uid: message.author.id});
+            if (!tu || !tu.staff) {return await message.channel.send("Since you aren't a Natsuki Staff member, you can't edit characters.");}
+            if (!args.length) {return message.channel.send("You have to provide tags to edit characters with.");}
+            options = new TagFilter([
+                new Tag(['name', 'n'], 'name', 'append'),
+                new Tag(['rn', 'rename'], 'rename', 'append'),
+                new Tag(['description', 'desc', 'p', 'personality'], 'personality', 'append'),
+                //new Tag(['anime', 'ani', 'a'], 'anime', 'append'),
+                new Tag(['thumb', 'thumbnail', 't'], 'thumbnail', 'append'),
+                new Tag(['img', 'image', 'i'], 'images', 'listAppend'),
+                new Tag(['loveInterest', 'dating', 'married', 'li'], 'loveInterest', 'append'),
+                new Tag(['gender', 'g', 'sex'], 'gender', 'append'),
+                new Tag(['nickname', 'nn', 'nick'], 'nicknames', 'listAppend'),
+                new Tag(['force', 'f'], 'force', 'toggle')
+            ]).test(args.join(' '));
+            if (!options.name) {
+                let tempani = await ask(message, "What character would you like to edit?", 60000, false, true);
+                if (!tempani) {return;}
+                options.name = tempani.split(/\s+/g);
+            }
+            let asr = await chs(message, client, options.name.toLowerCase(), -700, 0);
+            let fn;
+            if (asr === 0) {
+                return message.channel.send("That search returned no results! Try again?");
+            } else if (asr instanceof Pagination) {
+                await asr.start({user: message.author.id, startPage: 0, endTime: 60000});
+                await asr.message.react('✅');
+                let noticeDel = await message.channel.send("React with :white_check_mark: when you've found the character you want!");
+                let arc;
+                try {arc = await asr.message.awaitReactions({filter: (r) => ['✅', '⏹'].includes(r.emoji.name), max: 1, errors: ['time']});}
+                catch {return message.reply("Looks like you didn't find the character you were looking for.");}
+                collected = arc.first().emoji.name;
+                if (collected === '✅') {
+                    fn = client.misc.cache.anime.get(asr.getCurrentPage().title.trim());
+                    await asr.stop(); 
+                    await asr.message.delete().catch(() => {});
+                    await noticeDel.delete().catch(() => {});
+                }
+                else {return message.reply("Looks like you didn't find the character you were looking for.");}
+            } else {fn = asr.id;}
+            let ech = await Char.findOne({id: fn});
+            if (!ech) {return message.channel.send("\\*Head scratching* that character seems to have vanished into thin air. Try again or go yell at my devs.");}
+            if (message.attachments.size) {
+                if (options.thumbnail) {
+                    if (!options.images) {options.images = [];}
+                    Array.from(message.attachments.keys()).forEach(i => options.images.push(message.attachments.get(i).url));
+                } else {
+                    if (!options.images) {options.images = [];}
+                    let att = Array.from(message.attachments.keys());
+                    if (message.attachments.size > 1) {
+                        for (let i = 1; i < att.length; i++) {
+                            options.images.push(message.attachments.get(att[i]).url);
+                        }
+                    }
+                    options.thumbnail = message.attachments.get(att[0]).url;
+                }
+            }
+            Object.keys(options).forEach(async o => {if (![undefined, null].includes(options[o]) && o !== 'name') {
+                /*if (o === 'anime') {
+                    let ani = await AniData.findOne({id: ech.anime});
+                    if (ani) {
+                        
+                    }
+                }*/
+                if (Array.isArray(options[o])) {options[o].forEach(i => ech[o].push(i));}
+                else {ech[o] = options[o];}
+                ech.markModified(o);
+                if (o === 'rename') {
+                    delete ech.rename;
+                    client.misc.cache.charsID.set(ech.id, options.rename);
+                    client.misc.cache.chars.delete(ech.name);
+                    client.misc.cache.chars.set(options.rename, ech.id);
+                    ech.name = options.rename;
+                }
+            }});
+            ech.save();
+            return message.channel.send('Character updated.');
         }
 
         if (['s', 'search'].includes(args[0].trim().toLowerCase())) {
