@@ -398,6 +398,15 @@ module.exports = {
                     .setFooter({text: "Natsuki"})
                     .setTimestamp()
                 ]}).catch(() => {});
+                let ani = await AniData.findOne({id: tr.anime});
+                if (!ani) {
+                    tr.queued = false;
+                    tr.save();
+                    return message.channel.send("I can't accept that submission for you because it doesn't have a valid anime listed. Please report this to a dev.");
+                }
+                ani.characters.push(tr.id);
+                ani.markModified('characters');
+                ani.save();
                 return message.channel.send("I've accepted that submission.");
             })
             .catch(() => {return message.reply("It seems that submission wasn't accepted for some reason. \*insert head scratching*");});
