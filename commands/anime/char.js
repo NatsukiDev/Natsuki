@@ -367,12 +367,39 @@ module.exports = {
         if (['reject'].includes(args[0].trim().toLowerCase())) {
             let tu = await UserData.findOne({uid: message.author.id});
             if (!tu || !tu.staff) {await message.channel.send("Since you aren't a Natsuki Staff member, you can't reject character submissions!");}
-            let tr = await CharData.findOne({id: args[1].toLowerCase()});
+            let tr = await Char.findOne({id: args[1].toLowerCase()});
             if (!tr) {return message.reply("That character submission doesn't seem to exist!");}
             if (tr.queued !== true) {return message.reply("That character was already accepted, so you can't reject it.");}
             return await CharData.deleteOne({id: args[1].toLowerCase()})
             .then(() => {return message.channel.send("I got that submission out of here!");})
             .catch(() => {return message.reply("It seems that submission wasn't deleted for some reason. \*insert head scratching*");});
+        }
+
+        if (['accept', 'approve'].includes(args[0].toLowerCase())) {
+            let tu = await UserData.findOne({uid: message.author.id});
+            if (!tu || !tu.staff) {await message.channel.send("Since you aren't a Natsuki Staff member, you can't accept character submissions!");}
+            let tr = await Char.findOne({id: args[1].toLowerCase()});
+            if (!tr) {return message.reply("That character submission doesn't seem to exist!");}
+            if (tr.queued !== true) {return message.reply("That character was already accepted, so you can't accept it again...");}
+            tr.queued = false;
+            return await tr.save()
+            .then(() => {
+                client.misc.cache.chars.set(tr.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), tr.id);
+                tr.nicknames.forEach(nn => client.misc.cache.chars.set(nn.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), tr.id));
+                client.misc.cache.charsID.set(tr.id, tr.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+                client.misc.cache.charsNum++;
+                client.guilds.cache.get('762707532417335296').channels.cache.get('932177797705781308').send({embeds: [new Discord.MessageEmbed()
+                    .setTitle(`Character Accepted -> ${tr.name}`)
+                    .setAuthor({name: 'Character Approved', iconURL: message.author.avatarURL()})
+                    .setThumbnail(tr.thumbnail)
+                    .setDescription(`${tr.name} has been approved, and is now available to all Natsuki users.`)
+                    .setColor('c375f0')
+                    .setFooter({text: "Natsuki"})
+                    .setTimestamp()
+                ]}).catch(() => {});
+                return message.channel.send("I've accepted that submission.");
+            })
+            .catch(() => {return message.reply("It seems that submission wasn't accepted for some reason. \*insert head scratching*");});
         }
 
         if (['r', 'rand', 'random', 'any'].includes(args[0].toLowerCase())) {
