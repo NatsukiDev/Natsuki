@@ -306,6 +306,35 @@ module.exports = {
             .catch(() => {return message.reply("It seems that submission wasn't deleted for some reason. \*insert head scratching*");});
         }
 
+        if (['accept', 'approve'].includes(args[0].toLowerCase())) {
+            let tu = await UserData.findOne({uid: message.author.id});
+            if (!tu || !tu.staff) {await message.channel.send("Since you aren't a Natsuki Staff member, you can't accept anime submissions!");}
+            let tr = await AniData.findOne({id: args[1].toLowerCase()});
+            if (!tr) {return message.reply("That anime submission doesn't seem to exist!");}
+            if (tr.queued !== true) {return message.reply("That anime was already accepted, so you can't accept it again...");}
+            tr.queued = false;
+            return await tr.save()
+            .then(() => {
+                client.misc.cache.anime.set(ani.japname.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), ani.id);
+                client.misc.cache.anime.set(ani.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), ani.id);
+                if (ani.altNames) {ani.altNames.forEach(altName => client.misc.cache.anime.set(altName, ani.id));}
+                client.misc.cache.animeID.set(ani.id, ani.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+                client.misc.cache.animeLove.set(ani.id, ani.watchers);
+                client.misc.cache.animeNum++;
+                client.guilds.cache.get('762707532417335296').channels.cache.get('932177823630762014').send({embeds: [new Discord.MessageEmbed()
+                    .setTitle(`Anime Accepted -> ${tr.name}`)
+                    .setAuthor({name: 'Anime Approved', iconURL: message.author.avatarURL()})
+                    .setThumbnail(tr.thumbnail)
+                    .setDescription(`${tr.name} has been approved, and is now available to all Natsuki users.`)
+                    .setColor('c375f0')
+                    .setFooter({text: "Natsuki"})
+                    .setTimestamp()
+                ]}).catch(() => {});
+                return message.channel.send("I've accepted that submission.");
+            })
+            .catch(() => {return message.reply("It seems that submission wasn't accepted for some reason. \*insert head scratching*");});
+        }
+
         if (['r', 'rand', 'random', 'any'].includes(args[0].toLowerCase())) {
             let asr = await ans(message, client, client.misc.cache.anime.random(), -100000);
             return await message.channel.send({embeds: [asr.embed]});

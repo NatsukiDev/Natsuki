@@ -388,6 +388,7 @@ module.exports = {
                 tr.nicknames.forEach(nn => client.misc.cache.chars.set(nn.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), tr.id));
                 client.misc.cache.charsID.set(tr.id, tr.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
                 client.misc.cache.charsNum++;
+                client.misc.cache.charsLove.set(char.id, char.loved);
                 client.guilds.cache.get('762707532417335296').channels.cache.get('932177797705781308').send({embeds: [new Discord.MessageEmbed()
                     .setTitle(`Character Accepted -> ${tr.name}`)
                     .setAuthor({name: 'Character Approved', iconURL: message.author.avatarURL()})
