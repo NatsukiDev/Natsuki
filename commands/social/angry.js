@@ -24,7 +24,7 @@ module.exports = {
         if (['s', 'save', 'n', 'new', 'a', 'add'].includes(args[0].toLowerCase())) {
             if (!args[1]) {return message.channel.send('oi there cunt, give me a link of an image to add!');}
             let tu = await UserData.findOne({uid: message.author.id});
-            if ((!tu || !tu.developer) && !client.misc.savers.includes(message.author.id)) {return message.reply("You must be a Natsuki Developer in order to add new angry GIFs.");}
+            if ((!tu || !tu.staff) && !client.misc.savers.includes(message.author.id)) {return message.reply("You must be a Natsuki Staff member in order to add new angry GIFs.");}
             let e = true;
             let id;
             while (e === true) {id = makeId(6); if (!saves.has(id)) {e = false;}}
