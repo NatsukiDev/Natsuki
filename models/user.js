@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema({
     blacklisted: {type: Boolean, default: false},
     donator: {type: Boolean, default: false},
     bio: {type: String, default: ''},
-    color: {type: String, default: ''}
+    color: {type: String, default: ''},
+    msg: {type: Boolean}
 });
 
 module.exports = mongoose.model("user", UserSchema);
