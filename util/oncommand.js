@@ -9,7 +9,6 @@ module.exports = async (message, msg, args, cmd, prefix, mention, client) => {
         ? await UserData.findOne({uid: message.author.id})
         : new UserData({uid: message.author.id});
     tu.commands = tu.commands + 1;
-    tu.save();
 
     if (tu.commands > 50 && !tu.msg) {
         message.author.send({embeds: [new Discord.MessageEmbed()
@@ -18,8 +17,10 @@ module.exports = async (message, msg, args, cmd, prefix, mention, client) => {
             .addField("What next?", "If you're enjoying what I do, you can [join my support server](https://discord.gg/u9c2uD24wB) to leave feedback and say hi to my developers. You can also consider [giving the repository a star](https://github.com/NatsukiDev/Natsuki) to show your support! I look forward to my time with you in the future <:hearty:812130944319750144>")
             .setFooter({text: "Natsuki"})
             .setTimestamp()
+            .setColor('c375f0')
         ]}).catch(() => {});
         tu.msg = true;
-        tu.save();
     }
+
+    tu.save();
 };

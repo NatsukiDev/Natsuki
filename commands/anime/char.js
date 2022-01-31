@@ -383,7 +383,7 @@ module.exports = {
             if (tr.queued !== true) {return message.reply("That character was already accepted, so you can't accept it again...");}
             tr.queued = false;
             return await tr.save()
-            .then(() => {
+            .then(async () => {
                 client.misc.cache.chars.set(tr.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), tr.id);
                 tr.nicknames.forEach(nn => client.misc.cache.chars.set(nn.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), tr.id));
                 client.misc.cache.charsID.set(tr.id, tr.name.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
