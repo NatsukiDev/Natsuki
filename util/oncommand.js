@@ -1,19 +1,7 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
-const chalk = require('chalk');
 const UserData = require('../models/user');
 
 module.exports = async (message, msg, args, cmd, prefix, mention, client) => {
-    /*const config = client.config;
-    try {
-        await mongoose.connect(`mongodb+srv://${config.database.user}:${config.database.password}@${config.database.cluster}.uqyvv.mongodb.net`, {
-            useFindAndModify: false, useNewUrlParser: true, dbName: 'valk', useUnifiedTopology: true
-        });
-    } catch (e) {
-        let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
-        console.error(`\n${chalk.red('[ERROR]')} >> ${chalk.yellow(`At [${date}] | Occurred while trying to connect to Mongo Cluster`)}`, e);
-    }*/
-
     let botData = await require('../models/bot').findOne({finder: 'lel'});
     botData.commands = botData.commands + 1;
     botData.save();
@@ -22,4 +10,16 @@ module.exports = async (message, msg, args, cmd, prefix, mention, client) => {
         : new UserData({uid: message.author.id});
     tu.commands = tu.commands + 1;
     tu.save();
+
+    if (tu.commands > 50 && !tu.msg) {
+        message.author.send({embeds: [new Discord.MessageEmbed()
+            .setThumbnail(client.user.avatarURL({size: 2048}))
+            .setDescription(`Hey there **${message.author.username}**! Looks like you've used my commands over **50 times**${tu.commands > 51 ? ` (${tu.commands} to be exact)` : ''}!\nI hope you're enjoying the wonderful things I have to offer, because I've enjoyed offering them to you.`)
+            .addField("What next?", "If you're enjoying what I do, you can [join my support server](https://discord.gg/u9c2uD24wB) to leave feedback and say hi to my developers. You can also consider [giving the repository a star](https://github.com/NatsukiDev/Natsuki) to show your support! I look forward to my time with you in the future <:hearty:812130944319750144>")
+            .setFooter({text: "Natsuki"})
+            .setTimestamp()
+        ]}).catch(() => {});
+        tu.msg = true;
+        tu.save();
+    }
 };
