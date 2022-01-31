@@ -35,7 +35,7 @@ module.exports = {
         let nick = Array.from(client.misc.cache.chars.keys()).filter(x => !Array.from(client.misc.cache.charsID.values()).includes(x)).length;
 
         let charThresh = (options.chars !== undefined ? Number(options.chars) : 2);
-        let aniThresh = (options.anime !== undefined ? Number(options.anime) : 15);
+        let aniThresh = (options.anime !== undefined ? Number(options.anime) : 10);
 
         let lowChars = [];
         for await (const ani of AniData.find()) {
