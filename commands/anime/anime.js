@@ -154,7 +154,7 @@ module.exports = {
                 .addField('Description', options.plot)
                 .addField('Length', `**# of Seasons:** ${options.seasons}\n**# of Episodes:** ${options.episodes}`)
                 .addField('Airing', `**Began:** ${options.airStartDate}\n**Ended:** ${options.isComplete ? options.airEndDate : 'This anime is still airing!'}`)
-                .addField('Other', `**Genre(s):** ${foptions.genres}\n**Tags:** ${foptions.tags}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
+                .addField('Other', `**Genre(s):** ${foptions.genres}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
                 .setColor("c375f0")
                 .setImage(options.thumbnail)
                 .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
