@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 
 const AF = require("../../models/anifav");
+const AniData = require('../../models/anime');
 
 const {Pagination} = require('../../util/pagination');
 const ask = require('../../util/ask');
@@ -89,9 +90,13 @@ module.exports = {
             let af = await AF.findOne({uid: message.author.id}) || new AF({uid: message.author.id});
             if (af.toWatch.includes(fn)) {return message.channel.send("Looks like that anime is already on your watch list!");}
             if (af.watched.includes(fn)) {return message.channel.send("That anime is on your **watched** list already...");}
+            const tfc = await AniData.findOne({id: fn});
+            if (!tfc) {return message.channel.send("Huh... guess that anime just... vanished into thin air? I would go yell at my devs.");}
             af.toWatch.push(fn);
             af.markModified('toWatch');
             af.save();
+            tfc.listed++;
+            tfc.save();
             return message.channel.send(`I've added **${client.misc.cache.animeID.get(fn)}** to your watch list! ${[`Let me know if it's any good when you get around to it :3`, `Hope it's good!`, 'Try not to wait *too* long before you watch it.', `I've heard good things about that one.`][Math.floor(Math.random() * 4)]}`);
         }
 
@@ -132,10 +137,14 @@ module.exports = {
                 fn = asr.id;}
             let af = await AF.findOne({uid: message.author.id}) || new AF({uid: message.author.id});
             if (!af.toWatch.includes(fn)) {return message.channel.send("Looks like that anime isn't on your watch list!");}
+            const tfc = await AniData.findOne({id: fn});
+            if (!tfc) {return message.channel.send("Huh... guess that anime just... vanished into thin air? I would go yell at my devs.");}
             af.toWatch.splice(af.toWatch.indexOf(fn), 1);
             af.markModified('toWatch');
             af.save();
-            return message.channel.send(`${['Guess it wasn\'t worth the watch after all, huh?', 'Oof. Did you lose interest?', 'Got it, got it.', 'Okie dokie!'][Math.floor(Math.random() * 4)]} I've removed **${client.misc.cache.animeID.get(fn)}** from your watch list.`);
+            tfc.listed--;
+            tfc.save();
+            return message.channel.send(`${['Guess it wasn\'t worth the watch after all, huh?', 'Oof. Did you lose interest? Well, either way,', 'Got it, got it.', 'Okie dokie!'][Math.floor(Math.random() * 4)]} I've removed **${client.misc.cache.animeID.get(fn)}** from your watch list.`);
         }
     }
 };

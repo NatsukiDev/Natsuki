@@ -86,16 +86,18 @@ module.exports = {
         let tfc = await AniData.findOne({id: fn});
         tfc.watchers += 1;
         tfc.markModified('watchers');
-        tfc.save();
         af.watched.push(fn);
         af.markModified('watched');
         let dw = false;
         if (af.toWatch.includes(fn)) {
             af.toWatch.splice(af.toWatch.indexOf(fn), 1);
             af.markModified('toWatch');
+            tfc.listed--;
+            tfc.save();
             dw = true;
         }
         af.save();
+        tfc.save();
         return message.channel.send(`I've added **${tfc.name}** to your list of finished animes!${dw ? " I've also removed it from your watch list for you :p" : ''}`);
     }
 };
