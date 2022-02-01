@@ -41,7 +41,11 @@ module.exports = async client => {
 			`${Math.ceil(Math.random() * 100)} days of trying to become a samurai`,
 			"with the sauce", "witch hats are >", "explosion magic is the best magic",
 			"with Kazuma's sanity", "please help i gave myself cat ears",
-			"starting my own harem", "wor. wor never changes", "a little more UwU than necessary"
+			"starting my own harem", "wor. wor never changes", "a little more UwU than necessary",
+			"please i just want a cat girl in my life", "i'm your waifu now.",
+			"i'm in intervention for my neko addiction", "i tried to make a catgirl and broke my staff",
+			"fluffy tails = drugs", "in a dungeon without wearing my plot armor",
+			"benefits of Natsuki worship: my beautiful face"
 			,`in ${client.guilds.cache.size} servers`
 		],
 		"WATCHING": [
@@ -53,7 +57,9 @@ module.exports = async client => {
 			"The Misfit of Demon King Academy", "Akame ga Kill", "a witch explode a castle",
 			"Code Geass", "\"did you really think ___ would be enough to kill me?\"",
 			"hentacle tentai", "JIBUN WO-", "he did it... he actually made risotto",
-			""
+			"sasageyo, sasageyo, chi nto wo sasegeyo", "scientists make nekos real :3",
+			"yet another isekai don't @ me", "magical girl anime", "episode 1 of One Piece.. pain.",
+			"a white-haired dude and a goddess with some MELONS"
 			,`over ${client.guilds.cache.size} servers`
 		]
 	};
