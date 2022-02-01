@@ -95,13 +95,12 @@ module.exports = {
                 options.publishers = options.publishers.split(/,\s+/gm);
                 if (options.publishers.length > 5) {clearDM(); return dmch.send("No way there were actually that many publishers...");}
 
-                options.airStartDate = await ask(mesg, "When did the anime start? Please format this as \"Month Day, Year\" - e.g. January 1, 2021", 120000, true); if (!options.airStartDate) {return clearDM();}
-                options.airEndDate = await ask(mesg, "When did the anime end? If the anime never ended, you can say \"N/A\"", 120000, true); if (!options.airEndDate) {return clearDM();}
-                options.lastUpdate = await ask(mesg, "When was the last time a new episode was released for the anime?", 120000, true); if (!options.lastUpdate) {return clearDM();}
-
                 options.isComplete = await ask(mesg, "Is the anime completed? (If the most recent season has finished, you may only say \"no\" if the next season is *confirmed* by the *studio or publishers* or the next season is in the works.", 60000, true); if (!options.isComplete) {return clearDM();}
                 if (!['y', 'yes', 'ye', 'n', 'no'].includes(options.isComplete.trim().toLowerCase())) {clearDM(); return dmch.send("You must specify yes or no! Please try again.");}
                 options.isComplete = ['y', 'yes', 'ye'].includes(options.isComplete.trim().toLowerCase());
+
+                //options.airStartDate = await ask(mesg, "When did the anime start? Please format this as \"Month Day, Year\" - e.g. January 1, 2021", 120000, true); if (!options.airStartDate) {return clearDM();}
+                //if (options.isComplete) {options.airEndDate = await ask(mesg, "When did the anime end?", 120000, true); if (!options.airEndDate) {return clearDM();}}
 
                 options.seasons = await ask(mesg, "How many seasons does the anime have? Please don't include spinoffs. (Gun Gale Online spinoff doesn't count as a Sword Art Online season.)", 120000, true); if (!options.seasons) {return clearDM();}
                 if (isNaN(options.seasons) || Number(options.seasons < 1)) {clearDM(); return dmch.send("You either didn't give a number, or it was < 1.");}
@@ -153,7 +152,7 @@ module.exports = {
                 .addField('Info', `**Name:** ${options.name}\n**Japanese Name:** ${options.japname}\n\n**Publishers:** ${foptions.publishers}\n**Studios:** ${foptions.studios}`)
                 .addField('Description', options.plot)
                 .addField('Length', `**# of Seasons:** ${options.seasons}\n**# of Episodes:** ${options.episodes}`)
-                .addField('Airing', `**Began:** ${options.airStartDate}\n**Ended:** ${options.isComplete ? options.airEndDate : 'This anime is still airing!'}`)
+                //.addField('Airing', `**Began:** ${options.airStartDate}\n**Ended:** ${options.isComplete ? options.airEndDate : 'This anime is still airing!'}`)
                 .addField('Other', `**Genre(s):** ${foptions.genres}\n**Characters:** ${foptions.characters}\n**Stream this at:** ${foptions.streamAt}`)
                 .setColor("c375f0")
                 .setImage(options.thumbnail)
