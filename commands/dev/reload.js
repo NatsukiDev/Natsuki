@@ -91,7 +91,9 @@ module.exports = {
             });
             if (!res) {return message.channel.send("I can't reload that command as I can't find file!");}
             if (require.resolve(res) in require.cache) {delete require.cache[require.resolve(res)];}
-            client.commands.set(lf, require(res));
+            const ncmd = require(res);
+            client.commands.set(lf, ncmd);
+            if (ncmd.aliases) {ncmd.aliases.forEach(alias => {if (!client.aliases.has(alias)) {client.aliases.set(alias, lf);}});}
             return message.channel.send(`Reloaded command \`${lf}\` in ${new Date().getTime() - timer}ms`);
         }
 
