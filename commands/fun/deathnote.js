@@ -8,17 +8,19 @@ const {TagFilter} = require('../../util/tagfilter');
 
 const deaths = [
     "watching too much anime", "an overdose of waifus", "Hypotakunemia", "trying to self-isekai",
-    "Bass:tm:", "cranking the music just a little too loud", "trying to swim in lava", "an unknown cause",
+    "Bass:tm:", "cranking the music just a little too loud", "trying to swim in lava",
     "Despacito", "something really cliche and unoriginal", "'shrooms", 
     "clicking 'I agree' without reading the Terms of Service", "alchemy", "rusty spoons",
     "picking the wrong waifu", "body pillows", "fur-con", "something to do with lamb sauce",
-    "grandma's cookies"
+    "grandma's cookies", "trying to get cat ears", "not reading the assembly instructions for that ikea furniture",
+    "the wrong kind of coke", "getting cancelled irl", "getting their credit card declined",
+    "finishing the last episode", "posting memes in #general"
 ]; // a list of preset death methods that can occur
 
 const before = [
     "A name is being written...", "Someone will perish soon...", "A body is *about* to be discovered...",
-    "{p} is scribbling something in their notebook...", "\*Manical laughter echoes around you*...",
-    "{p} laughs maniacally..."
+    "{w} is scribbling something in their notebook...", "\*Manical laughter echoes around you*...",
+    "{w} laughs maniacally..."
 ]; // things it says before the response is sent
 
 const responses = {
@@ -102,7 +104,7 @@ module.exports = {
         let victim = options.victim && options.victim.length ? options.victim : message.mentions.members.first().displayName;
         let killer = message.member;
 
-        let pretext = before[Math.floor(Math.random() * before.length)].replace(/{p}/g, victim);
+        let pretext = before[Math.floor(Math.random() * before.length)].replace(/{w}/g, killer.displayName);
 
         let note = await message.channel.send({embeds: [new Discord.MessageEmbed()
             .setDescription(pretext)
