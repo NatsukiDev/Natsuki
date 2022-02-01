@@ -36,9 +36,9 @@ module.exports = {
         }
 
         if (tu) {
-            infoembed.addField('Natsuki Commands Executed', `${tu.commands}`)
-                .addField('Donator?', tu.developer ? `Well, ${name} makes me work, so they're a supporter in my book!` : tu.donator ? 'Yes! They have donated or supported me in the past!' : 'No', true)
-                .addField('Natsuki Staff Level', tu.developer ? 'Developer' : tu.admin ? 'Admin; Audit access to the bot' : tu.staff ? 'Staff; Support but with maintenance permissions' : tu.support ? 'Support; Answers tickets and help queries' : 'Member; Does not have a staff rank.', true);
+            infoembed.addField('Natsuki Commands Executed', `${tu.commands}`);
+            if (tu.donator || tu.developer) {infoembed.addField('Donator?', tu.developer ? `Well, ${name} makes me work, so they're a supporter in my book!` : tu.donator ? 'Yes! They have donated or supported me in the past!' : 'No', true);}
+            if (tu.staff) {infoembed.addField('Natsuki Staff Level', tu.developer ? 'Developer' : tu.admin ? 'Admin; Audit access to the bot' : tu.staff ? 'Staff; Support but with maintenance permissions' : tu.support ? 'Support; Answers tickets and help queries' : 'Member; Does not have a staff rank.', true);}
         }
         return message.channel.send({embeds: [infoembed]});
     }
