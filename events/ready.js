@@ -98,9 +98,7 @@ module.exports = async client => {
 
 	setInterval(() => vcloop(client), 60000);
 
-	let botData = await BotDataSchema.findOne({finder: 'lel'})
-		? await BotDataSchema.findOne({finder: 'lel'})
-		: new BotDataSchema({
+	let botData = await BotDataSchema.findOne({finder: 'lel'}) || new BotDataSchema({
 			finder: 'lel',
 			commands: 0,
 			servers: 0,
@@ -109,15 +107,16 @@ module.exports = async client => {
 			lastRestart: new Date(),
 			errors_all: 0,
 		});
-    botData.restarts = botData.restarts + 1;
-    botData.lastRestart = new Date();
+    if (!client.misc.config.dev) {
+		botData.restarts = botData.restarts + 1;
+    	botData.lastRestart = new Date();
+		await botData.save();
+	}
 
 	console.log(`${chalk.gray('\n[INFO]')} >> ${chalk.white(`This is restart #${botData.restarts}.`)}`);
 
 	let cms = new Date().getTime();
 	console.log(`${chalk.gray('\n[INFO]')} >> ${chalk.white(`Startup completed in ${cms - client.misc.startup.getTime() - (client.misc.forcedReady ? 5000 : 0)}ms (${cms - client.misc.startupNoConnect.getTime() - (client.misc.forcedReady ? 5000 : 0)}ms post-connect).`)}`);
-
-    await botData.save();
 
 	client.misc.fullyReady = true;
 
