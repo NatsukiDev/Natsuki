@@ -12,7 +12,7 @@ module.exports = async (client) => {
                     if (isNaN(client.misc.cache.monners[user])) {return;}
                     if (!m) {m = new Monners({uid: user});}
                     m.currency = client.misc.cache.monners[user];
-                    m.save();
+                    m.save().catch(() => {});
                 });
                 xp.xp[user] = [client.misc.cache.lxp.xp[gxp][user].xp, client.misc.cache.lxp.xp[gxp][user].level];
                 xp.markModified(`xp.${user}`);
@@ -22,7 +22,7 @@ module.exports = async (client) => {
                     if (!Object.keys(client.misc.cache.lxp.xp[gxp]).length) {delete client.misc.cache.lxp.xp[gxp];}
                 }
             });
-            xp.save();
+            xp.save().catch(() => {});
         });
     });
 };
