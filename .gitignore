@@ -7,3 +7,4 @@ test.js
 api/**/*
 api/
 .idea/**/*
+/man.js
