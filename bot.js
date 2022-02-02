@@ -137,6 +137,9 @@ async function init() {
     client.utils.s = num => num === 1 ? '' : 's';
     client.utils.as = (num, text) => `${text}${client.utils.s(num)}`;
     client.utils.an = (text, caps) => `${caps ? 'A' : 'a'}${['a', 'e', 'i', 'o', 'u'].includes(text.toLowerCase().trim().slice(0, 1)) ? 'n' : ''} ${text}`;
+    client.utils.c = (text, a=true) => `${text.slice(0, 1).toUpperCase()}${a ? text.slice(1).toLowerCase() : text.slice(1)}`;
+    client.utils.ca = (text, a=true) => text.split(/\s+/gm).map(t => client.utils.c(t, a)).join(" ");
+    client.utils.sm = (mpr, ago=true) => `${mpr.years} year${client.utils.s(mpr.years)}, ${mpr.months} month${client.utils.s(mpr.months)}, and ${mpr.days} day${client.utils.s(mpr.days)}${ago ? ' ago' : ''}`;
 
     ['commands', 'aliases', 'executables'].forEach(x => client[x] = new Discord.Collection());
     client.responses = {triggers: [], commands: new Discord.Collection()};
