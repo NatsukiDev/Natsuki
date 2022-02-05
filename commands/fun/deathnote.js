@@ -14,7 +14,8 @@ const deaths = [
     "picking the wrong waifu", "body pillows", "fur-con", "something to do with lamb sauce",
     "grandma's cookies", "trying to get cat ears", "not reading the assembly instructions for that ikea furniture",
     "the wrong kind of coke", "getting cancelled irl", "getting their credit card declined",
-    "finishing the last episode", "posting memes in #general"
+    "finishing the last episode", "posting memes in #general", "stepping on a lego", "stubbing their toe",
+    "fork in toaster", "toasterbath", "signing this book without reading the cover", "being Kirby's dinner"
 ]; // a list of preset death methods that can occur
 
 const before = [
