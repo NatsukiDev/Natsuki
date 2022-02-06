@@ -29,7 +29,7 @@ module.exports = {
             .setTitle(`User Info for ${name}`)
             .setDescription(`Requested by ${message.guild ? message.member.displayName : message.author.username}`)
             .setThumbnail((message.guild ? person : u).displayAvatarURL({size: 4096}))
-            .addField("Account Created", `${moment(u.createdAt).fromNow()}`, true)
+            .addField("Account Created", `${moment.preciseDiff(Date.now(), u.createdAt)} ago`, true)
             .addField("Bot User?", u.bot ? "Is a bot" : "Is not a bot", true)
             .setColor('c375f0')
             .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
