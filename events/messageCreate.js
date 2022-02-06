@@ -117,9 +117,8 @@ module.exports = async (client, message) => {
 
             if (!command) {let trigger; for (trigger of client.responses.triggers) {if (await trigger[1](message, msg, args, cmd, prefix, mention, client)) {await client.responses.commands.get(trigger[0]).execute(message, msg, args, cmd, prefix, mention, client); break;}} return;}
             if (message.guild && !message.channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) {return message.author.send(`You tried to run the \`${command.name}\` command, but I don't seem to be able to send messages in <#${message.channel.id}>, so I can't do that!`).catch(() => {});};
-            message.channel.sendTyping().catch(() => {});
+            await message.channel.sendTyping().catch(() => {});
             if (!require('../util/cooldownhandler')(client, message, command)) {return;}
-            await wait(500);
             if (command.meta && command.meta.guildOnly && !message.guild) {return message.channel.send("You must be in a server to use this command!").catch(() => {});}
             require('../util/oncommand')(message, msg, args, cmd, prefix, mention, client);
             if (client.misc.loggers.cmds) {client.misc.loggers.cmds.send(`${chalk.gray("[CMDL]")} >> ${chalk.white("Command")} ${chalk.blue(command.name)} ${message.guild ? `|| ${chalk.blue("Guild ID: ")} ${chalk.blueBright(message.guild.id)}` : ''} || ${chalk.blue("User ID: ")} ${chalk.blueBright(message.author.id)}`);}
