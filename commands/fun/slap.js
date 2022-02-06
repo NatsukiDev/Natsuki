@@ -31,7 +31,7 @@ module.exports = {
             slaps.markModified(`against.${mention.id}`);
             slaps.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} slaps ${message.guild.members.cache.get(mention.id).displayName}`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} slaps ${message.guild.members.cache.get(mention.id).displayName}`, iconURL: message.author.displayAvatarURL()})
                 .setDescription(`That makes slap **#${slaps.against[mention.id]}** from you to them!`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d93846')

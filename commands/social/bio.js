@@ -23,10 +23,10 @@ module.exports = {
             if (!pud || !pud.bio || !pud.bio.length) {return message.reply(person === message.author.id ? "You don't have a bio set!" : "That user has no bio for me to show you!");}
             return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle(`Bio for ${message.guild ? message.guild.members.cache.get(person).displayName : message.author.username}`)
-                .setThumbnail(client.users.cache.get(person).avatarURL({size: 2048}))
+                .setThumbnail(client.users.cache.get(person).displayAvatarURL({size: 2048}))
                 .setDescription(pud.bio)
                 .setColor(pud.color && pud.color.length ? pud.color : 'c375f0')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             ]});
         }
@@ -45,10 +45,10 @@ module.exports = {
             tu.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setTitle(`Bio Set!`)
-                .setThumbnail(message.author.avatarURL({size: 2048}))
+                .setThumbnail(message.author.displayAvatarURL({size: 2048}))
                 .setDescription(tu.bio)
                 .setColor(tu.color && tu.color.length ? tu.color : 'c375f0')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             ]});
         }

@@ -29,7 +29,7 @@ module.exports = {
                 stream.on('nowPlaying', t => {
                     clearTimeout(timeout);
                     message.channel.send({embeds: [new Discord.MessageEmbed()
-                        .setAuthor({name: message.guild ? message.guild.members.cache.get(user.id) ? message.guild.members.cache.get(user.id).displayName : user.username : user.username, iconURL: user.avatarURL()})
+                        .setAuthor({name: message.guild ? message.guild.members.cache.get(user.id) ? message.guild.members.cache.get(user.id).displayName : user.username : user.username, iconURL: user.displayAvatarURL()})
                         .setTitle(`${saves.get(user.id)} | Now Playing`)
                         .setDescription(`<@${user.id}> is currently listening to **${t.name}** by **${t.artist['#text']}**.\nView the song [here](${t.url}).`)
                         .setColor("c375f0")

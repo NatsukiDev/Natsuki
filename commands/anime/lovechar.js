@@ -29,7 +29,7 @@ module.exports = {
             let n = mention ? message.guild ? message.mentions.members.first().displayName : message.mentions.users.first().username : message.guild ? message.member.displayName : message.author.username;
             return message.channel.send({embeds: [
                 new Discord.MessageEmbed()
-                    .setAuthor({name: `${n}${n.endsWith('s') ? '' : "'s"} Favorited Characters`, iconURL: mention ? mention.avatarURL() : message.author.avatarURL()})
+                    .setAuthor({name: `${n}${n.endsWith('s') ? '' : "'s"} Favorited Characters`, iconURL: mention ? mention.displayAvatarURL() : message.author.displayAvatarURL()})
                     .setDescription(`**${chars.length} character${chars.length === 1 ? '': 's'} favorited**\n\n${chars.join(", ")}`)
                     .setColor('c375f0')
                     .setFooter({text: "Natsuki"})

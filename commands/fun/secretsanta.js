@@ -78,11 +78,11 @@ module.exports = {
             return dmch.send({embeds: [new Discord.MessageEmbed()
                 .setTitle("Secret Santa Created!")
                 .setDescription("Your Secret Santa has been completed! Have your members join by using `n?secretsanta join <ID>` where the ID is the ID displayed below. You can start your secret santa when you have at least 3 members with `n?secretsanta start <ID>`. If someone joins that you don't want in your secret santa, use `n?secretsanta kick <ID> <@member|userID>`. If you want to also participate, just join the same way as everyone else.")
-                .setThumbnail(message.author.avatarURL({size: 1024}))
+                .setThumbnail(message.author.displayAvatarURL({size: 1024}))
                 .addField("ID", `\`${id}\``, true)
                 .addField("Owner", message.author.username, true)
                 .setColor("01bd2f")
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             ]});
         }
@@ -117,7 +117,7 @@ module.exports = {
                 .addField("Owner", o.username, true)
                 .addField("Members", `${tss.members ? tss.members.length : 0}`, true)
                 .setColor("01bd2f")
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             ]});
 

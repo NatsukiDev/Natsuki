@@ -28,9 +28,9 @@ module.exports = {
         else {tu.staff = false; tu.admin = false; tu.developer = false;}
         tu.save();
         const logemb = (act) => new Discord.MessageEmbed()
-            .setAuthor({name: `Staff ${act}`, iconURL: message.author.avatarURL()})
+            .setAuthor({name: `Staff ${act}`, iconURL: message.author.displayAvatarURL()})
             .setDescription("A user's Staff status was updated.")
-            .setThumbnail(person.avatarURL({size: 1024}))
+            .setThumbnail(person.displayAvatarURL({size: 1024}))
             .addField("Name", person.username, true)
             .addField("Developer", message.author.username, true)
             .setColor("e8da3a")

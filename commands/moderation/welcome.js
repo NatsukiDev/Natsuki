@@ -41,7 +41,7 @@ module.exports = {
                 .setTitle("Welcome Channel/Message Updated")
                 .setDescription(`This server's member-welcoming settings have been altered by ${message.author.tag}.\n\n**Channel**: <#${ch}>\n**Response Name**: \`${args[2].toLowerCase()}\``)
                 .setColor('c375f0')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             ]})
         }
@@ -64,7 +64,7 @@ module.exports = {
                 .setTitle("Welcome Channel/Message Updated")
                 .setDescription(`This server's member-welcoming settings have been altered by ${message.author.tag}.\n\n**Channel**: None`)
                 .setColor('c375f0')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             ]});
         }

@@ -36,12 +36,12 @@ module.exports = {
         let upm = await message.reply("sure thing!");
         await require('../../util/wait')(1750);
         return upm.edit({embeds: [new Discord.MessageEmbed()
-            .setAuthor({name: 'Prefix updated!', iconURL: message.author.avatarURL()})
+            .setAuthor({name: 'Prefix updated!', iconURL: message.author.displayAvatarURL()})
             .setDescription(`New prefix: \`${np}\``)
             .addField('Auditing Admin', `<@${message.member.id}>`, true)
             .addField("Notice", "Prefixes are cached, and may take up to a minute to update.")
             .setColor('c375f0')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()
         ]});
     }

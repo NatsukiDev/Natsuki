@@ -98,7 +98,7 @@ module.exports = {
                 client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177850239422494').send({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                            .setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL()})
                             .setTitle(`New Anime Image ${queue ? "Submitted" : "Added"}`)
                             .setDescription(`For **${ch.name}**`)
                             .setThumbnail(ch.thumbnail)
@@ -118,7 +118,7 @@ module.exports = {
                 client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177850239422494').send({
                     embeds: [
                         new Discord.MessageEmbed()
-                            .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                            .setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL()})
                             .setTitle(`New Anime Images ${queue ? "Submitted" : "Added"}`)
                             .setDescription(`For **${ch.name}**`)
                             .addField("Images", images.map(img => `${img}\n`).join(""))

@@ -25,7 +25,7 @@ module.exports = {
             .setTitle(`${name.endsWith('s') ? `${name}'` : `${name}'s`} Avatar`)
             .setImage(message.guild ? message.guild.members.cache.get(member.id).displayAvatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}) : member.displayAvatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}))
             .setColor('c375f0')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             if (!options.vsmall) {avem.setTimestamp();}
             return message.channel.send({embeds: [avem]});
         } catch (e) {console.error(e); return message.reply("Hmm, there seems to have been an error while I tried to show you that user's avatar.");}

@@ -19,7 +19,7 @@ module.exports = {
         let text = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE", "GUILD_TEXT"];
         let voice = ["GUILD_VOICE", "GUILD_STAGE_VOICE"];
         let siembed = new Discord.MessageEmbed()
-            .setAuthor({name: "Server info", iconURL: message.author.avatarURL({dynamic: true})})
+            .setAuthor({name: "Server info", iconURL: message.author.displayAvatarURL({dynamic: true})})
             .setTitle(tg.name)
             .setThumbnail(tg.iconURL({size: 2048, dynamic: true, format: 'png'}))
             .setDescription(`Name: \`${tg.name}\`\n\nOwner: <@${tg.ownerId}>\nBoost Level: **${tg.premiumTier === 'NONE' ? 'None' : tg.premiumTier.slice(tg.premiumTier.length - 1, tg.premiumTier.length)}**\nIcon: [URL](${tg.iconURL({size: 2048})})${tg.banner ? ` | Banner: [URL](${tg.bannerURL({size: 4096, format: 'png'})})` : ''}${tg.splash ? ` | Splash: [URL](${tg.splashURL({size: 4096, format: 'png'})})` : ''}\nID: ${tg.id}`)

@@ -29,7 +29,7 @@ module.exports = {
                     rc.stop();
                     return message.guild.emojis.create(`https://cdn.discordapp.com/emojis/${r.emoji.id}`, r.emoji.name)
                     .then(e => message.channel.send({embeds: [new Discord.MessageEmbed()
-                        .setAuthor({name: message.member.displayName, iconURL: message.author.avatarURL()})
+                        .setAuthor({name: message.member.displayName, iconURL: message.author.displayAvatarURL()})
                         .setTitle("Emoji Created!")
                         .setThumbnail(`https://cdn.discordapp.com/emojis/${e.id}${e.animated ? '.gif': ''}`)
                         .setDescription(`Name: \`:${e.name}:\`\nID: ${e.id}\nURL: [Click Me](https://cdn.discordapp.com/emojis/${e.id})`)
@@ -61,7 +61,7 @@ module.exports = {
                     : args[0],
             args[1] || args[0].split(':')[1]
         ).then(e => message.channel.send({embeds: [new Discord.MessageEmbed()
-            .setAuthor({name: message.member.displayName, iconURL: message.author.avatarURL()})
+            .setAuthor({name: message.member.displayName, iconURL: message.author.displayAvatarURL()})
             .setTitle("Emoji Created!")
             .setThumbnail(`https://cdn.discordapp.com/emojis/${e.id}${e.animated ? '.gif': ''}`)
             .setDescription(`Name: \`:${e.name}:\`\nID: ${e.id}\nURL: [Click Me](https://cdn.discordapp.com/emojis/${e.id}${e.animated ? '.gif': ''})`)

@@ -72,7 +72,7 @@ module.exports = {
                         .setTitle("Auto-Responses in this Server")
                         .setDescription(string)
                         .setColor('c375f0')
-                        .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                        .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                         .setTimestamp();
                     if (mode) {embed.addField(mode === 'edit' ? "Editing" : 'Deletion', `Please say the **number** of the AR you wish to ${mode}.`);}
                     let r = await message.channel.send({embeds: [embed]});

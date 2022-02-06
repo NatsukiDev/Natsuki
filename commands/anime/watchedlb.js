@@ -22,7 +22,7 @@ module.exports = {
                     .map((c, i) => `${i+1}. **${client.misc.cache.animeLove.get(c)} watcher${client.misc.cache.animeLove.get(c) === 1 ? '' : 's'}** -> ${client.misc.cache.animeID.get(c)}`)
                     .join('\n')
                 ).setColor('c375f0')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
         ]});
     }

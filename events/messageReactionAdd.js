@@ -16,9 +16,9 @@ module.exports = async (client, reaction, user) => {
             let starEmbed = new Discord.MessageEmbed()
                 .setTitle('Starred Message!')
                 .setDescription(`Sent by ${reaction.message.member.displayName} (<@${reaction.message.author.id}>) || Channel: ${reaction.message.channel.name} (<#${reaction.message.channel.id}>)\n[Jump to Message](${reaction.message.url})`)
-                .setThumbnail(reaction.message.author.avatarURL({size: 2048}))
+                .setThumbnail(reaction.message.author.displayAvatarURL({size: 2048}))
                 .setColor('ebb931')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp();
             if (reaction.message.content.length) {starEmbed.addField("Message", reaction.message.content);}
             starEmbed

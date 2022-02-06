@@ -72,7 +72,7 @@ module.exports = {
                 .addField("Level", `${xp.level}`, true)
                 .addField("XP", `**${xp.xp}** of **${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))}** needed to level up`, true)
                 .addField(`${message.misc.mn}`, `<:monners:926736756047495218> ${tcur}`)
-                .setThumbnail(client.users.cache.get(u.id).avatarURL({size: 2048}))
+                .setThumbnail(client.users.cache.get(u.id).displayAvatarURL({size: 2048}))
                 .setColor("c375f0")
                 .setFooter({text: "Natsuki"})
                 .setTimestamp()

@@ -20,10 +20,10 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
                     .setTitle(`${name} needs healing!`)
-                    .setThumbnail(message.author.avatarURL({size: 2048}))
+                    .setThumbnail(message.author.displayAvatarURL({size: 2048}))
                     .setDescription(`Lend them some help with \`${prefix}heal @${name}\`!`)
                     .setColor('ffc0cb')
-                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                    .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                     .setTimestamp()]}
                 : "I am immortal, I don't need healing."
             );}
@@ -34,7 +34,7 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} heals ${message.guild.members.cache.get(mention.id).displayName}!`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} heals ${message.guild.members.cache.get(mention.id).displayName}!`, iconURL: message.author.displayAvatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('ffc0cb')
             ]});

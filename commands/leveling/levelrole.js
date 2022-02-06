@@ -64,7 +64,7 @@ module.exports = {
                 .setThumbnail(message.guild.iconURL({size: 2048}))
                 .setDescription(s)
                 .setColor('c375f0')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             ]});
         }

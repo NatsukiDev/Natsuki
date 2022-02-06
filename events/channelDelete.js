@@ -7,7 +7,7 @@ module.exports = (client, channel) => {
             .setTitle("Channel Deleted")
             .setDescription(`Name: **#${channel.name}**${channel.parent && channel.parent.name ? `\nCategory: **${channel.parent.name}**` : ''}`)
             .setColor('936b30')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()
         ]});
     }}

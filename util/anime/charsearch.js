@@ -17,12 +17,12 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
         cch.images.push(cch.thumbnail);
         let rte = new Discord.MessageEmbed()
             .setTitle(cch.name)
-            .setAuthor({name: 'Character Search', iconURL: message.author.avatarURL()})
+            .setAuthor({name: 'Character Search', iconURL: message.author.displayAvatarURL()})
             .setDescription(`**Name:** ${cch.name}`)
             .addField('Other', `**Anime**: ${forceAni ? cch.anime : `${ani.name} | ${ani.japname} | \`${ani.id}\``}\n\n**Gender**: ${cch.gender}\n`)
             .setColor("c375f0")
             .setImage(cch.images[Math.floor(Math.random() * cch.images.length)])
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp();
         if (type === 'full') {
             rte.addField("Loved by", `**${cch.loved}** Natsuki user${cch.loved === 1 ? '' : 's'}!\n\`char love ${cch.name}\``);

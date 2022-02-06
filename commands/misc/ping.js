@@ -14,7 +14,7 @@ module.exports = {
         return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle("Client Latency")
             .setDescription(`Response Latency: \`${new Date().getTime() - message.createdTimestamp}ms\`\nAPI Latency: \`${client.ws.ping}ms\``)
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()
             .setColor('c375f0')
         ]});

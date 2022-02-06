@@ -39,7 +39,7 @@ module.exports = {
             s = `${s}${ps.join('\n')}`;
             pages.push(new Discord.MessageEmbed()
                 .setTitle("Anime Database")
-                .setThumbnail(client.user.avatarURL({size: 1024, dynamic: true, format: 'png'}))
+                .setThumbnail(client.user.displayAvatarURL({size: 1024, dynamic: true, format: 'png'}))
                 .setDescription(s)
                 .setColor('c375f0')
                 .setTimestamp()

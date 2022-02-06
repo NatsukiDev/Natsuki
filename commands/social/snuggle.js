@@ -22,10 +22,10 @@ module.exports = {
         if (!args.length) {
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} needs a snuggle!`)
-            .setThumbnail(message.author.avatarURL({size: 2048}))
+            .setThumbnail(message.author.displayAvatarURL({size: 2048}))
             .setDescription(`Show them some love with \`${prefix}snuggle @${message.member.displayName}\`!`)
             .setColor('c375f0')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()]}
             : "Sorry, but I'm a bot, and I can't snuggle you. Go into a server and ask for some snuggles!"
         );}
@@ -39,7 +39,7 @@ module.exports = {
             snuggles.markModified(`against.${mention.id}`);
             snuggles.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a snuggle!`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a snuggle!`, iconURL: message.author.displayAvatarURL()})
                 .setDescription(`You've snuggled them **${snuggles.against[mention.id] === 1 ? 'once' : `${snuggles.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')

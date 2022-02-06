@@ -189,7 +189,7 @@ module.exports = {
                 .addField('Other', `**Anime**: ${forceAni ? options.anime : `${aniData.name} | ${aniData.japname} | \`${aniData.id}\``}\n\n**Gender**: ${options.gender}\n`)
                 .setColor("c375f0")
                 .setImage(options.thumbnail)
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp();
             const addChar = async () => {
                 while (true) {options.id = require('../../util/makeid')(4); if (!await Char.findOne({id: options.id})) {break;}}
@@ -199,7 +199,7 @@ module.exports = {
                     client.misc.cache.charsID.set(options.id, options.name);
                 }
                 else {amEmbed.addField("ID", options.id);}
-                amEmbed.setAuthor({name: !queue ? "Character Added" : "Character Submitted", iconURL: message.author.avatarURL()});
+                amEmbed.setAuthor({name: !queue ? "Character Added" : "Character Submitted", iconURL: message.author.displayAvatarURL()});
                 if (!queue) {options.queued = false;}
                 await new Char(options).save();
                 if (aniData) {
@@ -210,7 +210,7 @@ module.exports = {
                 client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177797705781308').send({embeds: [amEmbed]}).catch(() => {})).catch(() => {});
                 if (options.images && options.images.length) {
                     let imagesEmbed = new Discord.MessageEmbed()
-                        .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                        .setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL()})
                         .setTitle(`New Image${client.utils.s(options.images.length)} ${queue ? "Submitted" : "Added"}`)
                         .setDescription(`For **${options.name}** | \`${options.id}\` from ${client.misc.cache.animeID.get(options.anime)}`)
                         .setThumbnail(options.thumbnail)
@@ -391,7 +391,7 @@ module.exports = {
                 client.misc.cache.charsLove.set(char.id, char.loved);
                 client.guilds.cache.get('762707532417335296').channels.cache.get('932177797705781308').send({embeds: [new Discord.MessageEmbed()
                     .setTitle(`Character Accepted -> ${tr.name}`)
-                    .setAuthor({name: 'Character Approved', iconURL: message.author.avatarURL()})
+                    .setAuthor({name: 'Character Approved', iconURL: message.author.displayAvatarURL()})
                     .setThumbnail(tr.thumbnail)
                     .setDescription(`${tr.name} has been approved, and is now available to all Natsuki users.`)
                     .setColor('c375f0')
@@ -472,7 +472,7 @@ module.exports = {
             let n = mention ? message.guild ? message.mentions.members.first().displayName : message.mentions.users.first().username : message.guild ? message.member.displayName : message.author.username;
             return message.channel.send({embeds: [
                 new Discord.MessageEmbed()
-                    .setAuthor({name: `${n}${n.endsWith('s') ? '' : "'s"} Favorited Characters`, iconURL: mention ? mention.avatarURL() : message.author.avatarURL()})
+                    .setAuthor({name: `${n}${n.endsWith('s') ? '' : "'s"} Favorited Characters`, iconURL: mention ? mention.displayAvatarURL() : message.author.displayAvatarURL()})
                     .setDescription(`**${chars.length} character${chars.length === 1 ? '': 's'} favorited**\n\n${chars.join(", ")}`)
                     .setColor('c375f0')
                     .setFooter({text: "Natsuki"})
@@ -559,7 +559,7 @@ module.exports = {
                     client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177850239422494').send({
                         embeds: [
                             new Discord.MessageEmbed()
-                                .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                                .setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL()})
                                 .setTitle(`New Image ${queue ? "Submitted" : "Added"}`)
                                 .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
                                 .setThumbnail(ch.thumbnail)
@@ -579,7 +579,7 @@ module.exports = {
                     client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177850239422494').send({
                         embeds: [
                             new Discord.MessageEmbed()
-                                .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                                .setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL()})
                                 .setTitle(`New Images ${queue ? "Submitted" : "Added"}`)
                                 .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
                                 .addField("Images", images.map(img => `${img}\n`).join(""))
@@ -635,7 +635,7 @@ module.exports = {
                     .addField("Loved by", `**${ch.loved}** Natsuki user${ch.loved === 1 ? '' : 's'}!\n\`${prefix}char love ${ch.name}\``)
                     .setColor("c375f0")
                     .setImage(ch.thumbnail)
-                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                    .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                     .setTimestamp()
                 ));
                 let pag = new Pagination(message.channel, pages, message, client, true);
@@ -646,7 +646,7 @@ module.exports = {
                         .setTitle(`${anime.name}: Characters`)
                         .setThumbnail(anime.thumbnail)
                         .setDescription(`**${anime.characters.length} Characters**\n` + anime.characters.map(ch => client.misc.cache.charsID.get(ch)).join(", "))
-                        .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                        .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                         .setTimestamp()
                         .setColor('c375f0')
                 ]});
@@ -697,7 +697,7 @@ module.exports = {
             client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177814638186516').send({
                 embeds: [
                     new Discord.MessageEmbed()
-                        .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                        .setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL()})
                         .setTitle(`New Character Nickname ${queue ? "Submitted" : "Added"}`)
                         .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
                         .addField("Name", nn)

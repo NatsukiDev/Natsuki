@@ -21,10 +21,10 @@ module.exports = {
         if (!args.length) {
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} needs a good bonk!`)
-            .setThumbnail(message.author.avatarURL({size: 2048}))
+            .setThumbnail(message.author.displayAvatarURL({size: 2048}))
             .setDescription(`Give them one with \`${prefix}bonk @${message.member.displayName}\`!`)
             .setColor('dda0dd')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()]}
             : "I fucking dare you to hit me."
         );}
@@ -38,7 +38,7 @@ module.exports = {
             bonk.markModified(`against.${mention.id}`);
             bonk.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} bonks ${message.guild.members.cache.get(mention.id).displayName}!...ouch! `, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} bonks ${message.guild.members.cache.get(mention.id).displayName}!...ouch! `, iconURL: message.author.displayAvatarURL()})
                 .setDescription(`You've bonked them **${bonk.against[mention.id] === 1 ? 'once' : `${bonk.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('dda0dd')

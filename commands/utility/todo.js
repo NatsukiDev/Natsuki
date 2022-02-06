@@ -49,7 +49,7 @@ module.exports = {
                 let totalItems = 0;
                 Object.keys(td.lists).forEach(l => totalItems += td.lists[l].length);
                 return message.channel.send({content: `Your list was successfully created!`, embeds: [new Discord.MessageEmbed()
-                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL: message.author.avatarURL()})
+                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL: message.author.displayAvatarURL()})
                     .setTitle(`List Created: ${ln}`)
                     .setDescription(`You now have **${Object.keys(td.lists).length}** lists (including your personal list) with a total of **${totalItems} items**.`)
                     .addField("Managing", `-To add to your new list, use \`${prefix}todo list ${ln} add\`.\n-To view its items, use \`${prefix}todo list ${ln} view\`.\n-To delete this list, use \`${prefix}todo list delete ${ln}\`.`)
@@ -64,7 +64,7 @@ module.exports = {
                     let s = ``; let lists = Object.keys(td.lists);
                     let i; for (i = 0; i < lists.length; i++) {if (lists[i] === 'quick') {continue;} s += `**${i}**. \`${lists[i]}\` - ${td.lists[lists[i]].length} ${td.lists[lists[i]].length === 1 ? 'item' : 'items'}\n`;}
                     message.channel.send({embeds: [new Discord.MessageEmbed()
-                        .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.avatarURL()})
+                        .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.displayAvatarURL()})
                         .setTitle(`Your ToDo lists`)
                         .setDescription(s)
                         .addField("Deletion", "To delete a list, please reply with the **name** of the list you'd like to delete.")
@@ -92,7 +92,7 @@ module.exports = {
                 let i; for (i = 0; i < lists.length; i++) {if (lists[i] === 'quick') {continue;} s += `**${i}**. \`${lists[i]}\` - ${td.lists[lists[i]].length} ${td.lists[lists[i]].length === 1 ? 'item' : 'items'}\n`;}
                 s += `\nPlus ${td.lists.quick.length} items in your quick list.`;
                 return message.channel.send({embeds: [new Discord.MessageEmbed()
-                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.avatarURL()})
+                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.displayAvatarURL()})
                     .setTitle(`Your ToDo lists`)
                     .setDescription(s)
                     .setColor("c375f0")
@@ -118,7 +118,7 @@ module.exports = {
             td.markModified(`lists.${list}`);
             td.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: "To-Do Added!", iconURL: message.author.avatarURL()})
+                .setAuthor({name: "To-Do Added!", iconURL: message.author.displayAvatarURL()})
                 .setDescription(`${item}\n\`->\` In ${list === 'quick' ? "your personal quick list" : `list \`${list}\``}`)
                 .setColor('c375f0')
             ]});
@@ -157,7 +157,7 @@ module.exports = {
             td.markModified(`lists.${list}`);
             td.save();
             let resembed = new Discord.MessageEmbed()
-                .setAuthor({name: `To-Do Item${items.length > 1 ? 's' : ''} Added!`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `To-Do Item${items.length > 1 ? 's' : ''} Added!`, iconURL: message.author.displayAvatarURL()})
                 .setDescription(`In ${list === 'quick' ? "your personal quick list" : `list \`${list}\``}\n- ${items.join('\n- ')}`)
                 .setColor('c375f0');
             if (reachedMax) {resembed.addField("Notice", "The list addition process was automatically stopped because your list reached the maximum limit of 25 items.");}
@@ -174,7 +174,7 @@ module.exports = {
                 let n = 0; let i;
                 for (i of td.lists[list]) {n++; s += `**${n}.** ${i}\n`;}
                 return message.channel.send({embeds: [new Discord.MessageEmbed()
-                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.avatarURL()})
+                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.displayAvatarURL()})
                     .setTitle(list === "quick" ? "Personal Quick List" : `List: "${list}"`)
                     .setDescription(s)
                     .setColor("c375f0")
@@ -189,7 +189,7 @@ module.exports = {
                 let id = ['last', 'l'].includes(args[1].toLowerCase().trim()) ? td.lists[list].length : Number(args[1]);
                 if (id < 1 || id > td.lists[list].length) {return message.channel.send("Your number was either below 1 or doesn't have a list item to match it.");}
                 return message.channel.send({embeds: [new Discord.MessageEmbed()
-                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.avatarURL()})
+                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.displayAvatarURL()})
                     .setTitle(list === "quick" ? "Personal Quick List" : `List "${list}"`)
                     .setDescription(`List item **#${id}**\n\`->\` ${td.lists[list][id-1]}`)
                     .setColor("c375f0")
@@ -209,7 +209,7 @@ module.exports = {
                 let s = '';
                 let n = 0; let i; for (i of td.lists[list]) {n++; s += `**${n}.** ${i}\n`;}
                 await message.channel.send({embeds: [new Discord.MessageEmbed()
-                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.avatarURL()})
+                    .setAuthor({name: message.guild ? message.member.displayName : message.author.username, iconURL:  message.author.displayAvatarURL()})
                     .setTitle(list === "quick" ? "Personal Quick List" : `List "${list}"`)
                     .setDescription(s)
                     .addField("Deletion", "To remove an item from your list, please reply with the number of the item you no longer want on your list.")

@@ -31,11 +31,11 @@ module.exports = (client) => {
             let infoembed = new Discord.MessageEmbed()
                 .setTitle(`User Info for ${name}`)
                 .setDescription(`Requested by ${interaction.guild ? interaction.member.displayName : interaction.user.username}`)
-                .setThumbnail(client.users.cache.get(person.id).avatarURL({size: 2048}))
+                .setThumbnail(client.users.cache.get(person.id).displayAvatarURL({size: 2048}))
                 .addField("Account Created", moment(client.users.cache.get(person.id).createdAt).fromNow(), true)
                 .addField("Bot User?", client.users.cache.get(person.id).bot ? "Is a bot" : "Is not a bot", true)
                 .setColor('c375f0')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp();
 
             if (interaction.guild) {

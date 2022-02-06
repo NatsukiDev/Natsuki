@@ -44,7 +44,7 @@ module.exports = {
             .setTitle(`Random Number${num.length === 1 ? '' : 's'}`)
             .setDescription(res)
             .setColor('c375f0')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()
         ]});
     }

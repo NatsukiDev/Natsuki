@@ -28,10 +28,10 @@ module.exports = {
             tg.save();
             return message.channel.send(new Discord.MessageEmbed()
                 .setTitle("Join Role Updated")
-                .setThumbnail(message.author.avatarURL({size: 2048}))
+                .setThumbnail(message.author.displayAvatarURL({size: 2048}))
                 .setDescription(`Role: ${tg.joinrole.length ? `<@&${tg.joinrole}>` : "None"}`)
                 .setColor("c375f0")
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             );
         }

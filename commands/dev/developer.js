@@ -30,9 +30,9 @@ module.exports = {
         else {tu.developer = false;}
         tu.save();
         const logemb = (act) => new Discord.MessageEmbed()
-            .setAuthor({name: `Developer ${act}`, iconURL: message.author.avatarURL()})
+            .setAuthor({name: `Developer ${act}`, iconURL: message.author.displayAvatarURL()})
             .setDescription("A user's Developer status was updated.")
-            .setThumbnail(person.avatarURL({size: 1024}))
+            .setThumbnail(person.displayAvatarURL({size: 1024}))
             .addField("Name", person.username, true)
             .addField("Developer", message.author.username, true)
             .setColor("e8da3a")

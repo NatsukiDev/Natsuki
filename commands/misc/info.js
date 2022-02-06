@@ -19,8 +19,8 @@ module.exports = {
         let user = await UserData.findOne({uid: message.author.id});
 
         return message.channel.send({embeds: [new Discord.MessageEmbed()
-            .setAuthor({name: "About Me!", iconURL: client.users.cache.get(client.developers[Math.floor(Math.random() * client.developers.length)]).avatarURL()})
-            .setThumbnail(client.user.avatarURL({size: 1024}))
+            .setAuthor({name: "About Me!", iconURL: client.users.cache.get(client.developers[Math.floor(Math.random() * client.developers.length)]).displayAvatarURL()})
+            .setThumbnail(client.user.displayAvatarURL({size: 1024}))
             .setDescription(`I am created by WubzyGD#8766 and Slushie#1234 - a pair conveniently known as NatsukiDev - in JavaScript/Discord.js!\n\nI'm a powerful all-purpose bot with everything you could want or need, and I have my own set of unique skills that you won't find anywhere else ^^`)
             .addField("Presence", `I'm currently in **${client.guilds.cache.size}** servers, and I'm watching over approximately **${client.users.cache.size}** people!`)
             .addField("Restarts", `${botData.restarts}`, true)

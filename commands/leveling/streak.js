@@ -16,7 +16,7 @@ module.exports = {
         const tm = await Monners.findOne({uid: mention ? mention.id : message.author.id});
         return message.channel.send(tm ? {embeds: [
             new Discord.MessageEmbed()
-                .setAuthor({name: "Daily Streak", iconURL: mention ? mention.avatarURL() : message.author.avatarURL()})
+                .setAuthor({name: "Daily Streak", iconURL: mention ? mention.displayAvatarURL() : message.author.displayAvatarURL()})
                 .setDescription(`${mention ? "That user's" : "Your"} streak is **${tm.daily.streak}**.`)
                 .setFooter({text: "Natsuki"})
                 .setColor("c375f0")

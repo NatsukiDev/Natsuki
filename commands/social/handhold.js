@@ -20,10 +20,10 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
                     .setTitle(`${name} is feeling a little lonely. If only someone would hold their hand...`)
-                    .setThumbnail(message.author.avatarURL({size: 2048}))
+                    .setThumbnail(message.author.displayAvatarURL({size: 2048}))
                     .setDescription(`Let them know you love them with \`${prefix}handhold @${name}\`!`)
                     .setColor('328ba8')
-                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                    .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                     .setTimestamp()]}
                 : "Yikes... I'm kinda germaphobic you know. Maybe try asking in a server?"
             );}
@@ -34,7 +34,7 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} holds ${uname.endsWith('s') ? `${uname}'` : `${uname}'s`} hand!`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} holds ${uname.endsWith('s') ? `${uname}'` : `${uname}'s`} hand!`, iconURL: message.author.displayAvatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d428a0')
             ]});

@@ -29,7 +29,7 @@ module.exports = {
             spanks.markModified(`against.${mention.id}`);
             spanks.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a spank!`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a spank!`, iconURL: message.author.displayAvatarURL()})
                 .setDescription(`You've spanked them **${spanks.against[mention.id] === 1 ? 'once' : `${spanks.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')

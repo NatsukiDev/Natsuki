@@ -20,10 +20,10 @@ module.exports = async (client, oldM, newM) => {
         let embed = new Discord.MessageEmbed()
             .setTitle('Message Edited')
             .setDescription(`Sent by <@${oldM.author.id}> | In <#${oldM.channel.id}> | [See Message](${oldM.url})`)
-            .setThumbnail(oldM.author.avatarURL({size: 1024}))
+            .setThumbnail(oldM.author.displayAvatarURL({size: 1024}))
             .addField("Old Message", "`-> `" + oldM.content.toString())
             .addField("New Message", "`-> `" + newM.content.toString())
-            .setColor('8034eb').setFooter({text: "Natsuki", iconURL: client.user.avatarURL()}).setTimestamp();
+            .setColor('8034eb').setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()}).setTimestamp();
         if (newM.attachments.size && ['.png', '.jpg', '.gif'].includes(newM.attachments.first().url.slice(newM.attachments.first().url.length - 4, newM.attachments.first().url.length))) {embed.setImage(newM.attachments.first().url);}
         oldM.guild.channels.cache.get(ts).send({embeds: [embed]}).catch(() => {});
 	}}

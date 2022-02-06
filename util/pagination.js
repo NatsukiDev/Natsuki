@@ -32,7 +32,7 @@ class Pagination {
             }
         }
         await this.message.edit({ embeds: [this.pages[page]
-                    .setFooter({ text: `Natsuki | Page ${page + 1} of ${this.pages.length}`, iconURL: this.client.user.avatarURL() })
+                    .setFooter({ text: `Natsuki | Page ${page + 1} of ${this.pages.length}`, iconURL: this.client.user.displayAvatarURL() })
                     .setTimestamp()]
         });
         this.currentPage = page;
@@ -118,7 +118,7 @@ class Pagination {
         this.controllers.collector.stop();
         let fe = this.getCurrentPage();
         fe.setDescription(`${fe.description}\n\n*This menu has ended, start a new one to interact with it!*`);
-        fe.setFooter({ text: `Menu Ended${fe.footer && fe.footer.text && fe.footer.text.length ? ` | ${fe.footer.text}` : ''}`, iconURL: this.client.user.avatarURL() });
+        fe.setFooter({ text: `Menu Ended${fe.footer && fe.footer.text && fe.footer.text.length ? ` | ${fe.footer.text}` : ''}`, iconURL: this.client.user.displayAvatarURL() });
         await this.message.edit({ embeds: [fe] });
         clearInterval(this.timeoutInterval);
         return this;

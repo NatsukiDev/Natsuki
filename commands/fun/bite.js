@@ -25,7 +25,7 @@ module.exports = {
             if (!message.guild.members.cache.has(mention.id)) {return message.reply("That user is not in this server!");}
             if (message.author.id === mention.id) {return message.reply("Ew quit tryna bite yourself, that's weird.");}
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} bites ${message.guild.members.cache.get(mention.id).displayName}`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} bites ${message.guild.members.cache.get(mention.id).displayName}`, iconURL: message.author.displayAvatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('d93846')
             ]});

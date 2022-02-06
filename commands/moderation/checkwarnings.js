@@ -39,11 +39,11 @@ module.exports = {
         if (cwc === mh.warnings[user.id].length) {return message.reply("That user has no uncleared warnings.");}
         return message.channel.send({embeds: [new Discord.MessageEmbed()
             .setTitle("User Warnings")
-            .setThumbnail(client.users.cache.get(user.id).avatarURL({size: 1024}))
+            .setThumbnail(client.users.cache.get(user.id).displayAvatarURL({size: 1024}))
             .setDescription(`For ${user.displayName}`)
             .addField("Warnings", ws)
             .setColor("c375f0")
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()
         ]});
     }

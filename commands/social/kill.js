@@ -20,10 +20,10 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
                     .setTitle(`${name} is feeling homicidal..watch out!`)
-                    .setThumbnail(message.author.avatarURL({size: 2048}))
+                    .setThumbnail(message.author.displayAvatarURL({size: 2048}))
                     .setDescription(`Brutally murder someone with \`${prefix}kill @${name}\`!`)
                     .setColor('bb0a1e')
-                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                    .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                     .setTimestamp()]}
                 : "You can't kill me..don't even try."
             );}
@@ -34,7 +34,7 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} brutally murders ${message.guild.members.cache.get(mention.id).displayName}..Rest in Peace.`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} brutally murders ${message.guild.members.cache.get(mention.id).displayName}..Rest in Peace.`, iconURL: message.author.displayAvatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('bb0a1e')
             ]});

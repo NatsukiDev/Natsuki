@@ -24,7 +24,7 @@ module.exports = (client) => {
                 /*Neutral Responses */ ,"Maybe", "I'm not sure", "I'll think about it", "Uhh Natsuki isn't here right now. I can take a message?", "I'm sure if you look deep within your heart, which is currently all over that tree, you'll find the answer", "I mean, if you think so...", "I don't have an opinion on that.", "I'll choose to remain silent."
             ];
             return await interaction.reply({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: "8ball Question", iconURL: interaction.user.avatarURL()})
+                .setAuthor({name: "8ball Question", iconURL: interaction.user.displayAvatarURL()})
                 .setDescription("**Question:** " + interaction.options.getString('question') + "\n**Answer:** " + responses[Math.floor(Math.random() * responses.length)])
                 .setColor("c375f0")
                 .setFooter({text: `Asked by ${interaction.guild ? interaction.member.displayName : interaction.user.username} | Natsuki`})

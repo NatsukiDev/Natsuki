@@ -32,7 +32,7 @@ module.exports = {
             .addField("Account Created", `${moment.preciseDiff(Date.now(), u.createdAt)} ago`, true)
             .addField("Bot User?", u.bot ? "Is a bot" : "Is not a bot", true)
             .setColor('c375f0')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp();
 
         if (message.guild) {
@@ -48,7 +48,6 @@ module.exports = {
             if (tu.staff) {infoembed.addField('Natsuki Staff Level', tu.developer ? 'Developer' : tu.admin ? 'Admin; Audit access to the bot' : tu.staff ? 'Staff; Support but with maintenance permissions' : tu.support ? 'Support; Answers tickets and help queries' : 'Member; Does not have a staff rank.', true);}
         }
         
-        console.log()
         if (u.banner) {infoembed.setImage(u.bannerURL({size: 4096, dynamic: true, format: 'png'}));}
 
         return message.channel.send({embeds: [infoembed]});

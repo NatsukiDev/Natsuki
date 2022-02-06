@@ -64,7 +64,7 @@ module.exports = {
         client.guilds.fetch('762707532417335296').then(g => g.channels.cache.get('932177814638186516').send({
             embeds: [
                 new Discord.MessageEmbed()
-                    .setAuthor({name: message.author.username, iconURL: message.author.avatarURL()})
+                    .setAuthor({name: message.author.username, iconURL: message.author.displayAvatarURL()})
                     .setTitle(`New Character Nickname ${queue ? "Submitted" : "Added"}`)
                     .setDescription(`For **${ch.name}** | \`${ch.id}\` from ${client.misc.cache.animeID.get(ch.anime)}`)
                     .addField("Name", nn)

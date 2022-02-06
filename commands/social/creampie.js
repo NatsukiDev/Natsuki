@@ -20,10 +20,10 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
                     .setTitle(`${name} needs a creampie!`)
-                    .setThumbnail(message.author.avatarURL({size: 2048}))
+                    .setThumbnail(message.author.displayAvatarURL({size: 2048}))
                     .setDescription(`Help with their..ahem..problem..with \`${prefix}creampie @${name}\`!`)
                     .setColor('fffdd0')
-                    .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                    .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                     .setTimestamp()]}
                 : "Do. Not. Touch. Me."
             );}
@@ -34,7 +34,7 @@ module.exports = {
             let name = message.guild ? message.member.displayName : message.author.username;
             let uname = message.guild.members.cache.get(mention.id).displayName;
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives a massive creampie to ${message.guild.members.cache.get(mention.id).displayName}..Tasty!`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives a massive creampie to ${message.guild.members.cache.get(mention.id).displayName}..Tasty!`, iconURL: message.author.displayAvatarURL()})
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('fffdd0')
             ]});

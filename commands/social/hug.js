@@ -21,10 +21,10 @@ module.exports = {
         if (!args.length) {
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} needs a hug!`)
-            .setThumbnail(message.author.avatarURL({size: 2048}))
+            .setThumbnail(message.author.displayAvatarURL({size: 2048}))
             .setDescription(`Show them some love with \`${prefix}hug @${message.member.displayName}\`!`)
             .setColor('c375f0')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()]}
             : "Sorry, but I'm a bot, and I can't hug you. Go into a server and ask for some hugs!"
         );}
@@ -38,7 +38,7 @@ module.exports = {
             hugs.markModified(`against.${mention.id}`);
             hugs.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a hug!`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} gives ${message.guild.members.cache.get(mention.id).displayName} a hug!`, iconURL: message.author.displayAvatarURL()})
                 .setDescription(`You've hugged them **${hugs.against[mention.id] === 1 ? 'once' : `${hugs.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')

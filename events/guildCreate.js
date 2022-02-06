@@ -15,7 +15,7 @@ module.exports = async (client, guild) => {
     botData.save();
 
     client.guilds.cache.get('762707532417335296').channels.cache.get('766031709866557471').send({embeds: [new Discord.MessageEmbed()
-        .setAuthor({name: 'New Guild Added', iconURL: client.users.cache.get(guild.ownerId).avatarURL()})
+        .setAuthor({name: 'New Guild Added', iconURL: client.users.cache.get(guild.ownerId).displayAvatarURL()})
         .setTitle(guild.name)
         .setThumbnail(guild.iconURL({size: 2048}))
         .addField('Owner', `${client.users.cache.get(guild.ownerId).tag}`, true)

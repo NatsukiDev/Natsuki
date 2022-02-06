@@ -18,7 +18,7 @@ module.exports = {
             let category; for (category of Object.keys(sorted)) {
                 let categorySorted = [];
                 let current = 1;
-                let currentEmbed = new Discord.MessageEmbed().setAuthor({name: "Help Menu", iconURL: message.author.avatarURL()}).setTitle(category).setDescription("React to control the menu! You can also specify a command name when doing the help command to get more info about it.").setColor("c375f0");
+                let currentEmbed = new Discord.MessageEmbed().setAuthor({name: "Help Menu", iconURL: message.author.displayAvatarURL()}).setTitle(category).setDescription("React to control the menu! You can also specify a command name when doing the help command to get more info about it.").setColor("c375f0");
                 let commands = Object.keys(sorted[category]);
                 let command; for (command of commands) {
                     let aliases = '';
@@ -29,7 +29,7 @@ module.exports = {
                     if (current === 5) {
                         categorySorted.push(currentEmbed);
                         current = 1;
-                        currentEmbed = new Discord.MessageEmbed().setAuthor({name: "Help Menu", iconURL: message.author.avatarURL()}).setTitle(category).setDescription("React to control the menu! You can also specify a command name when doing the help command to get more info about it.").setColor("c375f0");
+                        currentEmbed = new Discord.MessageEmbed().setAuthor({name: "Help Menu", iconURL: message.author.displayAvatarURL()}).setTitle(category).setDescription("React to control the menu! You can also specify a command name when doing the help command to get more info about it.").setColor("c375f0");
                     }
                 }
                 if (current > 1) {categorySorted.push(currentEmbed);}
@@ -43,7 +43,7 @@ module.exports = {
                     .addField("Category", "What category would you like to view?\n:one: - Fun\n:two: - Utility\n:three: - Misc\n:four: - Developer\n:five: - Moderation\n:six: - Social\n:seven: - Leveling\n:eight: - Anime\n:nine: - **All**")
                     .setColor('c375f0')
                     .setFooter({text: "Natsuki | Will time out in 60 seconds."})
-                    .setThumbnail(client.user.avatarURL({size: 2048}))
+                    .setThumbnail(client.user.displayAvatarURL({size: 2048}))
                     .setTimestamp()
             ]});
 
@@ -100,7 +100,7 @@ module.exports = {
             if (pages.length > 1) {
                 let help = new Pagination(message.channel, pages, message, client, true);
                 return await help.start({endTime: 60000, user: message.author.id}).catch(() => {});
-            } else {return message.channel.send({embeds: [pages[0].setFooter({text: "Natsuki", iconURL: client.user.avatarURL()}).setTimestamp()]}).catch(() => {});}
+            } else {return message.channel.send({embeds: [pages[0].setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()}).setTimestamp()]}).catch(() => {});}
         } else {
             let command;
             if (client.commands.has(args[0])) {command = client.commands.get(args[0]);}
@@ -109,7 +109,7 @@ module.exports = {
 
             return message.reply(command.help
                 ? command.help instanceof Discord.MessageEmbed
-                    ? {embeds: [command.help.setFooter({text: "Natsuki | <required> [optional]", iconURL: client.user.avatarURL()}).setColor("c375f0").setTimestamp()]}
+                    ? {embeds: [command.help.setFooter({text: "Natsuki | <required> [optional]", iconURL: client.user.displayAvatarURL()}).setColor("c375f0").setTimestamp()]}
                     : command.help.replace(/{{p}}/g, prefix)
                 : "I don't seem to have any help info available for that command."
             );

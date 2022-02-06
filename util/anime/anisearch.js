@@ -12,11 +12,11 @@ module.exports = async (message, client, search, threshold=-10000, type='full') 
         let an = ani.plot ? ani : await Ani.findOne({id: client.misc.cache.anime.get(ani)});
         let rte = new Discord.MessageEmbed()
             .setTitle(an.name)
-            .setAuthor({name: 'Anime Search', iconURL: message.author.avatarURL()})
+            .setAuthor({name: 'Anime Search', iconURL: message.author.displayAvatarURL()})
             .setDescription(`**Name:** ${an.name}\n**Japanese Name:** ${an.japname}\n\n**Publishers:** ${an.publishers.join(", ")}\n**Studios:** ${an.studios.join(", ")}`)
             .setColor("c375f0")
             .setImage(an.thumbnail)
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()
         if (type === 'full') {
             rte

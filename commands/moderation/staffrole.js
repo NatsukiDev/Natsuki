@@ -42,12 +42,12 @@ module.exports = {
             let upm = await message.reply("sure thing!");
             await require('../../util/wait')(1750);
             return upm.edit({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: 'Staff role updated!', iconURL: message.author.avatarURL()})
+                .setAuthor({name: 'Staff role updated!', iconURL: message.author.displayAvatarURL()})
                 .setDescription(`<@&${tguild.staffrole}> can now edit my settings in this server.`)
                 .addField('Auditing Admin', `<@${message.member.id}>`, true)
                 .addField('Role-Holders', `${message.guild.members.cache.filter(m => m.roles.cache.has(tguild.staffrole) && !client.users.cache.get(m.id).bot).size}+ members have this role`, true)
                 .setColor('c375f0')
-                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
                 .setTimestamp()
             ]});
         }

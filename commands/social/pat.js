@@ -22,10 +22,10 @@ module.exports = {
         if (!args.length) {
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} wants some pats!`)
-            .setThumbnail(message.author.avatarURL({size: 2048}))
+            .setThumbnail(message.author.displayAvatarURL({size: 2048}))
             .setDescription(`Give them some with \`${prefix}pat @${message.member.displayName}\`!`)
             .setColor('c375f0')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()]}
             : "Sorry, but I'm only able to pat one person, and it's not you ^^"
         );}
@@ -39,7 +39,7 @@ module.exports = {
             pats.markModified(`against.${mention.id}`);
             pats.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} pats ${message.guild.members.cache.get(mention.id).displayName}!`, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} pats ${message.guild.members.cache.get(mention.id).displayName}!`, iconURL: message.author.displayAvatarURL()})
                 .setDescription(`You've given them **${pats.against[mention.id]}** pat${pats.against[mention.id] === 1 ? '' : 's'}!`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('52c7bb')

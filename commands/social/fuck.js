@@ -21,10 +21,10 @@ module.exports = {
         if (!args.length) {
             return message.channel.send(message.guild ? {embeds: [new Discord.MessageEmbed()
             .setTitle(`${message.guild ? message.member.displayName : message.author.username} is horny!`)
-            .setThumbnail(message.author.avatarURL({size: 2048}))
+            .setThumbnail(message.author.displayAvatarURL({size: 2048}))
             .setDescription(`Show them some love with \`${prefix}fuck @${message.member.displayName}\`!`)
             .setColor('dda0dd')
-            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()]}
             : "You can't bang me.......only Wubzy can."
         );}
@@ -48,7 +48,7 @@ module.exports = {
             fuck.markModified(`against.${mention.id}`);
             fuck.save();
             return message.channel.send({embeds: [new Discord.MessageEmbed()
-                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} bangs ${message.guild.members.cache.get(mention.id).displayName}!...Kinky! `, iconURL: message.author.avatarURL()})
+                .setAuthor({name: `${message.guild ? message.member.displayName : message.author.username} bangs ${message.guild.members.cache.get(mention.id).displayName}!...Kinky! `, iconURL: message.author.displayAvatarURL()})
                 .setDescription(`You've banged them **${fuck.against[mention.id] === 1 ? 'once' : `${fuck.against[mention.id]} times!`}**`)
                 .setImage(String(Array.from(saves.values())[Math.floor(Math.random() * saves.size)]))
                 .setColor('dda0dd')

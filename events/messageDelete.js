@@ -17,8 +17,8 @@ module.exports = async (client, message) => {
 		let mde = new Discord.MessageEmbed()
 			.setTitle('Message Deleted')
 			.setDescription(`Sent by <@${message.author.id}> | In <#${message.channel.id}>`)
-			.setThumbnail(message.author.avatarURL({size: 1024}))
-			.setColor('ecff8f').setFooter({text: "Natsuki", iconURL: client.user.avatarURL()}).setTimestamp();
+			.setThumbnail(message.author.displayAvatarURL({size: 1024}))
+			.setColor('ecff8f').setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()}).setTimestamp();
 		if (message.content && message.content.length) {mde.addField("Message", "`-> `" + message.content.toString());}
 		if (message.attachments.size) {
 			if (message.attachments.first().url.includes(".png") || message.attachments.first().url.includes(".jpg") || message.attachments.first().url.includes(".gif")) {/*console.log('e');*/ try {mde.setImage(message.attachments.first().url);} catch {}}
