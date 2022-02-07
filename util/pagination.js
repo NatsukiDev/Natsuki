@@ -117,7 +117,7 @@ class Pagination {
         }
         this.controllers.collector.stop();
         let fe = this.getCurrentPage();
-        fe.setDescription(`${fe.description}\n\n*This menu has ended, start a new one to interact with it!*`);
+        fe.setDescription(`${fe.description && fe.description.length ? `${fe.description}\n\n` : ''}*This menu has ended, start a new one to interact with it!*`);
         fe.setFooter({ text: `Menu Ended${fe.footer && fe.footer.text && fe.footer.text.length ? ` | ${fe.footer.text}` : ''}`, iconURL: this.client.user.displayAvatarURL() });
         await this.message.edit({ embeds: [fe] });
         clearInterval(this.timeoutInterval);
