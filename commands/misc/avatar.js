@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+
 const {Tag} = require('../../util/tag');
 const {TagFilter} = require('../../util/tagfilter');
 
@@ -17,13 +18,14 @@ module.exports = {
         let name = message.guild ? message.guild.members.cache.get(member.id).displayName : member.username;
         let options = new TagFilter([
             new Tag(['small', 's', 'mini', 'm'], 'small', 'toggle'),
-            new Tag(['verysmall', 'vsmall', '-vs', 'xs'], 'vsmall', 'toggle')
+            new Tag(['verysmall', 'vsmall', '-vs', 'xs'], 'vsmall', 'toggle'),
+            new Tag(['g', 'global', 'user', 'u'], 'global', 'toggle'),
         ]).test(args.join(" "));
         
         try {
             let avem = new Discord.MessageEmbed()
             .setTitle(`${name.endsWith('s') ? `${name}'` : `${name}'s`} Avatar`)
-            .setImage(message.guild ? message.guild.members.cache.get(member.id).displayAvatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}) : member.displayAvatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}))
+            .setImage(message.guild ? (options.global ? client.users : message.guild.members).cache.get(member.id).displayAvatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}) : member.displayAvatarURL({size: options.vsmall ? 128 : options.small ? 256 : 2048, dynamic: true, format: "png"}))
             .setColor('c375f0')
             .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             if (!options.vsmall) {avem.setTimestamp();}
