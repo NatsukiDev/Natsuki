@@ -21,9 +21,6 @@ module.exports = async client => {
 	
 	const config = client.config;
 
-	/*let db = mongoose.connection;
-	await db.guild.update({}, {"$set": {'prefix': ''}}, false, true);*/
-
     console.log(`\n${chalk.green('[BOOT]')} >> [${moment().format('L LTS')}] -> ${chalk.greenBright("Connected to Discord")}.`);
     let date = new Date; date = date.toString().slice(date.toString().search(":") - 2, date.toString().search(":") + 6);
     console.log(`\n${chalk.gray('[INFO]')} >> ${chalk.white(`Logged in at ${date}.`)}`);

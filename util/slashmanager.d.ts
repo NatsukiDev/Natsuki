@@ -21,7 +21,7 @@ export declare class SlashManager {
     setAfterHandle(execute: (client: Discord.Client, interaction: Discord.CommandInteraction, success: Boolean) => any): SlashManager;
     setTestServer(id: string): SlashManager;
     private handle;
-    importCommands(dir?: string): SlashManager;
+    importCommands(register?: boolean | RegisterMode, dir?: string, log?: (command: SlashCommand, manager: SlashManager) => void): SlashManager;
 }
 declare type CommandLookup = SlashCommand[] | SlashCommand | string | string[];
 export {};

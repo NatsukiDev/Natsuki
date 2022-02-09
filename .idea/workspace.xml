@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="more generous daily windows">
-      <change beforePath="$PROJECT_DIR$/commands/anime/haswatched.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/haswatched.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot.js" beforeDir="false" afterPath="$PROJECT_DIR$/bot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/events/ready.js" beforeDir="false" afterPath="$PROJECT_DIR$/events/ready.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slash/8ball.js" beforeDir="false" afterPath="$PROJECT_DIR$/slash/fun/8ball.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/slashmanager.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/slashmanager.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/slashmanager.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/slashmanager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/ts/slashmanager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/ts/slashmanager.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,20 +49,23 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/util/ts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="MTConfigurable" />
-    <property name="ts.external.directory.path" value="C:\Users\clarkjr1836\Downloads\WebStorm-2021.2.2.win\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="ts.rename.search.for.dynamic.occurrences" value="true" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\clarkjr1836\Desktop\bot\Natsuki\util\ts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\wubzy\Desktop\bot\Natsuki\slash\fun" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -90,6 +99,7 @@
       <workItem from="1642537991410" duration="3454000" />
       <workItem from="1642638383959" duration="700000" />
       <workItem from="1642707112676" duration="1337000" />
+      <workItem from="1644446122031" duration="2837000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>

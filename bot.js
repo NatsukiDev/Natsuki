@@ -74,10 +74,7 @@ client.misc = {
     fullyReady: false
 };
 
-//const config = require('./config.js');
 const auth = require('./auth.json');
-
-//client.config = config;
 
 async function init() {
     const cliargs = new TagFilter([
@@ -108,10 +105,6 @@ async function init() {
     client.misc.startupNoConnect = new Date();
     client.config = auth;
 
-    client.slash = new SlashManager(client).setTestServer('691122844339404800').importCommands().init();
-    client.slash.register();
-    client = client.slash.client;
-
     let mloginsp = ora(chalk.magentaBright('Connecting to Mongo client...')).start();
     let pmcc = new Date().getTime();
     const config = client.config;
@@ -140,6 +133,8 @@ async function init() {
     client.utils.c = (text, a=true) => `${text.slice(0, 1).toUpperCase()}${a ? text.slice(1).toLowerCase() : text.slice(1)}`;
     client.utils.ca = (text, a=true) => text.split(/\s+/gm).map(t => client.utils.c(t, a)).join(" ");
     client.utils.sm = (mpr, ago=true) => `${mpr.years ? `${mpr.years} year${client.utils.s(mpr.years)} ` : ''}${mpr.months ? `${mpr.months} month${client.utils.s(mpr.months)} ` : ''}${mpr.days} day${client.utils.s(mpr.days)}${ago ? ' ago' : ''}`;
+    client.utils.p = (text) => text.endsWith('s') ? "'" : "'s";
+    client.utils.ps = (text) => `${text}${client.utils.p(text)}`;
 
     ['commands', 'aliases', 'executables'].forEach(x => client[x] = new Discord.Collection());
     client.responses = {triggers: [], commands: new Discord.Collection()};
@@ -151,7 +146,19 @@ async function init() {
         .map(i => client.misc.config.gradients ? gs.instagram(i) : chalk.blue(i))
         .forEach((i, ind) => client.misc.cache.spin.add(iters[ind], {text: i}));
     }
+
     for (let i = 0; i < iters.length; i++) {let x = iters[i]; await require(`./handle/${x}`)(client);}
+    const spl = client.misc.config.spinners ? (i) => client.misc.cache.spinLog.push(i) : (i) => console.log(i);
+    spl(`\n${chalk.gray('[BOOT]')} >> ${chalk.blue('Getting Slash Commands...')}\n`);
+    client.slash = new SlashManager(client)
+        .setTestServer('691122844339404800')
+        .importCommands(false, undefined, (cmd) => spl(`${chalk.gray('[LOAD]')} >> ${chalk.blueBright('Loaded Slash Command')} ${chalk.white(cmd.name)}`))
+        .init();
+    if (client.misc.config.dev) {await client.slash.devRegister();}
+    else {await client.slash.register();}
+    client = client.slash.client;
+    spl(`\n${chalk.gray('[BOOT]')} >> ${chalk.blue('Loaded all Slash Commands')}`);
+
     if (client.misc.config.spinners) {
         client.misc.cache.spinLog.forEach(log => console.log(log));
     }

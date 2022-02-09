@@ -123,12 +123,19 @@ class SlashManager {
         this.afterHandle(this.client, interaction, success);
     }
     ;
-    importCommands(dir) {
-        dir = dir || './slash';
-        const commands = fs.readdirSync(dir).filter(file => file.endsWith('.js'));
-        for (const command of commands) {
-            this.add(require(`../${dir}/${command}`)(this.client));
-        }
+    importCommands(register = false, dir = './slash', log = () => { }) {
+        const search = (toSearch) => {
+            let cdir = fs.readdirSync(toSearch);
+            const commands = cdir.filter(file => file.endsWith('.js'));
+            for (const command of commands) {
+                const slashCommand = require(`../${toSearch}/${command}`)(this.client);
+                this.add(slashCommand, register);
+                log(slashCommand, this);
+            }
+            const subdirs = cdir.filter(file => fs.lstatSync(`${toSearch}/${file}`).isDirectory());
+            subdirs.forEach(subdir => search(`${toSearch}/${subdir}`));
+        };
+        search(dir);
         return this;
     }
     ;

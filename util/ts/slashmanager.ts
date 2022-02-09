@@ -115,12 +115,19 @@ export class SlashManager {
 
 
 
-    public importCommands(dir?: string): SlashManager {
-        dir = dir || './slash';
-        const commands = fs.readdirSync(dir).filter(file => file.endsWith('.js'));
-        for (const command of commands) {
-            this.add(require(`../${dir}/${command}`)(this.client));
-        }
+    public importCommands(register: boolean | RegisterMode = false, dir: string = './slash', log: (command: SlashCommand, manager: SlashManager) => void = () => {}): SlashManager {
+        const search = (toSearch: string): void => {
+            let cdir = fs.readdirSync(toSearch);
+            const commands = cdir.filter(file => file.endsWith('.js'));
+            for (const command of commands) {
+                const slashCommand = require(`../${toSearch}/${command}`)(this.client);
+                this.add(slashCommand, register);
+                log(slashCommand, this);
+            }
+            const subdirs = cdir.filter(file => fs.lstatSync(`${toSearch}/${file}`).isDirectory());
+            subdirs.forEach(subdir => search(`${toSearch}/${subdir}`));
+        };
+        search(dir);
         return this;
     };
 
