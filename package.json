@@ -5,6 +5,7 @@
     "main": "bot.js",
     "author": "NatsukiDev",
     "dependencies": {
+        "@discordjs/builders": "^0.12.0",
         "@discordjs/rest": "^0.1.0-canary.0",
         "@discordjs/voice": "^0.6.0",
         "canvas": "^2.9.0",

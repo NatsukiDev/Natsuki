@@ -53,8 +53,8 @@ class SlashCommand {
         return this;
     }
     ;
-    async respond(client, interaction) {
-        return this.response(client, interaction);
+    async respond(client, interaction, guild, prefix) {
+        return this.response(client, interaction, guild, prefix);
     }
     ;
     setCommand(newCommand) {

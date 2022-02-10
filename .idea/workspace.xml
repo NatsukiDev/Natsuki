@@ -4,19 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="more generous daily windows">
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="slash improvements">
+      <change afterPath="$PROJECT_DIR$/slash/fun/deathnote.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot.js" beforeDir="false" afterPath="$PROJECT_DIR$/bot.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/events/ready.js" beforeDir="false" afterPath="$PROJECT_DIR$/events/ready.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slash/8ball.js" beforeDir="false" afterPath="$PROJECT_DIR$/slash/fun/8ball.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/slashmanager.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/slashmanager.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/slash.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/slash.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/slash.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/slash.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util/slashmanager.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/slashmanager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/ts/slash.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/ts/slash.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util/ts/slashmanager.ts" beforeDir="false" afterPath="$PROJECT_DIR$/util/ts/slashmanager.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -99,7 +108,7 @@
       <workItem from="1642537991410" duration="3454000" />
       <workItem from="1642638383959" duration="700000" />
       <workItem from="1642707112676" duration="1337000" />
-      <workItem from="1644446122031" duration="2837000" />
+      <workItem from="1644446122031" duration="6700000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -171,7 +180,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642708137867</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="slash improvements">
+      <created>1644449776897</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1644449776897</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +217,7 @@
     <MESSAGE value="way more stable char commands" />
     <MESSAGE value="SCM package scripts" />
     <MESSAGE value="more generous daily windows" />
-    <option name="LAST_COMMIT_MESSAGE" value="more generous daily windows" />
+    <MESSAGE value="slash improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="slash improvements" />
   </component>
 </project>

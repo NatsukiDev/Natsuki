@@ -1,8 +1,8 @@
 import { REST } from '@discordjs/rest';
 import { SlashCommandBuilder } from '@discordjs/builders';
-import { Client, CommandInteraction } from 'discord.js';
+import { Client, CommandInteraction, Guild } from 'discord.js';
 export declare class SlashCommand {
-    response: (client: Client, interaction: CommandInteraction) => any;
+    response: (client: Client, interaction: CommandInteraction, guild: false | Guild, prefix: string) => any;
     command: SlashCommandBuilder;
     registerMode: RegisterMode;
     enabled: boolean;
@@ -16,7 +16,7 @@ export declare class SlashCommand {
     setResponse(newResponse: (client: Client, interaction: CommandInteraction) => any): SlashCommand;
     disable(): Promise<void>;
     setDefaultRegisterMode(mode: RegisterMode): SlashCommand;
-    respond(client: Client, interaction: CommandInteraction): Promise<any>;
+    respond(client: Client, interaction: CommandInteraction, guild: false | Guild, prefix: string): Promise<any>;
     setCommand(newCommand: SlashCommandBuilder): SlashCommand;
 }
 export declare type RegisterMode = {

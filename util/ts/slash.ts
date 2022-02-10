@@ -1,11 +1,11 @@
 import {REST} from '@discordjs/rest';
 import {Routes} from 'discord-api-types/v9';
 import {SlashCommandBuilder} from '@discordjs/builders';
-import {Client, CommandInteraction} from 'discord.js';
+import {Client, CommandInteraction, Guild} from 'discord.js';
 
 export class SlashCommand {
 
-    response: (client: Client, interaction: CommandInteraction) => any;
+    response: (client: Client, interaction: CommandInteraction, guild: false | Guild, prefix: string) => any;
     command: SlashCommandBuilder;
     registerMode: RegisterMode = 'global';
     enabled: boolean = false;
@@ -64,8 +64,8 @@ export class SlashCommand {
         return this;
     };
 
-    public async respond(client: Client, interaction: CommandInteraction): Promise<any> {
-        return this.response(client, interaction);
+    public async respond(client: Client, interaction: CommandInteraction, guild: false | Guild, prefix: string): Promise<any> {
+        return this.response(client, interaction, guild, prefix);
     };
 
     public setCommand(newCommand: SlashCommandBuilder): SlashCommand {

@@ -106,10 +106,17 @@ export class SlashManager {
     private async handle(interaction: Discord.CommandInteraction): Promise<any> {
         this.beforeHandle(this.client, interaction);
         let success = true;
+        // @ts-ignore
+        let defaultPrefix = this.client.misc.config.dev ? 'n!' : 'n?';
         try {
-            await this.commands[this.getCommand(interaction.commandName)].respond(this.client, interaction).catch((e) => {console.log(e); success = false;});
+            await this.commands[this.getCommand(interaction.commandName)]
+                .respond(this.client, interaction,
+                    interaction.inGuild() ? interaction.guild : false,
+                    // @ts-ignore
+                    interaction.inGuild() ? this.client.guildconfig.prefixes.has(interaction.guild.id) ? this.client.guildconfig.prefixes.get(interaction.guild.id) !== null ? this.client.guildconfig.prefixes.get(interaction.guild.id) : defaultPrefix : defaultPrefix : defaultPrefix
+                ).catch((e) => {console.log(e); success = false;});
         }
-        catch (e) {console.log(e); success = false;}
+        catch (e) {success = false;}
         this.afterHandle(this.client, interaction, success);
     };
 
