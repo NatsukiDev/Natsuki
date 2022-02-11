@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 
 const RP = require("../../models/rpch");
+const RPC = require('../../models/rpconfig');
 
 const {Tag} = require('../../util/tag');
 const {TagFilter} = require('../../util/tagfilter');
@@ -32,7 +33,7 @@ module.exports = {
             if (!options.image || !options.name || !options.prefix) {
                 tags = false;
                 const name = await ask(message, "What is the character's name?", 60000, false, undefined, true); if (!name) {return;}
-                if (name.length > 75) {return message.channel.send("That name is a little too long.");}
+                if (name.length > 50) {return message.channel.send("That name is a little too long.");}
                 options.name = name;
                 
                 let prefix = await ask(message, "What is the character's prefix? This is how you will use the character.", 60000, false, undefined, true); if (!prefix) {return;}
@@ -134,7 +135,7 @@ module.exports = {
                     name = await ask(message, "What name would you like to set?", 60000);
                     if (!name) {return;}
                 } else {name = args.join(" ");}
-                if (name.length > 75) {return message.channel.send("That name is a little too long.");}
+                if (name.length > 50) {return message.channel.send("That name is a little too long.");}
                 rp.chars[char.prefix].name = name;
                 rp.markModified(`chars.${char.prefix}`);
                 rp.save();
@@ -154,7 +155,25 @@ module.exports = {
             rp.save();
             return message.channel.send("I've deleted that character for you.");
         } else if (['enable', 'en'].includes(args[0].toLowerCase())) {
-
+            if (!message.guild) {return message.channel.send("You must be in a server in order to enable RP character usage for a specific channel.");}
+            if (!message.member.permissionsIn(message.channel.id).has("MANAGE_WEBHOOKS")) {return message.channel.send("You must have permissions to edit webhooks here in order to do that.");}
+            if (!message.guild.me.permissions.has("MANAGE_WEBHOOKS")) {return message.channel.send("I don't have permissions to manage webhooks in this server.");}
+            if (!message.guild.me.permissionsIn(message.channel.id).has("MANAGE_WEBHOOKS")) {return message.channel.send("I don't have the permissions to edit webhooks in this channel.");}
+            const webhooks = await message.channel.fetchWebhooks();
+            if (webhooks.find(wh => wh.token)) {return message.channel.send("It would seem RP is already enabled in this channel. If it's not working in this channel, please contact my developers.");}
+            try {
+                return message.channel.createWebhook("Natsuki RP Webhook", {avatar: client.user.avatarURL({size: 2048})})
+                    .then(async () => {
+                        const config = await RPC.findOne({gid: message.guild.id}) || new RPC({gid: message.guild.id});
+                        config.channels.push(message.channel.id);
+                        config.markModified('channels');
+                        if (!client.misc.cache.rp.has(message.guild.id)) {client.misc.cache.rp.set(message.guild.id, []);}
+                        client.misc.cache.rp.get(message.guild.id).push(message.channel.id);
+                        config.save();
+                        return message.channel.send("RP features were successfully enabled in this channel.");
+                    })
+                    .catch(message.channel.send("There was an error doing that. Please make sure my permissions are properly set in this channel and try again. If the error persists, please contact my developers."));
+            } catch {return message.channel.send("There was an error doing that. Please make sure my permissions are properly set in this channel and try again. If the error persists, please contact my developers.");}
         }
 
         return message.channel.send(`Invalid arg! Syntax: \`${prefix}rp <add|enable|edit|delete|view|list>\``);

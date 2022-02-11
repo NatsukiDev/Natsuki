@@ -36,7 +36,6 @@ client.misc = {
             hasLevelRoles: [],
             disabledChannels: new Map()
         },
-        chests: [],
         chestsTimeout: new Map(),
         chests: {
             enabled: [],
@@ -56,7 +55,8 @@ client.misc = {
         charsLove: new Discord.Collection(),
         monners: {},
         monnersNames: new Map(),
-        spin: new spinnies()
+        spin: new spinnies(),
+        rp: new Map()
     },
     loggers: {},
     rl: readline.createInterface({input: process.stdin, output: process.stdout}),

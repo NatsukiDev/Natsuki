@@ -8,6 +8,7 @@ const AR = require('../models/ar');
 const LXP = require('../models/localxp');
 const Monitors = require('../models/monitor');
 const Monners = require('../models/monners');
+const RP = require('../models/rpch');
 
 const channelTypes = ["GUILD_MESSAGE", "DM", "GUILD_NEWS_THREAD", "GUILD_PRIVATE_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_NEWS", "GROUP_DM", "GUILD_STORE", "GUILD_TEXT"];
 
@@ -55,6 +56,18 @@ module.exports = async (client, message) => {
         require('../util/siftstatuses')(client, message.author.id, true);
         message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {setTimeout(() => {m.delete().catch(() => {});}, 5000);}).catch(() => {});
 	}});
+
+    if (message.guild && client.misc.cache.rp.has(message.guild.id) && client.misc.cache.rp.get(message.guild.id).includes(message.channel.id)) {
+        if (!msg.match(/^\w+:/m)) {return;}
+        const rp = await RP.findOne({uid: message.author.id});
+        if (!rp || !rp.chars[msg.split(':')[0]]) {return;}
+        const webhooks = await message.channel.fetchWebhooks();
+        const webhook = await webhooks.find(wh => wh.token);
+        if (!webhook) {return}
+        const char = rp.chars[msg.split(':')[0]];
+        webhook.send({content: message.content.slice(char.prefix.length + 1), avatarURL: char.image, username: char.name}).catch(() => {});
+        message.delete().catch(() => {});
+    }
 
 	if (message.guild && client.misc.cache.ar.has(message.guild.id) && client.misc.cache.ar.get(message.guild.id).includes(msg.trim()) && !(client.misc.cache.arIgnore.has(message.guild.id) && client.misc.cache.arIgnore.get(message.guild.id).includes(message.channel.id))) {
 	    AR.findOne({gid: message.guild.id}).then(ar => {
