@@ -58,15 +58,18 @@ module.exports = async (client, message) => {
 	}});
 
     if (message.guild && client.misc.cache.rp.has(message.guild.id) && client.misc.cache.rp.get(message.guild.id).includes(message.channel.id)) {
-        if (!msg.match(/^\w+:/m)) {return;}
-        const rp = await RP.findOne({uid: message.author.id});
-        if (!rp || !rp.chars[msg.split(':')[0]]) {return;}
-        const webhooks = await message.channel.fetchWebhooks();
-        const webhook = await webhooks.find(wh => wh.token);
-        if (!webhook) {return}
-        const char = rp.chars[msg.split(':')[0]];
-        webhook.send({content: message.content.slice(char.prefix.length + 1), avatarURL: char.image, username: char.name}).catch(() => {});
-        message.delete().catch(() => {});
+        if (msg.match(/^\w+:/m)) {    
+            const rp = await RP.findOne({uid: message.author.id});
+            if (rp && rp.chars[msg.split(':')[0]]) {
+                const webhooks = await message.channel.fetchWebhooks();
+                const webhook = await webhooks.find(wh => wh.token);
+                if (webhook) {
+                    const char = rp.chars[msg.split(':')[0]];
+                    webhook.send({content: message.content.slice(char.prefix.length + 1), avatarURL: char.image, username: char.name}).catch(() => {});
+                    message.delete().catch(() => {});
+                }
+            }
+        }
     }
 
 	if (message.guild && client.misc.cache.ar.has(message.guild.id) && client.misc.cache.ar.get(message.guild.id).includes(msg.trim()) && !(client.misc.cache.arIgnore.has(message.guild.id) && client.misc.cache.arIgnore.get(message.guild.id).includes(message.channel.id))) {
