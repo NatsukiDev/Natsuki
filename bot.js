@@ -54,6 +54,7 @@ client.misc = {
         charsNum: 0,
         charsLove: new Discord.Collection(),
         monners: {},
+        lastMonners: {},
         monnersNames: new Map(),
         spin: new spinnies(),
         rp: new Map(),

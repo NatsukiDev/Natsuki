@@ -122,6 +122,17 @@ module.exports = async (client, message) => {
     if (!client.misc.cache.monners[message.author.id]) {
         let tmonners = await Monners.findOne({uid: message.author.id}) || new Monners({uid: message.author.id});
         client.misc.cache.monners[message.author.id] = tmonners.currency;
+        client.misc.cache.lastMonners[message.author.id] = new Date().getTime() - (62 * 1000);
+    }
+
+    if (message.guild && client.misc.cache.lastMonners[message.author.id] && new Date().getTime() - client.misc.cache.lastMonners[message.author.id] > 60000) {
+        client.misc.cache.monners[message.author.id] += (Math.floor(
+            (client.misc.cache.lxp.xp[message.guild.id] && client.misc.cache.lxp.xp[message.guild.id][message.author.id]
+                ? client.misc.cache.lxp.xp[message.guild.id][message.member.id].level
+                : 35)
+            / 35
+        ) + 1);
+        client.misc.cache.lastMonners[message.author.id] = new Date().getTime();
     }
 
     if (message.guild && client.misc.cache.monitEnabled.includes(message.guild.id)) {

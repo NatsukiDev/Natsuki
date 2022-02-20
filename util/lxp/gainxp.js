@@ -18,7 +18,6 @@ const applyText = (canvas, text) => {
 module.exports = async (client, member, channel) => {
     client.misc.cache.lxp.xp[channel.guild.id][member].lastXP = new Date().getTime();
     client.misc.cache.lxp.xp[channel.guild.id][member].xp += 10;
-    client.misc.cache.monners[member] += (Math.floor(client.misc.cache.lxp.xp[channel.guild.id][member].level / 35) + 1);
 
     let x = client.misc.cache.lxp.xp[channel.guild.id][member].level;
     let max = Math.ceil(100 + (((x / 3) ** 2) * 2));
