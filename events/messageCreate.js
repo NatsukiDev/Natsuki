@@ -52,9 +52,29 @@ module.exports = async (client, message) => {
 	if (tu && tu.statusmsg.length && tu.statusclearmode === 'auto') {
         tu.statusmsg = '';
         tu.statustype = '';
-        tu.save();
         require('../util/siftstatuses')(client, message.author.id, true);
-        message.reply('Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.').then(m => {setTimeout(() => {m.delete().catch(() => {});}, 5000);}).catch(() => {});
+        message.reply(
+            tu.statusSleeping
+                ? tu.statussetat && (new Date().getTime() - tu.statussetat < 60 * 45 * 1000)
+                    ? [
+                        "Did you even sleep?! Well I cleared your status, but c'mon now!",
+                        ">:( That was hardly even sleep.",
+                        "You should really go back to bed.",
+                        "Burning the midnight oil are we? Go back to bed!"
+                    ][Math.floor(Math.random() *4)]
+                    : [
+                        "Good morning dear!",
+                        "Heyo! Rise and shine!",
+                        "Welcome! Hope you slept well.",
+                        "Good morning awesome wonderful person. Ready to start the day?"
+                    ][Math.floor(Math.random() *4)]
+                : 'Hey there! You asked me to clear your status when you send a message next, so I went ahead and did that for you.'
+        ).then(m => {setTimeout(() => {m.delete().catch(() => {});}, 5000);}).catch(() => {});
+        if (tu.statusSleeping) {
+            tu.statusSleeping = false; tu.markModified('statusSleeping');
+            if (tu.statussetat && (new Date().getTime() - tu.statussetat < 60 * 45 * 1000)) {client.misc.cache.returnToSleep.set(message.author.id, new Date().getTime());}
+        }
+        tu.save();
 	}});
 
     if (message.guild && client.misc.cache.rp.has(message.guild.id) && client.misc.cache.rp.get(message.guild.id).includes(message.channel.id)) {

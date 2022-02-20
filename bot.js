@@ -56,7 +56,8 @@ client.misc = {
         monners: {},
         monnersNames: new Map(),
         spin: new spinnies(),
-        rp: new Map()
+        rp: new Map(),
+        returnToSleep: new Map()
     },
     loggers: {},
     rl: readline.createInterface({input: process.stdin, output: process.stdout}),

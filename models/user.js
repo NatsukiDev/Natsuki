@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
     statusclearat: {type: Date, default: null},
     statussetat: {type: Date, default: null},
     statusshowcleartime: {type: Boolean, default: true},
+    statusSleeping: Boolean,
     statusshowsettime: {type: Boolean, default: true},
     support: {type: Boolean, default: false},
     staff: {type: Boolean, default: false},

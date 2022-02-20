@@ -45,6 +45,6 @@ module.exports = {
         tu.markModified("statusclearat");
         tu.save();
         require('../../util/cachestatus')(message.author.id, tempDate.setHours(tempDate.getHours() + 12));
-        return message.reply(`I set your ${tu.statusclearmode === 'auto' ? 'automatically' : 'manually'}-clearing AFK message to: ${reason.trim()}`);
+        return message.channel.send(`I set your ${tu.statusclearmode === 'auto' ? 'automatically' : 'manually'}-clearing AFK message to: ${reason.trim()}`);
     }
 };
