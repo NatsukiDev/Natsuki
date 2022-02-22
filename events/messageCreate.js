@@ -94,7 +94,7 @@ module.exports = async (client, message) => {
 
 	if (message.guild && client.misc.cache.ar.has(message.guild.id) && client.misc.cache.ar.get(message.guild.id).includes(msg.trim()) && !(client.misc.cache.arIgnore.has(message.guild.id) && client.misc.cache.arIgnore.get(message.guild.id).includes(message.channel.id))) {
 	    AR.findOne({gid: message.guild.id}).then(ar => {
-	        if (ar && ar.triggers.length && ar.triggers.includes(msg.trim())) {return message.channel.send(ar.ars[ar.triggers.indexOf(msg.trim())]).catch(() => {});}
+	        if (ar && ar.triggers.length && ar.triggers.includes(msg.trim())) {return message.channel.send(require('../util/response/filterresponse')(message.member, client, ar.ars[ar.triggers.indexOf(msg.trim())])).catch(() => {});}
 	    });
 	}
 
