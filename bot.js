@@ -58,7 +58,8 @@ client.misc = {
         monnersNames: new Map(),
         spin: new spinnies(),
         rp: new Map(),
-        returnToSleep: new Map()
+        returnToSleep: new Map(),
+        marriageRequests: new Discord.Collection()
     },
     loggers: {},
     rl: readline.createInterface({input: process.stdin, output: process.stdout}),

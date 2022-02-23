@@ -19,7 +19,8 @@ const UserSchema = new mongoose.Schema({
     donator: {type: Boolean, default: false},
     bio: {type: String, default: ''},
     color: {type: String, default: ''},
-    msg: {type: Boolean}
+    msg: {type: Boolean},
+    marriedTo: {type: String}
 });
 
 module.exports = mongoose.model("user", UserSchema);
