@@ -18,7 +18,15 @@ module.exports = {
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!args.length) {return message.channel.send(`Syntax: \`${prefix}marry <@user|status|decline>\``);}
         if (['s', 'status', 'v', 'view'].includes(args[0].toLowerCase())) {
-            const tu = await UserData.findOne({uid: message.author.id}) || new UserData({uid: message.author.id});
+            const tu = await UserData.findOne({uid: message.author.id});
+            if (!tu || !tu.marriedTo) {return message.channel.send("You aren't married to anyone :(");}
+            else {return message.channel.send({embeds: [new Discord.MessageEmbed()
+                .setTitle("Marriage Status")
+                .setDescription(`<@${message.author.id}> is married to <@${tu.marriedTo}>!`)
+                .setColor('c375f0')
+                .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+                .setTimestamp()
+            ]});}
         } else if (['d', 'decline', 'r', 'reject'].includes(args[0].toLowerCase())) {
 
         } else {
