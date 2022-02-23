@@ -34,6 +34,7 @@ module.exports = {
             if (!message.guild.members.cache.has(mention.id)) {return message.channel.send("I can't find that user! Make sure they're in this server before trying to marry them, or go to a server they're in. If you're certain that person is in this server, then wait for them to come online and send a message first; that might help.");}
             if (mention.id === client.user.id) {return message.channel.send("I'm actually already married! Well, I will be soon, to my girlfriend Tamaki. I love her very much <:NC_hearty:841489530413383712>");}
             if (mention.bot) {return message.channel.send("Us bots aren't smart enough to respond to a marriage request and we're really too boring to wanna marry in the first place, so I'll just stop you in your tracks now.");}
+            if (mention.id === message.author.id) {return message.channel.send("ehe :sweat_smile: it doesn't work that way...");}
             const tu = await UserData.findOne({uid: message.author.id}) || new UserData({uid: message.author.id});
             if (tu.marriedTo) {return message.channel.send("Looks like you're already married to someone. Cheating, are we?");}
             const ou = await UserData.findOne({uid: mention.id}) || new UserData({uid: mention.id});
