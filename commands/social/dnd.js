@@ -22,8 +22,8 @@ module.exports = {
                 ? message.content.slice(prefix.length).trim().split(/ +/g)
                 : msg.startsWith('<@!')
                     ? message.content.slice(4 + client.user.id.length).trim().split(/ +/g)
-                    : message.content.slice(3 + client.user.id.length).trim().split(/ +/g)
-            .slice(2);
+                    : message.content.slice(3 + client.user.id.length).trim().split(/ +/g) 
+        args = args.slice(1);
         let tu = await UserData.findOne({uid: message.author.id})
             ? await UserData.findOne({uid: message.author.id})
             : new UserData({uid: message.author.id});
