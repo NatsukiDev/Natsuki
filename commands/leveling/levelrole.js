@@ -35,7 +35,7 @@ module.exports = {
             if (!role) {return message.channel.send("I can't find that role!");}
             role = role.id;
             let lr = await LR.findOne({gid: message.guild.id}) || new LR({gid: message.guild.id}); 
-            if (Object.keys(lr.roles).length >= 10) {return message.channel.send("Due to data storage concerns, you can only have 10 level roles in this server. If you believe you need more, come to the support server and talk to my devs and see if they would be willing to raise this requirement for you.");}
+            if (Object.keys(lr.roles).length >= 20) {return message.channel.send("Due to data storage concerns, you can only have 20 level roles in this server. If you believe you need more, come to the support server and talk to my devs and see if they would be willing to raise this requirement for you.");}
             lr.roles[level] = role;
             lr.markModified(`roles.${level}`);
             lr.save();
