@@ -71,7 +71,7 @@ module.exports = {
             let n = message.member ? message.member.displayName : message.author.username;
             return message.channel.send({embeds: [new Discord.MessageEmbed()
                 .setAuthor({name: `${n}${n.endsWith('s') ? "'" : "'s"} RP Characters`, iconURL: (message.member || message.author).displayAvatarURL({dynamic: true})})
-                .setDescription(Object.keys(rp.chars).map(ch => `\`${ch}\`: ${rp.chars[ch].name}`).join(','))
+                .setDescription(Object.keys(rp.chars).map(ch => `\`${ch}\`: ${rp.chars[ch].name}`).join(', '))
                 .setColor('c375f0')
                 .setFooter({text: "Natsuki"})
                 .setTimestamp()
