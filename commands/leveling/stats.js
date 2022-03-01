@@ -53,17 +53,16 @@ module.exports = {
         .setDescription("View your level and XP in the server, or someone else's")
         .addField("Syntax", "`stats [@user|userID]`"),
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!client.misc.cache.lxp.enabled.includes(message.guild.id)) {return message.channel.send("Your server doesn't have leveling enabled!");}
         let u = args[0] ? (message.mentions.members.first() || message.guild.members.cache.get(args[0])) : message.member;
         if (!u) {return message.channel.send("I can't find that user!");}
-        let xp;
+        let xp; let hasXp = true;
         if (!client.misc.cache.lxp.xp[message.guild.id] || !client.misc.cache.lxp.xp[message.guild.id][u.id]) {
             let txp = await LXP.findOne({gid: message.guild.id});
-            if (!txp) {return message.channel.send("Your server doesn't have leveling enabled!");}
-            if (!txp.xp[u.id]) {return message.channel.send(`${u.id === message.author.id ? "You" : "That user"} doesn't have any leveling info available!`);}
-            xp = {xp: txp.xp[u.id][0], level: txp.xp[u.id][1]};
-        } else {xp = client.misc.cache.lxp.xp[message.guild.id][u.id];}
+            if (!txp) {hasXp = false;}
+            else {if (txp.xp[u.id]) {xp = {xp: txp.xp[u.id][0], level: txp.xp[u.id][1]};}}
+        } else if (hasXp) {xp = client.misc.cache.lxp.xp[message.guild.id][u.id];}
         let tmoon = client.misc.cache.monners[u.id] ? {currency: client.misc.cache.monners[u.id]} : await Monners.findOne({uid: u.id});
+        if (!tmoon) {return message.channel.send("There was an error getting your level and Monners information. Try again?");}
         let tcur = tmoon ? tmoon.currency : 0;
         if (!message.channel.permissionsFor(message.guild.me.id).has("ATTACH_FILES")) {
             return message.channel.send({embeds: [new Discord.MessageEmbed()
@@ -94,9 +93,9 @@ module.exports = {
             ctx.fillStyle = '#ffffff';
             ctx.fillText(`${u.displayName}${u.displayName.toLowerCase().endsWith('s') ? "'" : "'s"} Stats`, canvas.width / 2.8, canvas.height / 2);
 
-            ctx.font = applyText(120, canvas, `${xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}`); //top text
+            ctx.font = applyText(120, canvas, `${xp ? `${xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}` : "Leveling N/A"}`); //top text
             ctx.fillStyle = '#ffffff';
-            ctx.fillText(`${xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}`, canvas.width / 2.8, canvas.height / 3.2);
+            ctx.fillText(`${xp ? `{xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}` : "Leveling N/A"}`, canvas.width / 2.8, canvas.height / 3.2);
 
             const monnersImage = await Canvas.loadImage('https://cdn.discordapp.com/emojis/926736756047495218');
             ctx.drawImage(monnersImage, canvas.width / 2.8, (canvas.height / 1.53) - 11, 58, 60); //draw monners icon
@@ -104,16 +103,18 @@ module.exports = {
             ctx.fillText(`${tcur}`, (canvas.width / 2.8) + 70, (canvas.height / 1.53) + 57 - 20);
             ctx.fillText(` | `, (canvas.width / 2.8) + 70 + ctx.measureText(`${tcur}`).width, (canvas.height / 1.53) + 57 - 24); // draw monners amount
             let monnersWidth = ctx.measureText(`${tcur} | `).width + 75; //get width of monners text and icon to account for bar size later
-            
-            //draw the bar borders
-            ctx.strokeStyle = '#ffffff';
-            ctx.strokeWidth = 6;
-            roundRect(ctx, (canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, canvas.width - (canvas.width / 2.8) - monnersWidth - 80, 40, 10, false, true, false);
-            //set a clipping area to keep the bar filler inside the rounded borders
-            roundRect(ctx, (canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, canvas.width - (canvas.width / 2.8) - monnersWidth - 80, 40, 10, false, false, true);
-            ctx.fillStyle = '#4aa4e0c8';
-            //draw the bar filler
-            ctx.fillRect((canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, (xp.xp / Math.ceil(100 + (((xp.level / 3) ** 2) * 2))) * (canvas.width - (canvas.width / 2.8) - monnersWidth - 80), 40);
+
+            if (xp) {
+                //draw the bar borders
+                ctx.strokeStyle = '#ffffff';
+                ctx.strokeWidth = 6;
+                roundRect(ctx, (canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, canvas.width - (canvas.width / 2.8) - monnersWidth - 80, 40, 10, false, true, false);
+                //set a clipping area to keep the bar filler inside the rounded borders
+                roundRect(ctx, (canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, canvas.width - (canvas.width / 2.8) - monnersWidth - 80, 40, 10, false, false, true);
+                ctx.fillStyle = '#4aa4e0c8';
+                //draw the bar filler
+                ctx.fillRect((canvas.width / 2.8) + monnersWidth, canvas.height / 1.53, (xp.xp / Math.ceil(100 + (((xp.level / 3) ** 2) * 2))) * (canvas.width - (canvas.width / 2.8) - monnersWidth - 80), 40);
+            }
 
             message.channel.send({files: [new Discord.MessageAttachment(canvas.toBuffer(), 'xp-stats.png')]});
         }
