@@ -197,6 +197,7 @@ module.exports = {
                     amEmbed.addField("Reviewed", `Reviewed and submitted by <@${message.author.id}>`);
                     client.misc.cache.chars.set(options.name, options.id);
                     client.misc.cache.charsID.set(options.id, options.name);
+                    if (options.nicknames) {options.nicknames.forEach(nn => client.misc.cache.chars.set(nn, options.id));}
                 }
                 else {amEmbed.addField("ID", options.id);}
                 amEmbed.setAuthor({name: !queue ? "Character Added" : "Character Submitted", iconURL: message.author.displayAvatarURL()});

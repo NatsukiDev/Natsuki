@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="marriage declining">
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="stats without leveling enabled">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/leveling/stats.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/leveling/stats.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands/anime/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/char.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
