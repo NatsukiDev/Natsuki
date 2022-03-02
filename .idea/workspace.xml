@@ -76,7 +76,7 @@
       <command value="git pull origin master" />
     </option>
   </component>
-  <component name="RunManager" selected="npm.sync">
+  <component name="RunManager" selected="npm.dev:pretty">
     <configuration name="Start" type="NodeJSConfigurationType" path-to-js-file="bot.js" working-dir="$PROJECT_DIR$">
       <method v="2" />
     </configuration>

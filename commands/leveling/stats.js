@@ -93,9 +93,9 @@ module.exports = {
             ctx.fillStyle = '#ffffff';
             ctx.fillText(`${u.displayName}${u.displayName.toLowerCase().endsWith('s') ? "'" : "'s"} Stats`, canvas.width / 2.8, canvas.height / 2);
 
-            ctx.font = applyText(120, canvas, `${xp ? `${xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}` : "Leveling N/A"}`); //top text
+            ctx.font = applyText(120, canvas, xp ? `${xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}` : "Leveling N/A"); //top text
             ctx.fillStyle = '#ffffff';
-            ctx.fillText(`${xp ? `{xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}` : "Leveling N/A"}`, canvas.width / 2.8, canvas.height / 3.2);
+            ctx.fillText(xp ? `${xp.xp} / ${Math.ceil(100 + (((xp.level / 3) ** 2) * 2))} | Level ${xp.level}` : "Leveling N/A", canvas.width / 2.8, canvas.height / 3.2);
 
             const monnersImage = await Canvas.loadImage('https://cdn.discordapp.com/emojis/926736756047495218');
             ctx.drawImage(monnersImage, canvas.width / 2.8, (canvas.height / 1.53) - 11, 58, 60); //draw monners icon
