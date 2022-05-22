@@ -16,8 +16,8 @@ module.exports = {
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
         let fail = false;
-        await client.users.fetch(member.id, {force: true}).catch(() => fail = true);
         let member = args.length && !fail ? (mention || client.users.cache.get(args[0]) || message.author) : message.author;
+        await client.users.fetch(member.id, {force: true}).catch(() => fail = true);
         if (message.guild) {message.guild.members.fetch(member.id, {force: true});}
         let name = message.guild ? message.guild.members.cache.get(member.id).displayName : member.username;
         let options = new TagFilter([
