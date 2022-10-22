@@ -1,5 +1,5 @@
+const getLevel = require('./getlevel');
 
-
-module.exports = (message, level, source, color) => {
-
+module.exports = client => (message, level, source, color) => {
+    
 };
