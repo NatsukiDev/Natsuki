@@ -22,7 +22,6 @@ module.exports = {
     async execute(message, msg, args, cmd, prefix, mention, client) {
         if (!message.member.permissions.has("ADMINISTRATOR")) {return message.channel.send("You must have administrator permissions in order to edit these settings.");}
         if (!args.length) {args[0] = 'enable';}
-
         if (['e', 'enable'].includes(args[0].toLowerCase())) {
             if (client.misc.cache.chests.enabled.includes(message.guild.id)) {return message.channel.send("This server already has chest spawning enabled.")};
             try {

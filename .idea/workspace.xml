@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="stats without leveling enabled">
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="more avatar bugs">
+      <change afterPath="$PROJECT_DIR$/slash/fun/nowplaying.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/commands/anime/char.js" beforeDir="false" afterPath="$PROJECT_DIR$/commands/anime/char.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,6 +168,15 @@
       <workItem from="1645765271756" duration="14000" />
       <workItem from="1646073200451" duration="122000" />
       <workItem from="1646163659329" duration="994000" />
+      <workItem from="1647134810622" duration="897000" />
+      <workItem from="1647787300624" duration="1797000" />
+      <workItem from="1648877743854" duration="1500000" />
+      <workItem from="1648958883041" duration="864000" />
+      <workItem from="1651642958178" duration="18000" />
+      <workItem from="1651946403697" duration="155000" />
+      <workItem from="1652646106603" duration="1287000" />
+      <workItem from="1655452467524" duration="126000" />
+      <workItem from="1660254007752" duration="1643000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -293,7 +304,21 @@
       <option name="project" value="LOCAL" />
       <updated>1645679244004</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="fix avatars">
+      <created>1647787801198</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1647787801198</updated>
+    </task>
+    <task id="LOCAL-00020" summary="more avatar bugs">
+      <created>1647788334624</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1647788334624</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,6 +356,8 @@
     <MESSAGE value="marriage status" />
     <MESSAGE value="can't marry yourself lul" />
     <MESSAGE value="marriage declining" />
-    <option name="LAST_COMMIT_MESSAGE" value="marriage declining" />
+    <MESSAGE value="fix avatars" />
+    <MESSAGE value="more avatar bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="more avatar bugs" />
   </component>
 </project>
