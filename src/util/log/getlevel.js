@@ -1,5 +1,5 @@
 const config = require('../../json/config.json');
-const levels = require('../ts/log/levels.json');
+const levels = require('./levels.json');
 const validStrings = Object.keys(levels);
 
 const getLevel = (level) => {

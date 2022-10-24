@@ -7,6 +7,7 @@ log("Hello in blue", {color: 'blue'});
 log('A strange warning appears!', {color: 'yellowBright', source: 'warn', sourceColor: 'yellow'});
 log('Extra line spacing before', {}, false, true);
 log('regular line');
+client.config.logLevel = 0;
 log('extra line spacing after', {}, true);
 log('regular line');
 log('both line spaces', {}, true, true);
