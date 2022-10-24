@@ -25,6 +25,6 @@ module.exports = (client) => {
             client.config.logLevel = getLevel(client.config.logLevel);
             if (client.config.logLevel < opt.level) {return;}
         }
-        console.log(`${spacer ? '\n' : ''}${chalk[opt.sourceColor](`[${opt.source.toUpperCase()}]`)}${opt.suffix}${options.nc || options.noColor ? message : chalk[opt.color](message)}${newLine ? '\n' : ''}`);
+        console.log(`${spacer ? '\n' : ''}${(opt.sourceColor.startsWith('#') ? chalk.hex(opt.sourceColor) : chalk[opt.sourceColor])(`[${opt.source.toUpperCase()}]`)}${opt.suffix}${options.nc || options.noColor ? message : (opt.color.startsWith('#') ? chalk.hex(opt.color) : chalk[opt.color])(message)}${newLine ? '\n' : ''}`);
     };
 };
