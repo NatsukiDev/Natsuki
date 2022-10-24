@@ -1,0 +1,16 @@
+{
+    "log": {
+        "suffix": ">>",
+        "defaultLevel": 1,
+        "colors": {
+            "error": "",
+            "warn": "",
+            "success": "",
+            "notice": "",
+            "primary": "",
+            "secondary": "",
+            "altprimary": "",
+            "altsecondary": ""
+        }
+    }
+}
