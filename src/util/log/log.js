@@ -13,7 +13,7 @@ let defaultOptions = {
     suffix: " >> "
 };
 
-const tlog = (client) => (message = "Test Log", options = {}, prenl = false, postnl = false) => {
+const tlog = (client) => (message = "Test Log", options = {}, prenl = false, postnl = false, ...multcons) => {
     let opt = {};
     if (typeof options !== 'object') {options = {};}
     opt.color = options.color || defaultOptions.color;
@@ -26,7 +26,7 @@ const tlog = (client) => (message = "Test Log", options = {}, prenl = false, pos
         client.config.logLevel = getLevel(client.config.logLevel);
         if (client.config.logLevel < opt.level) {return;}
     }
-    console.log(`${prenl ? '\n' : ''}${(opt.sourceColor.startsWith('#') ? chalk.hex(opt.sourceColor) : chalk[opt.sourceColor])(`[${opt.source.toUpperCase()}]`)}${opt.suffix}${options.nc || options.noColor ? message : (opt.color.startsWith('#') ? chalk.hex(opt.color) : chalk[opt.color])(message)}${postnl ? '\n' : ''}`);
+    console.log(`${prenl ? '\n' : ''}${(opt.sourceColor.startsWith('#') ? chalk.hex(opt.sourceColor) : chalk[opt.sourceColor])(`[${opt.source.toUpperCase()}]`)}${opt.suffix}${options.nc || options.noColor ? message : (opt.color.startsWith('#') ? chalk.hex(opt.color) : chalk[opt.color])(message)}${postnl ? '\n' : ''}`, ...multcons);
 };
 
 module.exports = (client) => {
