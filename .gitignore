@@ -7,3 +7,5 @@ api/**/*
 api/
 .idea/**/*
 /man.js
+.history/
+.history/**/*

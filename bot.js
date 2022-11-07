@@ -21,7 +21,7 @@ const startBot = async () => {
     const loggers = log(client);
     Object.keys(loggers).forEach(logger => client[logger] = loggers[logger]);
 
-    client.log(client.utils.gr(client.config.randResp.clistart), {color: "#78d9f8", source: "NATS"});
+    client.log(client.utils.gr(client.config.randResp.clistart), {color: "#78d9f8", source: "NATS"}); //natsuki's wakeup log
 };
 startBot();
 // feels like there isn't a function name to do this justice :joy:
