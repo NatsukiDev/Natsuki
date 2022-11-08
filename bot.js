@@ -21,9 +21,14 @@ const startBot = async () => {
     const loggers = log(client);
     Object.keys(loggers).forEach(logger => client[logger] = loggers[logger]);
 
-    client.log(client.utils.gr(client.config.randResp.clistart), {color: "#78d9f8", source: "NATS"}, true); //natsuki's wakeup log
+    client.log(client.utils.gr(client.config.randResp.clistart), {color: "#78d9f8", source: "NATS"}, true, true); //natsuki's wakeup log
+
+    await require('./src/handle/startup/run/login')(client); //log in to discord
+    await require('./src/db/connect')(client); //connect to database
 };
-startBot();
+startBot().catch(() => {
+    console.log("\nWell this is awkward.\n");
+}); // TODO add a .catch() and flag to recover the process
 // feels like there isn't a function name to do this justice :joy:
 
 // to do list:
