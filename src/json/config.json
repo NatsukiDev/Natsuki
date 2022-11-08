@@ -3,12 +3,12 @@
         "suffix": ">>",
         "defaultLevel": 1,
         "colors": {
-            "error": "",
-            "warn": "",
-            "success": "",
-            "notice": "",
-            "primary": "",
-            "secondary": "",
+            "error": "redBright",
+            "warn": "yellowBright",
+            "success": "greenBright",
+            "notice": "#8521a0",
+            "primary": "blueBright",
+            "secondary": "white",
             "altprimary": "",
             "altsecondary": ""
         }
