@@ -18,6 +18,7 @@ const startBot = async () => {
     client.config.randResp = randresp;
 
     require('./src/util/misc/setutils')(client); // add some basic swiss army knife utils
+    
     const loggers = log(client);
     Object.keys(loggers).forEach(logger => client[logger] = loggers[logger]);
 
