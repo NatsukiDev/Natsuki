@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const auth = require('./src/json/auth.json');
 const config = require('./src/json/config.json');
 const randresp = require('./src/json/randresp.json');
+const errorhandler = require('./src/util/log/errorhandler');
 
 const log = require('./src/util/log/log');
 
@@ -27,9 +28,7 @@ const startBot = async () => {
     await require('./src/handle/startup/run/login')(client); //log in to discord
     await require('./src/db/connect')(client); //connect to database
 };
-startBot().catch(() => {
-    console.log("\nWell this is awkward.\n");
-}); // TODO add a .catch() and flag to recover the process
+startBot().catch(e => errorhandler(e)); // TODO add a .catch() and flag to recover the process
 // feels like there isn't a function name to do this justice :joy:
 
 // to do list:
