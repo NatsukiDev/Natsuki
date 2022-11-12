@@ -27,6 +27,8 @@ const startBot = async () => {
 
     await require('./src/handle/startup/run/login')(client); //log in to discord
     await require('./src/db/connect')(client); //connect to database
+
+    await require('./src/handle/startup/run/collect')(client);
 };
 startBot().catch(e => errorhandler(e)); // TODO add a .catch() and flag to recover the process
 // feels like there isn't a function name to do this justice :joy:
