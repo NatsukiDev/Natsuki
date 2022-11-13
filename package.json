@@ -32,8 +32,8 @@
         "swin": "run",
         "dev": "node bot.js -dev",
         "dev:pretty": "node bot.js -dev -g -s",
-        "presync": "git pull origin master",
-        "sync": "git push origin master",
-        "postsync": "git push wubzy master"
+        "presync": "git pull origin",
+        "sync": "git push origin",
+        "postsync": "git push wubzy"
     }
 }
