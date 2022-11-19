@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const ora = require('../util/log/ora');
 
 module.exports = async client => {
+    if (!client.misc) {client.misc = {};}
     const auth = client.auth;
     const t = Date.now();
     client.misc.dbconnected = true;

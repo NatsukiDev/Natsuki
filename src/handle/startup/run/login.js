@@ -17,5 +17,5 @@ module.exports = async (client) => {
         client.warn("Discord not connected, considering runtime to be unusable and exiting.", 0, true, true);
         throw new Error();
     }
-    return client.success(`Connected to Discord in ${chalk.white(`${Date.now() - t}ms`)}.`);
+    return client.success(`Connected to Discord in ${chalk.white(`${Date.now() - t}ms`)}.`, 0, 0, 1);
 };

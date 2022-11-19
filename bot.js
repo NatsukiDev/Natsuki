@@ -25,10 +25,9 @@ const startBot = async () => {
 
     client.log(client.utils.gr(client.config.randResp.clistart), {color: "#78d9f8", source: "NATS"}, true, true); //natsuki's wakeup log
 
-    await require('./src/handle/startup/run/login')(client); //log in to discord
     await require('./src/db/connect')(client); //connect to database
-
     await require('./src/handle/startup/run/collect')(client); //load in commands and events
+    await require('./src/handle/startup/run/login')(client); //log in to discord
 };
 startBot().catch(e => errorhandler(e)); // TODO add a .catch() and flag to recover the process
 // feels like there isn't a function name to do this justice :joy:
