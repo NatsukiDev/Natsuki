@@ -1,5 +1,5 @@
 module.exports = client => {
-    const prefix = client.prefix;
+    const prefix = client.basePrefix;
     const statuses = {
 		"PLAYING": [
 			`with my darling`, 'RAIN: Shadow Lords', "with my waifu", "with the neko formula",

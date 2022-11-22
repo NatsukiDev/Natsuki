@@ -25,6 +25,8 @@ const startBot = async () => {
 
     client.log(client.utils.gr(client.config.randResp.clistart), {color: "#78d9f8", source: "NATS"}, true, true); //natsuki's wakeup log
 
+    require('./src/handle/startup/run/getflags')(client);
+
     await require('./src/db/connect')(client); //connect to database
     await require('./src/handle/startup/run/collect')(client); //load in commands and events
     await require('./src/handle/startup/run/login')(client); //log in to discord
