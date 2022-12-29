@@ -3,4 +3,6 @@ module.exports = async client => {
 
     require('../../startup/run/hello')(client); // startup info
     require('../../startup/run/setstatus')(client);
+
+    require('../../../api/index')(client);
 };
