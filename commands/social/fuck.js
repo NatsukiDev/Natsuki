@@ -5,9 +5,12 @@ const UserData = require('../../models/user');
 const VC = require('../../models/vscount');
 
 const makeId = require('../../util/makeid');
+const {Tag} = require('../../util/tag');
+const {TagFilter} = require('../../util/tagfilter');
 
 module.exports = {
     name: "fuck",
+    aliases: ['sex', 'bang', 'rail', 'verykindlythank'],
     help: "Tell others you're horny with `{{p}}fuck`, or bang someone by mentioning someone to fuck!",
     meta: {
         category: 'Social',
@@ -26,10 +29,11 @@ module.exports = {
             .setColor('dda0dd')
             .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
             .setTimestamp()]}
-            : "You can't bang me.......only Wubzy can."
+            : "You can't bang me....... only Wubzy can."
         );}
         let fuck;
-        if (message.channel.nsfw) {
+        let options = new TagFilter([new Tag(['sfw', 'nonsfw', 'clean'], 'sfw', 'toggle')]).test(args.join(" "));
+        if (message.channel.nsfw && !options.sfw) {
             fuck = await VC.findOne({uid: message.author.id, countOf: 'realfuck'}) || new VC({uid: message.author.id, countOf: 'realfuck'});
             savess = await Saves.findOne({name: 'realfuck'}) || new Saves({name: 'realfuck'});
             saves = savess.saves;
