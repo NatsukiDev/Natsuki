@@ -1,4 +1,17 @@
 {
+    "bot": {
+        "name": "Natsuki",
+        "consoleName": "NATS",
+        "prefix": "n?",
+        "devPrefix": "n!"
+    },
+    "embed": {
+        "colors": {
+            "base": "c375f0",
+            "success": "23d534",
+            "fail": "d52334"
+        }
+    },
     "log": {
         "suffix": ">>",
         "defaultLevel": 1,
@@ -7,10 +20,10 @@
             "warn": "yellowBright",
             "success": "greenBright",
             "notice": "#8521a0",
-            "primary": "blueBright",
-            "secondary": "white",
-            "altprimary": "",
-            "altsecondary": ""
+            "primary": "blue",
+            "secondary": "green",
+            "altprimary": "blueBright",
+            "altsecondary": "greenBright"
         }
     }
 }

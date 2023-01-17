@@ -1,3 +1,5 @@
+const chalk = require('chalk');
+
 module.exports = async (client, message) => {
     if (!message.content || !message.content.length) {return;} //privileged intent fallback
     
@@ -20,4 +22,9 @@ module.exports = async (client, message) => {
     cmd.name = args.shift(); //the command without the prefix
     cmd.msg = args.join(" ");
     cmd.args = message.content.trim().slice(prefixUsed.length).trim().split(/ +/gm).slice(1); //args but preserves text state and newlines
+
+    let cmdToRun = client.commands.get(cmd.name) || client.commands.get(client.aliases.get(cmd.name));
+    if (!cmdToRun) {return;}
+    try {cmdToRun.run(client, message, args, cmd).catch(e => client.error(`There was an error in the ${cmdToRun.name} command.`, 0, 1, e, '\n'));}
+    catch (e) {client.error(`There was an error in the ${cmdToRun.name} command.`, 0, 1, e, '\n');}
 };

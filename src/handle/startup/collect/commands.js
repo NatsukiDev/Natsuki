@@ -48,5 +48,6 @@ module.exports = async client => {
     readDirs.forEach(dir => client.log(`Read from directory ${chalk.green(dir)}`, {source: 'proc'}));
     console.log('');
     Object.keys(conflictingAliases).forEach(alias => client.warn(`Alias ${chalk.white(alias)} appears on ${client.utils.as(conflictingAliases[alias].length, 'command')} ${chalk.white(conflictingAliases[alias].join(chalk.yellow(', ')))}`));
-    client.log(`Loaded ${chalk.white(client.commands.size)} command${client.utils.s(client.commands.size)}!`, {color: 'blue', source: 'boot'}, 1, 1);
+    if (Object.keys(conflictingAliases).length) {console.log('')};
+    client.log(`Loaded ${chalk.white(client.commands.size)} command${client.utils.s(client.commands.size)}!`, {color: 'blue', source: 'boot'}, 0, 1);
 };

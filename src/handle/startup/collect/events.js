@@ -26,7 +26,7 @@ module.exports = async client => {
                 const eventName = file.split('.')[0];
                 client.removeAllListeners(eventName);
                 client.on(eventName, event.bind(null, client));
-                client.log(`Loaded ${chalk.white(eventName)} event`, {color: 'blueBright', source: 'boot', sourceColor: 'blue'});
+                client.log(`Loaded event ${chalk.white(eventName)}`, {color: 'blueBright', source: 'boot', sourceColor: 'blue'});
             }
             catch (e) {
                 client.error(`Failed to read file ${chalk.white(file)}`);
