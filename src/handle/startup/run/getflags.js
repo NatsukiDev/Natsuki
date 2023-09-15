@@ -5,7 +5,7 @@ const {Tag, TagFilter} = require('../../../util/ts/tagfilter');
 module.exports = client => {
     const options = new TagFilter([
         new Tag(['dev', 'd', 'developer', 'test'], 'dev', 'toggle'),
-        new Tag(['prefix', 'devprefix'], 'prefix', 'append')
+        new Tag(['prefix', 'devprefix', 'p'], 'prefix', 'append')
     ]).test(process.argv.slice(2).join(" "));
     client.config.options = {};
 

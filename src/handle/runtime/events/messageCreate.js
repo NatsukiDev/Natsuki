@@ -1,9 +1,19 @@
 const chalk = require('chalk');
+const {Embed, EmbedBuilder} = require('discord.js');
 
 module.exports = async (client, message) => {
-    if (!message.content || !message.content.length) {return;} //privileged intent fallback
+    if (!message.content || !message.content.length) {return;} //privileged intent fallback //TODO edit for privileged intent
+
+    let prefix = client.basePrefix; //TODO prefixes
     
-    if ([`<@${client.user.id}>`, `<@!${client.user.id}>`].includes(message.content.trim())) {} //TODO insert ping hello
+    if ([`<@${client.user.id}>`, `<@!${client.user.id}>`].includes(message.content.trim())) { //Ping hello
+        message.channel.send({embeds: [new EmbedBuilder()
+            .setTitle(client.utils.gr(client.config.randResp.pinghello))
+            .setDescription(`You've reached ${client.config.options.dev ? "a developer (beta) instance of" : ''} Natsuki! My prefix here is \`${prefix}\`, and you can use the \`help\` command to get started.`)
+            .setColor('c375f0')
+            .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
+        ]});
+    }
 
     let cmd = {};
     cmd.msg = message.content.toLowerCase().trim(); //i believe in shitty naming conventions :D
