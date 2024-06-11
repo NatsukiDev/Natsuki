@@ -6,11 +6,10 @@ const ora = require('ora');
 const mongoose = require('mongoose');
 const readline = require('readline');
 
-const {SlashCommand} = require('./util/slash');
 const {SlashManager} = require('./util/slashmanager');
-const {SlashCommandBuilder} = require('@discordjs/builders');
 const {Tag} = require('./util/tag');
 const {TagFilter} = require('./util/tagfilter');
+const wait = require('./util/wait');
 
 const flags = Discord.Intents.FLAGS;
 let fl = []; Object.keys(flags).forEach(flag => fl.push(flags[flag]));
@@ -76,6 +75,27 @@ client.misc = {
     botFinished: new Promise(r => {botReadyResolver = r;}),
     fullyReady: false
 };
+
+
+
+
+let waitAmount = 1000 * 10;
+function testConnection() {
+    return new Promise(async r => {
+        require('dns').lookup('www.google.com', async e => {
+            if (e) {
+                await wait(waitAmount);
+                waitAmount *= 2;
+                await testConnection();
+                r();
+            }
+            else {r();}
+        })
+    });
+}
+
+
+
 
 const auth = require('./auth.json');
 
@@ -178,4 +198,5 @@ async function init() {
     await require('./util/wait')(5000);
     if (!client.misc.readied) {client.misc.forcedReady = true; await require('./events/ready')(client);}
 }
-init().then(() => {});
+
+testConnection().then(() => init());
