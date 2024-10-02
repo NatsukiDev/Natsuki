@@ -23,7 +23,7 @@ module.exports = async (client, reaction, user) => {
             if (reaction.message.content.length) {starEmbed.addField("Message", reaction.message.content);}
             starEmbed
                 .addField("Stars", `:star: ${reaction.count}`, true)
-                .addField(`${reaction.message.member.displayName.toLowerCase().endsWith('s') ? `${reaction.message.member.displayName}'` : `${reaction.message.member.displayName}'s`} StarBoard Count`, sd.starCount[reaction.message.author.id] ? sd.starCount[reaction.message.author.id] + 1 : 1, true);
+                .addField(`${reaction.message.member.displayName.toLowerCase().endsWith('s') ? `${reaction.message.member.displayName}'` : `${reaction.message.member.displayName}'s`} StarBoard Count`, `${sd.starCount[reaction.message.author.id] ? sd.starCount[reaction.message.author.id] + 1 : 1}`, true);
             if (reaction.message.attachments.size) {starEmbed.setImage(reaction.message.attachments.first().url);}
             if (Object.keys(sd.stars).includes(reaction.message.id)) {
                 let starMessage = await reaction.message.guild.channels.cache.get(tg.starchannel).messages.fetch(sd.stars[reaction.message.id]);
