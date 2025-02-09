@@ -110,6 +110,7 @@ module.exports = async client => {
 		await botData.save();
 	}
 
+	await require('../util/time')(client);
 	await require('../util/lht')(client);
 
 	console.log(`${chalk.gray('\n[INFO]')} >> ${chalk.white(`This is restart #${botData.restarts}.`)}`);
