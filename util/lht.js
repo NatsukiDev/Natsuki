@@ -56,5 +56,20 @@ module.exports = async client => { try {
         }
     };
 
-    setInterval(compareRaws, 60000);
+    client.misc.timeTracker.on('minute', compareRaws);
+
+    client.misc.timeTracker.on('bullySavi', () => {
+        const bullies = [
+            "Ohhhhhh Saviiiii you busy? No? Wanna fix that? (it's LHT time)", "LHT time~~", "u translating rn qt? i smell slacker. stinky",
+            "You already know why I'm here lol", "Are you ignoring these DMs yet?", "Time to translate some Farming Life :3", "It's ~~your worst nightmare~~Natsuki here~ you ready to do ~~slavery~~TL work?",
+            "hi i was told im supposed to bully u, dont shoot the messenger", "FBI open up! (i've run out of creative ways to tell you to do your job)", "TL time lol",
+            "ベリグットツランスレエタタイム", "knock knock, it's your TL work at the door, it wants child support", "bully bully bully bully bully time do your worky worky worky worky work time",
+            "if you leave LHT i'll leave with you slavery sucks ||just kidding time to do your job (it's unpaid)||", "\\> be you\n\\> be a TL\n\\> realize it's 10am\n\\>ihatemyjob.png", "hi"
+        ];
+        client.users.fetch('204496174491631616').then(
+            u => u.send(bullies[Math.floor(Math.random() * bullies.length)])
+                .catch(() => client.users.fetch(client.developers[0]).then(w => w.send("I couldn't DM Savi!!")))
+        )
+    });
+
 } catch {}};
