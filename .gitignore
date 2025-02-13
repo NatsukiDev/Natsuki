@@ -1,5 +1,5 @@
 node_modules/
-auth.json
+src/json/auth.json
 test.js
 /.idea/
 

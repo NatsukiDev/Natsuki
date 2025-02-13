@@ -1,10 +1,6 @@
 const Discord = require('discord.js');
 
-const auth = require('./src/json/auth.json');
-const config = require('./src/json/config.json');
-const randresp = require('./src/json/randresp.json');
 const errorhandler = require('./src/util/log/errorhandler');
-
 const log = require('./src/util/log/log');
 
 const flags = Discord.GatewayIntentBits;
@@ -14,11 +10,12 @@ const client = new Discord.Client({intents: fl, partials: [partials.Channel, par
 // a "fuck v14" counter is gonna be here real soon i can feel it.
 //fuck new embeds
 
+
 const startBot = async () => {
 
-    client.config = config;
-    client.auth = auth;
-    client.config.randResp = randresp;
+    client.config = require('./src/json/config.json');
+    client.auth = require('./src/json/auth.json');
+    client.config.randResp = require('./src/json/randresp.json');
 
     require('./src/util/misc/setutils')(client); // add some basic swiss army knife utils
     
@@ -27,13 +24,13 @@ const startBot = async () => {
 
     client.log(client.utils.gr(client.config.randResp.clistart), {color: "#78d9f8", source: client.config.bot.consoleName}, true, true); //natsuki's wakeup log
 
-    require('./src/handle/startup/run/getflags')(client);
+    require('./src/bot/startup/run/getflags')(client);
 
     await require('./src/db/connect')(client); //connect to database
-    await require('./src/handle/startup/run/collect')(client); //load in commands and events
-    await require('./src/handle/startup/run/login')(client); //log in to discord
+    await require('./src/bot/startup/run/collect')(client); //load in commands and events
+    await require('./src/bot/startup/run/login')(client); //log in to discord
 
-    require('./src/util/misc/nodehandlers')(client); //handle uncaught promises, warnings, event loop shenanigans
+    require('./src/util/misc/nodehandlers')(client); //bot uncaught promises, warnings, event loop shenanigans
 
 };
 startBot().catch(e => errorhandler(client, e)); // TODO add a .catch() and flag to recover the process

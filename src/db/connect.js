@@ -10,7 +10,7 @@ module.exports = async client => {
     client.misc.dbconnected = true;
     await ora(chalk.blueBright.bold.underline("Connecting to MongoDB..."),
         mongoose.connect(`mongodb+srv://${auth.database.user}:${auth.database.password}@${auth.database.cluster}.3jpp4.mongodb.net/test`, {
-            useFindAndModify: false, useNewUrlParser: true, dbName: auth.database.name, useUnifiedTopology: true, useCreateIndex: true
+            dbName: auth.database.name //TODO research mongo connect options
         })
         ).catch((e) => {
             client.error("Failed to connect to mongoose!! Error below.", 0, 0, true, e);
