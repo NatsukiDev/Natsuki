@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="LHT scripting">
-      <change afterPath="$PROJECT_DIR$/util/time.js" afterDir="false" />
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="bully savi">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/events/ready.js" beforeDir="false" afterPath="$PROJECT_DIR$/events/ready.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/util/lht.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/lht.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,12 +17,19 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;WubzyGD&quot;
+  }
+}</component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
       <filtered-out-file-type name="LOCAL_BRANCH" />
@@ -33,12 +38,21 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/NatsukiDev/Natsuki&quot;,
+    &quot;accountId&quot;: &quot;a2fe51af-f1ea-4d53-a0fa-bb9dd34a3ffc&quot;
+  }
+}</component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="4aelbj7e" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="1wWIAa3TuwhYwX0w4tzIs42s0ZG" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -49,13 +63,17 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/wubzy/Desktop/bot/Natsuki&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.breadcrumbs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\wubzy\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -136,6 +154,13 @@
       <item itemvalue="npm.sync" />
     </list>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-WS-243.23654.157" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -173,7 +198,10 @@
       <workItem from="1655452467524" duration="126000" />
       <workItem from="1660254007752" duration="1643000" />
       <workItem from="1738896915425" duration="17813000" />
-      <workItem from="1738996919169" duration="6160000" />
+      <workItem from="1738996919169" duration="12373000" />
+      <workItem from="1739479571984" duration="1608000" />
+      <workItem from="1740108343425" duration="3241000" />
+      <workItem from="1743256138504" duration="1360000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -322,7 +350,21 @@
       <option name="project" value="LOCAL" />
       <updated>1738924961613</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="internal event loop">
+      <created>1739137258111</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1739137258111</updated>
+    </task>
+    <task id="LOCAL-00023" summary="bully savi">
+      <created>1739137274080</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1739137274080</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -362,6 +404,8 @@
     <MESSAGE value="fix avatars" />
     <MESSAGE value="more avatar bugs" />
     <MESSAGE value="LHT scripting" />
-    <option name="LAST_COMMIT_MESSAGE" value="LHT scripting" />
+    <MESSAGE value="internal event loop" />
+    <MESSAGE value="bully savi" />
+    <option name="LAST_COMMIT_MESSAGE" value="bully savi" />
   </component>
 </project>

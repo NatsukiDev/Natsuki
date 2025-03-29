@@ -56,7 +56,7 @@ module.exports = async client => { try {
         }
     };
 
-    client.misc.timeTracker.on('minute', compareRaws);
+    //client.misc.timeTracker.on('minute', compareRaws);
 
     client.misc.timeTracker.on('bullySavi', () => {
         const bullies = [

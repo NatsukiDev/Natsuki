@@ -9,7 +9,7 @@ module.exports = client => {
 
         const time = moment();
 
-        if (time.hour() === 20 && time.minute() === 0) {client.misc.timeTracker.emit('bullySavi');}
+        if (time.hour() === 8 && time.minute() === 0) {client.misc.timeTracker.emit('bullySavi');}
 
         client.misc.timeTracker.emit('minute', time);
 
