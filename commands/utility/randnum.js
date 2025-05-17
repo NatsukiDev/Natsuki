@@ -3,49 +3,50 @@ const Discord = require('discord.js');
 module.exports = {
     name: "randnum",
     aliases: ['rn', 'randnumber', 'randomnum', 'randomnumber'],
-    meta: {
-        category: "",
-        perms: "",
-        staff: false,
-        vip: "",
-        serverPerms: [],
-        writtenBy: "",
-        serverOnly: false
-    },
     tags: [],
     help: new Discord.MessageEmbed()
     .setTitle("Help -> Random Numbers")
     .setDescription("Generates a Random Number in the specified range.")
-    .addField("Syntax", "`randnum <min> <max> [count]`"),
+    .addField("Syntax", `You can specify one number, in which case a number between 1 and that number we will be chosen: \`randnum <max>\`, or specify a min and max: \`randnum <min> <max> [count]\` - where \`count\` specifies how many separate random numbers you want.`),
     meta: {
         category: 'Utility',
         description: "Generate a random number... or a lot of them. It's up to you, really.",
-        syntax: '`randnum <min> <max> [count]`',
-        extra: null
+        syntax: `\`randnum <max>\`, or specify a min and max: \`randnum <min> <max> [count]\``,
+        extra: null,
+        guildOnly: false
     },
     async execute(message, msg, args, cmd, prefix, mention, client) {
-        if (!args.length) {return message.channel.send(`Syntax: \`${prefix}randnum <min> <max> [count]\``);}
-        if (args.length < 2) {return message.channel.send("You have to specify two numbers");}
-        if (![args[0], args[1]].forEach(x => {if (isNaN(Number(x))) {return false;}})) {return message.channel.send("One of your numbers was not actually a number!");}
-        if (![args[0], args[1]].forEach(x => {if (Number(x) < 0 || Number(x) > 10000) {return false;}})) {return message.channel.send("Your number must be positive and less than 10,000");}
-        let nums = Number(args[0]) > Number(args[1]) ? [Number(args[1]), Number(args[0])] : [Number(args[0]), Number(args[1])];
-        let count;
-        if (args[2]) {
-            if (isNaN(Number(args[2]))) {return message.channel.send("You must use a number for your count.");}
-            count = Number(args[2]);
-            if (count < 1 || count > 10) {return message.channel.send("You have to have between 1 and 10 for your count.");}
-        }
-        count = count ? count : 1;
-        let res = '';
-        for (let i=0; i<count;i++) {
-            res += `${1 + 1}. \`${Math.floor(Math.random() * (nums[1] - nums[0] + 1) + nums[0])}\`\n`;
-        }
+        if (!args.length) {return message.channel.send(`Syntax: You can specify one number, in which case a number between 1 and that number we will be chosen: \`${prefix}randnum <max>\`, or specify a min and max: \`${prefix}randnum <min> <max> [count]\` - where \`count\` specifies how many separate random numbers you want.`);}
+        let max = args[1] || args[0];
+        let min = args[1] ? args[0] : "1";
+        let count = args[2] || "1";
+        let th = false;
+        [max, min, count].forEach((x) => {
+            if (!x.match(/^[\d\-]+$/)) {th = true; return message.channel.send("One of your numbers was not actually a number!");}
+            if (x.length > 6) {th = true; return message.channel.send("One of your numbers was too large!");}
+        });
+        try {
+            max = Number(max);
+            min = Number(min);
+            count = Number(count);
+        } catch {th = true; return message.channel.send("There was an issue handling one of your numbers—make sure these are all valid!");}
+        if (th) {return;}
+        if (min > max) {return message.channel.send("Your min is greater than your max... how's that supposed to work?");}
+        if (count > 25) {return message.channel.send("You can get up to 25 random numbers per usage. Discord gets angry when my messages get too large :3");}
+        if (count < 1) {return message.channel.send("You want... less than one random number...? Sure thing, I'll get right on it...");}
+        const rand = () => Math.floor(Math.random() * (max - min + 1)) + min;
         return message.channel.send({embeds: [new Discord.MessageEmbed()
-            .setTitle(`Random Number${num.length === 1 ? '' : 's'}`)
-            .setDescription(res)
-            .setColor('c375f0')
-            .setFooter({text: "Natsuki", iconURL: client.user.displayAvatarURL()})
-            .setTimestamp()
-        ]});
+                .setAuthor({name: `Random Number${client.utils.s(count)}`, iconURL: message.member ? message.member.displayAvatarURL({dynamic: true}) : message.author.displayAvatarURL({dynamic: true})})
+                .setDescription(`**Between** ${min} and ${max}`)
+                .addField("Result", count === 1
+                    ? `${rand()}` //only one number
+                    : count > 10 ? Array.apply(null, Array(count)).map(() => `\`${rand()}\``).join(", ") //compressed list for 10+ nums
+                    : Array.apply(null, Array(count)).map((x, i) => `**#${i + 1}**. \`${rand()}\``).join('\n') //pretty list for < 10 but > 1 nums
+                )
+                .setColor('c375f0')
+                .setFooter({text: "Natsuki"})
+                .setTimestamp()
+            ]
+        })
     }
 };
