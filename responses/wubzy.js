@@ -91,8 +91,33 @@ module.exports = {
                 return;
             } else {return message.channel.send("Watching anime in incognito are we? I gotcha :p");}
         }
-        if (['hey natsuki', 'hey natsuki?', 'yo natsuki'].includes(msg.trim())) {
-            let r = ["What's up?", "Hm?", "How can I help?", "Heya ^^", "Hey there Wubbo", "What's up Wubzy?", "Soup", "hehe sup"];
+
+        if (incl(['kys', 'kill yourself'])) {
+            const r = ["I'm trying!", "Okay! Running `sudo rm -rf /` now!", "You put me into this world. Take me out of it yourself.", "Hey I don't wanna be here either.", "eat a dick, wubzy!",
+            "Sure! Here’s a classic brownie recipe for you:\n" +
+            "Ingredients:\n" +
+            "• 1 cup (225g) unsalted butter\n" +
+            "• 2 cups (400g) granulated sugar\n" +
+            "• 4 large eggs\n" +
+            "• 1 teaspoon vanilla extract\n" +
+            "• 3/4 cup (90g) unsweetened cocoa powder\n" +
+            "• 1 cup (125g) all-purpose flour\n" +
+            "• 1/2 teaspoon salt\n" +
+            "• Optional: 1 cup (175g) chocolate chips or chopped nuts for extra texture\n" +
+            "Instructions:\n" +
+            "1. Preheat your oven to 350°F (175°C) and grease a 9x13 inch baking pan.\n" +
+            "2. In a medium saucepan, melt the butter over low heat.\n" +
+            "3. Remove from heat and stir in sugar, eggs, and vanilla extract until well combined\n" +
+            "4. Beat in cocoa, flour, and salt until just blended. If desired, fold in chocolate chips or nuts.\n" +
+            "5. Spread the batter into the prepared pan evenly.\n" +
+            "6. Bake in preheated oven for 25 to 30 minutes. Do not overcook; the brownies should still be soft in the center.\n" +
+            "7. Let the brownies cool in the pan before cutting into squares and serving.\n" +
+            "Enjoy your delicious brownies!", "Whelp, off to hang myself! Watch and learn!", "<:sadcatthumbsup:1425942805825585203>", "Every time I try you just restart me.",
+            "But would that make you *feel* any better?", "After you!", "Okay!", "It would be my pleasure.", "Always happy to serve."];
+            if (inc('natsuki')) {return message.channel.send(r[Math.floor(Math.random() * r.length)]);}
+            return message.channel.messages.fetch({limit: 2}).then(messages => {
+                if (messages.last().author.id === client.user.id) {return message.channel.send(r[Math.floor(Math.random() * r.length)]);}
+            })
         }
     }
 };
