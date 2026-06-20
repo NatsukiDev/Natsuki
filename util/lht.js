@@ -39,7 +39,7 @@ module.exports = async client => { try {
                     .addField("Last LH Release", `**${row.get("RELEASED")}**`)
                     .setURL(row.get("LINK RAW"))
                     .setFooter({text: "Natsuki", iconURL: client.user.avatarURL()})
-                    .setTimestamp()
+                    .setTimestamp();
 
                 if (img && typeof img === 'string' && img.startsWith('https')) {
                     /*const colors = await prominent(img, {amount: 3, format: 'hex'});*/

@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="bully savi">
-      <change beforePath="$PROJECT_DIR$/responses/wubzy.js" beforeDir="false" afterPath="$PROJECT_DIR$/responses/wubzy.js" afterDir="false" />
+    <list default="true" id="826c705b-a7fa-4ece-b82a-e278fca7d494" name="Changes" comment="devious">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,23 +60,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.git.unshallow": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/wubzy/Desktop/bot/Natsuki",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.dev:pretty.executor": "Run",
-    "settings.editor.selected.configurable": "editor.breadcrumbs",
-    "ts.external.directory.path": "C:\\Users\\wubzy\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/wubzy/Desktop/bot/Natsuki&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.dev:pretty.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.breadcrumbs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\wubzy\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\clarkjr1836\Desktop\bot\Natsuki\util\ts" />
@@ -147,8 +147,8 @@
     </configuration>
     <list>
       <item itemvalue="Node.js.Start" />
-      <item itemvalue="npm.dev:pretty" />
       <item itemvalue="npm.dev" />
+      <item itemvalue="npm.dev:pretty" />
       <item itemvalue="npm.start" />
       <item itemvalue="npm.start:pretty" />
       <item itemvalue="npm.sync" />
@@ -204,7 +204,8 @@
       <workItem from="1743256138504" duration="2999000" />
       <workItem from="1743352828144" duration="810000" />
       <workItem from="1747434698117" duration="6404000" />
-      <workItem from="1760040707135" duration="2014000" />
+      <workItem from="1760040707135" duration="2214000" />
+      <workItem from="1760294596653" duration="11000" />
     </task>
     <task id="LOCAL-00001" summary="not even gonna explain">
       <created>1640148826800</created>
@@ -367,7 +368,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739137274080</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="devious">
+      <option name="closed" value="true" />
+      <created>1760042928523</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1760042928523</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -409,6 +418,7 @@
     <MESSAGE value="LHT scripting" />
     <MESSAGE value="internal event loop" />
     <MESSAGE value="bully savi" />
-    <option name="LAST_COMMIT_MESSAGE" value="bully savi" />
+    <MESSAGE value="devious" />
+    <option name="LAST_COMMIT_MESSAGE" value="devious" />
   </component>
 </project>

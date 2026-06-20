@@ -31,7 +31,7 @@ module.exports = {
         let streakIncrease = false;
         if (new Date().getTime() - tm.daily.last < (1000 * 60 * 60 * 47)) {
             streakIncrease = true;
-            tm.daily.streak++
+            tm.daily.streak++;
         } else {tm.daily.streak = 1;}
         tm.daily.total++;
         tm.daily.last = new Date().getTime();
